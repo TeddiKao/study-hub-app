@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants";
 import { jwtDecode } from "jwt-decode";
 import api from "@/app/api";
@@ -9,6 +9,12 @@ interface ProtectedRouteProps {
 
 function ProtectedRoute({ children }: ProtectedRouteProps) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        auth().catch(() => {
+            setIsAuthenticated(false);
+        })
+    }, []);
 
     const handleTokenRefresh = async () => {
         const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY)
