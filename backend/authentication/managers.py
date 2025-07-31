@@ -1,0 +1,2 @@
+class AuthUserManager():
+    pass
