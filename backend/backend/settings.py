@@ -62,6 +62,8 @@ INSTALLED_APPS = [
     "corsheaders"
 ]
 
+AUTH_USER_MODEL = "authentication.AuthUser"
+
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 
