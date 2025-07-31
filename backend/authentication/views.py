@@ -9,5 +9,5 @@ class CreateUserEndpoint(CreateAPIView):
     user_model = get_user_model()
 
     queryset = user_model.objects.all()
-    serializer_class = UserSerializer()
+    serializer_class = UserSerializer
     permission_classes = [AllowAny]
