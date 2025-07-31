@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
-import { ACCESS_TOKEN_KEY } from "../constants";
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants";
 import { jwtDecode } from "jwt-decode";
+import api from "@/app/api";
 
 interface ProtectedRouteProps {
     children: ReactNode;
@@ -8,6 +9,25 @@ interface ProtectedRouteProps {
 
 function ProtectedRoute({ children }: ProtectedRouteProps) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    const handleTokenRefresh = async () => {
+        const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY)
+        try {
+            const response = await api.post("auth/token/refresh/", {
+                refresh: refreshToken,
+            })
+
+            if (response.status === 200) {
+                localStorage.setItem(REFRESH_TOKEN_KEY, response.data.access)
+                setIsAuthenticated(true);
+            } else {
+                setIsAuthenticated(false);
+            }
+        } catch (error) {
+            console.error(error);
+            setIsAuthenticated(false);
+        }
+    }
 
     const auth = async () => {
         const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
@@ -28,7 +48,7 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
 
         const isExpired = tokenExpiration >= now
         if (!isExpired) {
-
+            await handleTokenRefresh();
         } else {
             setIsAuthenticated(true);
         }
