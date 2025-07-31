@@ -2,4 +2,7 @@
 
 backend/*.sqlite3
 
+.env
+.env.*
 *.env
+*.env.*
