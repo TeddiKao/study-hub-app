@@ -59,8 +59,12 @@ INSTALLED_APPS = [
 
     "rest_framework",
     "rest_framework_simplejwt",
-    "corsheaders"
+    "corsheaders",
+
+    "authentication"
 ]
+
+AUTH_USER_MODEL = "authentication.AuthUser"
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
