@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants";
 import { jwtDecode } from "jwt-decode";
 import api from "@/app/api";
+import { Navigate } from "react-router-dom"
 
 interface ProtectedRouteProps {
     children: ReactNode;
@@ -59,6 +60,8 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
             setIsAuthenticated(true);
         }
     }
+
+    return isAuthenticated ? children : <Navigate to={"/login"} />
 }
 
 export default ProtectedRoute;
