@@ -1,0 +1,5 @@
+from rest_framework_simplejwt.views import TokenObtainPairView as TokenObtainPairEndpoint
+from rest_framework_simplejwt.views import TokenRefreshView as TokenRefreshEndpoint
+
+from .views import CreateUserEndpoint
+
