@@ -10,3 +10,9 @@ class UserSerializer(ModelSerializer):
                 "write_only": True
             }
         }
+
+    def create(self, validated_data):
+        user_model = get_user_model()
+        created_user = user_model.objects.create_user(**validated_data)
+
+        return created_user
