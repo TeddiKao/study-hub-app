@@ -4,7 +4,7 @@ interface AuthFormProps {
 
 function AuthForm({ authMethod }: AuthFormProps) {
     return (
-        <div className="">
+        <div className="rounded-sm bg-white">
 
         </div>
     )
