@@ -27,23 +27,8 @@ function AuthForm({ authMethod }: AuthFormProps) {
 					{authMethod}
 				</h1>
 
-				<div className="flex flex-col mb-3">
-					<p className="font-semibold ml-1">Email</p>
-					<input
-						className="bg-gray-200 rounded-md pl-2 pt-2 pb-2"
-						type="text"
-						placeholder="Enter your email"
-					/>
-				</div>
-
-				<div className="flex flex-col mb-3">
-					<p className="font-semibold ml-1">Password</p>
-					<input
-						className="bg-gray-200 rounded-md pl-2 pt-2 pb-2"
-						type="text"
-						placeholder="Enter your password"
-					/>
-				</div>
+				<AuthFormInput fieldName="Email" />
+				<AuthFormInput fieldName="Password" />
 
 				<button className="bg-sky-500 pt-2 pb-2 text-white rounded-md hover:cursor-pointer hover:bg-sky-700">
 					{authMethod}
