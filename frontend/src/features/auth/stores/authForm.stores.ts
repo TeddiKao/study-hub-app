@@ -8,6 +8,9 @@ interface AuthCredentialsStore {
     updateEmail: (newEmail: string) => void;
     updateUsername: (newUsername: string) => void;
     updatePassword: (newPassword: string) => void;
+
+    clearPassword: () => void;
+    clearAllFields: () => void;
 }
 
 const useAuthCredentialsStore = create<AuthCredentialsStore>((set) => ({
@@ -17,7 +20,10 @@ const useAuthCredentialsStore = create<AuthCredentialsStore>((set) => ({
 
     updateEmail: (newEmail: string) => set({ email: newEmail }),
     updateUsername: (newUsername: string) => set({ username: newUsername }),
-    updatePassword: (newPassword: string) => set({ password: newPassword })
+    updatePassword: (newPassword: string) => set({ password: newPassword }),
+
+    clearPassword: () => set({ password: "" }),
+    clearAllFields: () => set({ username: "", email: "", password: "" })
 }))
 
 export { useAuthCredentialsStore }
