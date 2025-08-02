@@ -2,6 +2,7 @@ import type { ChangeEvent, FormEvent } from "react";
 import { useAuthCredentialsStore } from "../stores/authForm.stores";
 import { handleUserCreation, handleUserLogin } from "../utils/auth.services";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants";
+import { useNavigate } from "react-router-dom";
 
 interface AuthFormProps {
 	authMethod: "Login" | "Sign up";
@@ -97,6 +98,7 @@ function AuthFormSubmitButton({ authMethod }: AuthFormSubmitButtonProps) {
 
 function AuthForm({ authMethod }: AuthFormProps) {
 	const { email, username, password } = useAuthCredentialsStore((state) => state);
+	const navigate = useNavigate();
 
 	async function handleSignup() {
 		const response = await handleUserCreation({ email, username, password })
@@ -115,6 +117,8 @@ function AuthForm({ authMethod }: AuthFormProps) {
 
 		localStorage.setItem(ACCESS_TOKEN_KEY, response.accessToken);
 		localStorage.setItem(REFRESH_TOKEN_KEY, response.refreshToken);
+
+		navigate("/home");
 	}
 
 	function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
