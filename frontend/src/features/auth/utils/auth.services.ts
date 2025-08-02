@@ -1,31 +1,36 @@
 import api from "@/app/api";
 
 interface UserCreationPayload {
-    email: string;
-    username: string;
-    password: string;
+	email: string;
+	username: string;
+	password: string;
 }
 
 interface UserCreationEndpointResponse {
-    accessToken: string;
-    refreshToken: string;
+	success: true;
+	accessToken: string;
+	refreshToken: string;
 }
 
 interface ErrorResponse {
-    error: unknown;
+	success: false;
+	error: unknown;
 }
 
-async function handleUserCreation(authCredentials: UserCreationPayload): Promise<UserCreationEndpointResponse | ErrorResponse> {
-    try {
-        const response = await api.post("auth/create-user/", authCredentials)
+async function handleUserCreation(
+	authCredentials: UserCreationPayload
+): Promise<UserCreationEndpointResponse | ErrorResponse> {
+	try {
+		const response = await api.post("auth/create-user/", authCredentials);
 
-        return {
-            accessToken: response.data?.access,
-            refreshToken: response.data?.refresh,
-        }
-    } catch (error) {
-        return { error }
-    }
+		return {
+			success: true,
+			accessToken: response.data?.access,
+			refreshToken: response.data?.refresh,
+		};
+	} catch (error) {
+		return { success: false, error };
+	}
 }
 
-export { handleUserCreation }
+export { handleUserCreation };
