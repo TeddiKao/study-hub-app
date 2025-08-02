@@ -27,7 +27,7 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
 			});
 
 			if (response.status === 200) {
-				localStorage.setItem(REFRESH_TOKEN_KEY, response.data.access);
+				localStorage.setItem(ACCESS_TOKEN_KEY, response.data.access);
 				setIsAuthenticated(true);
 			} else {
 				setIsAuthenticated(false);
