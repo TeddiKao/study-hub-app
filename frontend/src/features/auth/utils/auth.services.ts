@@ -2,7 +2,6 @@ import api from "@/app/api";
 
 interface UserLoginPayload {
 	email: string;
-	username: string;
 	password: string;
 }
 
@@ -29,7 +28,7 @@ async function handleUserLogin(
 			refreshToken: response.data?.refresh,
 		};
 	} catch (error) {
-		return { success: false, error: "Auth failed" };
+		return { success: false, error: "Login failed" };
 	}
 }
 
