@@ -96,8 +96,22 @@ function AuthFormSubmitButton({ authMethod }: AuthFormSubmitButtonProps) {
 function AuthForm({ authMethod }: AuthFormProps) {
 	const { email, username, password } = useAuthCredentialsStore((state) => state);
 
+	function handleSignup() {
+
+	}
+
+	function handleLogin() {
+
+	}
+
 	function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
+
+		if (authMethod === "Login") {
+			handleLogin();
+		} else {
+			handleSignup();
+		}
 	}
 
 	return (
