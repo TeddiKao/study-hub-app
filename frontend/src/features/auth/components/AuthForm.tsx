@@ -14,7 +14,7 @@ interface AuthFormInputProps {
 
 function AuthFormInput({ fieldName }: AuthFormInputProps) {
 	function getCredentialValue() {
-		switch (fieldName) {
+		switch (fieldName.toLowerCase()) {
 			case "email":
 				return email;
 
@@ -30,7 +30,7 @@ function AuthFormInput({ fieldName }: AuthFormInputProps) {
 	}
 
 	function getCredentialSetter() {
-		switch (fieldName) {
+		switch (fieldName.toLowerCase()) {
 			case "email":
 				return (e: ChangeEvent<HTMLInputElement>) => {
 					updateEmail(e.target.value)
