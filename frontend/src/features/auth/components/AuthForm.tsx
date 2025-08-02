@@ -2,12 +2,15 @@ interface AuthFormProps {
 	authMethod: "Login" | "Sign up";
 }
 
+interface AuthFormHeadingProps extends AuthFormProps {}
+
 interface AuthFormInputProps {
-	fieldName: string
+	fieldName: string;
 }
 
 function AuthFormInput({ fieldName }: AuthFormInputProps) {
-	const fieldType = fieldName.toLowerCase() === "password" ? "password" : "text";
+	const fieldType =
+		fieldName.toLowerCase() === "password" ? "password" : "text";
 
 	return (
 		<div className="flex flex-col mb-3">
@@ -21,13 +24,19 @@ function AuthFormInput({ fieldName }: AuthFormInputProps) {
 	);
 }
 
+function AuthFormHeading({ authMethod }: AuthFormHeadingProps) {
+	return (
+		<h1 className="text-4xl text-center font-semibold mb-3">
+			{authMethod}
+		</h1>
+	);
+}
+
 function AuthForm({ authMethod }: AuthFormProps) {
 	return (
 		<div className="flex flex-col items-center justify-center h-full">
 			<form className="rounded-md bg-white shadow- flex flex-col w-full max-w-md pl-3 pr-3 pt-3 pb-3 shadow-xl">
-				<h1 className="text-4xl text-center font-semibold mb-3">
-					{authMethod}
-				</h1>
+				<AuthFormHeading authMethod={authMethod} />
 
 				<AuthFormInput fieldName="Email" />
 				<AuthFormInput fieldName="Password" />
