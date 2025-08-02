@@ -6,15 +6,19 @@ interface UserLoginPayload {
 }
 
 interface UserSignupPayload {
-    email: string;
-    username: string;
-    password: string;
+	email: string;
+	username: string;
+	password: string;
 }
 
 interface UserLoginEndpointResponse {
 	success: true;
 	accessToken: string;
 	refreshToken: string;
+}
+
+interface UserCreationEndpointResponse {
+	success: true;
 }
 
 interface ErrorResponse {
@@ -38,4 +42,21 @@ async function handleUserLogin(
 	}
 }
 
-export { handleUserLogin };
+async function handleUserCreation(
+	authCredentials: UserSignupPayload
+): Promise<UserCreationEndpointResponse | ErrorResponse> {
+	try {
+		await api.post("auth/create-user/", authCredentials);
+
+		return {
+			success: true,
+		};
+	} catch (error) {
+		return {
+			success: false,
+			error: "Signup failed",
+		};
+	}
+}
+
+export { handleUserLogin, handleUserCreation };
