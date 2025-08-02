@@ -1,5 +1,7 @@
 import type { ChangeEvent, FormEvent } from "react";
 import { useAuthCredentialsStore } from "../stores/authForm.stores";
+import { handleUserCreation, handleUserLogin } from "../utils/auth.services";
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants";
 
 interface AuthFormProps {
 	authMethod: "Login" | "Sign up";
@@ -96,12 +98,23 @@ function AuthFormSubmitButton({ authMethod }: AuthFormSubmitButtonProps) {
 function AuthForm({ authMethod }: AuthFormProps) {
 	const { email, username, password } = useAuthCredentialsStore((state) => state);
 
-	function handleSignup() {
+	async function handleSignup() {
+		const response = await handleUserCreation({ email, username, password })
+		if (!response.success) {
+			throw new Error(response.error)
+		}
 
+		await handleLogin();
 	}
 
-	function handleLogin() {
+	async function handleLogin() {
+		const response = await handleUserLogin({ email, password });
+		if (!response.success) {
+			throw new Error(response.error)
+		}
 
+		localStorage.setItem(ACCESS_TOKEN_KEY, response.accessToken);
+		localStorage.setItem(REFRESH_TOKEN_KEY, response.refreshToken);
 	}
 
 	function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
