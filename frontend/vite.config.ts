@@ -12,7 +12,11 @@ export default defineConfig({
 			"@": path.resolve(__dirname, "./src"),
 			"@app": path.resolve(__dirname, "./src/app"),
 			"@appApi": path.resolve(__dirname, "./src/app/api"),
-			"@auth": path.resolve(__dirname, "./src/features/auth")
+
+			"@shared": path.resolve(__dirname, "./src/shared"),
+			"@sharedPages": path.resolve(__dirname, "./src/shared/pages"),
+
+			"@auth": path.resolve(__dirname, "./src/features/auth"),
 		}
 	}
 });

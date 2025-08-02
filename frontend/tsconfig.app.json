@@ -28,7 +28,10 @@
 			"@app/*": ["./src/app/*"],
 			"@appApi": ["./src/app/api"],
 
-			"@auth/*": ["./src/features/auth/*"]
+			"@auth/*": ["./src/features/auth/*"],
+
+			"@shared/*": ["./src/shared/*"],
+			"@sharedPages/*": ["./src/shared/pages/*"]
 		}
 	},
 	"include": ["src"]
