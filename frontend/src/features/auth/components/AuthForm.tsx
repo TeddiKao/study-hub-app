@@ -11,7 +11,7 @@ function AuthForm({ authMethod }: AuthFormProps) {
 				</h1>
 
 				<input
-					className="bg-gray-100 pl-2 pt-2 pb-2"
+					className="bg-gray-100 pl-2 pt-2 pb-2 mb-3"
 					type="text"
 					placeholder="Email"
 				/>
