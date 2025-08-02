@@ -1,12 +1,12 @@
 import api from "@/app/api";
 
-interface UserCreationPayload {
+interface UserLoginPayload {
 	email: string;
 	username: string;
 	password: string;
 }
 
-interface UserCreationEndpointResponse {
+interface UserLoginEndpointResponse {
 	success: true;
 	accessToken: string;
 	refreshToken: string;
@@ -17,11 +17,11 @@ interface ErrorResponse {
 	error: string;
 }
 
-async function handleUserCreation(
-	authCredentials: UserCreationPayload
-): Promise<UserCreationEndpointResponse | ErrorResponse> {
+async function handleUserLogin(
+	authCredentials: UserLoginPayload
+): Promise<UserLoginEndpointResponse | ErrorResponse> {
 	try {
-		const response = await api.post("auth/create-user/", authCredentials);
+		const response = await api.post("auth/token/get/", authCredentials);
 
 		return {
 			success: true,
@@ -33,4 +33,4 @@ async function handleUserCreation(
 	}
 }
 
-export { handleUserCreation };
+export { handleUserLogin };
