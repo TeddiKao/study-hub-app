@@ -14,7 +14,7 @@ interface UserCreationEndpointResponse {
 
 interface ErrorResponse {
 	success: false;
-	error: unknown;
+	error: string;
 }
 
 async function handleUserCreation(
@@ -29,7 +29,7 @@ async function handleUserCreation(
 			refreshToken: response.data?.refresh,
 		};
 	} catch (error) {
-		return { success: false, error };
+		return { success: false, error: "Auth failed" };
 	}
 }
 
