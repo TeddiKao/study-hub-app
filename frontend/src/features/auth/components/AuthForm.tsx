@@ -3,6 +3,7 @@ interface AuthFormProps {
 }
 
 interface AuthFormHeadingProps extends AuthFormProps {}
+interface AuthFormSubmitButtonProps extends AuthFormProps {}
 
 interface AuthFormInputProps {
 	fieldName: string;
@@ -32,6 +33,14 @@ function AuthFormHeading({ authMethod }: AuthFormHeadingProps) {
 	);
 }
 
+function AuthFormSubmitButton({ authMethod }: AuthFormSubmitButtonProps) {
+	return (
+		<button className="bg-sky-500 pt-2 pb-2 text-white rounded-md hover:cursor-pointer hover:bg-sky-700">
+			{authMethod}
+		</button>
+	);
+}
+
 function AuthForm({ authMethod }: AuthFormProps) {
 	return (
 		<div className="flex flex-col items-center justify-center h-full">
@@ -41,9 +50,7 @@ function AuthForm({ authMethod }: AuthFormProps) {
 				<AuthFormInput fieldName="Email" />
 				<AuthFormInput fieldName="Password" />
 
-				<button className="bg-sky-500 pt-2 pb-2 text-white rounded-md hover:cursor-pointer hover:bg-sky-700">
-					{authMethod}
-				</button>
+				<AuthFormSubmitButton authMethod={authMethod} />
 			</form>
 		</div>
 	);
