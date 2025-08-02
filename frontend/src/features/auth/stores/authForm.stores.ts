@@ -1,13 +1,6 @@
 import { create } from "zustand"
 
-const useLoginCredentialsStore = create((set) => ({
-    email: "",
-    password: "",
-    updateEmail: (newEmail: string) => set({ email: newEmail }),
-    updatePassword: (newPassword: string) => set({ password: newPassword })
-}))
-
-const useSignupCredentialsStore = create((set) => ({
+const useAuthCredentialsStore = create((set) => ({
     email: "",
     username: "",
     password: "",
@@ -17,4 +10,4 @@ const useSignupCredentialsStore = create((set) => ({
     updatePassword: (newPassword: string) => set({ password: newPassword })
 }))
 
-export { useLoginCredentialsStore, useSignupCredentialsStore }
+export { useAuthCredentialsStore }
