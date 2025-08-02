@@ -9,15 +9,13 @@ interface ProtectedRouteProps {
 }
 
 function ProtectedRoute({ children }: ProtectedRouteProps) {
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
 	useEffect(() => {
 		auth().catch(() => {
 			setIsAuthenticated(false);
 		});
 	}, []);
-
-	useEffect(() => {}, [isAuthenticated]);
 
 	const handleTokenRefresh = async () => {
 		const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
@@ -57,6 +55,8 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
 		const now = Date.now() / 1000;
 
 		const isExpired = tokenExpiration < now;
+        console.log(tokenExpiration, now)
+        console.log(isExpired);
 
 		if (isExpired) {
 			await handleTokenRefresh();
@@ -64,6 +64,10 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
 			setIsAuthenticated(true);
 		}
 	};
+
+    if (isAuthenticated === null) {
+        return <div>Loading</div>
+    }
 
 	return isAuthenticated ? children : <Navigate to={"/login"} />;
 }
