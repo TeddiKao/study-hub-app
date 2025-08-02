@@ -5,6 +5,12 @@ interface UserLoginPayload {
 	password: string;
 }
 
+interface UserSignupPayload {
+    email: string;
+    username: string;
+    password: string;
+}
+
 interface UserLoginEndpointResponse {
 	success: true;
 	accessToken: string;
