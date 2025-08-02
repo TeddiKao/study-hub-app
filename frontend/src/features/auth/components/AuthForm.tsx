@@ -7,12 +7,14 @@ interface AuthFormInputProps {
 }
 
 function AuthFormInput({ fieldName }: AuthFormInputProps) {
+	const fieldType = fieldName.toLowerCase() === "password" ? "password" : "text";
+
 	return (
 		<div className="flex flex-col mb-3">
 			<p className="font-semibold ml-1">{fieldName}</p>
 			<input
 				className="bg-gray-200 rounded-md pl-2 pt-2 pb-2"
-				type="text"
+				type={fieldType}
 				placeholder={`Enter your ${fieldName.toLowerCase()}`}
 			/>
 		</div>
