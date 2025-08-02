@@ -109,6 +109,11 @@ function AuthForm({ authMethod }: AuthFormProps) {
 				<AuthFormHeading authMethod={authMethod} />
 
 				<AuthFormInput fieldName="Email" />
+
+				{authMethod === "Sign up" && (
+					<AuthFormInput fieldName="Username" />
+				)}
+
 				<AuthFormInput fieldName="Password" />
 
 				<AuthFormSubmitButton authMethod={authMethod} />
