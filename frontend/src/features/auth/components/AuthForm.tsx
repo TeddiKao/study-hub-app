@@ -1,4 +1,4 @@
-import type { ChangeEvent, FormEvent } from "react";
+import { useEffect, type ChangeEvent, type FormEvent } from "react";
 import { useAuthCredentialsStore } from "../stores/authForm.stores";
 import { handleUserCreation, handleUserLogin } from "../utils/auth.services";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants";
@@ -97,11 +97,19 @@ function AuthFormSubmitButton({ authMethod }: AuthFormSubmitButtonProps) {
 }
 
 function AuthForm({ authMethod }: AuthFormProps) {
-	const { email, username, password } = useAuthCredentialsStore((state) => state);
+	const { email, username, password, clearAllFields, clearPassword } = useAuthCredentialsStore((state) => state);
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		return () => {
+			clearAllFields();
+		}
+	}, []);
 
 	async function handleSignup() {
 		const response = await handleUserCreation({ email, username, password })
+		clearPassword();
+
 		if (!response.success) {
 			throw new Error(response.error)
 		}
@@ -111,6 +119,8 @@ function AuthForm({ authMethod }: AuthFormProps) {
 
 	async function handleLogin() {
 		const response = await handleUserLogin({ email, password });
+		clearPassword();
+
 		if (!response.success) {
 			throw new Error(response.error)
 		}
