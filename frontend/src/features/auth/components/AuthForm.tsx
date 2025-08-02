@@ -2,6 +2,23 @@ interface AuthFormProps {
 	authMethod: "Login" | "Sign up";
 }
 
+interface AuthFormInputProps {
+	fieldName: string
+}
+
+function AuthFormInput({ fieldName }: AuthFormInputProps) {
+	return (
+		<div className="flex flex-col mb-3">
+			<p className="font-semibold ml-1">{fieldName}</p>
+			<input
+				className="bg-gray-200 rounded-md pl-2 pt-2 pb-2"
+				type="text"
+				placeholder={`Enter your ${fieldName.toLowerCase()}`}
+			/>
+		</div>
+	);
+}
+
 function AuthForm({ authMethod }: AuthFormProps) {
 	return (
 		<div className="flex flex-col items-center justify-center h-full">
@@ -28,7 +45,9 @@ function AuthForm({ authMethod }: AuthFormProps) {
 					/>
 				</div>
 
-				<button className="bg-sky-500 pt-2 pb-2 text-white rounded-md hover:cursor-pointer hover:bg-sky-700">{authMethod}</button>
+				<button className="bg-sky-500 pt-2 pb-2 text-white rounded-md hover:cursor-pointer hover:bg-sky-700">
+					{authMethod}
+				</button>
 			</form>
 		</div>
 	);
