@@ -13,7 +13,7 @@ function AuthForm({ authMethod }: AuthFormProps) {
 				<div className="flex flex-col">
 					<p className="font-semibold ml-1">Email</p>
 					<input
-						className="bg-gray-100 rounded-md pl-2 pt-2 pb-2 mb-3"
+						className="bg-gray-200 rounded-md pl-2 pt-2 pb-2 mb-3"
 						type="text"
 						placeholder="Enter your email"
 					/>
@@ -22,7 +22,7 @@ function AuthForm({ authMethod }: AuthFormProps) {
 				<div className="flex flex-col">
 					<p className="font-semibold ml-1">Password</p>
 					<input
-						className="bg-gray-100 rounded-md pl-2 pt-2 pb-2"
+						className="bg-gray-200 rounded-md pl-2 pt-2 pb-2"
 						type="text"
 						placeholder="Enter your password"
 					/>
