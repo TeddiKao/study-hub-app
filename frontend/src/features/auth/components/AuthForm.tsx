@@ -44,7 +44,7 @@ function AuthFormSubmitButton({ authMethod }: AuthFormSubmitButtonProps) {
 function AuthForm({ authMethod }: AuthFormProps) {
 	return (
 		<div className="flex flex-col items-center justify-center h-full">
-			<form className="rounded-md bg-white shadow- flex flex-col w-full max-w-md pl-3 pr-3 pt-3 pb-3 shadow-xl">
+			<form className="rounded-md bg-white flex flex-col w-full max-w-md pl-3 pr-3 pt-3 pb-3 shadow-xl">
 				<AuthFormHeading authMethod={authMethod} />
 
 				<AuthFormInput fieldName="Email" />
