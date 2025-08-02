@@ -28,7 +28,7 @@ function AuthForm({ authMethod }: AuthFormProps) {
 					/>
 				</div>
 
-				<button className="bg-sky-500">{authMethod}</button>
+				<button className="bg-sky-500 pt-2 pb-2 text-white rounded-md">{authMethod}</button>
 			</form>
 		</div>
 	);
