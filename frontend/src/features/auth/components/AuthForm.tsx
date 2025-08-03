@@ -1,5 +1,8 @@
 import { useEffect, type ChangeEvent, type FormEvent } from "react";
-import { useAuthCredentialsStore } from "../stores/authForm.stores";
+import {
+	useAuthCredentialsStore,
+	useAuthErrorsStore,
+} from "../stores/authForm.stores";
 import { handleUserCreation, handleUserLogin } from "../utils/auth.services";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants";
 import { useNavigate } from "react-router-dom";
@@ -52,6 +55,8 @@ function AuthFormInput({ fieldName }: AuthFormInputProps) {
 		updatePassword,
 	} = useAuthCredentialsStore((state) => state);
 
+	const { fields: errorFields } = useAuthErrorsStore((state) => state);
+
 	const fieldMap: AuthFieldMap = {
 		email: { value: email, setter: updateEmail },
 		username: { value: username, setter: updateUsername },
@@ -61,6 +66,8 @@ function AuthFormInput({ fieldName }: AuthFormInputProps) {
 	const field = fieldMap[fieldName.toLowerCase() as AuthFieldsLower];
 	const fieldValue = field["value"];
 	const fieldSetter = field["setter"];
+
+	const errors = errorFields[fieldName.toLowerCase() as AuthFieldsLower];
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		fieldSetter(e.target.value);
@@ -76,7 +83,7 @@ function AuthFormInput({ fieldName }: AuthFormInputProps) {
 				value={fieldValue}
 				onChange={handleChange}
 			/>
-			<ErrorMessages errorMessages={["Test error", "Another error"]} />
+			<ErrorMessages errorMessages={errors} />
 		</div>
 	);
 }
