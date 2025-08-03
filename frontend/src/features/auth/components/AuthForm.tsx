@@ -28,9 +28,15 @@ interface AuthFieldMap {
 }
 
 function ErrorMessages({ errorMessages }: ErrorMessagesProps) {
-	return errorMessages.map((errorMessage, index) => (
-		<p className="text-red-500 mt-1" key={index}>{errorMessage}</p>
-	));
+	return (
+		<div className="flex flex-col">
+			{errorMessages.map((errorMessage, index) => (
+				<p className="text-red-500 mt-1" key={index}>
+					{errorMessage}
+				</p>
+			))}
+		</div>
+	);
 }
 
 function AuthFormInput({ fieldName }: AuthFormInputProps) {
@@ -70,7 +76,7 @@ function AuthFormInput({ fieldName }: AuthFormInputProps) {
 				value={fieldValue}
 				onChange={handleChange}
 			/>
-			<ErrorMessages errorMessages={["Test error"]} />
+			<ErrorMessages errorMessages={["Test error", "Another error"]} />
 		</div>
 	);
 }
