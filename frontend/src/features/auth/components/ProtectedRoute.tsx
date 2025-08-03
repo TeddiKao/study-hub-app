@@ -30,12 +30,8 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
 				refresh: refreshToken,
 			});
 
-			if (response.status === 200) {
-				localStorage.setItem(ACCESS_TOKEN_KEY, response.data.access);
-				setIsAuthenticated(true);
-			} else {
-				setIsAuthenticated(false);
-			}
+			localStorage.setItem(ACCESS_TOKEN_KEY, response.data.access);
+			setIsAuthenticated(true);
 		} catch (error) {
 			console.error(error);
 			setIsAuthenticated(false);
