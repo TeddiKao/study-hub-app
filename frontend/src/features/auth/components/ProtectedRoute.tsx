@@ -35,6 +35,9 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
 		} catch (error) {
 			console.error(error);
 			setIsAuthenticated(false);
+
+			localStorage.removeItem(ACCESS_TOKEN_KEY);
+			localStorage.removeItem(REFRESH_TOKEN_KEY);
 		}
 	};
 
