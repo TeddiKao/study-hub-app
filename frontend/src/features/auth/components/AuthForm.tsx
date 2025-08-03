@@ -42,9 +42,12 @@ function AuthFormInput({ fieldName }: AuthFormInputProps) {
 		password: { value: password, setter: updatePassword }
 	}
 
+	const field = fieldMap[fieldName.toLowerCase() as AuthFieldsLower]
+	const fieldValue = field["value"];
+	const fieldSetter = field["setter"];
 	
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-
+		fieldSetter(e.target.value);
 	}
 
 	return (
@@ -54,8 +57,8 @@ function AuthFormInput({ fieldName }: AuthFormInputProps) {
 				className="bg-gray-200 rounded-md pl-2 pt-2 pb-2"
 				type={fieldType}
 				placeholder={`Enter your ${fieldName.toLowerCase()}`}
-				value={getCredentialValue()}
-				onChange={getCredentialSetter()}
+				value={fieldValue}
+				onChange={handleChange}
 			/>
 		</div>
 	);
