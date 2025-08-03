@@ -15,12 +15,22 @@ interface AuthFormInputProps {
 	fieldName: string;
 }
 
-type AuthFieldsLower = "email" | "username" | 'password'
+interface ErrorMessagesProps {
+	errorMessages: string[];
+}
+
+type AuthFieldsLower = "email" | "username" | "password";
 
 interface AuthFieldMap {
-	email: { value: string, setter: (newEmail: string) => void }
-	username: { value: string, setter: (newUsername: string) => void },
-	password: { value: string, setter: (newPassword: string) => void }
+	email: { value: string; setter: (newEmail: string) => void };
+	username: { value: string; setter: (newUsername: string) => void };
+	password: { value: string; setter: (newPassword: string) => void };
+}
+
+function ErrorMessages({ errorMessages }: ErrorMessagesProps) {
+	return errorMessages.map((errorMessage, index) => (
+		<p className="text-red-500" key={index}>{errorMessage}</p>
+	));
 }
 
 function AuthFormInput({ fieldName }: AuthFormInputProps) {
@@ -37,18 +47,18 @@ function AuthFormInput({ fieldName }: AuthFormInputProps) {
 	} = useAuthCredentialsStore((state) => state);
 
 	const fieldMap: AuthFieldMap = {
-		email: { value: email,  setter: updateEmail },
+		email: { value: email, setter: updateEmail },
 		username: { value: username, setter: updateUsername },
-		password: { value: password, setter: updatePassword }
-	}
+		password: { value: password, setter: updatePassword },
+	};
 
-	const field = fieldMap[fieldName.toLowerCase() as AuthFieldsLower]
+	const field = fieldMap[fieldName.toLowerCase() as AuthFieldsLower];
 	const fieldValue = field["value"];
 	const fieldSetter = field["setter"];
-	
+
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		fieldSetter(e.target.value);
-	}
+	};
 
 	return (
 		<div className="flex flex-col mb-3">
@@ -60,6 +70,7 @@ function AuthFormInput({ fieldName }: AuthFormInputProps) {
 				value={fieldValue}
 				onChange={handleChange}
 			/>
+			<ErrorMessages errorMessages={["Test error"]} />
 		</div>
 	);
 }
@@ -81,21 +92,26 @@ function AuthFormSubmitButton({ authMethod }: AuthFormSubmitButtonProps) {
 }
 
 function AuthForm({ authMethod }: AuthFormProps) {
-	const { email, username, password, clearAllFields, clearPassword } = useAuthCredentialsStore((state) => state);
+	const { email, username, password, clearAllFields, clearPassword } =
+		useAuthCredentialsStore((state) => state);
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		return () => {
 			clearAllFields();
-		}
+		};
 	}, []);
 
 	async function handleSignup() {
-		const response = await handleUserCreation({ email, username, password })
+		const response = await handleUserCreation({
+			email,
+			username,
+			password,
+		});
 		clearPassword();
 
 		if (!response.success) {
-			console.error(response.error)
+			console.error(response.error);
 			return;
 		}
 
@@ -107,7 +123,7 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		clearPassword();
 
 		if (!response.success) {
-			console.error(response.error)
+			console.error(response.error);
 			return;
 		}
 
