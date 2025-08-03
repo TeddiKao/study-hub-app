@@ -15,45 +15,15 @@ interface AuthFormInputProps {
 	fieldName: string;
 }
 
+type AuthFieldsLower = "email" | "username" | 'password'
+
+interface AuthFieldMap {
+	email: { value: string, setter: (newEmail: string) => void }
+	username: { value: string, setter: (newUsername: string) => void },
+	password: { value: string, setter: (newPassword: string) => void }
+}
+
 function AuthFormInput({ fieldName }: AuthFormInputProps) {
-	function getCredentialValue() {
-		switch (fieldName.toLowerCase()) {
-			case "email":
-				return email;
-
-			case "username":
-				return username;
-
-			case "password":
-				return password;
-
-			default:
-				throw new Error(`Invalid field name ${fieldName}`)
-		}
-	}
-
-	function getCredentialSetter() {
-		switch (fieldName.toLowerCase()) {
-			case "email":
-				return (e: ChangeEvent<HTMLInputElement>) => {
-					updateEmail(e.target.value)
-				};
-
-			case "username":
-				return (e: ChangeEvent<HTMLInputElement>) => {
-					updateUsername(e.target.value)
-				};
-
-			case "password":
-				return (e: ChangeEvent<HTMLInputElement>) => {
-					updatePassword(e.target.value)
-				};
-
-			default:
-				throw new Error(`Invalid field ${fieldName}`)
-		}
-	}
-
 	const fieldType =
 		fieldName.toLowerCase() === "password" ? "password" : "text";
 
@@ -65,6 +35,17 @@ function AuthFormInput({ fieldName }: AuthFormInputProps) {
 		updateUsername,
 		updatePassword,
 	} = useAuthCredentialsStore((state) => state);
+
+	const fieldMap: AuthFieldMap = {
+		email: { value: email,  setter: updateEmail },
+		username: { value: username, setter: updateUsername },
+		password: { value: password, setter: updatePassword }
+	}
+
+	
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+
+	}
 
 	return (
 		<div className="flex flex-col mb-3">
