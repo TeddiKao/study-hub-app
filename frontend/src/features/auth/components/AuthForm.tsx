@@ -117,13 +117,13 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		navigate("/home");
 	}
 
-	function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
+	async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
 		if (authMethod === "Login") {
-			handleLogin();
+			await handleLogin();
 		} else {
-			handleSignup();
+			await handleSignup();
 		}
 	}
 
