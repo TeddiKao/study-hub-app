@@ -49,6 +49,27 @@ async function handleUserLogin(
 		};
 	} catch (error) {
 		console.error(error);
+
+		if (!(error instanceof AxiosError)) {
+			return {
+				success: false,
+				error: {
+					general: ["An unexpected error occured"],
+					fields: { email: [], username: [], password: [] },
+				},
+			};
+		}
+
+		if (error.response?.data) {
+			return {
+				success: false,
+				error: {
+					general: error.response.data["non_field_errors"] ?? [],
+					fields: { email: [], username: [], password: [] },
+				},
+			};
+		}
+
 		return {
 			success: false,
 			error: {
