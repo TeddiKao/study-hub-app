@@ -95,7 +95,8 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		clearPassword();
 
 		if (!response.success) {
-			throw new Error(response.error)
+			console.error(response.error)
+			return;
 		}
 
 		await handleLogin();
@@ -106,7 +107,8 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		clearPassword();
 
 		if (!response.success) {
-			throw new Error(response.error)
+			console.error(response.error)
+			return;
 		}
 
 		localStorage.setItem(ACCESS_TOKEN_KEY, response.accessToken);
