@@ -9,6 +9,7 @@ import {
 	REFRESH_TOKEN_KEY,
 } from "../constants/tokenKeys.constants";
 import { useNavigate } from "react-router-dom";
+import formatErrorMessage from "../utils/authErrors";
 
 interface AuthFormProps {
 	authMethod: "Login" | "Sign up";
@@ -38,7 +39,7 @@ function ErrorMessages({ errorMessages }: ErrorMessagesProps) {
 		<div className="flex flex-col">
 			{errorMessages.map((errorMessage, index) => (
 				<p className="text-red-500 mt-1" key={index}>
-					{errorMessage}
+					{formatErrorMessage(errorMessage)}
 				</p>
 			))}
 		</div>
