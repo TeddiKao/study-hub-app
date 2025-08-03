@@ -75,7 +75,7 @@ async function handleUserCreation(
 				error: {
 					general: ["An unexpected error occured"],
 					fields: { email: [], username: [], password: [] },
-				}
+				},
 			};
 		}
 
@@ -88,10 +88,18 @@ async function handleUserCreation(
 						email: error.response?.data["email"] ?? [],
 						username: error.response?.data["username"] ?? [],
 						password: error.response?.data["password"] ?? [],
-					}
-				}
-			}
+					},
+				},
+			};
 		}
+
+		return {
+			success: false,
+			error: {
+				general: ["An unexpected error occured"],
+				fields: { email: [], username: [], password: [] },
+			},
+		};
 	}
 }
 
