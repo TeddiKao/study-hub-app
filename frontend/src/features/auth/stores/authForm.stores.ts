@@ -13,6 +13,15 @@ interface AuthCredentialsStore {
     clearAllFields: () => void;
 }
 
+interface AuthErrorsStore {
+    general: string[];
+    fields: {
+        email: string[];
+        username: string[];
+        password: string[];
+    }
+}
+
 const useAuthCredentialsStore = create<AuthCredentialsStore>((set) => ({
     email: "",
     username: "",
@@ -26,8 +35,15 @@ const useAuthCredentialsStore = create<AuthCredentialsStore>((set) => ({
     clearAllFields: () => set({ username: "", email: "", password: "" })
 }))
 
-const useAuthErrorsStore = create((set) => {
+const useAuthErrorsStore = create<AuthErrorsStore>((set) => ({
+    general: [],
+    fields: {
+        email: [],
+        username: [],
+        password: [],
+    },
+
     
-})
+}))
 
 export { useAuthCredentialsStore }
