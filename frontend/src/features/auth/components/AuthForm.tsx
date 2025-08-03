@@ -29,7 +29,7 @@ interface AuthFieldMap {
 
 function ErrorMessages({ errorMessages }: ErrorMessagesProps) {
 	return errorMessages.map((errorMessage, index) => (
-		<p className="text-red-500" key={index}>{errorMessage}</p>
+		<p className="text-red-500 mt-1" key={index}>{errorMessage}</p>
 	));
 }
 
