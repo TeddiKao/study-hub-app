@@ -21,6 +21,10 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
 
 	const handleTokenRefresh = async () => {
 		const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
+		if (!refreshToken) {
+			return;
+		}
+
 		try {
 			const response = await api.post("auth/token/refresh/", {
 				refresh: refreshToken,
