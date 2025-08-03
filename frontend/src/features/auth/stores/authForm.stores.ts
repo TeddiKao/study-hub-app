@@ -13,13 +13,17 @@ interface AuthCredentialsStore {
 	clearAllFields: () => void;
 }
 
-interface AuthErrorsStore {
+interface AuthErrors {
 	general: string[];
 	fields: {
 		email: string[];
 		username: string[];
 		password: string[];
 	};
+}
+
+interface AuthErrorsStore extends AuthErrors {
+	updateErrors: (errors: AuthErrors) => void;
 }
 
 const useAuthCredentialsStore = create<AuthCredentialsStore>((set) => ({
@@ -43,34 +47,7 @@ const useAuthErrorsStore = create<AuthErrorsStore>((set) => ({
 		password: [],
 	},
 
-	updateGeneralErrors: (generalErrors: string[]) =>
-		set({ general: generalErrors }),
-	updateEmailErrors: (emailErrors: string[]) =>
-		set((state) => ({
-			...state,
-			fields: {
-				...state.fields,
-				email: emailErrors
-			}
-		})),
-
-	updateUsernameErrors: (usernameErrors: string[]) =>
-		set((state) => ({
-			...state,
-			fields: {
-				...state.fields,
-				username: usernameErrors
-			}
-		})),
-
-	updatePasswordErrors: (passwordErrors: string[]) =>
-		set((state) => ({
-			...state,
-			fields: {
-				...state.fields,
-				password: passwordErrors
-			}
-		}))
+	updateErrors: (errors: AuthErrors) => set(errors)
 }));
 
 export { useAuthCredentialsStore, useAuthErrorsStore };
