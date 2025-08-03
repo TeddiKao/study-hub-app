@@ -107,6 +107,8 @@ function AuthFormSubmitButton({ authMethod }: AuthFormSubmitButtonProps) {
 function AuthForm({ authMethod }: AuthFormProps) {
 	const { email, username, password, clearAllFields, clearPassword } =
 		useAuthCredentialsStore((state) => state);
+	const { updateErrors } = useAuthErrorsStore();
+
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -124,7 +126,7 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		clearPassword();
 
 		if (!response.success) {
-			console.error(response.error);
+			updateErrors(response.error);
 			return;
 		}
 
@@ -136,7 +138,7 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		clearPassword();
 
 		if (!response.success) {
-			console.error(response.error);
+			updateErrors(response.error);
 			return;
 		}
 
