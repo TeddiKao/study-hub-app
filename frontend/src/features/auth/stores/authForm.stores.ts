@@ -26,4 +26,8 @@ const useAuthCredentialsStore = create<AuthCredentialsStore>((set) => ({
     clearAllFields: () => set({ username: "", email: "", password: "" })
 }))
 
+const useAuthErrorsStore = create((set) => {
+    
+})
+
 export { useAuthCredentialsStore }
