@@ -224,7 +224,7 @@ function AuthForm({ authMethod }: AuthFormProps) {
 			<ErrorAlert
 				onClose={closeAlert}
 				visible={visible}
-				errorSummary="The following errors occured during authentication"
+				errorSummary="The following errors occurred during authentication"
 				errors={generalErrors}
 			/>
 		</>
