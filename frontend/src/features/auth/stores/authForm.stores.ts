@@ -1,29 +1,53 @@
-import { create } from "zustand"
+import { create } from "zustand";
 
 interface AuthCredentialsStore {
-    email: string;
-    username: string;
-    password: string;
+	email: string;
+	username: string;
+	password: string;
 
-    updateEmail: (newEmail: string) => void;
-    updateUsername: (newUsername: string) => void;
-    updatePassword: (newPassword: string) => void;
+	updateEmail: (newEmail: string) => void;
+	updateUsername: (newUsername: string) => void;
+	updatePassword: (newPassword: string) => void;
 
-    clearPassword: () => void;
-    clearAllFields: () => void;
+	clearPassword: () => void;
+	clearAllFields: () => void;
+}
+
+interface AuthErrors {
+	general: string[];
+	fields: {
+		email: string[];
+		username: string[];
+		password: string[];
+	};
+}
+
+interface AuthErrorsStore extends AuthErrors {
+	updateErrors: (errors: AuthErrors) => void;
 }
 
 const useAuthCredentialsStore = create<AuthCredentialsStore>((set) => ({
-    email: "",
-    username: "",
-    password: "",
+	email: "",
+	username: "",
+	password: "",
 
-    updateEmail: (newEmail: string) => set({ email: newEmail }),
-    updateUsername: (newUsername: string) => set({ username: newUsername }),
-    updatePassword: (newPassword: string) => set({ password: newPassword }),
+	updateEmail: (newEmail: string) => set({ email: newEmail }),
+	updateUsername: (newUsername: string) => set({ username: newUsername }),
+	updatePassword: (newPassword: string) => set({ password: newPassword }),
 
-    clearPassword: () => set({ password: "" }),
-    clearAllFields: () => set({ username: "", email: "", password: "" })
-}))
+	clearPassword: () => set({ password: "" }),
+	clearAllFields: () => set({ username: "", email: "", password: "" }),
+}));
 
-export { useAuthCredentialsStore }
+const useAuthErrorsStore = create<AuthErrorsStore>((set) => ({
+	general: [],
+	fields: {
+		email: [],
+		username: [],
+		password: [],
+	},
+
+	updateErrors: (errors: AuthErrors) => set(errors)
+}));
+
+export { useAuthCredentialsStore, useAuthErrorsStore };
