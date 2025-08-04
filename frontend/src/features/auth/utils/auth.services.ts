@@ -90,6 +90,8 @@ async function handleUserCreation(
 			success: true,
 		};
 	} catch (error) {
+		console.error(error);
+
 		if (!(error instanceof AxiosError)) {
 			return {
 				success: false,
