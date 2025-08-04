@@ -17,6 +17,10 @@ interface ErrorItemProps {
 	index: number;
 }
 
+interface CloseButtonProps {
+	onClose: () => void;
+}
+
 function ErrorItem({ error, index }: ErrorItemProps) {
 	return (
 		<li className="text-white" key={`${error}-${index}`}>
@@ -38,6 +42,17 @@ function ErrorsList({ errors, errorSummary }: ErrorsListProps) {
 	);
 }
 
+function CloseButton({ onClose }: CloseButtonProps) {
+	return (
+		<button
+			onClick={onClose}
+			className="text-white ml-8 pl-2 pr-2 pt-1 pb-1 rounded-md bg-red-300 hover:cursor-pointer hover:bg-red-400"
+		>
+			Close
+		</button>
+	);
+}
+
 function ErrorAlert({
 	errorSummary,
 	errors,
@@ -50,12 +65,7 @@ function ErrorAlert({
 		<div className="flex flex-row items-center fixed bottom-6 right-6 rounded-xl bg-red-500 w-max pl-2 pr-3 pt-3 pb-3">
 			<img src={errorIcon} alt="Error icon" />
 			<ErrorsList errorSummary={errorSummary} errors={errors} />
-			<button
-				onClick={onClose}
-				className="text-white ml-8 pl-2 pr-2 pt-1 pb-1 rounded-md bg-red-300 hover:cursor-pointer hover:bg-red-400"
-			>
-				Close
-			</button>
+			<CloseButton onClose={onClose} />
 		</div>
 	);
 }
