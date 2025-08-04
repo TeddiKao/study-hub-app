@@ -1,0 +1,17 @@
+import { create } from "zustand";
+
+interface AlertVisibleStore {
+    visible: boolean;
+    closeAlert: () => void;
+    showAlert: () => void;
+}
+
+const createAlertVisibleStore = () => create<AlertVisibleStore>((set) => ({
+    visible: false,
+    closeAlert: () => set({ visible: false }),
+    showAlert: () => set({ visible: true })
+}))
+
+const useAlertVisibleStore = createAlertVisibleStore();
+
+export { useAlertVisibleStore }
