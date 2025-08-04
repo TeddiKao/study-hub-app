@@ -11,7 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import formatErrorMessage from "../utils/authErrors";
 import ErrorAlert from "@/shared/components/alerts/ErrorAlert";
-import { useAlertVisibleStore } from "@/shared/stores/alerts.stores";
+import { useLoginErrorAlertVisibleStore, useSignupErrorAlertVisibleStore } from "../stores/authErrorAlerts.stores";
 
 interface AuthFormProps {
 	authMethod: "Login" | "Sign up";
@@ -114,7 +114,22 @@ function AuthForm({ authMethod }: AuthFormProps) {
 	const { email, username, password, clearAllFields, clearPassword } =
 		useAuthCredentialsStore((state) => state);
 	const { updateErrors, general: generalErrors } = useAuthErrorsStore();
-	const { visible, closeAlert } = useAlertVisibleStore(); 
+
+	const {
+		visible: signupAlertVisible,
+		closeAlert: closeSignupAlert,
+		showAlert: showSignupAlert,
+	} = useSignupErrorAlertVisibleStore();
+
+	const {
+		visible: loginAlertVisible,
+		closeAlert: closeLoginAlert,
+		showAlert: showLoginAlert,
+	} = useLoginErrorAlertVisibleStore();
+
+	const visible = authMethod === "Login" ? loginAlertVisible : signupAlertVisible
+	const closeAlert = authMethod === "Login" ? closeLoginAlert : closeSignupAlert
+	const showAlert = authMethod === "Login" ? showLoginAlert : showSignupAlert
 
 	const navigate = useNavigate();
 
@@ -145,6 +160,7 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		clearPassword();
 
 		if (!response.success) {
+			console.log(response.error);
 			updateErrors(response.error);
 			return;
 		}
@@ -186,7 +202,12 @@ function AuthForm({ authMethod }: AuthFormProps) {
 				</form>
 			</div>
 
-			<ErrorAlert onClose={closeAlert} visible={visible} errorSummary="The following errors occured during authentication" errors={generalErrors} />
+			<ErrorAlert
+				onClose={closeAlert}
+				visible={visible}
+				errorSummary="The following errors occured during authentication"
+				errors={generalErrors}
+			/>
 		</>
 	);
 }
