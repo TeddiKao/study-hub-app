@@ -2,6 +2,7 @@ import { useEffect, useRef, type ChangeEvent, type FormEvent } from "react";
 import {
 	useAuthCredentialsStore,
 	useAuthErrorsStore,
+	useAuthStatusStore,
 } from "../stores/authForm.stores";
 import { handleUserCreation, handleUserLogin } from "../utils/auth.services";
 import {
@@ -114,6 +115,8 @@ function AuthForm({ authMethod }: AuthFormProps) {
 	const { email, username, password, clearAllFields, clearPassword } =
 		useAuthCredentialsStore((state) => state);
 	const { updateErrors, general: generalErrors } = useAuthErrorsStore();
+	const { isLoading, startLoading, stopLoading } = useAuthStatusStore();
+
 	const { visible: signupAlertVisible, closeAlert: closeSignupAlert, showAlert: showSignupAlert } = useSignupAlertVisibleStore();
 	const { visible: loginAlertVisible, closeAlert: closeLoginAlert, showAlert: showLoginAlert } = useLoginAlertVisibleStore();
 
@@ -142,12 +145,15 @@ function AuthForm({ authMethod }: AuthFormProps) {
 	}
 
 	async function handleSignup() {
+		startLoading();
+
 		const response = await handleUserCreation({
 			email,
 			username,
 			password,
 		});
 
+		stopLoading();
 		clearPassword();
 
 		if (!response.success) {
@@ -162,7 +168,11 @@ function AuthForm({ authMethod }: AuthFormProps) {
 	}
 
 	async function handleLogin() {
+		startLoading();
+
 		const response = await handleUserLogin({ email, password });
+		
+		stopLoading();
 		clearPassword();
 
 		if (!response.success) {
