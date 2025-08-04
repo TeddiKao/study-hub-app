@@ -12,15 +12,26 @@ interface ErrorsListProps {
 	errorSummary: string;
 }
 
+interface ErrorItemProps {
+	error: string;
+	index: number;
+}
+
+function ErrorItem({ error, index }: ErrorItemProps) {
+	return (
+		<li className="text-white" key={`${error}-${index}`}>
+			{error}
+		</li>
+	);
+}
+
 function ErrorsList({ errors, errorSummary }: ErrorsListProps) {
 	return (
 		<div className="flex flex-col ml-2">
 			<p className="text-white">{errorSummary}</p>
 			<ul className="relative pl-4 text-white before:absolute before:left-0 before:top-2 before:h-1.5 before:w-1.5 before:rounded-full before:bg-white">
 				{errors.map((error, index) => (
-					<li className="text-white" key={`${error}-${index}`}>
-						{error}
-					</li>
+					<ErrorItem error={error} index={index} />
 				))}
 			</ul>
 		</div>
