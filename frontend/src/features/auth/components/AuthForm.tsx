@@ -10,6 +10,8 @@ import {
 } from "../constants/tokenKeys.constants";
 import { useNavigate } from "react-router-dom";
 import formatErrorMessage from "../utils/authErrors";
+import ErrorAlert from "@/shared/components/alerts/ErrorAlert";
+import { useAlertVisibleStore } from "@/shared/stores/alerts.stores";
 
 interface AuthFormProps {
 	authMethod: "Login" | "Sign up";
@@ -111,7 +113,8 @@ function AuthFormSubmitButton({ authMethod }: AuthFormSubmitButtonProps) {
 function AuthForm({ authMethod }: AuthFormProps) {
 	const { email, username, password, clearAllFields, clearPassword } =
 		useAuthCredentialsStore((state) => state);
-	const { updateErrors } = useAuthErrorsStore();
+	const { updateErrors, general: generalErrors } = useAuthErrorsStore();
+	const { visible, closeAlert } = useAlertVisibleStore(); 
 
 	const navigate = useNavigate();
 
@@ -163,24 +166,28 @@ function AuthForm({ authMethod }: AuthFormProps) {
 	}
 
 	return (
-		<div className="flex flex-col items-center justify-center h-full">
-			<form
-				className="rounded-md bg-white flex flex-col w-full max-w-md pl-3 pr-3 pt-3 pb-3 shadow-xl"
-				onSubmit={handleFormSubmit}
-			>
-				<AuthFormHeading authMethod={authMethod} />
+		<>
+			<div className="flex flex-col items-center justify-center h-full">
+				<form
+					className="rounded-md bg-white flex flex-col w-full max-w-md pl-3 pr-3 pt-3 pb-3 shadow-xl"
+					onSubmit={handleFormSubmit}
+				>
+					<AuthFormHeading authMethod={authMethod} />
 
-				<AuthFormInput fieldName="Email" />
+					<AuthFormInput fieldName="Email" />
 
-				{authMethod === "Sign up" && (
-					<AuthFormInput fieldName="Username" />
-				)}
+					{authMethod === "Sign up" && (
+						<AuthFormInput fieldName="Username" />
+					)}
 
-				<AuthFormInput fieldName="Password" />
+					<AuthFormInput fieldName="Password" />
 
-				<AuthFormSubmitButton authMethod={authMethod} />
-			</form>
-		</div>
+					<AuthFormSubmitButton authMethod={authMethod} />
+				</form>
+			</div>
+
+			<ErrorAlert onClose={closeAlert} visible={visible} errorSummary="The following errors occured during authentication" errors={generalErrors} />
+		</>
 	);
 }
 
