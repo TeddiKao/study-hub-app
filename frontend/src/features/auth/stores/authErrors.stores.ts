@@ -1,6 +1,6 @@
-import { useAlertVisibleStore } from "@/shared/stores/alerts.stores";
+import { createAlertVisibleStore } from "@/shared/stores/alerts.stores";
 
-const useSignupAlertVisibleStore = useAlertVisibleStore();
-const useLoginAlertVisibleStore = useAlertVisibleStore();
+const useSignupAlertVisibleStore = createAlertVisibleStore();
+const useLoginAlertVisibleStore = createAlertVisibleStore();
 
 export { useSignupAlertVisibleStore, useLoginAlertVisibleStore }

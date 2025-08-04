@@ -12,6 +12,4 @@ const createAlertVisibleStore = () => create<AlertVisibleStore>((set) => ({
     showAlert: () => set({ visible: true })
 }))
 
-const useAlertVisibleStore = createAlertVisibleStore();
-
-export { useAlertVisibleStore }
+export { createAlertVisibleStore }

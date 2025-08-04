@@ -11,7 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import formatErrorMessage from "../utils/authErrors";
 import ErrorAlert from "@/shared/components/alerts/ErrorAlert";
-import { useAlertVisibleStore } from "@/shared/stores/alerts.stores";
+import { useLoginAlertVisibleStore, useSignupAlertVisibleStore } from "../stores/authErrors.stores";
 
 interface AuthFormProps {
 	authMethod: "Login" | "Sign up";
@@ -114,7 +114,8 @@ function AuthForm({ authMethod }: AuthFormProps) {
 	const { email, username, password, clearAllFields, clearPassword } =
 		useAuthCredentialsStore((state) => state);
 	const { updateErrors, general: generalErrors } = useAuthErrorsStore();
-	const { visible, closeAlert, showAlert } = useAlertVisibleStore();
+	const { visible: signupAlertVisible, closeAlert: closeSignupAlert, showAlert: showSignupAlert } = useSignupAlertVisibleStore();
+	const { visible: loginAlertVisible, closeAlert: closeLoginAlert, showAlert: showLoginAlert } = useLoginAlertVisibleStore();
 
 	const hideAlertTimeoutRef = useRef<NodeJS.Timeout>(null);
 
@@ -129,6 +130,10 @@ function AuthForm({ authMethod }: AuthFormProps) {
 			}
 		};
 	}, [clearAllFields]);
+
+	const visible = authMethod === "Sign up" ? signupAlertVisible : loginAlertVisible;
+	const closeAlert = authMethod === "Sign up" ? closeSignupAlert : closeLoginAlert
+	const showAlert = authMethod === "Sign up" ? showSignupAlert : showLoginAlert
 
 	function handleHideAlertTimeoutSetup() {
 		hideAlertTimeoutRef.current = setTimeout(() => {
