@@ -1,4 +1,4 @@
-import { useEffect, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useRef, type ChangeEvent, type FormEvent } from "react";
 import {
 	useAuthCredentialsStore,
 	useAuthErrorsStore,
@@ -127,6 +127,8 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		showAlert: showLoginAlert,
 	} = useLoginErrorAlertVisibleStore();
 
+	const hideAlertTimeoutRef = useRef<NodeJS.Timeout>(null);
+
 	const visible = authMethod === "Login" ? loginAlertVisible : signupAlertVisible
 	const closeAlert = authMethod === "Login" ? closeLoginAlert : closeSignupAlert
 	const showAlert = authMethod === "Login" ? showLoginAlert : showSignupAlert
@@ -136,8 +138,18 @@ function AuthForm({ authMethod }: AuthFormProps) {
 	useEffect(() => {
 		return () => {
 			clearAllFields();
+
+			if (hideAlertTimeoutRef.current) {
+				clearTimeout(hideAlertTimeoutRef.current)
+			}
 		};
 	}, []);
+
+	function handleHideAlertTimeoutSetup() {
+		hideAlertTimeoutRef.current = setTimeout(() => {
+			closeAlert();
+		}, 3000)
+	}
 
 	async function handleSignup() {
 		const response = await handleUserCreation({
@@ -151,6 +163,7 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		if (!response.success) {
 			updateErrors(response.error);
 			showAlert();
+			handleHideAlertTimeoutSetup();
 
 			return;
 		}
@@ -163,10 +176,10 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		clearPassword();
 
 		if (!response.success) {
-			console.log(response.error);
 			updateErrors(response.error);
 			
 			showAlert();
+			handleHideAlertTimeoutSetup();
 
 			return;
 		}
