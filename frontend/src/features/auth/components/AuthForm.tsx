@@ -145,10 +145,13 @@ function AuthForm({ authMethod }: AuthFormProps) {
 			username,
 			password,
 		});
+
 		clearPassword();
 
 		if (!response.success) {
 			updateErrors(response.error);
+			showAlert();
+
 			return;
 		}
 
@@ -162,6 +165,9 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		if (!response.success) {
 			console.log(response.error);
 			updateErrors(response.error);
+			
+			showAlert();
+
 			return;
 		}
 
