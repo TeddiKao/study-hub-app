@@ -53,6 +53,10 @@ function CloseButton({ onClose }: CloseButtonProps) {
 	);
 }
 
+function ErrorAlertIcon() {
+	return <img src={errorIcon} alt="Error icon" />
+}
+
 function ErrorAlert({
 	errorSummary,
 	errors,
@@ -63,7 +67,7 @@ function ErrorAlert({
 
 	return (
 		<div className="flex flex-row items-center fixed bottom-6 right-6 rounded-xl bg-red-500 w-max pl-2 pr-3 pt-3 pb-3">
-			<img src={errorIcon} alt="Error icon" />
+			<ErrorAlertIcon />
 			<ErrorsList errorSummary={errorSummary} errors={errors} />
 			<CloseButton onClose={onClose} />
 		</div>
