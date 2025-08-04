@@ -39,8 +39,8 @@ interface AuthFieldMap {
 function ErrorMessages({ errorMessages }: ErrorMessagesProps) {
 	return (
 		<div className="flex flex-col">
-			{errorMessages.map((errorMessage, index) => (
-				<p className="text-red-500 mt-1" key={index}>
+			{errorMessages.map((errorMessage) => (
+				<p className="text-red-500 mt-1" key={errorMessage}>
 					{formatErrorMessage(errorMessage)}
 				</p>
 			))}
