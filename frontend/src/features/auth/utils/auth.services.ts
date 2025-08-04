@@ -64,7 +64,7 @@ async function handleUserLogin(
 			return {
 				success: false,
 				error: {
-					general: error.response.data["detail"] ?? [],
+					general: error.response.data["detail"] ? [error.response.data["detail"]] : [],
 					fields: { email: [], username: [], password: [] },
 				},
 			};
