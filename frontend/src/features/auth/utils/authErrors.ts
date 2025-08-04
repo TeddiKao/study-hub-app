@@ -1,7 +1,7 @@
-import { authFieldErrorsMap } from "../constants/authErrors.constants";
+import { authFieldErrorsMap, DEFAULT_ERROR_MESSAGE } from "../constants/authErrors.constants";
 
 function formatErrorMessage(rawErrorMessage: string) {
-	return authFieldErrorsMap[rawErrorMessage];
+	return authFieldErrorsMap[rawErrorMessage] ?? DEFAULT_ERROR_MESSAGE;
 }
 
 export default formatErrorMessage;
