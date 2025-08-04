@@ -5,6 +5,6 @@ const authFieldErrorsMap: Record<string, string> = {
 		"An account with this username already exists",
 };
 
-const DEFAULT_ERROR_MESSAGE = "An error occurred. Please try again."
+const DEFAULT_ERROR_MESSAGE = "An error occurred. Please try again.";
 
 export { authFieldErrorsMap, DEFAULT_ERROR_MESSAGE };
