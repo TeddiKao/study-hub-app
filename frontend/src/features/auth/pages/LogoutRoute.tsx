@@ -1,5 +1,8 @@
 import { Navigate } from "react-router-dom";
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants";
+import {
+	ACCESS_TOKEN_KEY,
+	REFRESH_TOKEN_KEY,
+} from "../constants/tokenKeys.constants";
 import { useEffect } from "react";
 
 function LogoutRoute() {

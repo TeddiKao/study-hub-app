@@ -1,5 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants";
+import {
+	ACCESS_TOKEN_KEY,
+	REFRESH_TOKEN_KEY,
+} from "../constants/tokenKeys.constants";
 import { jwtDecode } from "jwt-decode";
 import api from "@/app/api";
 import { Navigate } from "react-router-dom";

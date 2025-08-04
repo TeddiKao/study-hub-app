@@ -1,8 +1,17 @@
-import { useEffect, type ChangeEvent, type FormEvent } from "react";
-import { useAuthCredentialsStore } from "../stores/authForm.stores";
+import { useEffect, useRef, type ChangeEvent, type FormEvent } from "react";
+import {
+	useAuthCredentialsStore,
+	useAuthErrorsStore,
+} from "../stores/authForm.stores";
 import { handleUserCreation, handleUserLogin } from "../utils/auth.services";
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../constants";
+import {
+	ACCESS_TOKEN_KEY,
+	REFRESH_TOKEN_KEY,
+} from "../constants/tokenKeys.constants";
 import { useNavigate } from "react-router-dom";
+import formatErrorMessage from "../utils/authErrors";
+import ErrorAlert from "@/shared/components/alerts/ErrorAlert";
+import { useLoginAlertVisibleStore, useSignupAlertVisibleStore } from "../stores/authErrors.stores";
 
 interface AuthFormProps {
 	authMethod: "Login" | "Sign up";
@@ -15,12 +24,28 @@ interface AuthFormInputProps {
 	fieldName: string;
 }
 
-type AuthFieldsLower = "email" | "username" | 'password'
+interface ErrorMessagesProps {
+	errorMessages: string[];
+}
+
+type AuthFieldsLower = "email" | "username" | "password";
 
 interface AuthFieldMap {
-	email: { value: string, setter: (newEmail: string) => void }
-	username: { value: string, setter: (newUsername: string) => void },
-	password: { value: string, setter: (newPassword: string) => void }
+	email: { value: string; setter: (newEmail: string) => void };
+	username: { value: string; setter: (newUsername: string) => void };
+	password: { value: string; setter: (newPassword: string) => void };
+}
+
+function ErrorMessages({ errorMessages }: ErrorMessagesProps) {
+	return (
+		<div className="flex flex-col">
+			{errorMessages.map((errorMessage) => (
+				<p className="text-red-500 mt-1" key={errorMessage}>
+					{formatErrorMessage(errorMessage)}
+				</p>
+			))}
+		</div>
+	);
 }
 
 function AuthFormInput({ fieldName }: AuthFormInputProps) {
@@ -36,19 +61,23 @@ function AuthFormInput({ fieldName }: AuthFormInputProps) {
 		updatePassword,
 	} = useAuthCredentialsStore((state) => state);
 
-	const fieldMap: AuthFieldMap = {
-		email: { value: email,  setter: updateEmail },
-		username: { value: username, setter: updateUsername },
-		password: { value: password, setter: updatePassword }
-	}
+	const { fields: errorFields } = useAuthErrorsStore((state) => state);
 
-	const field = fieldMap[fieldName.toLowerCase() as AuthFieldsLower]
+	const fieldMap: AuthFieldMap = {
+		email: { value: email, setter: updateEmail },
+		username: { value: username, setter: updateUsername },
+		password: { value: password, setter: updatePassword },
+	};
+
+	const field = fieldMap[fieldName.toLowerCase() as AuthFieldsLower];
 	const fieldValue = field["value"];
 	const fieldSetter = field["setter"];
-	
+
+	const errors = errorFields[fieldName.toLowerCase() as AuthFieldsLower];
+
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		fieldSetter(e.target.value);
-	}
+	};
 
 	return (
 		<div className="flex flex-col mb-3">
@@ -60,6 +89,7 @@ function AuthFormInput({ fieldName }: AuthFormInputProps) {
 				value={fieldValue}
 				onChange={handleChange}
 			/>
+			<ErrorMessages errorMessages={errors} />
 		</div>
 	);
 }
@@ -81,21 +111,50 @@ function AuthFormSubmitButton({ authMethod }: AuthFormSubmitButtonProps) {
 }
 
 function AuthForm({ authMethod }: AuthFormProps) {
-	const { email, username, password, clearAllFields, clearPassword } = useAuthCredentialsStore((state) => state);
+	const { email, username, password, clearAllFields, clearPassword } =
+		useAuthCredentialsStore((state) => state);
+	const { updateErrors, general: generalErrors } = useAuthErrorsStore();
+	const { visible: signupAlertVisible, closeAlert: closeSignupAlert, showAlert: showSignupAlert } = useSignupAlertVisibleStore();
+	const { visible: loginAlertVisible, closeAlert: closeLoginAlert, showAlert: showLoginAlert } = useLoginAlertVisibleStore();
+
+	const hideAlertTimeoutRef = useRef<NodeJS.Timeout>(null);
+
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		return () => {
 			clearAllFields();
-		}
-	}, []);
+
+			if (hideAlertTimeoutRef.current) {
+				clearTimeout(hideAlertTimeoutRef.current)
+			}
+		};
+	}, [clearAllFields]);
+
+	const visible = authMethod === "Sign up" ? signupAlertVisible : loginAlertVisible;
+	const closeAlert = authMethod === "Sign up" ? closeSignupAlert : closeLoginAlert
+	const showAlert = authMethod === "Sign up" ? showSignupAlert : showLoginAlert
+
+	function handleHideAlertTimeoutSetup() {
+		hideAlertTimeoutRef.current = setTimeout(() => {
+			closeAlert();
+		}, 3000)
+	}
 
 	async function handleSignup() {
-		const response = await handleUserCreation({ email, username, password })
+		const response = await handleUserCreation({
+			email,
+			username,
+			password,
+		});
+
 		clearPassword();
 
 		if (!response.success) {
-			console.error(response.error)
+			updateErrors(response.error);
+			showAlert();
+			handleHideAlertTimeoutSetup();
+
 			return;
 		}
 
@@ -107,7 +166,11 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		clearPassword();
 
 		if (!response.success) {
-			console.error(response.error)
+			updateErrors(response.error);
+			
+			showAlert();
+			handleHideAlertTimeoutSetup();
+
 			return;
 		}
 
@@ -128,24 +191,33 @@ function AuthForm({ authMethod }: AuthFormProps) {
 	}
 
 	return (
-		<div className="flex flex-col items-center justify-center h-full">
-			<form
-				className="rounded-md bg-white flex flex-col w-full max-w-md pl-3 pr-3 pt-3 pb-3 shadow-xl"
-				onSubmit={handleFormSubmit}
-			>
-				<AuthFormHeading authMethod={authMethod} />
+		<>
+			<div className="flex flex-col items-center justify-center h-full">
+				<form
+					className="rounded-md bg-white flex flex-col w-full max-w-md pl-3 pr-3 pt-3 pb-3 shadow-xl"
+					onSubmit={handleFormSubmit}
+				>
+					<AuthFormHeading authMethod={authMethod} />
 
-				<AuthFormInput fieldName="Email" />
+					<AuthFormInput fieldName="Email" />
 
-				{authMethod === "Sign up" && (
-					<AuthFormInput fieldName="Username" />
-				)}
+					{authMethod === "Sign up" && (
+						<AuthFormInput fieldName="Username" />
+					)}
 
-				<AuthFormInput fieldName="Password" />
+					<AuthFormInput fieldName="Password" />
 
-				<AuthFormSubmitButton authMethod={authMethod} />
-			</form>
-		</div>
+					<AuthFormSubmitButton authMethod={authMethod} />
+				</form>
+			</div>
+
+			<ErrorAlert
+				onClose={closeAlert}
+				visible={visible}
+				errorSummary="The following errors occurred during authentication"
+				errors={generalErrors}
+			/>
+		</>
 	);
 }
 
