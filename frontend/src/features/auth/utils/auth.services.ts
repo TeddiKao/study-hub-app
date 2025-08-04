@@ -54,7 +54,7 @@ async function handleUserLogin(
 			return {
 				success: false,
 				error: {
-					general: ["An unexpected error occured"],
+					general: ["An unexpected error occurred"],
 					fields: { email: [], username: [], password: [] },
 				},
 			};
@@ -73,7 +73,7 @@ async function handleUserLogin(
 		return {
 			success: false,
 			error: {
-				general: ["An unexpected error occured"],
+				general: ["An unexpected error occurred"],
 				fields: { email: [], username: [], password: [] },
 			},
 		};
@@ -94,7 +94,7 @@ async function handleUserCreation(
 			return {
 				success: false,
 				error: {
-					general: ["An unexpected error occured"],
+					general: ["An unexpected error occurred"],
 					fields: { email: [], username: [], password: [] },
 				},
 			};
@@ -117,7 +117,7 @@ async function handleUserCreation(
 		return {
 			success: false,
 			error: {
-				general: ["An unexpected error occured"],
+				general: ["An unexpected error occurred"],
 				fields: { email: [], username: [], password: [] },
 			},
 		};
