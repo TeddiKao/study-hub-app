@@ -143,7 +143,7 @@ function AuthForm({ authMethod }: AuthFormProps) {
 				clearTimeout(hideAlertTimeoutRef.current)
 			}
 		};
-	}, []);
+	}, [clearAllFields]);
 
 	function handleHideAlertTimeoutSetup() {
 		hideAlertTimeoutRef.current = setTimeout(() => {
