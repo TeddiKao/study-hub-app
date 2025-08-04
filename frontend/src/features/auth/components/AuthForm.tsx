@@ -193,6 +193,10 @@ function AuthForm({ authMethod }: AuthFormProps) {
 	async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
+		if (isLoading) {
+			return;
+		}
+
 		if (authMethod === "Login") {
 			await handleLogin();
 		} else {
