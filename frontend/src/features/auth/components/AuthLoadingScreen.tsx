@@ -11,11 +11,13 @@ function AuthLoadingScreen({ visible, authMethod }: AuthLoadingScreenProps) {
 
 	return (
 		<>
-			<div className="flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white">
+			<div className="flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 fixed z-50 bg-white">
 				<h3 className="text-xl font-semibold">
 					{loadingScreenActionMap[authMethod]}
 				</h3>
 			</div>
+
+			<div className="fixed top-0 bottom-0 left-0 right-0 opacity-95 bg-gray-950"></div>
 		</>
 	);
 }
