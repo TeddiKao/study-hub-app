@@ -1,7 +1,7 @@
 import { cn } from "@/shared/utils/cn";
 
 interface LoadingSpinnerProps {
-	className: string;
+	className?: string;
 	width: number;
 	height: number;
 }
