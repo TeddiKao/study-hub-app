@@ -22,7 +22,7 @@ function AuthLoadingScreen({ visible, authMethod }: AuthLoadingScreenProps) {
 				<p className="mt-2">Please wait</p>
 			</div>
 
-			<div className="fixed top-0 bottom-0 left-0 right-0 opacity-95 bg-gray-950"></div>
+			<div className="fixed top-0 bottom-0 left-0 right-0 opacity-95 bg-gray-950 z-40"></div>
 		</>
 	);
 }
