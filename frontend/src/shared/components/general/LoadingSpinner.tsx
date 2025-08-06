@@ -6,7 +6,7 @@ interface LoadingSpinnerProps {
 	height: number;
 }
 
-function LoadingSpinner({ className, height, width }: LoadingSpinnerProps) {
+function LoadingSpinner({ className = "", height, width }: LoadingSpinnerProps) {
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
