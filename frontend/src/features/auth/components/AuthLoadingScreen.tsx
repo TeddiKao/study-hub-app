@@ -18,7 +18,7 @@ function AuthLoadingScreen({ visible, authMethod }: AuthLoadingScreenProps) {
 				aria-labelledby="loading-title"
 				className="flex flex-col items-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 fixed z-50 bg-white p-5 rounded-lg"
 			>
-				<h3 className="text-xl font-semibold">
+				<h3 id="loading-title" className="text-xl font-semibold">
 					{loadingScreenActionMap[authMethod]}
 				</h3>
 
