@@ -13,9 +13,10 @@ import { useNavigate } from "react-router-dom";
 import formatErrorMessage from "../utils/authErrors";
 import ErrorAlert from "@/shared/components/alerts/ErrorAlert";
 import { useLoginAlertVisibleStore, useSignupAlertVisibleStore } from "../stores/authErrors.stores";
+import type { AuthMethods } from "../types/auth.types";
 
 interface AuthFormProps {
-	authMethod: "Login" | "Sign up";
+	authMethod: AuthMethods;
 }
 
 interface AuthFormHeadingProps extends AuthFormProps {}
