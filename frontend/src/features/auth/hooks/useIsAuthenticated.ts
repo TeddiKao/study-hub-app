@@ -5,11 +5,19 @@ import {
 	ACCESS_TOKEN_KEY,
 } from "../constants/tokenKeys.constants";
 import { handleTokenRefresh } from "../utils/authTokens.services";
+import { useAuthTokensStore } from "../stores/authTokens.stores";
 
 function useIsAuthenticated() {
 	const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
 		null
 	);
+	const {
+		accessToken,
+		refreshToken,
+		updateAccessToken,
+		updateRefreshToken,
+		clearTokens,
+	} = useAuthTokensStore();
 
 	useEffect(() => {
 		auth().catch(() => {
@@ -64,7 +72,6 @@ function useIsAuthenticated() {
 			localStorage.setItem(ACCESS_TOKEN_KEY, access);
 
 			setIsAuthenticated(true);
-
 		} else {
 			setIsAuthenticated(true);
 		}
