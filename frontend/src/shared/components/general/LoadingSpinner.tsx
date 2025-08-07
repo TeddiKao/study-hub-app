@@ -10,8 +10,8 @@ function LoadingSpinner({ className = "", height, width }: LoadingSpinnerProps) 
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
-			width={width.toString()}
-			height={height.toString()}
+			width={width}
+			height={height}
 			viewBox="0 0 24 24"
 			fill="none"
 			stroke="currentColor"
