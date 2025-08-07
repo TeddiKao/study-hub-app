@@ -5,6 +5,7 @@ import {
 	REFRESH_TOKEN_KEY,
 	ACCESS_TOKEN_KEY,
 } from "../constants/tokenKeys.constants";
+import { handleTokenRefresh } from "../utils/authTokens.services";
 
 function useIsAuthenticated() {
 	const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
@@ -16,28 +17,6 @@ function useIsAuthenticated() {
 			setIsAuthenticated(false);
 		});
 	}, []);
-
-	const handleTokenRefresh = async () => {
-		const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
-		if (!refreshToken) {
-			return;
-		}
-
-		try {
-			const response = await api.post("auth/token/refresh/", {
-				refresh: refreshToken,
-			});
-
-			localStorage.setItem(ACCESS_TOKEN_KEY, response.data.access);
-			setIsAuthenticated(true);
-		} catch (error) {
-			console.error(error);
-			setIsAuthenticated(false);
-
-			localStorage.removeItem(ACCESS_TOKEN_KEY);
-			localStorage.removeItem(REFRESH_TOKEN_KEY);
-		}
-	};
 
 	const auth = async () => {
 		const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
