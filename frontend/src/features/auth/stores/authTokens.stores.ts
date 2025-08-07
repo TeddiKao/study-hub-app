@@ -5,8 +5,8 @@ interface AuthTokensStore {
 	accessToken: string | null;
 	refreshToken: string | null;
 
-	updateAccessToken: (newAccessToken: string) => void;
-	updateRefreshToken: (newRefreshToken: string) => void;
+	updateAccessToken: (newAccessToken: string, onError?: () => void) => void;
+	updateRefreshToken: (newRefreshToken: strin, onError?: () => void) => void;
 
 	removeAccessToken: () => void;
 	removeRefreshToken: () => void;
@@ -20,11 +20,25 @@ const useAuthTokensStore = create<AuthTokensStore>()(
 			accessToken: null,
 			refreshToken: null,
 
-			updateAccessToken: (newAccessToken: string) =>
-				set({ accessToken: newAccessToken }),
+			updateAccessToken: (newAccessToken: string, onError) => {
+                try {
+                    set({ accessToken: newAccessToken })
+                } catch (error) {
+                    if (onError) {
+                        onError();
+                    }
+                }
+            },
 
-			updateRefreshToken: (newRefreshToken: string) =>
-				set({ refreshToken: newRefreshToken }),
+			updateRefreshToken: (newRefreshToken: string, onError) => {
+                try {
+                    set({ refreshToken: newRefreshToken })
+                } catch (error) {
+                    if (onError) {
+                        onError();
+                    }
+                }
+            },
 
 			removeAccessToken: () => set({ accessToken: null }),
 
