@@ -1,10 +1,23 @@
 import api from "@/app/api";
-import { REFRESH_TOKEN_KEY, ACCESS_TOKEN_KEY } from "../constants/tokenKeys.constants";
+import { REFRESH_TOKEN_KEY } from "../constants/tokenKeys.constants";
 
-async function handleTokenRefresh() {
+interface TokenRefreshEndpointSuccessResponse {
+	success: true,
+	access: string,
+}
+
+interface TokenRefreshEndpointErrorResponse {
+	success: false,
+	error: string
+}
+
+async function handleTokenRefresh(): Promise<TokenRefreshEndpointSuccessResponse | TokenRefreshEndpointErrorResponse> {
 	const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
 	if (!refreshToken) {
-		return;
+		return {
+			success: false,
+			error: "Refresh token not found"
+		};
 	}
 
 	try {
@@ -12,12 +25,17 @@ async function handleTokenRefresh() {
 			refresh: refreshToken,
 		});
 
-		localStorage.setItem(ACCESS_TOKEN_KEY, response.data.access);
+		return {
+			success: true,
+			access: response.data.access
+		}
 	} catch (error) {
 		console.error(error);
 
-		localStorage.removeItem(ACCESS_TOKEN_KEY);
-		localStorage.removeItem(REFRESH_TOKEN_KEY);
+		return {
+			success: false,
+			error: "Token refresh failed"
+		}
 	}
 }
 
