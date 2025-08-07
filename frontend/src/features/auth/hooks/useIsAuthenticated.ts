@@ -65,3 +65,5 @@ function useIsAuthenticated() {
 
     return isAuthenticated;
 }
+
+export default useIsAuthenticated
