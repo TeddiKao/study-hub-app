@@ -14,6 +14,7 @@ import formatErrorMessage from "../utils/authErrors";
 import ErrorAlert from "@/shared/components/alerts/ErrorAlert";
 import { useLoginAlertVisibleStore, useSignupAlertVisibleStore } from "../stores/authErrors.stores";
 import type { AuthMethods } from "../types/auth.types";
+import AuthLoadingScreen from "./AuthLoadingScreen";
 
 interface AuthFormProps {
 	authMethod: AuthMethods;
@@ -232,6 +233,8 @@ function AuthForm({ authMethod }: AuthFormProps) {
 				errorSummary="The following errors occurred during authentication"
 				errors={generalErrors}
 			/>
+
+			<AuthLoadingScreen visible={isLoading} authMethod={authMethod} />
 		</>
 	);
 }
