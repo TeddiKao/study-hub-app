@@ -1,7 +1,6 @@
 import LoadingSpinner from "@/shared/components/general/LoadingSpinner";
 import { loadingScreenActionMap } from "../constants/authLoadingScreen.constants";
 import type { AuthMethod } from "../types/auth.types";
-import ReactDOM from "react-dom";
 import BaseModal from "@/shared/components/wrappers/BaseModal";
 
 interface AuthLoadingScreenProps {
