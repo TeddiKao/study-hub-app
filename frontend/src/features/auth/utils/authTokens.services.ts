@@ -1,15 +1,6 @@
 import api from "@/app/api";
 import { REFRESH_TOKEN_KEY } from "../constants/tokenKeys.constants";
-
-interface TokenRefreshEndpointSuccessResponse {
-	success: true,
-	access: string,
-}
-
-interface TokenRefreshEndpointErrorResponse {
-	success: false,
-	error: string
-}
+import type { TokenRefreshEndpointSuccessResponse, TokenRefreshEndpointErrorResponse } from "../types/api/tokens.types";
 
 async function handleTokenRefresh(): Promise<TokenRefreshEndpointSuccessResponse | TokenRefreshEndpointErrorResponse> {
 	const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);

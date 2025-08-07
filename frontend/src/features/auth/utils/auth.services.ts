@@ -1,40 +1,8 @@
 import api from "@/app/api";
 import { AxiosError } from "axios";
-
-interface UserLoginPayload {
-	email: string;
-	password: string;
-}
-
-interface UserSignupPayload {
-	email: string;
-	username: string;
-	password: string;
-}
-
-interface UserLoginEndpointResponse {
-	success: true;
-	accessToken: string;
-	refreshToken: string;
-}
-
-interface UserCreationEndpointResponse {
-	success: true;
-}
-
-interface AuthError {
-	general: string[];
-	fields: {
-		email: string[];
-		username: string[];
-		password: string[];
-	};
-}
-
-interface AuthErrorResponse {
-	success: false;
-	error: AuthError;
-}
+import type { AuthErrorResponse } from "../types/api/authErrors.types";
+import type { UserSignupPayload, UserCreationEndpointResponse } from "../types/api/userCreation.types";
+import type { UserLoginPayload, UserLoginEndpointResponse } from "../types/api/userLogin.types";
 
 async function handleUserLogin(
 	authCredentials: UserLoginPayload
