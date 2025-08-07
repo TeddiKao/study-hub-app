@@ -228,6 +228,9 @@ function AuthForm({ authMethod }: AuthFormProps) {
 			return;
 		}
 
+		updateAccessToken(response.accessToken, handleTokenUpdateError)
+		updateRefreshToken(response.refreshToken, handleTokenUpdateError)
+
 		navigate("/home");
 	}
 
