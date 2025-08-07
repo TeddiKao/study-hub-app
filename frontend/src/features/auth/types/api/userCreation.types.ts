@@ -7,3 +7,5 @@ interface UserSignupPayload {
 interface UserCreationEndpointResponse {
 	success: true;
 }
+
+export type { UserSignupPayload, UserCreationEndpointResponse }
