@@ -5,10 +5,6 @@ import {
 	useAuthStatusStore,
 } from "../stores/authForm.stores";
 import { handleUserCreation, handleUserLogin } from "../utils/auth.services";
-import {
-	ACCESS_TOKEN_KEY,
-	REFRESH_TOKEN_KEY,
-} from "../constants/tokenKeys.constants";
 import { useNavigate } from "react-router-dom";
 import formatErrorMessage from "../utils/authErrors";
 import ErrorAlert from "@/shared/components/alerts/ErrorAlert";
