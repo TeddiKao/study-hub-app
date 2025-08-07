@@ -12,7 +12,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import formatErrorMessage from "../utils/authErrors";
 import ErrorAlert from "@/shared/components/alerts/ErrorAlert";
-import { useLoginAlertVisibleStore, useSignupAlertVisibleStore } from "../stores/authErrors.stores";
+import {
+	useLoginAlertVisibleStore,
+	useSignupAlertVisibleStore,
+} from "../stores/authErrors.stores";
 import type { AuthMethod } from "../types/auth.types";
 import AuthLoadingScreen from "./AuthLoadingScreen";
 
@@ -119,8 +122,16 @@ function AuthForm({ authMethod }: AuthFormProps) {
 	const { updateErrors, general: generalErrors } = useAuthErrorsStore();
 	const { isLoading, startLoading, stopLoading } = useAuthStatusStore();
 
-	const { visible: signupAlertVisible, closeAlert: closeSignupAlert, showAlert: showSignupAlert } = useSignupAlertVisibleStore();
-	const { visible: loginAlertVisible, closeAlert: closeLoginAlert, showAlert: showLoginAlert } = useLoginAlertVisibleStore();
+	const {
+		visible: signupAlertVisible,
+		closeAlert: closeSignupAlert,
+		showAlert: showSignupAlert,
+	} = useSignupAlertVisibleStore();
+	const {
+		visible: loginAlertVisible,
+		closeAlert: closeLoginAlert,
+		showAlert: showLoginAlert,
+	} = useLoginAlertVisibleStore();
 
 	const hideAlertTimeoutRef = useRef<NodeJS.Timeout>(null);
 
@@ -131,19 +142,22 @@ function AuthForm({ authMethod }: AuthFormProps) {
 			clearAllFields();
 
 			if (hideAlertTimeoutRef.current) {
-				clearTimeout(hideAlertTimeoutRef.current)
+				clearTimeout(hideAlertTimeoutRef.current);
 			}
 		};
 	}, [clearAllFields]);
 
-	const visible = authMethod === "Sign up" ? signupAlertVisible : loginAlertVisible;
-	const closeAlert = authMethod === "Sign up" ? closeSignupAlert : closeLoginAlert
-	const showAlert = authMethod === "Sign up" ? showSignupAlert : showLoginAlert
+	const visible =
+		authMethod === "Sign up" ? signupAlertVisible : loginAlertVisible;
+	const closeAlert =
+		authMethod === "Sign up" ? closeSignupAlert : closeLoginAlert;
+	const showAlert =
+		authMethod === "Sign up" ? showSignupAlert : showLoginAlert;
 
 	function handleHideAlertTimeoutSetup() {
 		hideAlertTimeoutRef.current = setTimeout(() => {
 			closeAlert();
-		}, 3000)
+		}, 3000);
 	}
 
 	async function handleSignup() {
@@ -173,17 +187,29 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		startLoading();
 
 		const response = await handleUserLogin({ email, password });
-		
+
 		stopLoading();
 		clearPassword();
 
 		if (!response.success) {
 			updateErrors(response.error);
-			
+
 			showAlert();
 			handleHideAlertTimeoutSetup();
 
 			return;
+		}
+
+		if (!response.accessToken || !response.refreshToken) {
+			console.error("Invalid response from server");
+
+			updateErrors({
+				general: ["Authentication failed. Please try again."],
+				fields: { email: [], username: [], password: [] },
+			});
+			
+			showAlert();
+			handleHideAlertTimeoutSetup();
 		}
 
 		localStorage.setItem(ACCESS_TOKEN_KEY, response.accessToken);
