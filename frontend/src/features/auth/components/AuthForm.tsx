@@ -207,13 +207,25 @@ function AuthForm({ authMethod }: AuthFormProps) {
 				general: ["Authentication failed. Please try again."],
 				fields: { email: [], username: [], password: [] },
 			});
-			
+
 			showAlert();
 			handleHideAlertTimeoutSetup();
 		}
 
-		localStorage.setItem(ACCESS_TOKEN_KEY, response.accessToken);
-		localStorage.setItem(REFRESH_TOKEN_KEY, response.refreshToken);
+		try {
+			localStorage.setItem(ACCESS_TOKEN_KEY, response.accessToken);
+			localStorage.setItem(REFRESH_TOKEN_KEY, response.refreshToken);
+		} catch (error) {
+			updateErrors({
+				general: ["Failed to save auth tokens. Please try again"],
+				fields: { email: [], username: [], password: [] },
+			});
+
+			showAlert();
+			handleHideAlertTimeoutSetup();
+
+			return;
+		}
 
 		navigate("/home");
 	}
