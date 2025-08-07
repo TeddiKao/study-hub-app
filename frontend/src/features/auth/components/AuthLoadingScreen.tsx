@@ -30,7 +30,7 @@ function AuthLoadingScreen({ visible, authMethod }: AuthLoadingScreenProps) {
 
 			<div className="fixed top-0 bottom-0 left-0 right-0 opacity-95 bg-gray-950 z-40"></div>
 		</>,
-		document.getElementById("portal")!
+		document.getElementById("portal") ?? document.body
 	);
 }
 
