@@ -210,6 +210,8 @@ function AuthForm({ authMethod }: AuthFormProps) {
 
 			showAlert();
 			handleHideAlertTimeoutSetup();
+
+			return;
 		}
 
 		try {
