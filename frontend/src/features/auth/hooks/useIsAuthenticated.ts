@@ -1,10 +1,13 @@
 import api from "@/app/api";
 import { jwtDecode } from "jwt-decode";
 import { useState, useEffect } from "react";
-import { REFRESH_TOKEN_KEY, ACCESS_TOKEN_KEY } from "../constants/tokenKeys.constants";
+import {
+	REFRESH_TOKEN_KEY,
+	ACCESS_TOKEN_KEY,
+} from "../constants/tokenKeys.constants";
 
 function useIsAuthenticated() {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
+	const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
 		null
 	);
 
@@ -44,8 +47,17 @@ function useIsAuthenticated() {
 			return;
 		}
 
-		const decodedToken = jwtDecode(accessToken);
-		const tokenExpiration = decodedToken.exp;
+		let tokenExpiration;
+
+		try {
+			const decodedToken = jwtDecode(accessToken);
+			tokenExpiration = decodedToken.exp;
+		} catch (error) {
+			localStorage.removeItem(ACCESS_TOKEN_KEY);
+			localStorage.removeItem(REFRESH_TOKEN_KEY);
+
+			setIsAuthenticated(false);
+		}
 
 		if (!tokenExpiration) {
 			setIsAuthenticated(false);
@@ -63,7 +75,7 @@ function useIsAuthenticated() {
 		}
 	};
 
-    return isAuthenticated;
+	return isAuthenticated;
 }
 
-export default useIsAuthenticated
+export default useIsAuthenticated;
