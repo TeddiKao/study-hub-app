@@ -48,7 +48,21 @@ function useIsAuthenticated() {
 		const isExpired = tokenExpiration < now;
 
 		if (isExpired) {
-			await handleTokenRefresh();
+			const response = await handleTokenRefresh();
+			if (!response.success) {
+				localStorage.removeItem(ACCESS_TOKEN_KEY);
+				localStorage.removeItem(REFRESH_TOKEN_KEY);
+
+				setIsAuthenticated(false);
+
+				return;
+			}
+
+			const { access } = response;
+			localStorage.setItem(ACCESS_TOKEN_KEY, access);
+
+			setIsAuthenticated(true);
+
 		} else {
 			setIsAuthenticated(true);
 		}
