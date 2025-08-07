@@ -1,8 +1,8 @@
-import type { AuthMethods } from "../types/auth.types"
+import type { AuthMethod } from "../types/auth.types";
 
-const loadingScreenActionMap: Record<AuthMethods, string> = {
-    "Login": "Logging in",
-    "Sign up": "Signing up"
-}
+const loadingScreenActionMap: Record<AuthMethod, string> = {
+	Login: "Logging in",
+	"Sign up": "Signing up",
+};
 
-export { loadingScreenActionMap }
+export { loadingScreenActionMap };

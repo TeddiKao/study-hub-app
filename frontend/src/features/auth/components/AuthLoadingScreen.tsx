@@ -1,11 +1,11 @@
 import LoadingSpinner from "@/shared/components/general/LoadingSpinner";
 import { loadingScreenActionMap } from "../constants/authLoadingScreen.constants";
-import type { AuthMethods } from "../types/auth.types";
+import type { AuthMethod } from "../types/auth.types";
 import ReactDOM from "react-dom";
 
 interface AuthLoadingScreenProps {
 	visible: boolean;
-	authMethod: AuthMethods;
+	authMethod: AuthMethod;
 }
 
 function AuthLoadingScreen({ visible, authMethod }: AuthLoadingScreenProps) {

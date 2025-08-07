@@ -1,3 +1,3 @@
-type AuthMethods = "Login" | "Sign up"
+type AuthMethod = "Login" | "Sign up"
 
-export type { AuthMethods }
+export type { AuthMethod }
