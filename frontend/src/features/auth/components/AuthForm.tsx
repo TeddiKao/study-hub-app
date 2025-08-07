@@ -123,8 +123,7 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		useAuthCredentialsStore((state) => state);
 	const { updateErrors, general: generalErrors } = useAuthErrorsStore();
 	const { isLoading, startLoading, stopLoading } = useAuthStatusStore();
-	const { accessToken, refreshToken, updateAccessToken, updateRefreshToken } =
-		useAuthTokensStore();
+	const { updateAccessToken, updateRefreshToken } = useAuthTokensStore();
 
 	const {
 		visible: signupAlertVisible,
@@ -228,8 +227,8 @@ function AuthForm({ authMethod }: AuthFormProps) {
 			return;
 		}
 
-		updateAccessToken(response.accessToken, handleTokenUpdateError)
-		updateRefreshToken(response.refreshToken, handleTokenUpdateError)
+		updateAccessToken(response.accessToken, handleTokenUpdateError);
+		updateRefreshToken(response.refreshToken, handleTokenUpdateError);
 
 		navigate("/home");
 	}
