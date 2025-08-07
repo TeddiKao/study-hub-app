@@ -14,7 +14,7 @@ function BaseModal({
 	ariaLabelledBy,
 	includeOverlay = true,
 }: BaseModalProps) {
-	if (!visible) return;
+	if (!visible) return null;
 
 	return ReactDOM.createPortal(
 		<>
