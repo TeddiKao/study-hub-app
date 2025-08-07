@@ -1,6 +1,7 @@
 import LoadingSpinner from "@/shared/components/general/LoadingSpinner";
 import { loadingScreenActionMap } from "../constants/authLoadingScreen.constants";
 import type { AuthMethods } from "../types/auth.types";
+import ReactDOM from "react-dom";
 
 interface AuthLoadingScreenProps {
 	visible: boolean;
@@ -10,7 +11,7 @@ interface AuthLoadingScreenProps {
 function AuthLoadingScreen({ visible, authMethod }: AuthLoadingScreenProps) {
 	if (!visible) return null;
 
-	return (
+	return ReactDOM.createPortal(
 		<>
 			<div
 				role="dialog"
@@ -28,7 +29,8 @@ function AuthLoadingScreen({ visible, authMethod }: AuthLoadingScreenProps) {
 			</div>
 
 			<div className="fixed top-0 bottom-0 left-0 right-0 opacity-95 bg-gray-950 z-40"></div>
-		</>
+		</>,
+		document.getElementById("portal")!
 	);
 }
 
