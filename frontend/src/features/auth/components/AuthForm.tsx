@@ -19,6 +19,7 @@ import {
 import type { AuthMethod } from "../types/auth.types";
 import AuthLoadingScreen from "./AuthLoadingScreen";
 import FlexCenter from "@/shared/components/wrappers/FlexCenter";
+import { useAuthTokensStore } from "../stores/authTokens.stores";
 
 interface AuthFormProps {
 	authMethod: AuthMethod;
@@ -122,6 +123,8 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		useAuthCredentialsStore((state) => state);
 	const { updateErrors, general: generalErrors } = useAuthErrorsStore();
 	const { isLoading, startLoading, stopLoading } = useAuthStatusStore();
+	const { accessToken, refreshToken, updateAccessToken, updateRefreshToken } =
+		useAuthTokensStore();
 
 	const {
 		visible: signupAlertVisible,
@@ -159,6 +162,16 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		hideAlertTimeoutRef.current = setTimeout(() => {
 			closeAlert();
 		}, 3000);
+	}
+
+	function handleTokenUpdateError() {
+		updateErrors({
+			general: ["Failed to save auth tokens. Please try again"],
+			fields: { email: [], username: [], password: [] },
+		});
+
+		showAlert();
+		handleHideAlertTimeoutSetup();
 	}
 
 	async function handleSignup() {
@@ -206,21 +219,6 @@ function AuthForm({ authMethod }: AuthFormProps) {
 
 			updateErrors({
 				general: ["Authentication failed. Please try again."],
-				fields: { email: [], username: [], password: [] },
-			});
-
-			showAlert();
-			handleHideAlertTimeoutSetup();
-
-			return;
-		}
-
-		try {
-			localStorage.setItem(ACCESS_TOKEN_KEY, response.accessToken);
-			localStorage.setItem(REFRESH_TOKEN_KEY, response.refreshToken);
-		} catch (error) {
-			updateErrors({
-				general: ["Failed to save auth tokens. Please try again"],
 				fields: { email: [], username: [], password: [] },
 			});
 
