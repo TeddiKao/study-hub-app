@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
 import { Navigate } from "react-router-dom";
-import useIsAuthenticated from "../hooks/useIsAuthenticated";
+import useIsAuthenticated from "../../hooks/useIsAuthenticated";
 
 interface AuthRouteProps {
 	children: ReactNode;
