@@ -14,16 +14,15 @@ interface ErrorsListProps {
 
 interface ErrorItemProps {
 	error: string;
-	index: number;
 }
 
 interface CloseButtonProps {
 	onClose: () => void;
 }
 
-function ErrorItem({ error, index }: ErrorItemProps) {
+function ErrorItem({ error }: ErrorItemProps) {
 	return (
-		<li className="text-white" key={`${error}-${index}`}>
+		<li className="text-white">
 			{error}
 		</li>
 	);
@@ -35,7 +34,7 @@ function ErrorsList({ errors, errorSummary }: ErrorsListProps) {
 			<p className="text-white">{errorSummary}</p>
 			<ul className="relative pl-4 text-white before:absolute before:left-0 before:top-2 before:h-1.5 before:w-1.5 before:rounded-full before:bg-white">
 				{errors.map((error, index) => (
-					<ErrorItem error={error} index={index} />
+					<ErrorItem error={error} key={`${error}-${index}`} />
 				))}
 			</ul>
 		</div>
