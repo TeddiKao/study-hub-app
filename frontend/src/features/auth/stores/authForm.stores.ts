@@ -26,6 +26,13 @@ interface AuthErrorsStore extends AuthErrors {
 	updateErrors: (errors: AuthErrors) => void;
 }
 
+interface AuthStatusStore {
+	isLoading: boolean;
+
+	startLoading: () => void;
+	stopLoading: () => void;
+}
+
 const useAuthCredentialsStore = create<AuthCredentialsStore>((set) => ({
 	email: "",
 	username: "",
@@ -50,4 +57,11 @@ const useAuthErrorsStore = create<AuthErrorsStore>((set) => ({
 	updateErrors: (errors: AuthErrors) => set(errors)
 }));
 
-export { useAuthCredentialsStore, useAuthErrorsStore };
+const useAuthStatusStore = create<AuthStatusStore>((set) => ({
+	isLoading: false,
+	
+	startLoading: () => set({ isLoading: true }),
+	stopLoading: () => set({ isLoading: false })
+}))
+
+export { useAuthCredentialsStore, useAuthErrorsStore, useAuthStatusStore };

@@ -2,6 +2,7 @@ import { useEffect, useRef, type ChangeEvent, type FormEvent } from "react";
 import {
 	useAuthCredentialsStore,
 	useAuthErrorsStore,
+	useAuthStatusStore,
 } from "../stores/authForm.stores";
 import { handleUserCreation, handleUserLogin } from "../utils/auth.services";
 import {
@@ -12,9 +13,11 @@ import { useNavigate } from "react-router-dom";
 import formatErrorMessage from "../utils/authErrors";
 import ErrorAlert from "@/shared/components/alerts/ErrorAlert";
 import { useLoginAlertVisibleStore, useSignupAlertVisibleStore } from "../stores/authErrors.stores";
+import type { AuthMethod } from "../types/auth.types";
+import AuthLoadingScreen from "./AuthLoadingScreen";
 
 interface AuthFormProps {
-	authMethod: "Login" | "Sign up";
+	authMethod: AuthMethod;
 }
 
 interface AuthFormHeadingProps extends AuthFormProps {}
@@ -114,6 +117,8 @@ function AuthForm({ authMethod }: AuthFormProps) {
 	const { email, username, password, clearAllFields, clearPassword } =
 		useAuthCredentialsStore((state) => state);
 	const { updateErrors, general: generalErrors } = useAuthErrorsStore();
+	const { isLoading, startLoading, stopLoading } = useAuthStatusStore();
+
 	const { visible: signupAlertVisible, closeAlert: closeSignupAlert, showAlert: showSignupAlert } = useSignupAlertVisibleStore();
 	const { visible: loginAlertVisible, closeAlert: closeLoginAlert, showAlert: showLoginAlert } = useLoginAlertVisibleStore();
 
@@ -142,12 +147,15 @@ function AuthForm({ authMethod }: AuthFormProps) {
 	}
 
 	async function handleSignup() {
+		startLoading();
+
 		const response = await handleUserCreation({
 			email,
 			username,
 			password,
 		});
 
+		stopLoading();
 		clearPassword();
 
 		if (!response.success) {
@@ -162,7 +170,11 @@ function AuthForm({ authMethod }: AuthFormProps) {
 	}
 
 	async function handleLogin() {
+		startLoading();
+
 		const response = await handleUserLogin({ email, password });
+		
+		stopLoading();
 		clearPassword();
 
 		if (!response.success) {
@@ -182,6 +194,10 @@ function AuthForm({ authMethod }: AuthFormProps) {
 
 	async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
+
+		if (isLoading) {
+			return;
+		}
 
 		if (authMethod === "Login") {
 			await handleLogin();
@@ -217,6 +233,8 @@ function AuthForm({ authMethod }: AuthFormProps) {
 				errorSummary="The following errors occurred during authentication"
 				errors={generalErrors}
 			/>
+
+			<AuthLoadingScreen visible={isLoading} authMethod={authMethod} />
 		</>
 	);
 }
