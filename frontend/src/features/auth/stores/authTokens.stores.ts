@@ -6,7 +6,7 @@ interface AuthTokensStore {
 	refreshToken: string | null;
 
 	updateAccessToken: (newAccessToken: string, onError?: () => void) => void;
-	updateRefreshToken: (newRefreshToken: strin, onError?: () => void) => void;
+	updateRefreshToken: (newRefreshToken: string, onError?: () => void) => void;
 
 	removeAccessToken: () => void;
 	removeRefreshToken: () => void;
