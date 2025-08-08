@@ -159,16 +159,6 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		}, 3000);
 	}
 
-	function handleTokenUpdateError() {
-		updateErrors({
-			general: ["Failed to save auth tokens. Please try again"],
-			fields: { email: [], username: [], password: [] },
-		});
-
-		showAlert();
-		handleHideAlertTimeoutSetup();
-	}
-
 	async function handleSignup() {
 		startLoading();
 
@@ -223,8 +213,8 @@ function AuthForm({ authMethod }: AuthFormProps) {
 			return;
 		}
 
-		updateAccessToken(response.accessToken, handleTokenUpdateError);
-		updateRefreshToken(response.refreshToken, handleTokenUpdateError);
+		updateAccessToken(response.accessToken);
+		updateRefreshToken(response.refreshToken);
 
 		navigate("/home");
 	}
