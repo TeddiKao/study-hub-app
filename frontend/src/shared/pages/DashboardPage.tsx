@@ -22,7 +22,7 @@ function DashboardPage() {
 
 					<PopoverContent
 						side="right"
-						className="outline-none p-2 ml-2 flex flex-row rounded-md shadow-md bg-white"
+						className="outline-none p-2 ml-2 flex flex-row items-center rounded-md shadow-md bg-white"
 					>
 						<img
 							className="w-full h-full"
@@ -30,7 +30,7 @@ function DashboardPage() {
 							src={userIcon}
 						/>
 
-                        <div className="flex flex-col justify-center">
+                        <div className="flex flex-col">
                             <h4 className="font-semibold">TeddiKao</h4>
                             <p>teddikao@gmail.com</p>
                         </div>
