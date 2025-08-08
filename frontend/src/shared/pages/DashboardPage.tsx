@@ -41,7 +41,7 @@ function DashboardPage() {
 						</div>
 
                         <div className="flex flex-row w-full mt-2">
-                            <button className="w-full bg-red-500 pt-2 pb-2 text-white rounded-md">Log out</button>
+                            <button className="w-full outline-none bg-red-500 pt-2 pb-2 text-white rounded-md">Log out</button>
                         </div>
 					</PopoverContent>
 				</Popover>
