@@ -22,13 +22,18 @@ function DashboardPage() {
 
 					<PopoverContent
 						side="right"
-						className="outline-none ml-2 flex flex-row rounded-md shadow-md bg-white"
+						className="outline-none p-2 ml-2 flex flex-row rounded-md shadow-md bg-white"
 					>
 						<img
 							className="w-full h-full"
 							alt="Profile Icon"
 							src={userIcon}
 						/>
+
+                        <div className="flex flex-col justify-center">
+                            <h4 className="font-semibold">TeddiKao</h4>
+                            <p>teddikao@gmail.com</p>
+                        </div>
 					</PopoverContent>
 				</Popover>
 			</div>
