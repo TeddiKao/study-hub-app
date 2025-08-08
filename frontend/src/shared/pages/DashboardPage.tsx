@@ -48,9 +48,9 @@ function DashboardPage() {
 							className="flex flex-row items-center justify-center w-full outline-none bg-red-500 pt-2 pb-2 text-white rounded-md hover:cursor-pointer hover:bg-red-700 mt-2"
 						>
 							<img className="w-6 h-6" src={logoutIcon} />
-							<button className="text-white outline-none ml-2">
+							<p className="text-white outline-none ml-2">
 								Log out
-							</button>
+							</p>
 						</div>
 					</PopoverContent>
 				</Popover>
