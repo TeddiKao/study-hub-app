@@ -5,8 +5,8 @@ interface AuthTokensStore {
 	accessToken: string | null;
 	refreshToken: string | null;
 
-	updateAccessToken: (newAccessToken: string, onError?: () => void) => void;
-	updateRefreshToken: (newRefreshToken: string, onError?: () => void) => void;
+	updateAccessToken: (newAccessToken: string) => void;
+	updateRefreshToken: (newRefreshToken: string) => void;
 
 	removeAccessToken: () => void;
 	removeRefreshToken: () => void;
@@ -20,25 +20,13 @@ const useAuthTokensStore = create<AuthTokensStore>()(
 			accessToken: null,
 			refreshToken: null,
 
-			updateAccessToken: (newAccessToken: string, onError) => {
-                try {
-                    set({ accessToken: newAccessToken })
-                } catch (error) {
-                    if (onError) {
-                        onError();
-                    }
-                }
-            },
+			updateAccessToken: (newAccessToken: string) => {
+				set({ accessToken: newAccessToken });
+			},
 
-			updateRefreshToken: (newRefreshToken: string, onError) => {
-                try {
-                    set({ refreshToken: newRefreshToken })
-                } catch (error) {
-                    if (onError) {
-                        onError();
-                    }
-                }
-            },
+			updateRefreshToken: (newRefreshToken: string) => {
+				set({ refreshToken: newRefreshToken });
+			},
 
 			removeAccessToken: () => set({ accessToken: null }),
 
@@ -46,8 +34,17 @@ const useAuthTokensStore = create<AuthTokensStore>()(
 
 			clearTokens: () => set({ refreshToken: null, accessToken: null }),
 		}),
-		{ name: "authTokens", storage: createJSONStorage(() => localStorage) }
+		{
+			name: "authTokens",
+			storage: createJSONStorage(() => localStorage),
+			onRehydrateStorage: () => (state, error) => {
+				if (error) {
+					console.error("Auth tokens rehydration failed");
+					state?.clearTokens();
+				}
+			},
+		}
 	)
 );
 
-export { useAuthTokensStore }
+export { useAuthTokensStore };
