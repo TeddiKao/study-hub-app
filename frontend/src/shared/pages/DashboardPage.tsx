@@ -28,7 +28,7 @@ function DashboardPage() {
 						className="outline-none p-2 flex flex-row items-center rounded-md shadow-md bg-white"
 					>
 						<img
-							className="w-full h-full"
+							className="w-full h-full mr-2"
 							alt="Profile Icon"
 							src={userIcon}
 						/>
