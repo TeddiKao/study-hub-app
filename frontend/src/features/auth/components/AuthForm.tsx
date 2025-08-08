@@ -5,10 +5,6 @@ import {
 	useAuthStatusStore,
 } from "../stores/authForm.stores";
 import { handleUserCreation, handleUserLogin } from "../utils/auth.services";
-import {
-	ACCESS_TOKEN_KEY,
-	REFRESH_TOKEN_KEY,
-} from "../constants/tokenKeys.constants";
 import { useNavigate } from "react-router-dom";
 import formatErrorMessage from "../utils/authErrors";
 import ErrorAlert from "@/shared/components/alerts/ErrorAlert";
@@ -19,6 +15,7 @@ import {
 import type { AuthMethod } from "../types/auth.types";
 import AuthLoadingScreen from "./AuthLoadingScreen";
 import FlexCenter from "@/shared/components/wrappers/FlexCenter";
+import { useAuthTokensStore } from "../stores/authTokens.stores";
 
 interface AuthFormProps {
 	authMethod: AuthMethod;
@@ -122,6 +119,7 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		useAuthCredentialsStore((state) => state);
 	const { updateErrors, general: generalErrors } = useAuthErrorsStore();
 	const { isLoading, startLoading, stopLoading } = useAuthStatusStore();
+	const { updateAccessToken, updateRefreshToken } = useAuthTokensStore();
 
 	const {
 		visible: signupAlertVisible,
@@ -215,20 +213,8 @@ function AuthForm({ authMethod }: AuthFormProps) {
 			return;
 		}
 
-		try {
-			localStorage.setItem(ACCESS_TOKEN_KEY, response.accessToken);
-			localStorage.setItem(REFRESH_TOKEN_KEY, response.refreshToken);
-		} catch (error) {
-			updateErrors({
-				general: ["Failed to save auth tokens. Please try again"],
-				fields: { email: [], username: [], password: [] },
-			});
-
-			showAlert();
-			handleHideAlertTimeoutSetup();
-
-			return;
-		}
+		updateAccessToken(response.accessToken);
+		updateRefreshToken(response.refreshToken);
 
 		navigate("/home");
 	}

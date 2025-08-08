@@ -1,14 +1,12 @@
 import { Navigate } from "react-router-dom";
-import {
-	ACCESS_TOKEN_KEY,
-	REFRESH_TOKEN_KEY,
-} from "../constants/tokenKeys.constants";
 import { useEffect } from "react";
+import { useAuthTokensStore } from "../stores/authTokens.stores";
 
 function LogoutRoute() {
+	const { clearTokens } = useAuthTokensStore();
+	
 	useEffect(() => {
-		localStorage.removeItem(ACCESS_TOKEN_KEY);
-		localStorage.removeItem(REFRESH_TOKEN_KEY);
+		clearTokens();
 	}, []);
 
 	return <Navigate to="/login" />;

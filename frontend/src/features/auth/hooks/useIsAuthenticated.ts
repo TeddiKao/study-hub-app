@@ -1,28 +1,23 @@
 import { jwtDecode } from "jwt-decode";
 import { useState, useEffect } from "react";
-import {
-	REFRESH_TOKEN_KEY,
-	ACCESS_TOKEN_KEY,
-} from "../constants/tokenKeys.constants";
 import { handleTokenRefresh } from "../utils/authTokens.services";
+import { useAuthTokensStore } from "../stores/authTokens.stores";
 
 function useIsAuthenticated() {
 	const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
 		null
 	);
+	const { accessToken, updateAccessToken, clearTokens } =
+		useAuthTokensStore();
 
 	useEffect(() => {
 		auth().catch(() => {
 			setIsAuthenticated(false);
-
-			localStorage.removeItem(ACCESS_TOKEN_KEY);
-			localStorage.removeItem(REFRESH_TOKEN_KEY);
+			clearTokens();
 		});
 	}, []);
 
 	const auth = async () => {
-		const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
-
 		if (!accessToken) {
 			setIsAuthenticated(false);
 			return;
@@ -34,9 +29,7 @@ function useIsAuthenticated() {
 			const decodedToken = jwtDecode(accessToken);
 			tokenExpiration = decodedToken.exp;
 		} catch (error) {
-			localStorage.removeItem(ACCESS_TOKEN_KEY);
-			localStorage.removeItem(REFRESH_TOKEN_KEY);
-
+			clearTokens();
 			setIsAuthenticated(false);
 		}
 
@@ -52,19 +45,16 @@ function useIsAuthenticated() {
 		if (isExpired) {
 			const response = await handleTokenRefresh();
 			if (!response.success) {
-				localStorage.removeItem(ACCESS_TOKEN_KEY);
-				localStorage.removeItem(REFRESH_TOKEN_KEY);
-
+				clearTokens();
 				setIsAuthenticated(false);
 
 				return;
 			}
 
 			const { access } = response;
-			localStorage.setItem(ACCESS_TOKEN_KEY, access);
+			updateAccessToken(access);
 
 			setIsAuthenticated(true);
-
 		} else {
 			setIsAuthenticated(true);
 		}
