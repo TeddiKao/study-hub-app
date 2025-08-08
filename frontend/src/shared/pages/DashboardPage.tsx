@@ -22,20 +22,26 @@ function DashboardPage() {
 
 					<PopoverContent
 						side="right"
-                        sideOffset={16}
-                        align="start"
-                        alignOffset={4}
-						className="outline-none p-2 flex flex-row items-center rounded-md shadow-md bg-white"
+						sideOffset={16}
+						align="start"
+						alignOffset={4}
+						className="outline-none pt-2 pb-2 pl-2 pr-2 flex flex-col justify-center rounded-md shadow-md bg-white"
 					>
-						<img
-							className="w-full h-full mr-2"
-							alt="Profile Icon"
-							src={userIcon}
-						/>
+						<div className="flex flex-row items-center pr-6">
+							<img
+								className="w-full h-full mr-2"
+								alt="Profile Icon"
+								src={userIcon}
+							/>
 
-                        <div className="flex flex-col">
-                            <h4 className="font-semibold">TeddiKao</h4>
-                            <p>teddikao@gmail.com</p>
+							<div className="flex flex-col">
+								<h4 className="font-semibold">TeddiKao</h4>
+								<p>teddikao@gmail.com</p>
+							</div>
+						</div>
+
+                        <div className="flex flex-row w-full mt-2">
+                            <button className="w-full bg-red-500 pt-2 pb-2 text-white rounded-md">Log out</button>
                         </div>
 					</PopoverContent>
 				</Popover>
