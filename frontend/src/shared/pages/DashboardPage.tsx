@@ -22,7 +22,7 @@ function DashboardPage() {
 
 					<PopoverContent
 						side="right"
-                        sideOffset={8}
+                        sideOffset={16}
                         align="start"
                         alignOffset={4}
 						className="outline-none p-2 flex flex-row items-center rounded-md shadow-md bg-white"
