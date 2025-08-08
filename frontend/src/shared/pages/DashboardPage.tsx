@@ -22,7 +22,8 @@ function DashboardPage() {
 
 					<PopoverContent
 						side="right"
-						className="outline-none p-2 ml-2 flex flex-row items-center rounded-md shadow-md bg-white"
+                        sideOffset={8}
+						className="outline-none p-2 flex flex-row items-center rounded-md shadow-md bg-white"
 					>
 						<img
 							className="w-full h-full"
