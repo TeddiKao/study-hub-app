@@ -3,7 +3,9 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@radix-ui/react-popover";
+
 import userIcon from "@shared/assets/userIcon.svg";
+import logoutIcon from "@shared/assets/logoutIcon.svg";
 
 function DashboardPage() {
 	return (
@@ -40,8 +42,13 @@ function DashboardPage() {
 							</div>
 						</div>
 
-						<div role="button" aria-label="logout-button" className="flex flex-row w-full mt-2">
-                            <button className="w-full outline-none bg-red-500 pt-2 pb-2 text-white rounded-md hover:cursor-pointer hover:bg-red-700">
+						<div
+							role="button"
+							aria-label="logout-button"
+							className="flex flex-row items-center justify-center w-full outline-none bg-red-500 pt-2 pb-2 text-white rounded-md hover:cursor-pointer hover:bg-red-700 mt-2"
+						>
+							<img className="w-6 h-6" src={logoutIcon} />
+							<button className="text-white outline-none ml-2">
 								Log out
 							</button>
 						</div>
