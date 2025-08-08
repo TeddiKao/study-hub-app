@@ -40,8 +40,8 @@ function DashboardPage() {
 							</div>
 						</div>
 
-						<div className="flex flex-row w-full mt-2">
-							<button className="w-full outline-none bg-red-500 pt-2 pb-2 text-white rounded-md hover:cursor-pointer hover:bg-red-700">
+						<div role="button" aria-label="logout-button" className="flex flex-row w-full mt-2">
+                            <button className="w-full outline-none bg-red-500 pt-2 pb-2 text-white rounded-md hover:cursor-pointer hover:bg-red-700">
 								Log out
 							</button>
 						</div>
