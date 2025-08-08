@@ -5,15 +5,17 @@
 		{ "path": "./tsconfig.node.json" }
 	],
 
-	"baseUrl": ".",
-	"paths": {
-		"@/*": ["./src/*"],
-		"@app/*": ["./src/app/*"],
-		"@appApi": ["./src/app/api"],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"],
+			"@app/*": ["./src/app/*"],
+			"@appApi": ["./src/app/api"],
 
-		"@auth/*": ["./src/features/auth/*"],
+			"@auth/*": ["./src/features/auth/*"],
 
-		"@shared/*": ["./src/shared/*"],
-		"@sharedPages/*": ["./src/shared/pages/*"]
+			"@shared/*": ["./src/shared/*"],
+			"@sharedPages/*": ["./src/shared/pages/*"]
+		}
 	}
 }
