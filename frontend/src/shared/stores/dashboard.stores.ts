@@ -1,3 +1,5 @@
+import { create } from "zustand";
+
 interface DashboardNavbarStateStore {
     expanded: boolean;
     expandedItem: string | null
@@ -6,3 +8,6 @@ interface DashboardNavbarStateStore {
     collapseNavbar: () => void;
 }
 
+const useDashboardNavbarState = create<DashboardNavbarStateStore>((set) => ({
+
+}))
