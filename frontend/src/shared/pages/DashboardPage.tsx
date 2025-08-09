@@ -106,6 +106,10 @@ function DashboardPage() {
 					</Tooltip>
 				</div>
 			</div>
+
+			<div className="flex flex-col bg-gray-100 py-2 px-3">
+				<p className="text-sm text-gray-500">Notebooks</p>
+			</div>
 		</div>
 	);
 }
