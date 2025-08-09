@@ -3,9 +3,26 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 import userIcon from "@shared/assets/userIcon.svg";
 import logoutIcon from "@shared/assets/logoutIcon.svg";
 import { useNavigate } from "react-router-dom";
+import { useUserInfoStore } from "@/features/auth/stores/userInfo.stores";
+import { useEffect, useRef } from "react";
 
 function DashboardPage() {
     const navigate = useNavigate();
+    const { email, username, syncCredentials } = useUserInfoStore();
+
+    const syncCredentialsIntervalId = useRef<NodeJS.Timeout | null>(null);
+
+    useEffect(() => {
+        syncCredentialsIntervalId.current = setInterval(() => {
+            syncCredentials();
+        }, 10 * 1000)
+
+        return () => {
+            if (syncCredentialsIntervalId.current) {
+                clearInterval(syncCredentialsIntervalId.current)
+            }
+        }
+    })
 
     function handleLogoutButtonClick() {
         navigate("/logout");
@@ -40,8 +57,8 @@ function DashboardPage() {
 							/>
 
 							<div className="flex flex-col">
-								<h4 className="font-semibold">TeddiKao</h4>
-								<p>teddikao@gmail.com</p>
+								<h4 className="font-semibold">{username}</h4>
+								<p>{email}</p>
 							</div>
 						</div>
 
