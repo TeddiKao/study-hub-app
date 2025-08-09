@@ -12,6 +12,14 @@ async function fetchUserCredentials(): Promise<
 > {
 	try {
 		const response = await api.post("/auth/get-credentials/");
+		const { email, username } = response.data ?? {}
+
+		if (typeof email !== "string" || typeof username !== "string") {
+			return {
+				success: false,
+				error: "Invalid server response"
+			}
+		}
 
 		return {
 			email: response.data?.email,
