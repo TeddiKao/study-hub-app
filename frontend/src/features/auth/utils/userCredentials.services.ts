@@ -11,7 +11,7 @@ async function fetchUserCredentials(): Promise<
 	UserCredentialsEndpointSuccessResponse | ApiErrorResponse
 > {
 	try {
-		const response = await api.post("/auth/get-credentials");
+		const response = await api.post("/auth/get-credentials/");
 
 		return response.data;
 	} catch (error) {
