@@ -12,11 +12,19 @@ import { useNavigate } from "react-router-dom";
 import { useUserInfoStore } from "@/features/auth/stores/userInfo.stores";
 import { useEffect, useRef } from "react";
 import { Separator } from "@/components/ui/separator";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import {
+	Tooltip,
+	TooltipTrigger,
+	TooltipContent,
+} from "@/components/ui/tooltip";
+import NotebookIcon from "../components/icons/NotebookIcon";
+import { useDashboardNavbarState } from "../stores/dashboard.stores";
 
 function DashboardPage() {
 	const navigate = useNavigate();
 	const { email, username, syncCredentials } = useUserInfoStore();
+	const { expanded, expandedItem, expandNavbar, collapseNavbar } =
+		useDashboardNavbarState();
 
 	const syncCredentialsIntervalId = useRef<NodeJS.Timeout | null>(null);
 
@@ -39,8 +47,8 @@ function DashboardPage() {
 	}
 
 	return (
-		<>
-			<div className="flex flex-col items-center fixed top-0 bottom-0 w-max p-2 bg-white">
+		<div className="flex flex-row fixed top-0 bottom-0">
+			<div className="flex flex-col items-center w-max p-2 bg-white">
 				<Popover>
 					<PopoverTrigger asChild>
 						<div className="w-10 h-10 p-1 rounded-md hover:bg-gray-300 hover:cursor-pointer">
@@ -93,6 +101,13 @@ function DashboardPage() {
 						<TooltipTrigger asChild>
 							<img
 								className="w-8 h-8 p-1 hover:cursor-pointer hover:bg-gray-300 rounded-md"
+								onClick={() => {
+									if (!expanded) {
+										expandNavbar("notebooks");
+									} else {
+										collapseNavbar();
+									}
+								}}
 								src={notebookIcon}
 							/>
 						</TooltipTrigger>
@@ -100,13 +115,25 @@ function DashboardPage() {
 						<TooltipContent
 							side="right"
 							className="bg-gray-950 text-white py-1 px-2 rounded-md"
- 						>
+						>
 							<p>Notebooks</p>
 						</TooltipContent>
 					</Tooltip>
 				</div>
 			</div>
-		</>
+
+			{expanded && (
+				<div className="flex flex-col bg-gray-100 py-3 pl-3 pr-10">
+					<p className="text-sm text-gray-500 mb-1 pl-1">Notebooks</p>
+					<div className="flex flex-row mb-0.5 p-1 items-center">
+						<div className="p-1 bg-purple-500 rounded-sm">
+							<NotebookIcon className="fill-white" size={20} />
+						</div>
+						<p className="ml-2">History</p>
+					</div>
+				</div>
+			)}
+		</div>
 	);
 }
 
