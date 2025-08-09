@@ -9,5 +9,16 @@ interface DashboardNavbarStateStore {
 }
 
 const useDashboardNavbarState = create<DashboardNavbarStateStore>((set) => ({
+    expanded: false,
+    expandedItem: null,
 
+    expandNavbar: (expandedItem: string) => {
+        set({ expanded: true, expandedItem})
+    },
+
+    collapseNavbar: () => {
+        set({ expanded: false, expandedItem: null })
+    }
 }))
+
+export { useDashboardNavbarState }
