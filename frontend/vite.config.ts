@@ -17,6 +17,8 @@ export default defineConfig({
 			"@sharedPages": path.resolve(__dirname, "./src/shared/pages"),
 
 			"@auth": path.resolve(__dirname, "./src/features/auth"),
+			
+			"@shadcnComponents": path.resolve(__dirname, "./src/components")
 		}
 	}
 });
