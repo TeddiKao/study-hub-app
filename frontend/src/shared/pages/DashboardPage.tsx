@@ -39,7 +39,7 @@ function DashboardPage() {
 	}
 
 	return (
-		<>
+		<div>
 			<div className="flex flex-col items-center fixed top-0 bottom-0 w-max p-2 bg-white">
 				<Popover>
 					<PopoverTrigger asChild>
@@ -106,7 +106,7 @@ function DashboardPage() {
 					</Tooltip>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }
 
