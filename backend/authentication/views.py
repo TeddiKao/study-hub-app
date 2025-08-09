@@ -1,4 +1,4 @@
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -15,6 +15,8 @@ class CreateUserEndpoint(CreateAPIView):
     permission_classes = [AllowAny]
 
 class GetCredentialsEndpoint(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         user = request.user
 
