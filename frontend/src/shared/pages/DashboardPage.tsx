@@ -1,4 +1,8 @@
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
+import {
+	Popover,
+	PopoverTrigger,
+	PopoverContent,
+} from "@/components/ui/popover";
 
 import userIcon from "@shared/assets/userIcon.svg";
 import logoutIcon from "@shared/assets/logoutIcon.svg";
@@ -8,32 +12,31 @@ import { useNavigate } from "react-router-dom";
 import { useUserInfoStore } from "@/features/auth/stores/userInfo.stores";
 import { useEffect, useRef } from "react";
 import { Separator } from "@/components/ui/separator";
-import { Tooltip, TooltipTrigger } from "@/components/ui/tooltip";
-import { TooltipContent } from "@radix-ui/react-tooltip";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
 function DashboardPage() {
-    const navigate = useNavigate();
-    const { email, username, syncCredentials } = useUserInfoStore();
+	const navigate = useNavigate();
+	const { email, username, syncCredentials } = useUserInfoStore();
 
-    const syncCredentialsIntervalId = useRef<NodeJS.Timeout | null>(null);
+	const syncCredentialsIntervalId = useRef<NodeJS.Timeout | null>(null);
 
-    useEffect(() => {
-        syncCredentials();
-        
-        syncCredentialsIntervalId.current = setInterval(() => {
-            syncCredentials();
-        }, 10 * 1000)
+	useEffect(() => {
+		syncCredentials();
 
-        return () => {
-            if (syncCredentialsIntervalId.current) {
-                clearInterval(syncCredentialsIntervalId.current)
-            }
-        }
-    }, []);
+		syncCredentialsIntervalId.current = setInterval(() => {
+			syncCredentials();
+		}, 10 * 1000);
 
-    function handleLogoutButtonClick() {
-        navigate("/logout");
-    }
+		return () => {
+			if (syncCredentialsIntervalId.current) {
+				clearInterval(syncCredentialsIntervalId.current);
+			}
+		};
+	}, []);
+
+	function handleLogoutButtonClick() {
+		navigate("/logout");
+	}
 
 	return (
 		<>
@@ -72,7 +75,7 @@ function DashboardPage() {
 						<button
 							role="button"
 							aria-label="logout-button"
-                            onClick={handleLogoutButtonClick}
+							onClick={handleLogoutButtonClick}
 							className="flex flex-row items-center justify-center w-full outline-none bg-red-500 pt-2 pb-2 text-white rounded-md hover:cursor-pointer hover:bg-red-700 mt-2"
 						>
 							<img className="w-6 h-6" src={logoutIcon} />
@@ -88,10 +91,17 @@ function DashboardPage() {
 				<div className="flex flex-col">
 					<Tooltip>
 						<TooltipTrigger asChild>
-							<img className="w-8 h-8 p-1 hover:cursor-pointer hover:bg-gray-300 rounded-md" src={notebookIcon} />
+							<img
+								className="w-8 h-8 p-1 hover:cursor-pointer hover:bg-gray-300 rounded-md"
+								src={notebookIcon}
+							/>
 						</TooltipTrigger>
 
-						<TooltipContent>
+						<TooltipContent
+							side="right"
+							sideOffset={8}
+							className="bg-gray-950 text-white py-1 px-2 rounded-md"
+ 						>
 							<p>Notebooks</p>
 						</TooltipContent>
 					</Tooltip>
