@@ -8,7 +8,7 @@ function NotebookIcon({ size, className }: NotebookIconProps) {
 		<svg
 			width={size}
 			height={size}
-			viewBox="0 0 22 22"
+			viewBox="0 0 24 24"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 			transform="rotate(0 0 0)"
