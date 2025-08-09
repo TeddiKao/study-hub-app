@@ -27,7 +27,7 @@ function DashboardPage() {
 					>
 						<div className="flex flex-row items-center pr-6">
 							<img
-								className="w-full h-full mr-2"
+								className="w-8 h-8 mr-2"
 								alt="Profile Icon"
 								src={userIcon}
 							/>
