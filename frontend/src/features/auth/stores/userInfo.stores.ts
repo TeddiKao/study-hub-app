@@ -5,7 +5,7 @@ interface UserInfoStore {
 	username: string;
 	email: string;
 
-	syncCredentials: () => void;
+	syncCredentials: () => Promise<void>;
 }
 
 const useUserInfoStore = create<UserInfoStore>((set) => ({
