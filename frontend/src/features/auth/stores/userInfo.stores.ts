@@ -13,16 +13,20 @@ const useUserInfoStore = create<UserInfoStore>((set) => ({
 	email: "",
 
 	syncCredentials: async () => {
-		const response = await fetchUserCredentials();
-		if (!response.success) {
-			set({ email: "", username: "" });
-			return;
+		try {
+			const response = await fetchUserCredentials();
+			if (!response.success) {
+				set({ email: "", username: "" });
+				return;
+			}
+
+			const { email, username } = response;
+
+			set({ email: email, username: username });
+		} catch (error) {
+			set({ email: "", username: "" })
 		}
-
-		const { email, username } = response;
-
-		set({ email: email, username: username });
 	},
 }));
 
-export { useUserInfoStore }
+export { useUserInfoStore };
