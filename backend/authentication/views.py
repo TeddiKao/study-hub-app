@@ -16,7 +16,7 @@ class CreateUserEndpoint(CreateAPIView):
 
 class GetCredentialsEndpoint(APIView):
     def post(self, request):
-        user = request.data.user
+        user = request.user
 
         return Response({
             "username": user.username,
