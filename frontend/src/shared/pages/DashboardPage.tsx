@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { useUserInfoStore } from "@/features/auth/stores/userInfo.stores";
 import { useEffect, useRef } from "react";
 import { Separator } from "@/components/ui/separator";
+import { Tooltip, TooltipTrigger } from "@/components/ui/tooltip";
+import { TooltipContent } from "@radix-ui/react-tooltip";
 
 function DashboardPage() {
     const navigate = useNavigate();
@@ -84,7 +86,15 @@ function DashboardPage() {
 				<Separator className="mt-2 mb-2 bg-gray-200" />
 
 				<div className="flex flex-col">
-					<img className="w-8 h-8 p-1 hover:cursor-pointer hover:bg-gray-300 rounded-md" src={notebookIcon} />
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<img className="w-8 h-8 p-1 hover:cursor-pointer hover:bg-gray-300 rounded-md" src={notebookIcon} />
+						</TooltipTrigger>
+
+						<TooltipContent>
+							<p>Notebooks</p>
+						</TooltipContent>
+					</Tooltip>
 				</div>
 			</div>
 		</>
