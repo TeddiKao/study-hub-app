@@ -2,8 +2,34 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 
 import userIcon from "@shared/assets/userIcon.svg";
 import logoutIcon from "@shared/assets/logoutIcon.svg";
+import { useNavigate } from "react-router-dom";
+import { useUserInfoStore } from "@/features/auth/stores/userInfo.stores";
+import { useEffect, useRef } from "react";
 
 function DashboardPage() {
+    const navigate = useNavigate();
+    const { email, username, syncCredentials } = useUserInfoStore();
+
+    const syncCredentialsIntervalId = useRef<NodeJS.Timeout | null>(null);
+
+    useEffect(() => {
+        syncCredentials();
+        
+        syncCredentialsIntervalId.current = setInterval(() => {
+            syncCredentials();
+        }, 10 * 1000)
+
+        return () => {
+            if (syncCredentialsIntervalId.current) {
+                clearInterval(syncCredentialsIntervalId.current)
+            }
+        }
+    }, []);
+
+    function handleLogoutButtonClick() {
+        navigate("/logout");
+    }
+
 	return (
 		<>
 			<div className="flex flex-row justify-center fixed top-0 bottom-0 w-max p-2 bg-white">
@@ -33,14 +59,15 @@ function DashboardPage() {
 							/>
 
 							<div className="flex flex-col">
-								<h4 className="font-semibold">TeddiKao</h4>
-								<p>teddikao@gmail.com</p>
+								<h4 className="font-semibold">{username}</h4>
+								<p>{email}</p>
 							</div>
 						</div>
 
 						<button
 							role="button"
 							aria-label="logout-button"
+                            onClick={handleLogoutButtonClick}
 							className="flex flex-row items-center justify-center w-full outline-none bg-red-500 pt-2 pb-2 text-white rounded-md hover:cursor-pointer hover:bg-red-700 mt-2"
 						>
 							<img className="w-6 h-6" src={logoutIcon} />
