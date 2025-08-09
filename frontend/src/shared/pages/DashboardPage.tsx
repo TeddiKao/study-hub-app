@@ -1,4 +1,4 @@
-import { Popover, PopoverTrigger, PopoverContent } from "@shadcnComponents/ui/popover"
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 
 import userIcon from "@shared/assets/userIcon.svg";
 import logoutIcon from "@shared/assets/logoutIcon.svg";
