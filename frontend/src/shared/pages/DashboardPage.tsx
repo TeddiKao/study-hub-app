@@ -2,6 +2,8 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 
 import userIcon from "@shared/assets/userIcon.svg";
 import logoutIcon from "@shared/assets/logoutIcon.svg";
+import notebookIcon from "@shared/assets/notebookIcon.svg";
+
 import { useNavigate } from "react-router-dom";
 import { useUserInfoStore } from "@/features/auth/stores/userInfo.stores";
 import { useEffect, useRef } from "react";
@@ -33,7 +35,7 @@ function DashboardPage() {
 
 	return (
 		<>
-			<div className="flex flex-row justify-center fixed top-0 bottom-0 w-max p-2 bg-white">
+			<div className="flex flex-col items-center fixed top-0 bottom-0 w-max p-2 bg-white">
 				<Popover>
 					<PopoverTrigger asChild>
 						<div className="w-10 h-10 p-1 rounded-md hover:bg-gray-300 hover:cursor-pointer">
@@ -79,7 +81,11 @@ function DashboardPage() {
 					</PopoverContent>
 				</Popover>
 
-				<Separator />
+				<Separator className="mt-2 mb-2 bg-gray-200" />
+
+				<div className="flex flex-col">
+					<img className="w-8 h-8 p-1 hover:cursor-pointer hover:bg-gray-300 rounded-md" src={notebookIcon} />
+				</div>
 			</div>
 		</>
 	);
