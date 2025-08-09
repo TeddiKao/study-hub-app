@@ -102,6 +102,7 @@ function DashboardPage() {
 							<button
 								className="w-8 h-8 p-1 hover:cursor-pointer hover:bg-gray-300 rounded-md"
 								type="button"
+								id="dashboard-notebooks-trigger"
 								aria-label="Notebooks"
 								aria-controls="dashboard-notebooks-panel"
 								aria-pressed={expanded && expandedItem === "notebooks"}
