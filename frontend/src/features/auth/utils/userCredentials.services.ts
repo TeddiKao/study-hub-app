@@ -22,8 +22,8 @@ async function fetchUserCredentials(): Promise<
 		}
 
 		return {
-			email: response.data?.email,
-			username: response.data?.username,
+			email,
+			username,
 			success: true
 		};
 	} catch (error) {
