@@ -99,7 +99,6 @@ function DashboardPage() {
 
 						<TooltipContent
 							side="right"
-							sideOffset={8}
 							className="bg-gray-950 text-white py-1 px-2 rounded-md"
  						>
 							<p>Notebooks</p>
