@@ -106,7 +106,7 @@ function DashboardPage() {
 								aria-controls="dashboard-notebooks-panel"
 								aria-pressed={expanded && expandedItem === "notebooks"}
 								onClick={() => {
-									if (!expanded) {
+									if (!expanded || expandedItem !== "notebooks") {
 										expandNavbar("notebooks");
 									} else {
 										collapseNavbar();
