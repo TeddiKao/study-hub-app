@@ -3,7 +3,7 @@ import type { ApiErrorResponse } from "@/shared/types/api.types";
 
 interface UserCredentialsEndpointSuccessResponse {
 	email: string;
-	password: string;
+	username: string;
 	success: true;
 }
 
