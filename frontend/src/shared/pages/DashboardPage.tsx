@@ -5,6 +5,7 @@ import logoutIcon from "@shared/assets/logoutIcon.svg";
 import { useNavigate } from "react-router-dom";
 import { useUserInfoStore } from "@/features/auth/stores/userInfo.stores";
 import { useEffect, useRef } from "react";
+import { Separator } from "@/components/ui/separator";
 
 function DashboardPage() {
     const navigate = useNavigate();
@@ -77,6 +78,8 @@ function DashboardPage() {
 						</button>
 					</PopoverContent>
 				</Popover>
+
+				<Separator />
 			</div>
 		</>
 	);
