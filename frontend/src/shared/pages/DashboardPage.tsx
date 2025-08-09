@@ -39,8 +39,8 @@ function DashboardPage() {
 	}
 
 	return (
-		<div className="flex flex-row">
-			<div className="flex flex-col items-center fixed top-0 bottom-0 w-max p-2 bg-white">
+		<div className="flex flex-row fixed top-0 bottom-0">
+			<div className="flex flex-col items-center w-max p-2 bg-white">
 				<Popover>
 					<PopoverTrigger asChild>
 						<div className="w-10 h-10 p-1 rounded-md hover:bg-gray-300 hover:cursor-pointer">
