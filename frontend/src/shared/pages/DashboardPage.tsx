@@ -13,6 +13,8 @@ function DashboardPage() {
     const syncCredentialsIntervalId = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
+        syncCredentials();
+        
         syncCredentialsIntervalId.current = setInterval(() => {
             syncCredentials();
         }, 10 * 1000)
@@ -22,7 +24,7 @@ function DashboardPage() {
                 clearInterval(syncCredentialsIntervalId.current)
             }
         }
-    })
+    }, []);
 
     function handleLogoutButtonClick() {
         navigate("/logout");
