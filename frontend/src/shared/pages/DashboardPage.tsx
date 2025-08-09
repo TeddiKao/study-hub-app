@@ -13,7 +13,7 @@ function DashboardPage() {
 			<div className="flex flex-row justify-center fixed top-0 bottom-0 w-max p-2 bg-white">
 				<Popover>
 					<PopoverTrigger asChild>
-						<div className="w-8 h-8 p-1 rounded-md hover:bg-gray-300 hover:cursor-pointer">
+						<div className="w-10 h-10 p-1 rounded-md hover:bg-gray-300 hover:cursor-pointer">
 							<img
 								className="w-full h-full"
 								alt="Profile Icon"
