@@ -13,7 +13,11 @@ async function fetchUserCredentials(): Promise<
 	try {
 		const response = await api.post("/auth/get-credentials/");
 
-		return response.data;
+		return {
+			email: response.data?.email,
+			username: response.data?.username,
+			success: true
+		};
 	} catch (error) {
 		return {
 			success: false,
