@@ -99,8 +99,12 @@ function DashboardPage() {
 				<div className="flex flex-col">
 					<Tooltip>
 						<TooltipTrigger asChild>
-							<img
+							<button
 								className="w-8 h-8 p-1 hover:cursor-pointer hover:bg-gray-300 rounded-md"
+								type="button"
+								aria-label="Notebooks"
+								aria-controls="dashboard-notebooks-panel"
+								aria-pressed={expanded && expandedItem === "notebooks"}
 								onClick={() => {
 									if (!expanded) {
 										expandNavbar("notebooks");
@@ -108,8 +112,14 @@ function DashboardPage() {
 										collapseNavbar();
 									}
 								}}
-								src={notebookIcon}
-							/>
+							>
+								<img
+									className="w-full h-full"
+									alt=""
+									aria-hidden="true"
+									src={notebookIcon}
+								/>
+							</button>
 						</TooltipTrigger>
 
 						<TooltipContent
