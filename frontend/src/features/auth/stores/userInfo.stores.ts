@@ -15,6 +15,7 @@ const useUserInfoStore = create<UserInfoStore>((set) => ({
 	syncCredentials: async () => {
 		const response = await fetchUserCredentials();
 		if (!response.success) {
+			set({ email: "", username: "" });
 			return;
 		}
 
