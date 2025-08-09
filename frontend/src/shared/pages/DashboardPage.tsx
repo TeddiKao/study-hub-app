@@ -101,6 +101,13 @@ function DashboardPage() {
 						<TooltipTrigger asChild>
 							<img
 								className="w-8 h-8 p-1 hover:cursor-pointer hover:bg-gray-300 rounded-md"
+								onClick={() => {
+									if (expanded) {
+										expandNavbar("notebooks");
+									} else {
+										collapseNavbar();
+									}
+								}}
 								src={notebookIcon}
 							/>
 						</TooltipTrigger>
