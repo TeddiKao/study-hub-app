@@ -31,7 +31,9 @@
 			"@auth/*": ["./src/features/auth/*"],
 
 			"@shared/*": ["./src/shared/*"],
-			"@sharedPages/*": ["./src/shared/pages/*"]
+			"@sharedPages/*": ["./src/shared/pages/*"],
+
+			"@shadcnComponents/*": ["./src/components/*"],
 		}
 	},
 	"include": ["src"]

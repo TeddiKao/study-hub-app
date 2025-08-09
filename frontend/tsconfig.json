@@ -1,7 +1,23 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+	"files": [],
+	"references": [
+		{ "path": "./tsconfig.app.json" },
+		{ "path": "./tsconfig.node.json" }
+	],
+
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"],
+			"@app/*": ["./src/app/*"],
+			"@appApi": ["./src/app/api"],
+
+			"@auth/*": ["./src/features/auth/*"],
+
+			"@shared/*": ["./src/shared/*"],
+			"@sharedPages/*": ["./src/shared/pages/*"],
+
+			"@shadcnComponents/*": ["./src/components/*"],
+		}
+	}
 }
