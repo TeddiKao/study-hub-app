@@ -17,8 +17,8 @@ import {
 	TooltipTrigger,
 	TooltipContent,
 } from "@/components/ui/tooltip";
-import NotebookIcon from "../components/icons/NotebookIcon";
-import { useDashboardNavbarState } from "../stores/dashboard.stores";
+import NotebookIcon from "../../components/icons/NotebookIcon";
+import { useDashboardNavbarState } from "../../stores/dashboard.stores";
 
 function DashboardPage() {
 	const navigate = useNavigate();
