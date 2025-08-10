@@ -18,13 +18,27 @@ import { useEffect, useRef } from "react";
 import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
 
+function UserPopoverTrigger() {
+	return (
+		<PopoverTrigger asChild>
+			<div className="w-10 h-10 p-1 rounded-md hover:bg-gray-300 hover:cursor-pointer">
+				<img
+					className="w-full h-full"
+					alt="Profile Icon"
+					src={userIcon}
+				/>
+			</div>
+		</PopoverTrigger>
+	);
+}
+
 function NavIcons() {
 	const { expanded, expandedItem, expandNavbar, collapseNavbar } =
 		useDashboardNavbarState();
 	const { email, username, syncCredentials } = useUserInfoStore();
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 
-    const syncCredentialsIntervalId = useRef<NodeJS.Timeout>(null);
+	const syncCredentialsIntervalId = useRef<NodeJS.Timeout>(null);
 
 	useEffect(() => {
 		syncCredentials();
@@ -40,7 +54,6 @@ function NavIcons() {
 		};
 	}, []);
 
-    
 	function handleLogoutButtonClick() {
 		navigate("/logout");
 	}
@@ -48,15 +61,7 @@ function NavIcons() {
 	return (
 		<div className="flex flex-col items-center w-max p-2 bg-white">
 			<Popover>
-				<PopoverTrigger asChild>
-					<div className="w-10 h-10 p-1 rounded-md hover:bg-gray-300 hover:cursor-pointer">
-						<img
-							className="w-full h-full"
-							alt="Profile Icon"
-							src={userIcon}
-						/>
-					</div>
-				</PopoverTrigger>
+				<UserPopoverTrigger />
 
 				<PopoverContent
 					side="right"
