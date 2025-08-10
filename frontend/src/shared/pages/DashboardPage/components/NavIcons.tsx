@@ -92,6 +92,17 @@ function UserPopoverContent() {
 	);
 }
 
+function NotebookPanelTooltip() {
+	return (
+		<TooltipContent
+			side="right"
+			className="bg-gray-950 text-white py-1 px-2 rounded-md"
+		>
+			<p>Notebooks</p>
+		</TooltipContent>
+	);
+}
+
 function NavIcons() {
 	const { expanded, expandedItem, expandNavbar, collapseNavbar } =
 		useDashboardNavbarState();
@@ -134,12 +145,7 @@ function NavIcons() {
 						</button>
 					</TooltipTrigger>
 
-					<TooltipContent
-						side="right"
-						className="bg-gray-950 text-white py-1 px-2 rounded-md"
-					>
-						<p>Notebooks</p>
-					</TooltipContent>
+					<NotebookPanelTooltip />
 				</Tooltip>
 			</div>
 		</div>
