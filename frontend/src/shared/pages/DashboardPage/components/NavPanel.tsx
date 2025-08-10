@@ -33,7 +33,7 @@ function Item({ itemType, itemName, color }: ItemProps) {
 
 function AddNotebookButton() {
 	return (
-		<button className="flex flex-row px-1 py-2">
+		<button className="flex flex-row items-center px-1 py-2">
 			<AddIcon size={16} className="fill-sky-500" />
 			<p className="text-sky-500">Add notebook</p>
 		</button>
