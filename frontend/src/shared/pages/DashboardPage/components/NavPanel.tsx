@@ -58,7 +58,7 @@ function NavPanel() {
                 <Item itemType="notebook" itemName="History" color="hsl(0, 0%, 0%)" />
             </div>
 
-
+			<AddNotebookButton />
 		</div>
 	);
 }
