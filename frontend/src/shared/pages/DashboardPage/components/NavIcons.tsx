@@ -103,10 +103,39 @@ function NotebookPanelTooltip() {
 	);
 }
 
-function NavIcons() {
+function NotebookPanelTrigger() {
 	const { expanded, expandedItem, expandNavbar, collapseNavbar } =
 		useDashboardNavbarState();
 
+	return (
+		<TooltipTrigger asChild>
+			<button
+				className="w-8 h-8 p-1 hover:cursor-pointer hover:bg-gray-300 rounded-md"
+				type="button"
+				id="dashboard-notebooks-trigger"
+				aria-label="Notebooks"
+				aria-controls="dashboard-notebooks-panel"
+				aria-pressed={expanded && expandedItem === "notebooks"}
+				onClick={() => {
+					if (!expanded || expandedItem !== "notebooks") {
+						expandNavbar("notebooks");
+					} else {
+						collapseNavbar();
+					}
+				}}
+			>
+				<img
+					className="w-full h-full"
+					alt=""
+					aria-hidden="true"
+					src={notebookIcon}
+				/>
+			</button>
+		</TooltipTrigger>
+	);
+}
+
+function NavIcons() {
 	return (
 		<div className="flex flex-col items-center w-max p-2 bg-white">
 			<Popover>
@@ -118,33 +147,6 @@ function NavIcons() {
 
 			<div className="flex flex-col">
 				<Tooltip>
-					<TooltipTrigger asChild>
-						<button
-							className="w-8 h-8 p-1 hover:cursor-pointer hover:bg-gray-300 rounded-md"
-							type="button"
-							id="dashboard-notebooks-trigger"
-							aria-label="Notebooks"
-							aria-controls="dashboard-notebooks-panel"
-							aria-pressed={
-								expanded && expandedItem === "notebooks"
-							}
-							onClick={() => {
-								if (!expanded || expandedItem !== "notebooks") {
-									expandNavbar("notebooks");
-								} else {
-									collapseNavbar();
-								}
-							}}
-						>
-							<img
-								className="w-full h-full"
-								alt=""
-								aria-hidden="true"
-								src={notebookIcon}
-							/>
-						</button>
-					</TooltipTrigger>
-
 					<NotebookPanelTooltip />
 				</Tooltip>
 			</div>
