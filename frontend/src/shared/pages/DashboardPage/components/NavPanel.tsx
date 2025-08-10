@@ -1,3 +1,4 @@
+import AddIcon from "@/shared/components/icons/AddIcon";
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import { useDashboardNavbarState } from "@/shared/stores/dashboard.stores";
 
@@ -30,6 +31,15 @@ function Item({ itemType, itemName, color }: ItemProps) {
 	);
 }
 
+function AddNotebookButton() {
+	return (
+		<button className="flex flex-row px-1 py-2">
+			<AddIcon size={16} className="fill-sky-500" />
+			<p className="text-sky-500">Add notebook</p>
+		</button>
+	)
+}
+
 function NavPanel() {
 	const { expanded } = useDashboardNavbarState();
 
@@ -47,6 +57,8 @@ function NavPanel() {
             <div className="flex flex-row">
                 <Item itemType="notebook" itemName="History" color="hsl(0, 0%, 0%)" />
             </div>
+
+
 		</div>
 	);
 }
