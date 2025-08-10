@@ -36,6 +36,24 @@ function UserPopoverContent() {
 	const { email, username } = useUserInfoStore();
 	const navigate = useNavigate();
 
+	const { syncCredentials } = useUserInfoStore();
+
+	const syncCredentialsIntervalId = useRef<NodeJS.Timeout>(null);
+
+	useEffect(() => {
+		syncCredentials();
+
+		syncCredentialsIntervalId.current = setInterval(() => {
+			syncCredentials();
+		}, 10 * 1000);
+
+		return () => {
+			if (syncCredentialsIntervalId.current) {
+				clearInterval(syncCredentialsIntervalId.current);
+			}
+		};
+	}, []);
+
 	function handleLogoutButtonClick() {
 		navigate("/logout");
 	}
@@ -77,23 +95,6 @@ function UserPopoverContent() {
 function NavIcons() {
 	const { expanded, expandedItem, expandNavbar, collapseNavbar } =
 		useDashboardNavbarState();
-	const { syncCredentials } = useUserInfoStore();
-
-	const syncCredentialsIntervalId = useRef<NodeJS.Timeout>(null);
-
-	useEffect(() => {
-		syncCredentials();
-
-		syncCredentialsIntervalId.current = setInterval(() => {
-			syncCredentials();
-		}, 10 * 1000);
-
-		return () => {
-			if (syncCredentialsIntervalId.current) {
-				clearInterval(syncCredentialsIntervalId.current);
-			}
-		};
-	}, []);
 
 	return (
 		<div className="flex flex-col items-center w-max p-2 bg-white">
