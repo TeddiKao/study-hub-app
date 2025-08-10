@@ -147,6 +147,7 @@ function NavIcons() {
 
 			<div className="flex flex-col">
 				<Tooltip>
+					<NotebookPanelTrigger />
 					<NotebookPanelTooltip />
 				</Tooltip>
 			</div>
