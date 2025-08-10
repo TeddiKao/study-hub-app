@@ -7,7 +7,7 @@ interface ItemProps {
     color: string
 }
 
-function Item({ itemType, itemName: itenName, color }: ItemProps) {
+function Item({ itemType, itemName, color }: ItemProps) {
     function getItemIcon() {
         switch (itemType) {
             case "notebook":
@@ -19,14 +19,14 @@ function Item({ itemType, itemName: itenName, color }: ItemProps) {
     }
 
 	return (
-		<div className="flex flex-row mb-0.5 p-1 items-center hover:cursor-pointer hover:bg-gray-300 rounded-md">
+		<button type="button" aria-label={itemName} className="flex flex-row mb-0.5 p-1 items-center hover:cursor-pointer hover:bg-gray-300 rounded-md">
 			<div className="p-1 rounded-sm" style={{
                 backgroundColor: color
             }}>
 				{getItemIcon()}
 			</div>
-			<p className="ml-2">{itenName}</p>
-		</div>
+			<p className="ml-2">{itemName}</p>
+		</button>
 	);
 }
 
