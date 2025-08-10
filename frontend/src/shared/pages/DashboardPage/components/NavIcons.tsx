@@ -33,7 +33,7 @@ function UserPopoverTrigger() {
 }
 
 function UserPopoverContent() {
-	const { email, username, syncCredentials } = useUserInfoStore();
+	const { email, username } = useUserInfoStore();
 	const navigate = useNavigate();
 
 	function handleLogoutButtonClick() {
@@ -77,8 +77,7 @@ function UserPopoverContent() {
 function NavIcons() {
 	const { expanded, expandedItem, expandNavbar, collapseNavbar } =
 		useDashboardNavbarState();
-	const { email, username, syncCredentials } = useUserInfoStore();
-	const navigate = useNavigate();
+	const { syncCredentials } = useUserInfoStore();
 
 	const syncCredentialsIntervalId = useRef<NodeJS.Timeout>(null);
 
@@ -95,10 +94,6 @@ function NavIcons() {
 			}
 		};
 	}, []);
-
-	function handleLogoutButtonClick() {
-		navigate("/logout");
-	}
 
 	return (
 		<div className="flex flex-col items-center w-max p-2 bg-white">
