@@ -21,13 +21,18 @@ import { useNavigate } from "react-router-dom";
 function UserPopoverTrigger() {
 	return (
 		<PopoverTrigger asChild>
-			<div className="w-10 h-10 p-1 rounded-md hover:bg-gray-300 hover:cursor-pointer">
+			<button
+				type="button"
+				aria-label="Open profile menu"
+				aria-haspopup="dialog"
+				className="w-10 h-10 p-1 rounded-md hover:bg-gray-300 hover:cursor-pointer"
+			>
 				<img
 					className="w-full h-full"
 					alt="Profile Icon"
 					src={userIcon}
 				/>
-			</div>
+			</button>
 		</PopoverTrigger>
 	);
 }
@@ -38,7 +43,9 @@ function UserPopoverContent() {
 
 	const { syncCredentials } = useUserInfoStore();
 
-	const syncCredentialsIntervalId = useRef<ReturnType<typeof setInterval> | null>(null);
+	const syncCredentialsIntervalId = useRef<ReturnType<
+		typeof setInterval
+	> | null>(null);
 
 	useEffect(() => {
 		syncCredentials();
