@@ -1,6 +1,35 @@
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import { useDashboardNavbarState } from "@/shared/stores/dashboard.stores";
 
+interface ItemProps {
+    itemType: string,
+    itemName: string,
+    color: string
+}
+
+function Item({ itemType, itemName: itenName, color }: ItemProps) {
+    function getItemIcon() {
+        switch (itemType) {
+            case "notebook":
+                return <NotebookIcon className="fill-white" size={20} />
+
+            default:
+                return null;
+        }
+    }
+
+	return (
+		<div className="flex flex-row mb-0.5 p-1 items-center hover:cursor-pointer hover:bg-gray-300 rounded-md">
+			<div className="p-1 rounded-sm" style={{
+                backgroundColor: color
+            }}>
+				{getItemIcon()}
+			</div>
+			<p className="ml-2">{itenName}</p>
+		</div>
+	);
+}
+
 function NavPanel() {
 	const { expanded } = useDashboardNavbarState();
 
@@ -14,12 +43,10 @@ function NavPanel() {
 			className="flex flex-col bg-gray-100 py-3 pl-3 pr-10"
 		>
 			<p className="text-sm text-gray-500 mb-1 pl-1">Notebooks</p>
-			<div className="flex flex-row mb-0.5 p-1 items-center hover:cursor-pointer hover:bg-gray-300 rounded-md">
-				<div className="p-1 bg-purple-500 rounded-sm">
-					<NotebookIcon className="fill-white" size={20} />
-				</div>
-				<p className="ml-2">History</p>
-			</div>
+			
+            <div className="flex flex-row">
+                <Item itemType="notebook" itemName="History" color="hsl(0, 0%, 0%)" />
+            </div>
 		</div>
 	);
 }
