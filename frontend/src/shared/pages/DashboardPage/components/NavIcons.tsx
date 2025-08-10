@@ -52,7 +52,7 @@ function UserPopoverContent() {
 				clearInterval(syncCredentialsIntervalId.current);
 			}
 		};
-	}, []);
+	}, [syncCredentials]);
 
 	function handleLogoutButtonClick() {
 		navigate("/logout");
