@@ -32,6 +32,48 @@ function UserPopoverTrigger() {
 	);
 }
 
+function UserPopoverContent() {
+	const { email, username, syncCredentials } = useUserInfoStore();
+	const navigate = useNavigate();
+
+	function handleLogoutButtonClick() {
+		navigate("/logout");
+	}
+
+	return (
+		<PopoverContent
+			side="right"
+			sideOffset={16}
+			align="start"
+			alignOffset={4}
+			className="outline-none pt-2 pb-2 pl-2 pr-2 flex flex-col justify-center rounded-md shadow-md bg-white"
+		>
+			<div className="flex flex-row items-center pr-6">
+				<img
+					className="w-8 h-8 mr-2"
+					alt="Profile Icon"
+					src={userIcon}
+				/>
+
+				<div className="flex flex-col">
+					<h4 className="font-semibold">{username}</h4>
+					<p>{email}</p>
+				</div>
+			</div>
+
+			<button
+				role="button"
+				aria-label="logout-button"
+				onClick={handleLogoutButtonClick}
+				className="flex flex-row items-center justify-center w-full outline-none bg-red-500 pt-2 pb-2 text-white rounded-md hover:cursor-pointer hover:bg-red-700 mt-2"
+			>
+				<img className="w-6 h-6" src={logoutIcon} />
+				<p className="text-white outline-none ml-2">Log out</p>
+			</button>
+		</PopoverContent>
+	);
+}
+
 function NavIcons() {
 	const { expanded, expandedItem, expandNavbar, collapseNavbar } =
 		useDashboardNavbarState();
@@ -62,37 +104,7 @@ function NavIcons() {
 		<div className="flex flex-col items-center w-max p-2 bg-white">
 			<Popover>
 				<UserPopoverTrigger />
-
-				<PopoverContent
-					side="right"
-					sideOffset={16}
-					align="start"
-					alignOffset={4}
-					className="outline-none pt-2 pb-2 pl-2 pr-2 flex flex-col justify-center rounded-md shadow-md bg-white"
-				>
-					<div className="flex flex-row items-center pr-6">
-						<img
-							className="w-8 h-8 mr-2"
-							alt="Profile Icon"
-							src={userIcon}
-						/>
-
-						<div className="flex flex-col">
-							<h4 className="font-semibold">{username}</h4>
-							<p>{email}</p>
-						</div>
-					</div>
-
-					<button
-						role="button"
-						aria-label="logout-button"
-						onClick={handleLogoutButtonClick}
-						className="flex flex-row items-center justify-center w-full outline-none bg-red-500 pt-2 pb-2 text-white rounded-md hover:cursor-pointer hover:bg-red-700 mt-2"
-					>
-						<img className="w-6 h-6" src={logoutIcon} />
-						<p className="text-white outline-none ml-2">Log out</p>
-					</button>
-				</PopoverContent>
+				<UserPopoverContent />
 			</Popover>
 
 			<Separator className="mt-2 mb-2 bg-gray-200" />
