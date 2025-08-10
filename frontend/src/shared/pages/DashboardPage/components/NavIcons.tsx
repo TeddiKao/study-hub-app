@@ -38,7 +38,7 @@ function UserPopoverContent() {
 
 	const { syncCredentials } = useUserInfoStore();
 
-	const syncCredentialsIntervalId = useRef<NodeJS.Timeout>(null);
+	const syncCredentialsIntervalId = useRef<ReturnType<typeof setInterval> | null>(null);
 
 	useEffect(() => {
 		syncCredentials();
