@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "./global.css";
 import ProtectedRoute from "@/features/auth/components/routes/ProtectedRoute";
-import DashboardPage from "@/shared/pages/DashboardPage";
+import DashboardPage from "@/shared/pages/DashboardPage/DashboardPage";
 import LogoutRoute from "@/features/auth/pages/LogoutRoute";
 import AuthRoute from "@/features/auth/components/routes/AuthRoute";
 
