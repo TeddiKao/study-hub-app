@@ -3,11 +3,11 @@ interface AddIconProps {
 	className?: string;
 }
 
-function AddIcon({ size, className }: AddIconProps) {
+function AddIcon({ size = 16, className }: AddIconProps) {
 	return (
 		<svg
-			width={size ?? 16}
-			height={size ?? 16}
+			width={size}
+			height={size}
 			viewBox="0 0 24 24"
 			fill="currentColor"
 			xmlns="http://www.w3.org/2000/svg"
