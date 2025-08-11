@@ -1,9 +1,9 @@
 interface NotebookIconProps {
-	size: number;
+	size?: number;
 	className: string;
 }
 
-function NotebookIcon({ size, className }: NotebookIconProps) {
+function NotebookIcon({ size = 16, className }: NotebookIconProps) {
 	return (
 		<svg
 			width={size}
