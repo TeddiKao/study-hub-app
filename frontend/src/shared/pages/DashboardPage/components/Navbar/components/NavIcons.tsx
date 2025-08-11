@@ -19,12 +19,19 @@ import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
 
 function UserPopoverTrigger() {
+	const { syncCredentials } = useUserInfoStore();
+
+	function handlePopoverTriggerClick() {
+		syncCredentials();
+	}
+
 	return (
 		<PopoverTrigger asChild>
 			<button
 				type="button"
 				aria-label="Open profile menu"
 				aria-haspopup="dialog"
+				onClick={handlePopoverTriggerClick}
 				className="w-10 h-10 p-1 rounded-md hover:bg-gray-300 hover:cursor-pointer"
 			>
 				<img
@@ -41,12 +48,6 @@ function UserPopoverContent() {
 	const { email, username } = useUserInfoStore();
 	const navigate = useNavigate();
 
-	const { syncCredentials } = useUserInfoStore();
-
-	function handlePopoverClick() {
-		syncCredentials();
-	}
-
 	function handleLogoutButtonClick() {
 		navigate("/logout");
 	}
@@ -57,7 +58,6 @@ function UserPopoverContent() {
 			sideOffset={16}
 			align="start"
 			alignOffset={4}
-			onClick={handlePopoverClick}
 			className="outline-none pt-2 pb-2 pl-2 pr-2 flex flex-col justify-center rounded-md shadow-md bg-white"
 		>
 			<div className="flex flex-row items-center pr-6">
