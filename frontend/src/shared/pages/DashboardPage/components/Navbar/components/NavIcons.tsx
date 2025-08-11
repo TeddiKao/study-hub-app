@@ -43,23 +43,9 @@ function UserPopoverContent() {
 
 	const { syncCredentials } = useUserInfoStore();
 
-	const syncCredentialsIntervalId = useRef<ReturnType<
-		typeof setInterval
-	> | null>(null);
-
-	useEffect(() => {
+	function handlePopoverClick() {
 		syncCredentials();
-
-		syncCredentialsIntervalId.current = setInterval(() => {
-			syncCredentials();
-		}, 10 * 1000);
-
-		return () => {
-			if (syncCredentialsIntervalId.current) {
-				clearInterval(syncCredentialsIntervalId.current);
-			}
-		};
-	}, [syncCredentials]);
+	}
 
 	function handleLogoutButtonClick() {
 		navigate("/logout");
@@ -71,6 +57,7 @@ function UserPopoverContent() {
 			sideOffset={16}
 			align="start"
 			alignOffset={4}
+			onClick={handlePopoverClick}
 			className="outline-none pt-2 pb-2 pl-2 pr-2 flex flex-col justify-center rounded-md shadow-md bg-white"
 		>
 			<div className="flex flex-row items-center pr-6">
