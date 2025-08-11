@@ -11,7 +11,7 @@ class FetchNotebooksEndpoint(ListAPIView):
 
     def get_queryset(self):
         # Filter logic not implemented yet, for future purposes
-        filter = self.request.query_params.getList("filters")
+        filter = self.request.query_params.getlist("filters")
         queryset = Notebook.objects.filter(owner=self.request.user)
 
         return queryset
