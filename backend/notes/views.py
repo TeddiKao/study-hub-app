@@ -1,4 +1,4 @@
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Notebook
@@ -22,3 +22,12 @@ class CreateNotebookEndpoint(CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+class DeleteNotebookEndpoint(DestroyAPIView):
+    serializer_class = NotebookSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = Notebook.objects.filter(owner=self.request.user)
+
+        return queryset
