@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from .models import Notebook
 from .serializers import NotebookSerializer
 
-# Create your views here.
 class CreateNotebookEndpoint(CreateAPIView):
     queryset = Notebook.objects.all()
     serializer_class = NotebookSerializer
