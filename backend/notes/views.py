@@ -12,9 +12,4 @@ class CreateNotebookEndpoint(CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        if serializer.is_valid():
-            serializer.save(owner=self.request.user)
-        else:
-            return Response({
-                "errors": serializer.errors
-            })
+        serializer.save(owner=self.request.user)
