@@ -6,3 +6,9 @@ class Notebook(models.Model):
     description = models.TextField(null=True, blank=True)
     notebook_color = models.CharField(max_length=7, null=False, blank=False, default="#b3b3b3")
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = models.UniqueConstraint(
+            fields=["owner", "name"], 
+            name="unique_notebook_name_per_owner"
+        )

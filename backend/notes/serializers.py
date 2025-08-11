@@ -1,5 +1,6 @@
 from rest_framework.serializers import ModelSerializer, ValidationError
 from .models import Notebook
+from django.db import models
 
 class NotebookSerializer(ModelSerializer):
 	def validate(self, data):
