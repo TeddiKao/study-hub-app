@@ -29,8 +29,6 @@ class NotebookSerializer(ModelSerializer):
 		model = Notebook
 		fields = ["id", "name", "description", "notebook_color", "owner"]
 
-		constraints = models.UniqueConstraint(fields=["owner", "name"], name="unique_notebook_name_per_owner")
-
 		extra_kwargs = {
 			"owner": {
 				"read_only": True
