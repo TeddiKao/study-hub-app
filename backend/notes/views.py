@@ -24,7 +24,13 @@ class CreateNotebookEndpoint(CreateAPIView):
         serializer.save(owner=self.request.user)
 
 class EditNotebookEndpoint(UpdateAPIView):
-    pass
+    serializer_class = NotebookSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        queryset = Notebook.objects.filter(owner=self.request.user)
+
+        return queryset
 
 class DeleteNotebookEndpoint(DestroyAPIView):
     serializer_class = NotebookSerializer
