@@ -4,19 +4,19 @@ from .models import Notebook
 class NotebookSerializer(ModelSerializer):
 	def validate(self, data):
 		notebook_name = data.get("name")
-		notebook_owner = data.get("owner")
+		request = self.context.get("request")
+		notebook_owner = request.user if request else None
 
 		if notebook_name and notebook_owner:
 			owned_notebooks = Notebook.objects.filter(owner=notebook_owner)
-			
+
 			if self.instance:
 				owned_notebooks = owned_notebooks.exclude(id=self.instance.id)
 
 			identical_name_notebooks = owned_notebooks.filter(name=notebook_name)
-
 			if identical_name_notebooks.exists():
 				raise ValidationError({
-					"name": "A notebook with this name already exists"
+					"name": "A notebook with that name already exists"
 				})
 
 		return data
