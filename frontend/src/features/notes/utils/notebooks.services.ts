@@ -1,5 +1,26 @@
-async function fetchNotebooks() {
+import api from "@/app/api"
+import type { ApiErrorResponse } from "@/shared/types/api.types"
 
+interface Notebook {
+    id: number,
+    name: string,
+    description: string,
+    notebookColor: string,
+}
+
+type Notebooks = Notebook[]
+
+async function fetchNotebooks(): Promise<Notebooks | ApiErrorResponse> {
+    try {
+        const response = await api.get("notes/notebooks/")
+
+        return response.data
+    } catch (error) {
+        return {
+            success: false,
+            error: "Failed to fetch notebooks",
+        }
+    }
 }
 
 async function createNotebook() {
