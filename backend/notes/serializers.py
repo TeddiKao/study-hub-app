@@ -1,5 +1,6 @@
 from rest_framework.serializers import ModelSerializer, ValidationError
 from .models import Notebook
+from django.db import models
 
 class NotebookSerializer(ModelSerializer):
 	def validate(self, data):
@@ -27,6 +28,8 @@ class NotebookSerializer(ModelSerializer):
 	class Meta:
 		model = Notebook
 		fields = ["id", "name", "description", "notebook_color", "owner"]
+
+		constraints = models.UniqueConstraint(fields=["owner", "name"], name="unique_notebook_name_per_owner")
 
 		extra_kwargs = {
 			"owner": {
