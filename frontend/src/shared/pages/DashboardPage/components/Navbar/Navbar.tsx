@@ -3,10 +3,10 @@ import NavPanel from "./components/NavPanel";
 
 function Navbar() {
     return (
-        <div className="flex flex-row">
+        <nav className="flex flex-row" aria-label="Dashboard navigation bar">
             <NavIcons />
             <NavPanel />
-        </div>
+        </nav>
     )
 }
 
