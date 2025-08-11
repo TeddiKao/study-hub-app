@@ -1,11 +1,9 @@
-import NavIcons from "./components/Navbar/components/NavIcons";
-import NavPanel from "./components/Navbar/components/NavPanel";
+import Navbar from "./components/Navbar/Navbar";
 
 function DashboardPage() {
 	return (
 		<div className="flex flex-row fixed top-0 bottom-0">
-			<NavIcons />
-			<NavPanel />
+			<Navbar />
 		</div>
 	);
 }
