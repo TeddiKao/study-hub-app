@@ -8,4 +8,7 @@ class Notebook(models.Model):
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     class Meta:
-        constraints = models.UniqueConstraint(fields=["owner", "name"], name="unique_notebook_name_per_owner")
+        constraints = models.UniqueConstraint(
+            fields=["owner", "name"], 
+            name="unique_notebook_name_per_owner"
+        )
