@@ -41,9 +41,9 @@ function AddNotebookButton() {
 }
 
 function NavPanel() {
-	const { expanded } = useDashboardNavbarState();
+	const { expanded, expandedItem } = useDashboardNavbarState();
 
-	if (!expanded) return null;
+	if (!(expanded && expandedItem === "notebooks")) return null;
 
 	return (
 		<div
