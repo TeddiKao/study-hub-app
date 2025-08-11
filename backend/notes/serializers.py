@@ -1,5 +1,8 @@
 from rest_framework.serializers import ModelSerializer, ValidationError
+
 from .models import Notebook
+from authentication.serializers import UserSerializer
+
 from django.db import models
 
 class NotebookSerializer(ModelSerializer):
@@ -26,6 +29,8 @@ class NotebookSerializer(ModelSerializer):
 		return data
 
 	class Meta:
+		owner = UserSerializer()
+
 		model = Notebook
 		fields = ["id", "name", "description", "notebook_color", "owner"]
 
