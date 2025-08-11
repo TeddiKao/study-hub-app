@@ -61,7 +61,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",
 
-    "authentication"
+    "authentication",
+    "notes"
 ]
 
 AUTH_USER_MODEL = "authentication.AuthUser"
