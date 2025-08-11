@@ -14,7 +14,6 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useUserInfoStore } from "@/features/auth/stores/userInfo.stores";
-import { useEffect, useRef } from "react";
 import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
 
