@@ -1,0 +1,32 @@
+import { create } from "zustand";
+import { fetchUserCredentials } from "../utils/userCredentials.services";
+
+interface UserInfoStore {
+	username: string;
+	email: string;
+
+	syncCredentials: () => Promise<void>;
+}
+
+const useUserInfoStore = create<UserInfoStore>((set) => ({
+	username: "",
+	email: "",
+
+	syncCredentials: async () => {
+		try {
+			const response = await fetchUserCredentials();
+			if (!response.success) {
+				set({ email: "", username: "" });
+				return;
+			}
+
+			const { email, username } = response;
+
+			set({ email: email, username: username });
+		} catch (error) {
+			set({ email: "", username: "" })
+		}
+	},
+}));
+
+export { useUserInfoStore };
