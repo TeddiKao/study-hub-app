@@ -24,3 +24,9 @@ class NotebookSerializer(ModelSerializer):
 	class Meta:
 		model = Notebook
 		fields = ["id", "name", "description", "notebook_color", "owner"]
+
+		extra_kwargs = {
+			"owner": {
+				"read_only": True
+			}
+		}
