@@ -7,6 +7,9 @@ class NotebookSerializer(ModelSerializer):
 		request = self.context.get("request")
 		notebook_owner = request.user if request else None
 
+		if not notebook_name and self.instance and self.partial:
+			notebook_name = self.instance.name
+
 		if notebook_name and notebook_owner:
 			owned_notebooks = Notebook.objects.filter(owner=notebook_owner)
 
