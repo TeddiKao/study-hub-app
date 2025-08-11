@@ -9,7 +9,7 @@ function AddIcon({ size, className }: AddIconProps) {
 			width={size ?? 16}
 			height={size ?? 16}
 			viewBox="0 0 24 24"
-			fill="none"
+			fill="currentColor"
 			xmlns="http://www.w3.org/2000/svg"
 			className={className}
 			aria-hidden="true"
