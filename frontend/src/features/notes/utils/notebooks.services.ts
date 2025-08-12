@@ -18,6 +18,10 @@ interface NotebookApiSuccess {
     message: string,
 }
 
+interface NotebookCreateSuccess extends NotebookApiSuccess {
+    createdNotebook: Notebook
+}
+
 type Notebooks = Notebook[]
 
 async function fetchNotebooks(): Promise<Notebooks | ApiErrorResponse> {
@@ -34,7 +38,7 @@ async function fetchNotebooks(): Promise<Notebooks | ApiErrorResponse> {
 }
 
 async function createNotebook() {
-
+    
 }
 
 async function editNotebook() {
