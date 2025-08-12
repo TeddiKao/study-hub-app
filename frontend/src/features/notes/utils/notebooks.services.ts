@@ -1,6 +1,12 @@
 import api from "@/app/api"
 import type { ApiErrorResponse } from "@/shared/types/api.types"
 
+interface ClientSentNotebook {
+    name: string,
+    description: string,
+    notebookColor: string,
+}
+
 interface Notebook {
     id: number,
     name: string,
@@ -37,8 +43,12 @@ async function fetchNotebooks(): Promise<Notebooks | ApiErrorResponse> {
     }
 }
 
-async function createNotebook() {
-    
+async function createNotebook(notebookData: ClientSentNotebook) {
+    try {
+        const response = await api.post("notes/notebooks/create/")
+
+        return response.data
+    }
 }
 
 async function editNotebook() {
