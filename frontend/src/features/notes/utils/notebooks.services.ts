@@ -1,7 +1,7 @@
 import api from "@/app/api"
 import type { ApiErrorResponse } from "@/shared/types/api.types"
 
-interface ClientSentNotebook {
+interface CreateNotebooApiPayload {
     name: string,
     description: string,
     notebookColor: string,
@@ -43,11 +43,20 @@ async function fetchNotebooks(): Promise<Notebooks | ApiErrorResponse> {
     }
 }
 
-async function createNotebook(notebookData: ClientSentNotebook) {
+async function createNotebook(notebookData: CreateNotebooApiPayload): Promise<NotebookCreateSuccess | ApiErrorResponse> {
     try {
-        const response = await api.post("notes/notebooks/create/")
+        const response = await api.post("notes/notebooks/create/", notebookData)
 
-        return response.data
+        return {
+            success: true,
+            createdNotebook: response.data,
+            message: "Notebook created successfully"
+        }
+    } catch (error) {
+        return {
+            success: false,
+            error: "Failed to create notebook"
+        }
     }
 }
 
