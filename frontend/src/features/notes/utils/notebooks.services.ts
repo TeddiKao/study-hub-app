@@ -127,10 +127,17 @@ async function deleteNotebook(
 			message: "Notebook deleted successfully",
 		};
 	} catch (error) {
-		return {
-			success: false,
-			error: "Failed to delete notebook",
-		};
+		if (!(error instanceof AxiosError)) {
+            return {
+                success: false,
+                error: "Failed to delete notebook"
+            }
+        }
+
+        return {
+            success: false,
+            error: error.response?.data.error ?? "Failed to delete notebook"
+        }
 	}
 }
 
