@@ -1,5 +1,6 @@
 import api from "@/app/api"
 import type { ApiErrorResponse } from "@/shared/types/api.types"
+import { AxiosError } from "axios"
 
 interface CreateNotebookApiPayload {
     name: string,
@@ -42,9 +43,16 @@ async function fetchNotebooks(): Promise<Notebooks | ApiErrorResponse> {
 
         return response.data
     } catch (error) {
+        if (!(error instanceof AxiosError)) {
+            return {
+                success: false,
+                error: "Failed to fetch notebooks"
+            }
+        }
+
         return {
             success: false,
-            error: "Failed to fetch notebooks",
+            error: error.response?.data.error ?? "Failed to fetch notebooks"
         }
     }
 }
