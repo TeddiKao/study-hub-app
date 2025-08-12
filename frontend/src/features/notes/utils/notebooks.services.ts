@@ -13,6 +13,11 @@ interface Notebook {
     }
 }
 
+interface NotebookApiSuccess {
+    success: true,
+    message: string,
+}
+
 type Notebooks = Notebook[]
 
 async function fetchNotebooks(): Promise<Notebooks | ApiErrorResponse> {
@@ -36,8 +41,20 @@ async function editNotebook() {
 
 }
 
-async function deleteNotebook() {
+async function deleteNotebook(notebookId: number): Promise<NotebookApiSuccess | ApiErrorResponse> {
+    try {
+        await api.delete(`notes/notebook/${notebookId}/delete/`)
 
+        return {
+            success: true,
+            message: "Notebook deleted successfully"
+        }
+    } catch (error) {
+        return {
+            success: false,
+            error: "Failed to delete notebook"
+        }
+    }
 }
 
 export { fetchNotebooks, createNotebook, editNotebook, deleteNotebook }
