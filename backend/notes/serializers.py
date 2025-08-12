@@ -1,8 +1,13 @@
 from rest_framework.serializers import ModelSerializer, ValidationError
+
 from .models import Notebook
+from authentication.serializers import UserSerializer
+
 from django.db import models
 
 class NotebookSerializer(ModelSerializer):
+	owner = UserSerializer()
+
 	def validate(self, data):
 		notebook_name = data.get("name")
 		request = self.context.get("request")
