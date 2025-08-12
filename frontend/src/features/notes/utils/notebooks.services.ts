@@ -7,6 +7,12 @@ interface CreateNotebooApiPayload {
     notebookColor: string,
 }
 
+interface EditNotebookApiPayload {
+    name?: string,
+    description?: string,
+    notebookColor?: string,
+}
+
 interface Notebook {
     id: number,
     name: string,
