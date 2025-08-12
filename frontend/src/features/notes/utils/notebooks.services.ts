@@ -111,7 +111,7 @@ async function editNotebook(
 
         return {
             success: false,
-            error: error.response?.data.error ?? "Failed to create notebook",
+            error: error.response?.data.error ?? "Failed to edit notebook",
         }
 	}
 }
