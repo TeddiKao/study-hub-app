@@ -1,6 +1,6 @@
 import api from "@/app/api"
 import type { ApiErrorResponse } from "@/shared/types/api.types"
-import { AxiosError } from "axios"
+import { Axios, AxiosError } from "axios"
 
 interface CreateNotebookApiPayload {
     name: string,
@@ -67,9 +67,16 @@ async function createNotebook(notebookData: CreateNotebookApiPayload): Promise<N
             message: "Notebook created successfully"
         }
     } catch (error) {
+        if (!(error instanceof AxiosError)) {
+            return {
+                success: false,
+                error: "Failed to create notebook"
+            }
+        }
+
         return {
             success: false,
-            error: "Failed to create notebook"
+            error: error.response?.data.error ?? "Failed to create notebook"
         }
     }
 }
