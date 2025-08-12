@@ -1,13 +1,13 @@
 import api from "@/app/api"
 import type { ApiErrorResponse } from "@/shared/types/api.types"
 
-interface CreateNotebooApiPayload {
+interface CreateNotebookApiPayload {
     name: string,
     description: string,
     notebookColor: string,
 }
 
-interface EditNotebookApiPayload extends CreateNotebooApiPayload {}
+interface EditNotebookApiPayload extends CreateNotebookApiPayload {}
 
 interface Notebook {
     id: number,
@@ -49,7 +49,7 @@ async function fetchNotebooks(): Promise<Notebooks | ApiErrorResponse> {
     }
 }
 
-async function createNotebook(notebookData: CreateNotebooApiPayload): Promise<NotebookCreateSuccess | ApiErrorResponse> {
+async function createNotebook(notebookData: CreateNotebookApiPayload): Promise<NotebookCreateSuccess | ApiErrorResponse> {
     try {
         const response = await api.post("notes/notebooks/create/", notebookData)
 
