@@ -7,11 +7,7 @@ interface CreateNotebooApiPayload {
     notebookColor: string,
 }
 
-interface EditNotebookApiPayload {
-    name?: string,
-    description?: string,
-    notebookColor?: string,
-}
+interface EditNotebookApiPayload extends CreateNotebooApiPayload {}
 
 interface Notebook {
     id: number,
@@ -32,6 +28,10 @@ interface NotebookApiSuccess {
 
 interface NotebookCreateSuccess extends NotebookApiSuccess {
     createdNotebook: Notebook
+}
+
+interface NotebookEditSuccess extends NotebookApiSuccess {
+    editedNotebook: Notebook
 }
 
 type Notebooks = Notebook[]
@@ -66,8 +66,21 @@ async function createNotebook(notebookData: CreateNotebooApiPayload): Promise<No
     }
 }
 
-async function editNotebook() {
+async function editNotebook(notebookId: number, notebookData: EditNotebookApiPayload): Promise<NotebookEditSuccess | ApiErrorResponse> {
+    try {
+        const response = await api.put(`notes/notebook/${notebookId}/edit/`, notebookData)
 
+        return {
+            success: true,
+            message: "Notebook edited successfully",
+            editedNotebook: response.data
+        }
+    } catch (error) {
+        return {
+            success: false,
+            error: "Failed to edit notebook"
+        }
+    }
 }
 
 async function deleteNotebook(notebookId: number): Promise<NotebookApiSuccess | ApiErrorResponse> {
