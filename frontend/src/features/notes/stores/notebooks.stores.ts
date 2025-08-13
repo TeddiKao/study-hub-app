@@ -18,9 +18,9 @@ type Notebooks = Notebook[]
 interface NotebookStore {
     notebooks: Notebooks,
 
-    getNotebooks: () => void
-    handleNotebookCreate: (notebookData: Notebook) => void
-    handleNotebookEdit: (notebookId: number, notebookData: Notebook) => void
+    getNotebooks: () => Promise<void>,
+    handleNotebookCreate: (notebookData: Notebook) => Promise<void>,
+    handleNotebookEdit: (notebookId: number, notebookData: Notebook) => Promise<void>,
     handleNotebookDelete: (notebookId: number) => Promise<void>,
 }
 
