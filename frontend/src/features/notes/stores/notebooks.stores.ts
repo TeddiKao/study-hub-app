@@ -11,3 +11,12 @@ interface Notebook {
 }
 
 type Notebooks = Notebook[]
+
+interface NotebookStore {
+    notebooks: Notebooks,
+
+    getNotebooks: () => void
+    handleNotebookCreate: (notebookData: Notebook) => void
+    handleNotebookEdit: (notebookId: number, notebookData: Notebook) => void
+    handleNotebookDelete: (notebookId: number) => void,
+}
