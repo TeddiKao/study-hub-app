@@ -1,3 +1,5 @@
+import type { Notebook, Notebooks } from "@/features/notes/types/notebooks/notebookStore.types"
+
 interface NotebookApiSuccess {
 	success: true;
 	message: string;
