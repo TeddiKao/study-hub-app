@@ -21,7 +21,7 @@ interface NotebookStore {
     getNotebooks: () => void
     handleNotebookCreate: (notebookData: Notebook) => void
     handleNotebookEdit: (notebookId: number, notebookData: Notebook) => void
-    handleNotebookDelete: (notebookId: number) => void,
+    handleNotebookDelete: (notebookId: number) => Promise<void>,
 }
 
 const useNotebookStore = create<NotebookStore>((set, get) => ({
@@ -42,7 +42,7 @@ const useNotebookStore = create<NotebookStore>((set, get) => ({
             return;
         }
 
-        get().getNotebooks()
+        await get().getNotebooks()
     },
 
     handleNotebookEdit: async (notebookId: number, notebookData: Notebook) => {
@@ -51,7 +51,7 @@ const useNotebookStore = create<NotebookStore>((set, get) => ({
             return;
         }
 
-        get().getNotebooks()
+        await get().getNotebooks()
     },
 
     handleNotebookDelete: async (notebookId) => {
@@ -60,7 +60,7 @@ const useNotebookStore = create<NotebookStore>((set, get) => ({
             return;
         }
 
-        get().getNotebooks()
+        await get().getNotebooks()
     }
 }))
 
