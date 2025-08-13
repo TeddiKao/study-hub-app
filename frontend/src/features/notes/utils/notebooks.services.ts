@@ -2,53 +2,25 @@ import api from "@/app/api";
 import type { ApiErrorResponse } from "@/shared/types/api.types";
 import { AxiosError } from "axios";
 
-interface CreateNotebookApiPayload {
-	name: string;
-	description: string;
-	notebookColor: string;
-}
+import type {
+	NotebookFetchSuccess,
+	CreateNotebookApiPayload,
+	NotebookCreateSuccess,
+	EditNotebookApiPayload,
+	NotebookEditSuccess,
+	NotebookApiSuccess,
+} from "../types/notebooks/notebookApi.types";
 
-interface EditNotebookApiPayload extends CreateNotebookApiPayload {}
-
-interface Notebook {
-	id: number;
-	name: string;
-	description: string;
-	notebookColor: string;
-	owner: {
-		id: number;
-		email: string;
-		username: string;
-	};
-}
-
-interface NotebookApiSuccess {
-	success: true;
-	message: string;
-}
-
-interface NotebookFetchSuccess extends NotebookApiSuccess {
-	notebooks: Notebooks
-}
-
-interface NotebookCreateSuccess extends NotebookApiSuccess {
-	createdNotebook: Notebook;
-}
-
-interface NotebookEditSuccess extends NotebookApiSuccess {
-	editedNotebook: Notebook;
-}
-
-type Notebooks = Notebook[];
-
-async function fetchNotebooks(): Promise<NotebookFetchSuccess | ApiErrorResponse> {
+async function fetchNotebooks(): Promise<
+	NotebookFetchSuccess | ApiErrorResponse
+> {
 	try {
 		const response = await api.get("notes/notebooks/");
 
 		return {
 			success: true,
 			notebooks: response.data,
-			message: "Notebooks fetched successfully"
+			message: "Notebooks fetched successfully",
 		};
 	} catch (error) {
 		if (!(error instanceof AxiosError)) {
@@ -117,10 +89,10 @@ async function editNotebook(
 			};
 		}
 
-        return {
-            success: false,
-            error: error.response?.data.error ?? "Failed to edit notebook",
-        }
+		return {
+			success: false,
+			error: error.response?.data.error ?? "Failed to edit notebook",
+		};
 	}
 }
 
@@ -136,16 +108,16 @@ async function deleteNotebook(
 		};
 	} catch (error) {
 		if (!(error instanceof AxiosError)) {
-            return {
-                success: false,
-                error: "Failed to delete notebook"
-            }
-        }
+			return {
+				success: false,
+				error: "Failed to delete notebook",
+			};
+		}
 
-        return {
-            success: false,
-            error: error.response?.data.error ?? "Failed to delete notebook"
-        }
+		return {
+			success: false,
+			error: error.response?.data.error ?? "Failed to delete notebook",
+		};
 	}
 }
 

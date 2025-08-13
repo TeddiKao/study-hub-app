@@ -28,6 +28,7 @@ interface EditNotebookApiPayload extends CreateNotebookApiPayload {}
 export type {
 	NotebookFetchSuccess,
 	NotebookCreateSuccess,
+	NotebookApiSuccess,
 	NotebookEditSuccess,
 	CreateNotebookApiPayload,
 	EditNotebookApiPayload,
