@@ -6,20 +6,7 @@ import {
 	fetchNotebooks,
 } from "../utils/notebooks.services";
 import type { CreateNotebookApiPayload, EditNotebookApiPayload } from "../types/notebooks/notebookApi.types";
-
-interface Notebook {
-	id: number;
-	name: string;
-	description: string;
-	notebookColor: string;
-	owner: {
-		id: number;
-		email: string;
-		username: string;
-	};
-}
-
-type Notebooks = Notebook[];
+import type { Notebooks } from "../types/notebooks/notebookStore.types";
 
 interface NotebookStore {
 	notebooks: Notebooks;
