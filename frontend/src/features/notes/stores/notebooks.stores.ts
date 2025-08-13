@@ -5,6 +5,7 @@ import {
 	editNotebook,
 	fetchNotebooks,
 } from "../utils/notebooks.services";
+import type { CreateNotebookApiPayload, EditNotebookApiPayload } from "../types/notebooks/notebookApi.types";
 
 interface Notebook {
 	id: number;
@@ -53,11 +54,7 @@ const useNotebookStore = create<NotebookStore>((set, get) => ({
 		set({ notebooks: notebookFetchResponse.notebooks });
 	},
 
-	handleNotebookCreate: async (notebookData: {
-		name: string;
-		description: string;
-		notebookColor: string;
-	}) => {
+	handleNotebookCreate: async (notebookData: CreateNotebookApiPayload) => {
 		const notebookCreateResponse = await createNotebook(notebookData);
 		if (!notebookCreateResponse.success) {
 			return;
@@ -68,11 +65,7 @@ const useNotebookStore = create<NotebookStore>((set, get) => ({
 
 	handleNotebookEdit: async (
 		notebookId: number,
-		notebookData: {
-			name: string;
-			description: string;
-			notebookColor: string;
-		}
+		notebookData: EditNotebookApiPayload
 	) => {
 		const notebookEditResponse = await editNotebook(
 			notebookId,
