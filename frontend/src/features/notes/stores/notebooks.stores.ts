@@ -1,5 +1,10 @@
 import { create } from "zustand";
-import { createNotebook, deleteNotebook, editNotebook, fetchNotebooks } from "../utils/notebooks.services";
+import {
+	createNotebook,
+	deleteNotebook,
+	editNotebook,
+	fetchNotebooks,
+} from "../utils/notebooks.services";
 
 interface Notebook {
 	id: number;
@@ -13,55 +18,81 @@ interface Notebook {
 	};
 }
 
-type Notebooks = Notebook[]
+type Notebooks = Notebook[];
 
 interface NotebookStore {
-    notebooks: Notebooks,
+	notebooks: Notebooks;
 
-    getNotebooks: () => Promise<void>,
-    handleNotebookCreate: (notebookData: Notebook) => Promise<void>,
-    handleNotebookEdit: (notebookId: number, notebookData: Notebook) => Promise<void>,
-    handleNotebookDelete: (notebookId: number) => Promise<void>,
+	getNotebooks: () => Promise<void>;
+	handleNotebookCreate: (notebookData: {
+		name: string;
+		description: string;
+		notebookColor: string;
+	}) => Promise<void>;
+
+	handleNotebookEdit: (
+		notebookId: number,
+		notebookData: {
+			name: string;
+			description: string;
+			notebookColor: string;
+		}
+	) => Promise<void>;
+	handleNotebookDelete: (notebookId: number) => Promise<void>;
 }
 
 const useNotebookStore = create<NotebookStore>((set, get) => ({
-    notebooks: [],
+	notebooks: [],
 
-    getNotebooks: async () => {
-        const notebookFetchResponse = await fetchNotebooks();
-        if (!notebookFetchResponse.success) {
-            return;
-        }
+	getNotebooks: async () => {
+		const notebookFetchResponse = await fetchNotebooks();
+		if (!notebookFetchResponse.success) {
+			return;
+		}
 
-        set({ notebooks: notebookFetchResponse.notebooks })
-    },
+		set({ notebooks: notebookFetchResponse.notebooks });
+	},
 
-    handleNotebookCreate: async (notebookData: Notebook) => {
-        const notebookCreateResponse = await createNotebook(notebookData);
-        if (!notebookCreateResponse.success) {
-            return;
-        }
+	handleNotebookCreate: async (notebookData: {
+		name: string;
+		description: string;
+		notebookColor: string;
+	}) => {
+		const notebookCreateResponse = await createNotebook(notebookData);
+		if (!notebookCreateResponse.success) {
+			return;
+		}
 
-        await get().getNotebooks()
-    },
+		await get().getNotebooks();
+	},
 
-    handleNotebookEdit: async (notebookId: number, notebookData: Notebook) => {
-        const notebookEditResponse = await editNotebook(notebookId, notebookData)
-        if (!notebookEditResponse.success) {
-            return;
-        }
+	handleNotebookEdit: async (
+		notebookId: number,
+		notebookData: {
+			name: string;
+			description: string;
+			notebookColor: string;
+		}
+	) => {
+		const notebookEditResponse = await editNotebook(
+			notebookId,
+			notebookData
+		);
+		if (!notebookEditResponse.success) {
+			return;
+		}
 
-        await get().getNotebooks()
-    },
+		await get().getNotebooks();
+	},
 
-    handleNotebookDelete: async (notebookId) => {
-        const notebookDeleteResponse = await deleteNotebook(notebookId);
-        if (!notebookDeleteResponse.success) {
-            return;
-        }
+	handleNotebookDelete: async (notebookId) => {
+		const notebookDeleteResponse = await deleteNotebook(notebookId);
+		if (!notebookDeleteResponse.success) {
+			return;
+		}
 
-        await get().getNotebooks()
-    }
-}))
+		await get().getNotebooks();
+	},
+}));
 
-export { useNotebookStore }
+export { useNotebookStore };
