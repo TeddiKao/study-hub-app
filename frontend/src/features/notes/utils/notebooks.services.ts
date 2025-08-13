@@ -1,6 +1,6 @@
 import api from "@/app/api";
 import type { ApiErrorResponse } from "@/shared/types/api.types";
-import { Axios, AxiosError } from "axios";
+import { AxiosError } from "axios";
 
 interface CreateNotebookApiPayload {
 	name: string;
