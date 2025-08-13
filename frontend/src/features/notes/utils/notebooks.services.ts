@@ -27,6 +27,10 @@ interface NotebookApiSuccess {
 	message: string;
 }
 
+interface NotebookFetchSuccess extends NotebookApiSuccess {
+	notebooks: Notebooks
+}
+
 interface NotebookCreateSuccess extends NotebookApiSuccess {
 	createdNotebook: Notebook;
 }
@@ -37,11 +41,15 @@ interface NotebookEditSuccess extends NotebookApiSuccess {
 
 type Notebooks = Notebook[];
 
-async function fetchNotebooks(): Promise<Notebooks | ApiErrorResponse> {
+async function fetchNotebooks(): Promise<NotebookFetchSuccess | ApiErrorResponse> {
 	try {
 		const response = await api.get("notes/notebooks/");
 
-		return response.data;
+		return {
+			success: true,
+			notebooks: response.data,
+			message: "Notebooks fetched successfully"
+		};
 	} catch (error) {
 		if (!(error instanceof AxiosError)) {
 			return {
