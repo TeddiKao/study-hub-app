@@ -5,38 +5,18 @@ import {
 	editNotebook,
 	fetchNotebooks,
 } from "../utils/notebooks.services";
-
-interface Notebook {
-	id: number;
-	name: string;
-	description: string;
-	notebookColor: string;
-	owner: {
-		id: number;
-		email: string;
-		username: string;
-	};
-}
-
-type Notebooks = Notebook[];
+import type { CreateNotebookApiPayload, EditNotebookApiPayload } from "../types/notebooks/notebookApi.types";
+import type { Notebooks } from "../types/notebooks/notebookStore.types";
 
 interface NotebookStore {
 	notebooks: Notebooks;
 
 	getNotebooks: () => Promise<void>;
-	handleNotebookCreate: (notebookData: {
-		name: string;
-		description: string;
-		notebookColor: string;
-	}) => Promise<void>;
+	handleNotebookCreate: (notebookData: CreateNotebookApiPayload) => Promise<void>;
 
 	handleNotebookEdit: (
 		notebookId: number,
-		notebookData: {
-			name: string;
-			description: string;
-			notebookColor: string;
-		}
+		notebookData: EditNotebookApiPayload
 	) => Promise<void>;
 	handleNotebookDelete: (notebookId: number) => Promise<void>;
 }
@@ -53,11 +33,7 @@ const useNotebookStore = create<NotebookStore>((set, get) => ({
 		set({ notebooks: notebookFetchResponse.notebooks });
 	},
 
-	handleNotebookCreate: async (notebookData: {
-		name: string;
-		description: string;
-		notebookColor: string;
-	}) => {
+	handleNotebookCreate: async (notebookData: CreateNotebookApiPayload) => {
 		const notebookCreateResponse = await createNotebook(notebookData);
 		if (!notebookCreateResponse.success) {
 			return;
@@ -68,11 +44,7 @@ const useNotebookStore = create<NotebookStore>((set, get) => ({
 
 	handleNotebookEdit: async (
 		notebookId: number,
-		notebookData: {
-			name: string;
-			description: string;
-			notebookColor: string;
-		}
+		notebookData: EditNotebookApiPayload
 	) => {
 		const notebookEditResponse = await editNotebook(
 			notebookId,
