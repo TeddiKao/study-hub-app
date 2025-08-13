@@ -12,19 +12,11 @@ interface NotebookStore {
 	notebooks: Notebooks;
 
 	getNotebooks: () => Promise<void>;
-	handleNotebookCreate: (notebookData: {
-		name: string;
-		description: string;
-		notebookColor: string;
-	}) => Promise<void>;
+	handleNotebookCreate: (notebookData: CreateNotebookApiPayload) => Promise<void>;
 
 	handleNotebookEdit: (
 		notebookId: number,
-		notebookData: {
-			name: string;
-			description: string;
-			notebookColor: string;
-		}
+		notebookData: EditNotebookApiPayload
 	) => Promise<void>;
 	handleNotebookDelete: (notebookId: number) => Promise<void>;
 }
