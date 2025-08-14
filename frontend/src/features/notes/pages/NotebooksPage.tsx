@@ -15,14 +15,14 @@ function Notebook({ notebookName }: NotebookProps) {
 			type="button"
 			className="flex flex-col pb-2 bg-white rounded-2xl shadow-xl"
 		>
-			<div className="w-[180px] h-[180px] rounded-t-2xl bg-gray-100 flex flex-row items-center justify-center">
+			<span className="w-[180px] h-[180px] rounded-t-2xl bg-gray-100 flex flex-row items-center justify-center">
 				<NotebookIcon size={120} className="" />
-			</div>
+			</span>
 
-			<div className="flex flex-col ml-3">
-				<p className="font-semibold mt-2 text-left">{notebookName}</p>
-				<p className="text-gray-400 text-left">0 notes</p>
-			</div>
+			<span className="flex flex-col ml-3">
+				<span className="font-semibold mt-2 text-left">{notebookName}</span>
+				<span className="text-gray-400 text-left">0 notes</span>
+			</span>
 		</button>
 	);
 }
