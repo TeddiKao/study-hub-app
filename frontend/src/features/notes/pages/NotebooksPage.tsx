@@ -67,7 +67,7 @@ function NotebooksPage() {
 					<h1 className="font-bold text-3xl">Notebooks</h1>
 
 					<Dialog>
-						<DialogTrigger>
+						<DialogTrigger asChild>
 							<CreateNotebookButton />
 						</DialogTrigger>
 
