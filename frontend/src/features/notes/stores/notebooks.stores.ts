@@ -27,7 +27,7 @@ const useNotebooksStore = create<NotebookStore>((set, get) => ({
 	getNotebooks: async () => {
 		const notebookFetchResponse = await fetchNotebooks();
 		if (!notebookFetchResponse.success) {
-			return [];
+			throw new Error(notebookFetchResponse.error);
 		}
 
 		set({ notebooks: notebookFetchResponse.notebooks });
