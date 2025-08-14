@@ -15,16 +15,16 @@ function Notebook({ notebookName }: NotebookProps) {
 			type="button"
 			className="flex flex-col pb-2 bg-white rounded-2xl shadow-xl"
 		>
-			<span className="w-[180px] h-[180px] rounded-t-2xl bg-gray-100 flex flex-row items-center justify-center">
+			<div className="w-[180px] h-[180px] rounded-t-2xl bg-gray-100 flex flex-row items-center justify-center">
 				<NotebookIcon size={120} className="" />
-			</span>
+			</div>
 
-			<span className="flex flex-col ml-3">
-				<span className="font-semibold mt-2 text-left">
+			<div className="flex flex-col ml-3">
+				<p className="font-semibold mt-2 text-left">
 					{notebookName}
-				</span>
-				<span className="text-gray-400 text-left">0 notes</span>
-			</span>
+				</p>
+				<p className="text-gray-400 text-left">0 notes</p>
+			</div>
 		</button>
 	);
 }
@@ -33,7 +33,7 @@ function CreateNotebookButton() {
 	return (
 		<button className="flex flex-row gap-1 items-center pl-2.5 pr-3 py-2 bg-sky-500 rounded-md shadow-xl text-white font-semibold hover:cursor-pointer">
 			<AddIcon />
-			<span className="text-white font-semibold">Create</span>
+			<p className="text-white font-semibold">Create</p>
 		</button>
 	);
 }
