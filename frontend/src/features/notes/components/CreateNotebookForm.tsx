@@ -29,7 +29,7 @@ function CreateNotebookForm() {
 				/>
 			</div>
 
-			<button type="submit" className="bg-sky-500 w-full py-2 hover:bg-sky-700">
+			<button type="submit" className="bg-sky-500 w-full rounded-md text-white py-2 hover:bg-sky-700">
 				Create notebook
 			</button>
 		</form>
