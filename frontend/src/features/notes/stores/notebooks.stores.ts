@@ -21,7 +21,7 @@ interface NotebookStore {
 	handleNotebookDelete: (notebookId: number) => Promise<void>;
 }
 
-const useNotebookStore = create<NotebookStore>((set, get) => ({
+const useNotebooksStore = create<NotebookStore>((set, get) => ({
 	notebooks: [],
 
 	getNotebooks: async () => {
@@ -67,4 +67,4 @@ const useNotebookStore = create<NotebookStore>((set, get) => ({
 	},
 }));
 
-export { useNotebookStore };
+export { useNotebooksStore };
