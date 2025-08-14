@@ -10,7 +10,10 @@ function NotebooksPage() {
 
 				<div className="flex flex-row">
 					<div className="flex flex-col bg-white">
-						<NotebookIcon size={80} className="" />
+						<div className="w-[180px] h-[180px] flex flex-row items-center justify-center">
+							<NotebookIcon size={120} className="" />
+						</div>
+
                         <p className="font-semibold">History</p>
                         <p className="text-gray-400">12 notes</p>
 					</div>
