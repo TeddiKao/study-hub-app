@@ -1,6 +1,6 @@
 import api from "@/app/api";
 import type { ApiErrorResponse } from "@/shared/types/api.types";
-import axios from "axios";
+import { isAxiosError } from "axios";
 
 import type {
 	NotebookFetchSuccess,
@@ -23,7 +23,7 @@ async function fetchNotebooks(): Promise<
 			message: "Notebooks fetched successfully",
 		};
 	} catch (error) {
-		if (!(axios.isAxiosError(error))) {
+		if (!isAxiosError(error)) {
 			return {
 				success: false,
 				error: "Failed to fetch notebooks",
@@ -52,7 +52,7 @@ async function createNotebook(
 			message: "Notebook created successfully",
 		};
 	} catch (error) {
-		if (!(axios.isAxiosError(error))) {
+		if (!isAxiosError(error)) {
 			return {
 				success: false,
 				error: "Failed to create notebook",
@@ -82,7 +82,7 @@ async function editNotebook(
 			editedNotebook: response.data,
 		};
 	} catch (error) {
-		if (!(axios.isAxiosError(error))) {
+		if (!isAxiosError(error)) {
 			return {
 				success: false,
 				error: "Failed to edit notebook",
@@ -107,7 +107,7 @@ async function deleteNotebook(
 			message: "Notebook deleted successfully",
 		};
 	} catch (error) {
-		if (!(axios.isAxiosError(error))) {
+		if (!isAxiosError(error)) {
 			return {
 				success: false,
 				error: "Failed to delete notebook",
