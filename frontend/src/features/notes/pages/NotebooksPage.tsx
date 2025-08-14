@@ -56,7 +56,7 @@ function NotebooksPage() {
 					<h1 className="font-bold text-3xl">Notebooks</h1>
 					<button className="flex flex-row items-center ml-4 pl-2.5 pr-3 py-2 bg-sky-500 rounded-md shadow-xl text-white font-semibold hover:cursor-pointer">
 						<AddIcon />
-						<p className="text-white font-semibold ml-1">Create</p>
+						<span className="text-white font-semibold ml-1">Create</span>
 					</button>
 				</div>
 
