@@ -1,6 +1,5 @@
-import { DialogContent, DialogDescription } from "@radix-ui/react-dialog";
 import CreateNotebookForm from "./CreateNotebookForm";
-import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 function CreateNotebookDialog() {
     return (
