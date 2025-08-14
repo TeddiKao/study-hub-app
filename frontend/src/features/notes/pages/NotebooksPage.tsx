@@ -3,6 +3,7 @@ import Navbar from "@/shared/pages/DashboardPage/components/Navbar/Navbar";
 import { useQuery } from "@tanstack/react-query";
 import { useNotebooksStore } from "../stores/notebooks.stores";
 import type { Notebooks } from "../types/notebooks/notebookStore.types";
+import AddIcon from "@/shared/components/icons/AddIcon";
 
 interface NotebookProps {
 	notebookName: string;
@@ -19,9 +20,20 @@ function Notebook({ notebookName }: NotebookProps) {
 			</div>
 
 			<div className="flex flex-col ml-3">
-				<p className="font-semibold mt-2 text-left">{notebookName}</p>
+				<p className="font-semibold mt-2 text-left">
+					{notebookName}
+				</p>
 				<p className="text-gray-400 text-left">0 notes</p>
 			</div>
+		</button>
+	);
+}
+
+function CreateNotebookButton() {
+	return (
+		<button className="flex flex-row gap-1 items-center pl-2.5 pr-3 py-2 bg-sky-500 rounded-md shadow-xl text-white font-semibold hover:cursor-pointer">
+			<AddIcon />
+			<p className="text-white font-semibold">Create</p>
 		</button>
 	);
 }
@@ -51,7 +63,10 @@ function NotebooksPage() {
 		<div className="flex flex-row gap-4">
 			<Navbar />
 			<div className="flex flex-col">
-				<h1 className="font-bold text-3xl mt-3">Notebooks</h1>
+				<div className="flex flex-row mt-3 gap-4">
+					<h1 className="font-bold text-3xl">Notebooks</h1>
+					<CreateNotebookButton />
+				</div>
 
 				<div className="grid grid-cols-5 gap-4 mt-2">
 					{notebooks.map(({ name }) => (
