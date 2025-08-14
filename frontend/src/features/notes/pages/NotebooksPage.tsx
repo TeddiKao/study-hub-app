@@ -55,7 +55,7 @@ function NotebooksPage() {
 
 				<div className="grid grid-cols-5 gap-4 mt-2">
 					{notebooks.map(({ name }) => (
-						<Notebook notebookName={name} />
+						<Notebook notebookName={name} key={name} />
 					))}
 				</div>
 			</div>
