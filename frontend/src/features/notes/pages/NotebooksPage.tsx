@@ -54,9 +54,9 @@ function NotebooksPage() {
 			<div className="flex flex-col">
 				<div className="flex flex-row mt-3">
 					<h1 className="font-bold text-3xl">Notebooks</h1>
-					<button className=" p-2 bg-sky-500 shadow-md rounded-md flex flex-row items-center justify-center">
-						<AddIcon className="fill-white" size={16} />
-						<p className="text-white font-semibold">Create</p>
+					<button className="flex flex-row items-center ml-4 pl-2.5 pr-3 py-2 bg-sky-500 rounded-md shadow-xl text-white font-semibold hover:cursor-pointer">
+						<AddIcon />
+						<p className="text-white font-semibold ml-1">Create</p>
 					</button>
 				</div>
 
