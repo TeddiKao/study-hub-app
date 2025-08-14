@@ -31,7 +31,7 @@ function NotebooksPage() {
 	const { isLoading, error } = useQuery<any, Error>({
 		queryKey: ["notebooks"],
 		queryFn: () => getNotebooks(),
-		staleTime: Infinity,
+		staleTime: 1000 * 60 * 5,
 
 		refetchOnMount: false,
 		refetchOnWindowFocus: true,
