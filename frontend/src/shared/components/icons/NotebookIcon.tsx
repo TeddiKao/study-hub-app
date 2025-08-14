@@ -1,6 +1,6 @@
 interface NotebookIconProps {
 	size?: number;
-	className: string;
+	className?: string;
 }
 
 function NotebookIcon({ size = 16, className }: NotebookIconProps) {
