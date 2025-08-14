@@ -1,7 +1,29 @@
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import Navbar from "@/shared/pages/DashboardPage/components/Navbar/Navbar";
+import { useQuery } from "@tanstack/react-query";
+import { useNotebooksStore } from "../stores/notebooks.stores";
 
 function NotebooksPage() {
+	const { notebooks, getNotebooks } = useNotebooksStore();
+
+	const { isLoading, error } = useQuery<any, Error>({
+		queryKey: ["notebooks"],
+		queryFn: () => getNotebooks(),
+		staleTime: Infinity,
+		
+		refetchOnMount: false,
+		refetchOnWindowFocus: true,
+		refetchOnReconnect: true,
+	})
+
+	if (isLoading) {
+		return <div>Fetching notebooks ...</div>
+	}
+
+	if (error) {
+		return <div>An error occured while fetching notebooks</div>
+	}
+
 	return (
 		<div className="flex flex-row gap-4">
 			<Navbar />
