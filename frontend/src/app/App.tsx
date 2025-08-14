@@ -7,6 +7,7 @@ import ProtectedRoute from "@/features/auth/components/routes/ProtectedRoute";
 import DashboardPage from "@/shared/pages/DashboardPage/DashboardPage";
 import LogoutRoute from "@/features/auth/pages/LogoutRoute";
 import AuthRoute from "@/features/auth/components/routes/AuthRoute";
+import NotebooksPage from "@/features/notes/pages/NotebooksPage";
 
 function App() {
 	return (
@@ -38,6 +39,12 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
+
+				<Route path="/notebooks" element={
+					<ProtectedRoute>
+						<NotebooksPage />
+					</ProtectedRoute>
+				} />
 
 				<Route path="/logout" element={<LogoutRoute />} />
 			</Routes>
