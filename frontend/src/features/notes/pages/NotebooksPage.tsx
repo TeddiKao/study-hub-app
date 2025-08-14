@@ -52,11 +52,11 @@ function NotebooksPage() {
 		<div className="flex flex-row gap-4">
 			<Navbar />
 			<div className="flex flex-col">
-				<div className="flex flex-row mt-3">
+				<div className="flex flex-row mt-3 gap-1">
 					<h1 className="font-bold text-3xl">Notebooks</h1>
 					<button className="flex flex-row items-center ml-4 pl-2.5 pr-3 py-2 bg-sky-500 rounded-md shadow-xl text-white font-semibold hover:cursor-pointer">
 						<AddIcon />
-						<span className="text-white font-semibold ml-1">Create</span>
+						<span className="text-white font-semibold">Create</span>
 					</button>
 				</div>
 
