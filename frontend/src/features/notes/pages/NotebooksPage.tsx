@@ -9,7 +9,7 @@ function NotebooksPage() {
 				<h1 className="font-bold text-3xl mt-2">Notebooks</h1>
 
 				<div className="flex flex-row mt-2">
-					<div className="flex flex-col pb-2 bg-white rounded-2xl shadow-xl">
+					<button className="flex flex-col pb-2 bg-white rounded-2xl shadow-xl">
 						<div className="w-[180px] h-[180px] rounded-t-2xl bg-gray-100 flex flex-row items-center justify-center">
 							<NotebookIcon size={120} className="" />
 						</div>
@@ -18,7 +18,7 @@ function NotebooksPage() {
 							<p className="font-semibold mt-2">History</p>
 							<p className="text-gray-400">12 notes</p>
 						</div>
-					</div>
+					</button>
 				</div>
 			</div>
 		</div>
