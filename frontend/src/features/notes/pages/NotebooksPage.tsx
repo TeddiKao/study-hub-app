@@ -10,7 +10,7 @@ function NotebooksPage() {
 
 				<div className="flex flex-row mt-2">
 					<div className="flex flex-col pb-2 bg-white rounded-2xl shadow-xl">
-						<div className="w-[180px] h-[180px] rounded-2xl bg-gray-100 flex flex-row items-center justify-center">
+						<div className="w-[180px] h-[180px] rounded-t-2xl bg-gray-100 flex flex-row items-center justify-center">
 							<NotebookIcon size={120} className="" />
 						</div>
 
