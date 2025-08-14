@@ -4,23 +4,25 @@ import { useQuery } from "@tanstack/react-query";
 import { useNotebooksStore } from "../stores/notebooks.stores";
 
 interface NotebookProps {
-	notebookName: string,
+	notebookName: string;
 }
 
 function Notebook({ notebookName }: NotebookProps) {
-	<button
-		type="button"
-		className="flex flex-col pb-2 bg-white rounded-2xl shadow-xl"
-	>
-		<div className="w-[180px] h-[180px] rounded-t-2xl bg-gray-100 flex flex-row items-center justify-center">
-			<NotebookIcon size={120} className="" />
-		</div>
+	return (
+		<button
+			type="button"
+			className="flex flex-col pb-2 bg-white rounded-2xl shadow-xl"
+		>
+			<div className="w-[180px] h-[180px] rounded-t-2xl bg-gray-100 flex flex-row items-center justify-center">
+				<NotebookIcon size={120} className="" />
+			</div>
 
-		<div className="flex flex-col ml-3">
-			<p className="font-semibold mt-2 text-left">{notebookName}</p>
-			<p className="text-gray-400 text-left">12 notes</p>
-		</div>
-	</button>;
+			<div className="flex flex-col ml-3">
+				<p className="font-semibold mt-2 text-left">{notebookName}</p>
+				<p className="text-gray-400 text-left">0 notes</p>
+			</div>
+		</button>
+	);
 }
 
 function NotebooksPage() {
@@ -50,7 +52,11 @@ function NotebooksPage() {
 			<div className="flex flex-col">
 				<h1 className="font-bold text-3xl mt-3">Notebooks</h1>
 
-				<div className="grid grid-cols-5 gap-4 mt-2"></div>
+				<div className="grid grid-cols-5 gap-4 mt-2">
+					{notebooks.map(({ name }) => (
+						<Notebook notebookName={name} />
+					))}
+				</div>
 			</div>
 		</div>
 	);
