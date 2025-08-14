@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useNotebooksStore } from "../stores/notebooks.stores";
 import type { Notebooks } from "../types/notebooks/notebookStore.types";
 import AddIcon from "@/shared/components/icons/AddIcon";
+import { Dialog, DialogClose, DialogTrigger } from "@/components/ui/dialog";
+import CreateNotebookDialog from "../components/CreateNotebookDialog";
 
 interface NotebookProps {
 	notebookName: string;
@@ -20,9 +22,7 @@ function Notebook({ notebookName }: NotebookProps) {
 			</div>
 
 			<div className="flex flex-col ml-3">
-				<p className="font-semibold mt-2 text-left">
-					{notebookName}
-				</p>
+				<p className="font-semibold mt-2 text-left">{notebookName}</p>
 				<p className="text-gray-400 text-left">0 notes</p>
 			</div>
 		</button>
@@ -65,7 +65,14 @@ function NotebooksPage() {
 			<div className="flex flex-col">
 				<div className="flex flex-row mt-3 gap-4">
 					<h1 className="font-bold text-3xl">Notebooks</h1>
-					<CreateNotebookButton />
+
+					<Dialog>
+						<DialogTrigger>
+							<CreateNotebookButton />
+						</DialogTrigger>
+
+						<CreateNotebookDialog />
+					</Dialog>
 				</div>
 
 				<div className="grid grid-cols-5 gap-4 mt-2">
