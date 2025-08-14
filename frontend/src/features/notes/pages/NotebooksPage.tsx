@@ -15,8 +15,8 @@ function NotebooksPage() {
 						</div>
 
 						<div className="flex flex-col ml-3">
-							<p className="font-semibold mt-2">History</p>
-							<p className="text-gray-400">12 notes</p>
+							<p className="font-semibold mt-2 text-left">History</p>
+							<p className="text-gray-400 text-left">12 notes</p>
 						</div>
 					</button>
 				</div>
