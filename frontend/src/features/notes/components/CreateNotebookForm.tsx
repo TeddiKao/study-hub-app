@@ -5,8 +5,8 @@ import { Textarea } from "@/components/ui/textarea";
 function CreateNotebookForm() {
 	return (
 		<form className="flex flex-col p-2">
-			<div className="flex flex-col">
-				<Label htmlFor="notebook-name">Name</Label>
+			<div className="flex flex-col mb-2">
+				<Label htmlFor="notebook-name" className="mb-1">Name</Label>
 				<Input
 					type="text"
 					id="notebook-name"
@@ -14,8 +14,8 @@ function CreateNotebookForm() {
 				/>
 			</div>
 
-			<div className="flex flex-col">
-				<Label htmlFor="notebook-description">Description</Label>
+			<div className="flex flex-col mb-2">
+				<Label htmlFor="notebook-description" className="mb-1">Description</Label>
 				<Textarea
 					id="notebook-description"
 					placeholder="Briefly describe what this notebook is about"
