@@ -2,6 +2,7 @@ import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import Navbar from "@/shared/pages/DashboardPage/components/Navbar/Navbar";
 import { useQuery } from "@tanstack/react-query";
 import { useNotebooksStore } from "../stores/notebooks.stores";
+import type { Notebooks } from "../types/notebooks/notebookStore.types";
 
 interface NotebookProps {
 	notebookName: string;
@@ -28,7 +29,7 @@ function Notebook({ notebookName }: NotebookProps) {
 function NotebooksPage() {
 	const { notebooks, getNotebooks } = useNotebooksStore();
 
-	const { isLoading, error } = useQuery<any, Error>({
+	const { isLoading, error } = useQuery<Notebooks, Error>({
 		queryKey: ["notebooks"],
 		queryFn: () => getNotebooks(),
 		staleTime: 1000 * 60 * 5,
