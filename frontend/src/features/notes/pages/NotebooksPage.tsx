@@ -1,7 +1,52 @@
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import Navbar from "@/shared/pages/DashboardPage/components/Navbar/Navbar";
+import { useQuery } from "@tanstack/react-query";
+import { useNotebooksStore } from "../stores/notebooks.stores";
+import type { Notebooks } from "../types/notebooks/notebookStore.types";
+
+interface NotebookProps {
+	notebookName: string;
+}
+
+function Notebook({ notebookName }: NotebookProps) {
+	return (
+		<button
+			type="button"
+			className="flex flex-col pb-2 bg-white rounded-2xl shadow-xl"
+		>
+			<div className="w-[180px] h-[180px] rounded-t-2xl bg-gray-100 flex flex-row items-center justify-center">
+				<NotebookIcon size={120} className="" />
+			</div>
+
+			<div className="flex flex-col ml-3">
+				<p className="font-semibold mt-2 text-left">{notebookName}</p>
+				<p className="text-gray-400 text-left">0 notes</p>
+			</div>
+		</button>
+	);
+}
 
 function NotebooksPage() {
+	const { notebooks, getNotebooks } = useNotebooksStore();
+
+	const { isLoading, error } = useQuery<Notebooks, Error>({
+		queryKey: ["notebooks"],
+		queryFn: () => getNotebooks(),
+		staleTime: 1000 * 60 * 5,
+
+		refetchOnMount: false,
+		refetchOnWindowFocus: true,
+		refetchOnReconnect: true,
+	});
+
+	if (isLoading) {
+		return <div>Fetching notebooks ...</div>;
+	}
+
+	if (error) {
+		return <div>An error occured while fetching notebooks</div>;
+	}
+
 	return (
 		<div className="flex flex-row gap-4">
 			<Navbar />
@@ -9,16 +54,9 @@ function NotebooksPage() {
 				<h1 className="font-bold text-3xl mt-3">Notebooks</h1>
 
 				<div className="grid grid-cols-5 gap-4 mt-2">
-					<button type="button" className="flex flex-col pb-2 bg-white rounded-2xl shadow-xl">
-						<div className="w-[180px] h-[180px] rounded-t-2xl bg-gray-100 flex flex-row items-center justify-center">
-							<NotebookIcon size={120} className="" />
-						</div>
-
-						<div className="flex flex-col ml-3">
-							<p className="font-semibold mt-2 text-left">History</p>
-							<p className="text-gray-400 text-left">12 notes</p>
-						</div>
-					</button>
+					{notebooks.map(({ name }) => (
+						<Notebook notebookName={name} key={name} />
+					))}
 				</div>
 			</div>
 		</div>

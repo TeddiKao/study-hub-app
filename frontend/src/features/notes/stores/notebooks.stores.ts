@@ -11,7 +11,7 @@ import type { Notebooks } from "../types/notebooks/notebookStore.types";
 interface NotebookStore {
 	notebooks: Notebooks;
 
-	getNotebooks: () => Promise<void>;
+	getNotebooks: () => Promise<Notebooks>;
 	handleNotebookCreate: (notebookData: CreateNotebookApiPayload) => Promise<void>;
 
 	handleNotebookEdit: (
@@ -21,16 +21,18 @@ interface NotebookStore {
 	handleNotebookDelete: (notebookId: number) => Promise<void>;
 }
 
-const useNotebookStore = create<NotebookStore>((set, get) => ({
+const useNotebooksStore = create<NotebookStore>((set, get) => ({
 	notebooks: [],
 
 	getNotebooks: async () => {
 		const notebookFetchResponse = await fetchNotebooks();
 		if (!notebookFetchResponse.success) {
-			return;
+			throw new Error(notebookFetchResponse.error);
 		}
 
 		set({ notebooks: notebookFetchResponse.notebooks });
+
+		return notebookFetchResponse.notebooks
 	},
 
 	handleNotebookCreate: async (notebookData: CreateNotebookApiPayload) => {
@@ -67,4 +69,4 @@ const useNotebookStore = create<NotebookStore>((set, get) => ({
 	},
 }));
 
-export { useNotebookStore };
+export { useNotebooksStore };
