@@ -6,7 +6,7 @@ function NotebooksPage() {
 		<div className="flex flex-row gap-4">
 			<Navbar />
 			<div className="flex flex-col">
-				<h1 className="font-bold text-3xl mt-2">Notebooks</h1>
+				<h1 className="font-bold text-3xl mt-3">Notebooks</h1>
 
 				<div className="grid grid-cols-5 gap-4 mt-2">
 					<button className="flex flex-col pb-2 bg-white rounded-2xl shadow-xl hover:cursor-pointer">
