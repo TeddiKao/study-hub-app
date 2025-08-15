@@ -6,7 +6,7 @@ import type { FormEvent } from "react";
 import { useNotebooksStore } from "../stores/notebooks.stores";
 
 function CreateNotebookForm() {
-	const { name, description, handleNameChange, handleDescriptionChange } = useCreateNotebookFormStore();
+	const { name, description, handleNameChange, handleDescriptionChange, clearDetails } = useCreateNotebookFormStore();
 	const { handleNotebookCreate } = useNotebooksStore();
 
 	async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
@@ -17,6 +17,8 @@ function CreateNotebookForm() {
 			description: description,
 			notebookColor: "#FFA500"
 		})
+
+		clearDetails()
 	}
 
 	return (
