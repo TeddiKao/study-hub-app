@@ -9,10 +9,10 @@ function CreateNotebookForm() {
 	const { name, description, handleNameChange, handleDescriptionChange } = useCreateNotebookFormStore();
 	const { handleNotebookCreate } = useNotebooksStore();
 
-	function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
+	async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
-		handleNotebookCreate({
+		await handleNotebookCreate({
 			name: name,
 			description: description,
 			notebookColor: "#FFA500"
