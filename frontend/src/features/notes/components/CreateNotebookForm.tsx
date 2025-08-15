@@ -3,16 +3,24 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores";
 import type { FormEvent } from "react";
+import { useNotebooksStore } from "../stores/notebooks.stores";
 
 function CreateNotebookForm() {
 	const { name, description, handleNameChange, handleDescriptionChange } = useCreateNotebookFormStore();
+	const { handleNotebookCreate } = useNotebooksStore();
 
 	function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
+
+		handleNotebookCreate({
+			name: name,
+			description: description,
+			notebookColor: "#FFA500"
+		})
 	}
 
 	return (
-		<form className="flex flex-col p-2">
+		<form className="flex flex-col p-2" onSubmit={handleFormSubmit}>
 			<div className="flex flex-col mb-2">
 				<Label htmlFor="notebook-name" className="mb-1">Name</Label>
 				<Input
