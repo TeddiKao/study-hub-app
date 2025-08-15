@@ -2,9 +2,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores";
+import type { FormEvent } from "react";
 
 function CreateNotebookForm() {
 	const { name, description, handleNameChange, handleDescriptionChange } = useCreateNotebookFormStore();
+
+	function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
+		e.preventDefault();
+	}
 
 	return (
 		<form className="flex flex-col p-2">
