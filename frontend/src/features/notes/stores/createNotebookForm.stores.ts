@@ -6,7 +6,9 @@ interface CreateNotebookFormStore {
     description: string,
 
     handleNameChange: (e: ChangeEvent<HTMLInputElement>) => void,
-    handleDescriptionChange: (e: ChangeEvent<HTMLTextAreaElement>) => void
+    handleDescriptionChange: (e: ChangeEvent<HTMLTextAreaElement>) => void,
+
+    clearDetails: () => void,
 }
 
 const useCreateNotebookFormStore = create<CreateNotebookFormStore>((set) => ({
@@ -19,6 +21,10 @@ const useCreateNotebookFormStore = create<CreateNotebookFormStore>((set) => ({
 
     handleDescriptionChange: (e: ChangeEvent<HTMLTextAreaElement>) => {
         set({ description: e.target.value })
+    },
+
+    clearDetails: () => {
+        set({ name: "", description: "" })
     }
 }))
 
