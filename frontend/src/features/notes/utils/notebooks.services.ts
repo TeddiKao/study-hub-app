@@ -42,7 +42,7 @@ async function createNotebook(
 ): Promise<NotebookCreateSuccess | ApiErrorResponse> {
 	try {
 		const response = await api.post(
-			"notes/notebooks/create/",
+			"notes/notebook/create/",
 			notebookData
 		);
 
