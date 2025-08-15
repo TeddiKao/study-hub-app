@@ -3,6 +3,9 @@ import Navbar from "@/shared/pages/DashboardPage/components/Navbar/Navbar";
 import { useQuery } from "@tanstack/react-query";
 import { useNotebooksStore } from "../stores/notebooks.stores";
 import type { Notebooks } from "../types/notebooks/notebookStore.types";
+import AddIcon from "@/shared/components/icons/AddIcon";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import CreateNotebookDialog from "../components/CreateNotebookDialog";
 
 interface NotebookProps {
 	notebookName: string;
@@ -23,6 +26,17 @@ function Notebook({ notebookName }: NotebookProps) {
 				<p className="text-gray-400 text-left">0 notes</p>
 			</div>
 		</button>
+	);
+}
+
+function CreateNotebookButton() {
+	return (
+		<DialogTrigger asChild>
+			<button className="flex flex-row gap-1 items-center pl-2.5 pr-3 py-2 bg-sky-500 rounded-md shadow-xl text-white font-semibold hover:cursor-pointer">
+				<AddIcon />
+				<p className="text-white font-semibold">Create</p>
+			</button>
+		</DialogTrigger>
 	);
 }
 
@@ -51,7 +65,14 @@ function NotebooksPage() {
 		<div className="flex flex-row gap-4">
 			<Navbar />
 			<div className="flex flex-col">
-				<h1 className="font-bold text-3xl mt-3">Notebooks</h1>
+				<div className="flex flex-row mt-3 gap-4">
+					<h1 className="font-bold text-3xl">Notebooks</h1>
+
+					<Dialog>
+						<CreateNotebookButton />
+						<CreateNotebookDialog />
+					</Dialog>
+				</div>
 
 				<div className="grid grid-cols-5 gap-4 mt-2">
 					{notebooks.map(({ name }) => (
