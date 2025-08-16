@@ -28,11 +28,10 @@ function CreateNotebookForm() {
 			});
 
 			updateFormVisiblity(false);
+			clearDetails();
 		} catch (error) {
 			console.error("Failed to create notebook")
 		}
-
-		clearDetails();
 	}
 
 	return (
