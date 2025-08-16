@@ -19,6 +19,25 @@ interface NotebookProps {
 	notebookName: string;
 }
 
+function NotebookDropdownMenu() {
+	return (
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<button className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300">
+					<KebabMenuIcon size={24} />
+				</button>
+			</DropdownMenuTrigger>
+
+			<DropdownMenuContent side="right">
+				<DropdownMenuItem>Edit</DropdownMenuItem>
+				<DropdownMenuItem className="text-red-400 data-[highlighted]:text-red-400">
+					Delete
+				</DropdownMenuItem>
+			</DropdownMenuContent>
+		</DropdownMenu>
+	);
+}
+
 function Notebook({ notebookName }: NotebookProps) {
 	return (
 		<div
@@ -36,18 +55,7 @@ function Notebook({ notebookName }: NotebookProps) {
 				<div className="flex flex-row justify-between items-center">
 					<p className="text-gray-400 text-left">0 notes</p>
 
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<button className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300">
-								<KebabMenuIcon size={24} />
-							</button>
-						</DropdownMenuTrigger>
-
-						<DropdownMenuContent side="right">
-							<DropdownMenuItem>Edit</DropdownMenuItem>
-							<DropdownMenuItem className="text-red-400 data-[highlighted]:text-red-400">Delete</DropdownMenuItem>
-						</DropdownMenuContent>
-					</DropdownMenu>
+					<NotebookDropdownMenu />
 				</div>
 			</div>
 		</div>
