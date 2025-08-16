@@ -75,7 +75,6 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 		updateFormVisiblity,
 		activeNotebookId,
 		updateActiveNotebookId,
-		clearActiveNotebookId,
 	} = useEditNotebookFormStore();
 
 	const isNotebookActive = notebookId === activeNotebookId;
