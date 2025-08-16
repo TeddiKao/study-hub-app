@@ -3,7 +3,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useEditNotebookFormStore } from "../../stores/editNotebookForm.stores";
 
-function EditNotebookForm() {
+interface EditNotebookFormProps {
+	notebookId: number,
+}
+
+function EditNotebookForm({ notebookId }: EditNotebookFormProps) {
     const { name, description, handleNameChange, handleDescriptionChange } = useEditNotebookFormStore();
 
     function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -20,7 +24,7 @@ function EditNotebookForm() {
 					type="text"
 					id="notebook-name"
 					value={name}
-					placeholder="Notebook name"
+					placeholder="New name"
 					onChange={handleNameChange}
 				/>
 			</div>
@@ -31,7 +35,7 @@ function EditNotebookForm() {
 				</Label>
 				<Textarea
 					id="notebook-description"
-					placeholder="Briefly describe what this notebook is about"
+					placeholder="New description"
 					value={description}
 					onChange={handleDescriptionChange}
 				/>
