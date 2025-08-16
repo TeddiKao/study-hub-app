@@ -46,7 +46,7 @@ function NotebookDropdownMenu() {
 
 				<DropdownMenuContent side="right">
 					<DropdownMenuItem>Edit</DropdownMenuItem>
-					<AlertDialogTrigger>
+					<AlertDialogTrigger className="w-full">
 						<DropdownMenuItem variant="destructive">
 							Delete
 						</DropdownMenuItem>
