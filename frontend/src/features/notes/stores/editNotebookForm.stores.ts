@@ -9,6 +9,8 @@ interface EditNotebookFormStore {
 
     handleNameChange: (e: ChangeEvent<HTMLInputElement>) => void,
     handleDescriptionChange: (e: ChangeEvent<HTMLTextAreaElement>) => void,
+    updateName: (newName: string) => void,
+    updateDescription: (newDescription: string) => void,
 
     clearDetails: () => void,
 
@@ -26,6 +28,14 @@ const useEditNotebookFormStore = create<EditNotebookFormStore>((set) => ({
 
     handleDescriptionChange: (e: ChangeEvent<HTMLTextAreaElement>) => {
         set({ description: e.target.value })
+    },
+
+    updateName: (newName: string) => {
+
+    },
+
+    updateDescription: (newDescription: string) => {
+
     },
 
     clearDetails: () => {
