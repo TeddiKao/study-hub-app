@@ -23,12 +23,12 @@ function Notebook({ notebookName }: NotebookProps) {
 				<NotebookIcon size={120} className="" />
 			</div>
 
-			<div className="flex flex-col ml-3">
+			<div className="flex flex-col ml-3 mr-1">
 				<p className="font-semibold mt-2 text-left">{notebookName}</p>
 				
-				<div className="flex flex-row justify-around">
+				<div className="flex flex-row justify-between items-center">
 					<p className="text-gray-400 text-left">0 notes</p>
-					<KebabMenuIcon size={24} className="fill-white" />
+					<KebabMenuIcon size={24} />
 				</div>
 			</div>
 		</button>
