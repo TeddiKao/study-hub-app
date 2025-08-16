@@ -2,17 +2,56 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useEditNotebookFormStore } from "../../stores/editNotebookForm.stores";
+import { useNotebooksStore } from "../../stores/notebooks.stores";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { retrieveNotebook } from "../../utils/notebooks.services";
 
 interface EditNotebookFormProps {
-	notebookId: number,
+	notebookId: number;
 }
 
 function EditNotebookForm({ notebookId }: EditNotebookFormProps) {
-    const { name, description, handleNameChange, handleDescriptionChange } = useEditNotebookFormStore();
+	const {
+		name,
+		description,
+		handleNameChange,
+		handleDescriptionChange,
+		updateName,
+		updateDescription,
+	} = useEditNotebookFormStore();
+	
+	const { data, isLoading, error } = useQuery({
+		queryKey: ["notebookInfo"],
+		queryFn: async () => retrieveNotebook(notebookId),
 
-    function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-    }
+		staleTime: 1000 * 5 * 60,
+
+		refetchOnReconnect: true,
+		refetchOnMount: false,
+		refetchOnWindowFocus: true,
+	})
+
+	useEffect(() => {
+		if (!data?.success) {
+			return;
+		}
+
+		updateName(data.retrievedNotebook.name)
+		updateDescription(data.retrievedNotebook.description)
+	}, []);
+
+	if (isLoading) {
+		return <div>Retrieving notebook info</div>
+	}
+
+	if (error) {
+		return <div>An error occured while retrieving notebooks</div>
+	}
+
+	function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+		e.preventDefault();
+	}
 
 	return (
 		<form className="flex flex-col p-2" onSubmit={handleFormSubmit}>
