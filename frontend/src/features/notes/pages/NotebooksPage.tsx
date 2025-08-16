@@ -15,8 +15,9 @@ interface NotebookProps {
 
 function Notebook({ notebookName }: NotebookProps) {
 	return (
-		<button
-			type="button"
+		<div
+			aria-label="open-notebook-button"
+			role="button"
 			className="flex flex-col pb-2 bg-white rounded-2xl shadow-xl"
 		>
 			<div className="w-[180px] h-[180px] rounded-t-2xl bg-gray-100 flex flex-row items-center justify-center">
@@ -31,7 +32,7 @@ function Notebook({ notebookName }: NotebookProps) {
 					<KebabMenuIcon size={24} className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300" />
 				</div>
 			</div>
-		</button>
+		</div>
 	);
 }
 
