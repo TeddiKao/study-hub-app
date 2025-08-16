@@ -121,4 +121,27 @@ async function deleteNotebook(
 	}
 }
 
-export { fetchNotebooks, createNotebook, editNotebook, deleteNotebook };
+async function retrieveNotebook(notebookId: number) {
+	try {
+		await api.get(`notes/notebook/${notebookId}/`);
+
+		return {
+			success: true,
+			message: "Notebook retrieved successfully",
+		};
+	} catch (error) {
+		if (!isAxiosError(error)) {
+			return {
+				success: false,
+				error: "Failed to retrieve notebook",
+			};
+		}
+
+		return {
+			success: false,
+			error: error.response?.data.error ?? "Failed to retrieve notebook",
+		};
+	}
+}
+
+export { fetchNotebooks, createNotebook, editNotebook, deleteNotebook, retrieveNotebook };
