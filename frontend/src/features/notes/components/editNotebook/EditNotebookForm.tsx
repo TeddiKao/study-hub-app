@@ -5,6 +5,7 @@ import { useEditNotebookFormStore } from "../../stores/editNotebookForm.stores";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { retrieveNotebook } from "../../utils/notebooks.services";
+import { useNotebooksStore } from "../../stores/notebooks.stores";
 
 interface EditNotebookFormProps {
 	notebookId: number;
@@ -18,7 +19,11 @@ function EditNotebookForm({ notebookId }: EditNotebookFormProps) {
 		handleDescriptionChange,
 		updateName,
 		updateDescription,
+		updateFormVisiblity,
+		clearActiveNotebookId,
+		clearDetails
 	} = useEditNotebookFormStore();
+	const { handleNotebookEdit } = useNotebooksStore();
 	
 	const { data, isLoading, error } = useQuery({
 		queryKey: ["notebookInfo", notebookId],
@@ -55,8 +60,22 @@ function EditNotebookForm({ notebookId }: EditNotebookFormProps) {
 		return <div>An error occured while retrieving notebooks</div>
 	}
 
-	function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+	async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
+
+		try {
+			await handleNotebookEdit(notebookId, {
+				name: name,
+				description: description,
+				notebookColor: "#FFA500"
+			});
+
+			updateFormVisiblity(false);
+			clearActiveNotebookId();
+			clearDetails();
+		} catch (error) {
+			console.error("Failed to edit notebook");
+		}
 	}
 
 	return (
