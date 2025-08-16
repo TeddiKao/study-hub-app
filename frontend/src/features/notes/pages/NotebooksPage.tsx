@@ -43,9 +43,9 @@ function Notebook({ notebookName }: NotebookProps) {
 							</button>
 						</DropdownMenuTrigger>
 
-						<DropdownMenuContent>
+						<DropdownMenuContent side="right">
 							<DropdownMenuItem>Edit</DropdownMenuItem>
-							<DropdownMenuItem>Delete</DropdownMenuItem>
+							<DropdownMenuItem className="text-red-400 data-[highlighted]:text-red-400">Delete</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>
