@@ -26,10 +26,14 @@ function Notebook({ notebookName }: NotebookProps) {
 
 			<div className="flex flex-col ml-3 mr-1">
 				<p className="font-semibold mt-2 text-left">{notebookName}</p>
-				
+
 				<div className="flex flex-row justify-between items-center">
 					<p className="text-gray-400 text-left">0 notes</p>
-					<KebabMenuIcon size={24} className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300" />
+					<button className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300">
+						<KebabMenuIcon
+							size={24}
+						/>
+					</button>
 				</div>
 			</div>
 		</div>
