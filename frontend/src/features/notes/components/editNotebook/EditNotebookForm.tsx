@@ -43,8 +43,8 @@ function EditNotebookForm({ notebookId }: EditNotebookFormProps) {
 			return;
 		}
 
-		updateName(data.retrievedNotebook.name)
-		updateDescription(data.retrievedNotebook.description)
+		updateName(data.retrievedNotebook.name ?? "")
+		updateDescription(data.retrievedNotebook.description ?? "")
 	}, [data]);
 
 	if (isLoading) {
