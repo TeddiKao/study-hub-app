@@ -26,6 +26,8 @@ import {
 	AlertDialogDescription,
 } from "@/components/ui/alert-dialog";
 import { useEditNotebookFormStore } from "../stores/editNotebookForm.stores";
+import { DialogContent, DialogTitle } from "@radix-ui/react-dialog";
+import EditNotebookDialog from "../components/editNotebook/EditNotebookDialog";
 
 interface NotebookProps {
 	notebookName: string;
@@ -69,33 +71,41 @@ function DeleteNotebookAlertDialog({ notebookId }: DeleteNotebookAlertDialog) {
 }
 
 function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
-	const { updateFormVisiblity } = useEditNotebookFormStore();
+	const { isFormVisible, updateFormVisiblity } = useEditNotebookFormStore();
 
 	return (
-		<AlertDialog>
-			<DropdownMenu>
-				<DropdownMenuTrigger asChild>
-					<button
-						type="button"
-						aria-label="Notebook actions"
-						className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300"
-					>
-						<KebabMenuIcon size={24} />
-					</button>
-				</DropdownMenuTrigger>
+		<Dialog open={isFormVisible} onOpenChange={updateFormVisiblity}>
+			<AlertDialog>
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<button
+							type="button"
+							aria-label="Notebook actions"
+							className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300"
+						>
+							<KebabMenuIcon size={24} />
+						</button>
+					</DropdownMenuTrigger>
 
-				<DropdownMenuContent side="right">
-					<DropdownMenuItem onClick={() => updateFormVisiblity(true)}>Edit</DropdownMenuItem>
-					<AlertDialogTrigger className="w-full">
-						<DropdownMenuItem variant="destructive">
-							Delete
+					<DropdownMenuContent side="right">
+						<DropdownMenuItem asChild>
+							<DialogTrigger>
+								Edit
+							</DialogTrigger>
 						</DropdownMenuItem>
-					</AlertDialogTrigger>
-				</DropdownMenuContent>
-			</DropdownMenu>
+						<DropdownMenuItem asChild variant="destructive">
+							<AlertDialogTrigger className="w-full">
+								Delete
+							</AlertDialogTrigger>
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
 
-			<DeleteNotebookAlertDialog notebookId={notebookId} />
-		</AlertDialog>
+				<DeleteNotebookAlertDialog notebookId={notebookId} />
+			</AlertDialog>
+
+			<EditNotebookDialog />
+		</Dialog>
 	);
 }
 
