@@ -6,8 +6,6 @@ from authentication.serializers import UserSerializer
 from django.db import models
 
 class NotebookSerializer(ModelSerializer):
-	owner = UserSerializer()
-
 	def validate(self, data):
 		notebook_name = data.get("name")
 		request = self.context.get("request")
@@ -39,3 +37,4 @@ class NotebookSerializer(ModelSerializer):
 				"read_only": True
 			}
 		}
+		depth = 1
