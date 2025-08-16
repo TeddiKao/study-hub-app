@@ -23,11 +23,30 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 	AlertDialogTrigger,
-	AlertDialogDescription
+	AlertDialogDescription,
 } from "@/components/ui/alert-dialog";
 
 interface NotebookProps {
 	notebookName: string;
+}
+
+function DeleteNotebookAlertDialog() {
+	return (
+		<AlertDialogContent>
+			<AlertDialogHeader>
+				<AlertDialogTitle>Delete notebook?</AlertDialogTitle>
+				<AlertDialogDescription>
+					This will permanently delete your notebook. This cannot be
+					undone
+				</AlertDialogDescription>
+			</AlertDialogHeader>
+
+			<AlertDialogFooter>
+				<AlertDialogCancel>Cancel</AlertDialogCancel>
+				<AlertDialogAction>Delete</AlertDialogAction>
+			</AlertDialogFooter>
+		</AlertDialogContent>
+	);
 }
 
 function NotebookDropdownMenu() {
@@ -54,20 +73,7 @@ function NotebookDropdownMenu() {
 				</DropdownMenuContent>
 			</DropdownMenu>
 
-			<AlertDialogContent>
-				<AlertDialogHeader>
-					<AlertDialogTitle>Delete notebook?</AlertDialogTitle>
-					<AlertDialogDescription>
-						This will permanently delete your notebook. This cannot
-						be undone
-					</AlertDialogDescription>
-				</AlertDialogHeader>
-
-				<AlertDialogFooter>
-					<AlertDialogCancel>Cancel</AlertDialogCancel>
-					<AlertDialogAction>Delete</AlertDialogAction>
-				</AlertDialogFooter>
-			</AlertDialogContent>
+			<DeleteNotebookAlertDialog />
 		</AlertDialog>
 	);
 }
