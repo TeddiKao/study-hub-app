@@ -30,7 +30,7 @@ function NotebookDropdownMenu() {
 
 			<DropdownMenuContent side="right">
 				<DropdownMenuItem>Edit</DropdownMenuItem>
-				<DropdownMenuItem className="text-red-400 data-[highlighted]:text-red-400">
+				<DropdownMenuItem variant="destructive">
 					Delete
 				</DropdownMenuItem>
 			</DropdownMenuContent>
