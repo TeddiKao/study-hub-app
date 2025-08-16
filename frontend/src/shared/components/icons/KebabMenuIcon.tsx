@@ -1,13 +1,11 @@
 import { EllipsisVerticalIcon } from "lucide-react"
+import type { ComponentProps } from "react"
 
-interface KebabMenuIconProps {
-    size?: number
-    className?: string
-}
+type KebabMenuIconProps = ComponentProps<typeof EllipsisVerticalIcon>
 
-function KebabMenuIcon({ size = 16, className = "" }: KebabMenuIconProps) {
+function KebabMenuIcon({ size = 16, className = "", ...rest }: KebabMenuIconProps) {
     return (
-        <EllipsisVerticalIcon size={size} className={className} />
+        <EllipsisVerticalIcon size={size} className={className} {...rest} />
     )
 }
 
