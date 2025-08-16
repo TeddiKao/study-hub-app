@@ -39,7 +39,7 @@ function EditNotebookForm({ notebookId }: EditNotebookFormProps) {
 
 		updateName(data.retrievedNotebook.name)
 		updateDescription(data.retrievedNotebook.description)
-	}, []);
+	}, [data]);
 
 	if (isLoading) {
 		return <div>Retrieving notebook info</div>
