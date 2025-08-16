@@ -1,8 +1,15 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useEditNotebookFormStore } from "../../stores/editNotebookForm.stores";
 
 function EditNotebookForm() {
+    const { name, description, handleNameChange, handleDescriptionChange } = useEditNotebookFormStore();
+
+    function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+    }
+
 	return (
 		<form className="flex flex-col p-2" onSubmit={handleFormSubmit}>
 			<div className="flex flex-col mb-2">
