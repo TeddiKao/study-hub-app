@@ -36,7 +36,7 @@ function EditNotebookForm({ notebookId }: EditNotebookFormProps) {
 			return notebookRetrieveResponse
 		},
 
-		staleTime: 1000 * 5 * 60,
+		staleTime: 0,
 
 		refetchOnReconnect: true,
 		refetchOnMount: true,
