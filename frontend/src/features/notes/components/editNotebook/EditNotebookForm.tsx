@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useEditNotebookFormStore } from "../../stores/editNotebookForm.stores";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { retrieveNotebook } from "../../utils/notebooks.services";
 import { useNotebooksStore } from "../../stores/notebooks.stores";
@@ -43,14 +43,17 @@ function EditNotebookForm({ notebookId }: EditNotebookFormProps) {
 		refetchOnWindowFocus: false,
 	})
 
+	const hasHydratedRef = useRef(false);
+
 	useEffect(() => {
-		if (!data?.success) {
-			return;
-		}
+		if (!data?.success) return;
+		if (hasHydratedRef.current) return;
 
 		updateName(data.retrievedNotebook.name ?? "")
 		updateDescription(data.retrievedNotebook.description ?? "")
-	}, [data]);
+
+		hasHydratedRef.current = true;
+	}, [data, updateName, updateDescription]);
 
 	if (isLoading) {
 		return <div>Retrieving notebook info</div>
