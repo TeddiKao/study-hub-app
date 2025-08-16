@@ -40,7 +40,7 @@ function EditNotebookForm({ notebookId }: EditNotebookFormProps) {
 
 		refetchOnReconnect: true,
 		refetchOnMount: true,
-		refetchOnWindowFocus: true,
+		refetchOnWindowFocus: false,
 	})
 
 	useEffect(() => {
