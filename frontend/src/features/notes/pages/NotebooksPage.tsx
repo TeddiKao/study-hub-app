@@ -7,6 +7,7 @@ import AddIcon from "@/shared/components/icons/AddIcon";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import CreateNotebookDialog from "../components/CreateNotebookDialog";
 import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores";
+import KebabMenuIcon from "@/shared/components/icons/KebabMenuIcon";
 
 interface NotebookProps {
 	notebookName: string;
@@ -14,19 +15,28 @@ interface NotebookProps {
 
 function Notebook({ notebookName }: NotebookProps) {
 	return (
-		<button
-			type="button"
+		<div
+			aria-label="open-notebook-button"
+			role="button"
 			className="flex flex-col pb-2 bg-white rounded-2xl shadow-xl"
 		>
 			<div className="w-[180px] h-[180px] rounded-t-2xl bg-gray-100 flex flex-row items-center justify-center">
 				<NotebookIcon size={120} className="" />
 			</div>
 
-			<div className="flex flex-col ml-3">
+			<div className="flex flex-col ml-3 mr-1">
 				<p className="font-semibold mt-2 text-left">{notebookName}</p>
-				<p className="text-gray-400 text-left">0 notes</p>
+
+				<div className="flex flex-row justify-between items-center">
+					<p className="text-gray-400 text-left">0 notes</p>
+					<button className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300">
+						<KebabMenuIcon
+							size={24}
+						/>
+					</button>
+				</div>
 			</div>
-		</button>
+		</div>
 	);
 }
 
