@@ -28,14 +28,20 @@ import {
 
 interface NotebookProps {
 	notebookName: string;
+	notebookId: number;
+}
+
+interface NotebookDropdownMenuProps {
 	notebookId: number,
 }
 
 interface DeleteNotebookAlertDialog {
-	notebookId: number
+	notebookId: number;
 }
 
-function DeleteNotebookAlertDialog() {
+function DeleteNotebookAlertDialog({ notebookId }: DeleteNotebookAlertDialog) {
+	const { handleNotebookDelete } = useNotebooksStore();
+
 	return (
 		<AlertDialogContent>
 			<AlertDialogHeader>
@@ -47,14 +53,21 @@ function DeleteNotebookAlertDialog() {
 			</AlertDialogHeader>
 
 			<AlertDialogFooter>
-				<AlertDialogCancel className="hover:cursor-pointer">Cancel</AlertDialogCancel>
-				<AlertDialogAction className="bg-red-500 hover:bg-red-900 hover:cursor-pointer">Delete</AlertDialogAction>
+				<AlertDialogCancel className="hover:cursor-pointer">
+					Cancel
+				</AlertDialogCancel>
+				<AlertDialogAction
+					onClick={() => handleNotebookDelete(notebookId)}
+					className="bg-red-500 hover:bg-red-900 hover:cursor-pointer"
+				>
+					Delete
+				</AlertDialogAction>
 			</AlertDialogFooter>
 		</AlertDialogContent>
 	);
 }
 
-function NotebookDropdownMenu() {
+function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 	return (
 		<AlertDialog>
 			<DropdownMenu>
@@ -78,12 +91,12 @@ function NotebookDropdownMenu() {
 				</DropdownMenuContent>
 			</DropdownMenu>
 
-			<DeleteNotebookAlertDialog />
+			<DeleteNotebookAlertDialog notebookId={notebookId} />
 		</AlertDialog>
 	);
 }
 
-function Notebook({ notebookName }: NotebookProps) {
+function Notebook({ notebookName, notebookId }: NotebookProps) {
 	return (
 		<div
 			aria-label="open-notebook-button"
@@ -100,7 +113,7 @@ function Notebook({ notebookName }: NotebookProps) {
 				<div className="flex flex-row justify-between items-center">
 					<p className="text-gray-400 text-left">0 notes</p>
 
-					<NotebookDropdownMenu />
+					<NotebookDropdownMenu notebookId={notebookId} />
 				</div>
 			</div>
 		</div>
@@ -158,7 +171,11 @@ function NotebooksPage() {
 
 				<div className="grid grid-cols-5 gap-4 mt-2">
 					{notebooks.map(({ name, id }) => (
-						<Notebook notebookName={name} notebookId={id} key={name} />
+						<Notebook
+							notebookName={name}
+							notebookId={id}
+							key={name}
+						/>
 					))}
 				</div>
 			</div>
