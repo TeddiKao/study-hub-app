@@ -42,8 +42,8 @@ function DeleteNotebookAlertDialog() {
 			</AlertDialogHeader>
 
 			<AlertDialogFooter>
-				<AlertDialogCancel>Cancel</AlertDialogCancel>
-				<AlertDialogAction>Delete</AlertDialogAction>
+				<AlertDialogCancel className="hover:cursor-pointer">Cancel</AlertDialogCancel>
+				<AlertDialogAction className="bg-red-500 hover:bg-red-900 hover:cursor-pointer">Delete</AlertDialogAction>
 			</AlertDialogFooter>
 		</AlertDialogContent>
 	);
