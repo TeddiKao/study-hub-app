@@ -89,7 +89,7 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 
 					<DropdownMenuContent side="right">
 						<DropdownMenuItem asChild>
-							<DialogTrigger>
+							<DialogTrigger className="w-full">
 								Edit
 							</DialogTrigger>
 						</DropdownMenuItem>
