@@ -14,31 +14,89 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+	AlertDialogDescription,
+} from "@/components/ui/alert-dialog";
 
 interface NotebookProps {
 	notebookName: string;
+	notebookId: number;
 }
 
-function NotebookDropdownMenu() {
-	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<button type="button" aria-label="Notebook actions" className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300">
-					<KebabMenuIcon size={24} />
-				</button>
-			</DropdownMenuTrigger>
+interface NotebookDropdownMenuProps {
+	notebookId: number,
+}
 
-			<DropdownMenuContent side="right">
-				<DropdownMenuItem>Edit</DropdownMenuItem>
-				<DropdownMenuItem variant="destructive">
+interface DeleteNotebookAlertDialog {
+	notebookId: number;
+}
+
+function DeleteNotebookAlertDialog({ notebookId }: DeleteNotebookAlertDialog) {
+	const { handleNotebookDelete } = useNotebooksStore();
+
+	return (
+		<AlertDialogContent>
+			<AlertDialogHeader>
+				<AlertDialogTitle>Delete notebook?</AlertDialogTitle>
+				<AlertDialogDescription>
+					This will permanently delete your notebook. This cannot be
+					undone
+				</AlertDialogDescription>
+			</AlertDialogHeader>
+
+			<AlertDialogFooter>
+				<AlertDialogCancel className="hover:cursor-pointer">
+					Cancel
+				</AlertDialogCancel>
+				<AlertDialogAction
+					onClick={() => handleNotebookDelete(notebookId)}
+					className="bg-red-500 hover:bg-red-900 hover:cursor-pointer"
+				>
 					Delete
-				</DropdownMenuItem>
-			</DropdownMenuContent>
-		</DropdownMenu>
+				</AlertDialogAction>
+			</AlertDialogFooter>
+		</AlertDialogContent>
 	);
 }
 
-function Notebook({ notebookName }: NotebookProps) {
+function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
+	return (
+		<AlertDialog>
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<button
+						type="button"
+						aria-label="Notebook actions"
+						className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300"
+					>
+						<KebabMenuIcon size={24} />
+					</button>
+				</DropdownMenuTrigger>
+
+				<DropdownMenuContent side="right">
+					<DropdownMenuItem>Edit</DropdownMenuItem>
+					<AlertDialogTrigger className="w-full">
+						<DropdownMenuItem variant="destructive">
+							Delete
+						</DropdownMenuItem>
+					</AlertDialogTrigger>
+				</DropdownMenuContent>
+			</DropdownMenu>
+
+			<DeleteNotebookAlertDialog notebookId={notebookId} />
+		</AlertDialog>
+	);
+}
+
+function Notebook({ notebookName, notebookId }: NotebookProps) {
 	return (
 		<div
 			aria-label="open-notebook-button"
@@ -55,7 +113,7 @@ function Notebook({ notebookName }: NotebookProps) {
 				<div className="flex flex-row justify-between items-center">
 					<p className="text-gray-400 text-left">0 notes</p>
 
-					<NotebookDropdownMenu />
+					<NotebookDropdownMenu notebookId={notebookId} />
 				</div>
 			</div>
 		</div>
@@ -112,8 +170,12 @@ function NotebooksPage() {
 				</div>
 
 				<div className="grid grid-cols-5 gap-4 mt-2">
-					{notebooks.map(({ name }) => (
-						<Notebook notebookName={name} key={name} />
+					{notebooks.map(({ name, id }) => (
+						<Notebook
+							notebookName={name}
+							notebookId={id}
+							key={name}
+						/>
 					))}
 				</div>
 			</div>
