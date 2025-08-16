@@ -25,6 +25,7 @@ import {
 	AlertDialogTrigger,
 	AlertDialogDescription,
 } from "@/components/ui/alert-dialog";
+import { useEditNotebookFormStore } from "../stores/editNotebookForm.stores";
 
 interface NotebookProps {
 	notebookName: string;
@@ -68,6 +69,8 @@ function DeleteNotebookAlertDialog({ notebookId }: DeleteNotebookAlertDialog) {
 }
 
 function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
+	const { updateFormVisiblity } = useEditNotebookFormStore();
+
 	return (
 		<AlertDialog>
 			<DropdownMenu>
@@ -82,7 +85,7 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 				</DropdownMenuTrigger>
 
 				<DropdownMenuContent side="right">
-					<DropdownMenuItem>Edit</DropdownMenuItem>
+					<DropdownMenuItem onClick={() => updateFormVisiblity(true)}>Edit</DropdownMenuItem>
 					<AlertDialogTrigger className="w-full">
 						<DropdownMenuItem variant="destructive">
 							Delete
