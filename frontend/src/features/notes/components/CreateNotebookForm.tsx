@@ -13,17 +13,24 @@ function CreateNotebookForm() {
 		handleNameChange,
 		handleDescriptionChange,
 		clearDetails,
+		updateFormVisiblity
 	} = useCreateNotebookFormStore();
 	const { handleNotebookCreate } = useNotebooksStore();
 
 	async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
-		await handleNotebookCreate({
-			name: name,
-			description: description,
-			notebookColor: "#FFA500",
-		});
+		try {
+			await handleNotebookCreate({
+				name: name,
+				description: description,
+				notebookColor: "#FFA500",
+			});
+
+			updateFormVisiblity(false);
+		} catch (error) {
+			console.error("Failed to create notebook")
+		}
 
 		clearDetails();
 	}
@@ -55,14 +62,12 @@ function CreateNotebookForm() {
 				/>
 			</div>
 
-			<DialogClose asChild>
-				<button
-					type="submit"
-					className="bg-sky-500 w-full rounded-md text-white py-2 hover:bg-sky-700 hover:cursor-pointer"
-				>
-					Create notebook
-				</button>
-			</DialogClose>
+			<button
+				type="submit"
+				className="bg-sky-500 w-full rounded-md text-white py-2 hover:bg-sky-700 hover:cursor-pointer"
+			>
+				Create notebook
+			</button>
 		</form>
 	);
 }
