@@ -8,6 +8,10 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import CreateNotebookDialog from "../components/CreateNotebookDialog";
 import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores";
 import KebabMenuIcon from "@/shared/components/icons/KebabMenuIcon";
+import {
+	DropdownMenu,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface NotebookProps {
 	notebookName: string;
@@ -29,11 +33,14 @@ function Notebook({ notebookName }: NotebookProps) {
 
 				<div className="flex flex-row justify-between items-center">
 					<p className="text-gray-400 text-left">0 notes</p>
-					<button className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300">
-						<KebabMenuIcon
-							size={24}
-						/>
-					</button>
+
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<button className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300">
+								<KebabMenuIcon size={24} />
+							</button>
+						</DropdownMenuTrigger>
+					</DropdownMenu>
 				</div>
 			</div>
 		</div>
