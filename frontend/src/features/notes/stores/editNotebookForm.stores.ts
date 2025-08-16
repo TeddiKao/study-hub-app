@@ -31,11 +31,11 @@ const useEditNotebookFormStore = create<EditNotebookFormStore>((set) => ({
     },
 
     updateName: (newName: string) => {
-
+        set({ name: newName })
     },
 
     updateDescription: (newDescription: string) => {
-
+        set({ description: newDescription })
     },
 
     clearDetails: () => {
