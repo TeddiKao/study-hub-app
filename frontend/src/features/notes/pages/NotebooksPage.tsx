@@ -102,6 +102,7 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 						<DropdownMenuItem asChild>
 							<DialogTrigger
 								onClick={() => {
+									updateActiveNotebookId(notebookId);
 									queryClient.invalidateQueries({
 										queryKey: ["notebookInfo", notebookId]
 									})
