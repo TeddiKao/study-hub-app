@@ -2,7 +2,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useEditNotebookFormStore } from "../../stores/editNotebookForm.stores";
-import { useNotebooksStore } from "../../stores/notebooks.stores";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { retrieveNotebook } from "../../utils/notebooks.services";
@@ -23,7 +22,14 @@ function EditNotebookForm({ notebookId }: EditNotebookFormProps) {
 	
 	const { data, isLoading, error } = useQuery({
 		queryKey: ["notebookInfo", notebookId],
-		queryFn: async () => retrieveNotebook(notebookId),
+		queryFn: async () => {
+			const notebookRetrieveResponse = await retrieveNotebook(notebookId);
+			if (!notebookRetrieveResponse.success) {
+				throw new Error(notebookRetrieveResponse.error);
+			}
+
+			return notebookRetrieveResponse
+		},
 
 		staleTime: 1000 * 5 * 60,
 
