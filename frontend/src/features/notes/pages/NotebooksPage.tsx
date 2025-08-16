@@ -6,6 +6,7 @@ import type { Notebooks } from "../types/notebooks/notebookStore.types";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import CreateNotebookDialog from "../components/CreateNotebookDialog";
+import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores";
 
 interface NotebookProps {
 	notebookName: string;
@@ -42,6 +43,7 @@ function CreateNotebookButton() {
 
 function NotebooksPage() {
 	const { notebooks, getNotebooks } = useNotebooksStore();
+	const { isFormVisible, updateFormVisiblity } = useCreateNotebookFormStore();
 
 	const { isLoading, error } = useQuery<Notebooks, Error>({
 		queryKey: ["notebooks"],
@@ -68,7 +70,10 @@ function NotebooksPage() {
 				<div className="flex flex-row mt-3 gap-4">
 					<h1 className="font-bold text-3xl">Notebooks</h1>
 
-					<Dialog>
+					<Dialog
+						open={isFormVisible}
+						onOpenChange={updateFormVisiblity}
+					>
 						<CreateNotebookButton />
 						<CreateNotebookDialog />
 					</Dialog>
