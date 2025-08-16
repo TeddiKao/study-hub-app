@@ -23,7 +23,7 @@ function NotebookDropdownMenu() {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<button className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300">
+				<button type="button" aria-label="Notebook actions" className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300">
 					<KebabMenuIcon size={24} />
 				</button>
 			</DropdownMenuTrigger>
