@@ -9,6 +9,7 @@ import type {
 	EditNotebookApiPayload,
 	NotebookEditSuccess,
 	NotebookApiSuccess,
+	NotebookRetrieveSuccess,
 } from "../types/notebooks/notebookApi.types";
 
 async function fetchNotebooks(): Promise<
@@ -121,13 +122,14 @@ async function deleteNotebook(
 	}
 }
 
-async function retrieveNotebook(notebookId: number) {
+async function retrieveNotebook(notebookId: number): Promise<ApiErrorResponse | NotebookRetrieveSuccess> {
 	try {
-		await api.get(`notes/notebook/${notebookId}/`);
+		const response = await api.get(`notes/notebook/${notebookId}/`);
 
 		return {
 			success: true,
 			message: "Notebook retrieved successfully",
+			retrievedNotebook: response.data,
 		};
 	} catch (error) {
 		if (!isAxiosError(error)) {
