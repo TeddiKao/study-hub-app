@@ -2,6 +2,8 @@ import type { ChangeEvent } from "react";
 import { create } from "zustand";
 
 interface CreateNotebookFormStore {
+    isFormVisible: boolean,
+
     name: string,
     description: string,
 
@@ -9,9 +11,12 @@ interface CreateNotebookFormStore {
     handleDescriptionChange: (e: ChangeEvent<HTMLTextAreaElement>) => void,
 
     clearDetails: () => void,
+
+    updateFormVisiblity: (isFormVisible: boolean) => void
 }
 
 const useCreateNotebookFormStore = create<CreateNotebookFormStore>((set) => ({
+    isFormVisible: false,
     name: "",
     description: "",
 
@@ -25,6 +30,10 @@ const useCreateNotebookFormStore = create<CreateNotebookFormStore>((set) => ({
 
     clearDetails: () => {
         set({ name: "", description: "" })
+    },
+
+    updateFormVisiblity: (isFormVisible: boolean) => {
+        set({ isFormVisible: isFormVisible })
     }
 }))
 
