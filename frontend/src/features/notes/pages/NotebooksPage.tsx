@@ -1,6 +1,6 @@
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import Navbar from "@/shared/pages/DashboardPage/components/Navbar/Navbar";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNotebooksStore } from "../stores/notebooks.stores";
 import type { Notebooks } from "../types/notebooks/notebookStore.types";
 import AddIcon from "@/shared/components/icons/AddIcon";
@@ -77,6 +77,8 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 		updateActiveNotebookId,
 	} = useEditNotebookFormStore();
 
+	const queryClient = useQueryClient();
+
 	const isNotebookActive = notebookId === activeNotebookId;
 
 	return (
@@ -99,9 +101,11 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 					<DropdownMenuContent side="right">
 						<DropdownMenuItem asChild>
 							<DialogTrigger
-								onClick={() =>
-									updateActiveNotebookId(notebookId)
-								}
+								onClick={() => {
+									queryClient.invalidateQueries({
+										queryKey: ["notebookInfo", notebookId]
+									})
+								}}
 								className="w-full"
 							>
 								Edit
