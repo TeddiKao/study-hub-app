@@ -34,6 +34,7 @@ export type {
 	NotebookCreateSuccess,
 	NotebookApiSuccess,
 	NotebookEditSuccess,
+	NotebookRetrieveSuccess,
 	CreateNotebookApiPayload,
 	EditNotebookApiPayload,
 };
