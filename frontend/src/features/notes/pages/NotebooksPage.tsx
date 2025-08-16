@@ -28,6 +28,11 @@ import {
 
 interface NotebookProps {
 	notebookName: string;
+	notebookId: number,
+}
+
+interface DeleteNotebookAlertDialog {
+	notebookId: number
 }
 
 function DeleteNotebookAlertDialog() {
@@ -152,8 +157,8 @@ function NotebooksPage() {
 				</div>
 
 				<div className="grid grid-cols-5 gap-4 mt-2">
-					{notebooks.map(({ name }) => (
-						<Notebook notebookName={name} key={name} />
+					{notebooks.map(({ name, id }) => (
+						<Notebook notebookName={name} notebookId={id} key={name} />
 					))}
 				</div>
 			</div>
