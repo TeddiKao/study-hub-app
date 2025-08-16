@@ -70,10 +70,21 @@ function DeleteNotebookAlertDialog({ notebookId }: DeleteNotebookAlertDialog) {
 }
 
 function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
-	const { isFormVisible, updateFormVisiblity } = useEditNotebookFormStore();
+	const {
+		isFormVisible,
+		updateFormVisiblity,
+		activeNotebookId,
+		updateActiveNotebookId,
+		clearActiveNotebookId,
+	} = useEditNotebookFormStore();
+
+	const isNotebookActive = notebookId === activeNotebookId;
 
 	return (
-		<Dialog open={isFormVisible} onOpenChange={updateFormVisiblity}>
+		<Dialog
+			open={isFormVisible && isNotebookActive}
+			onOpenChange={updateFormVisiblity}
+		>
 			<AlertDialog>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
@@ -88,7 +99,12 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 
 					<DropdownMenuContent side="right">
 						<DropdownMenuItem asChild>
-							<DialogTrigger className="w-full">
+							<DialogTrigger
+								onClick={() =>
+									updateActiveNotebookId(notebookId)
+								}
+								className="w-full"
+							>
 								Edit
 							</DialogTrigger>
 						</DropdownMenuItem>
