@@ -46,6 +46,10 @@ function EditNotebookForm({ notebookId }: EditNotebookFormProps) {
 	const hasHydratedRef = useRef(false);
 
 	useEffect(() => {
+		hasHydratedRef.current = false
+	}, [notebookId])
+
+	useEffect(() => {
 		if (!data?.success) return;
 		if (hasHydratedRef.current) return;
 
