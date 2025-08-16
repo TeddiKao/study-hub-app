@@ -5,7 +5,7 @@ import { useNotebooksStore } from "../stores/notebooks.stores";
 import type { Notebooks } from "../types/notebooks/notebookStore.types";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import CreateNotebookDialog from "../components/CreateNotebookDialog";
+import CreateNotebookDialog from "../components/createNotebook/CreateNotebookDialog";
 import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores";
 import KebabMenuIcon from "@/shared/components/icons/KebabMenuIcon";
 import {
@@ -32,7 +32,7 @@ interface NotebookProps {
 }
 
 interface NotebookDropdownMenuProps {
-	notebookId: number,
+	notebookId: number;
 }
 
 interface DeleteNotebookAlertDialog {

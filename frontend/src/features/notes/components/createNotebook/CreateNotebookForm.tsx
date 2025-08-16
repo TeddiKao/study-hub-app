@@ -1,9 +1,9 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores";
+import { useCreateNotebookFormStore } from "../../stores/createNotebookForm.stores";
 import type { FormEvent } from "react";
-import { useNotebooksStore } from "../stores/notebooks.stores";
+import { useNotebooksStore } from "../../stores/notebooks.stores";
 
 function CreateNotebookForm() {
 	const {
@@ -12,7 +12,7 @@ function CreateNotebookForm() {
 		handleNameChange,
 		handleDescriptionChange,
 		clearDetails,
-		updateFormVisiblity
+		updateFormVisiblity,
 	} = useCreateNotebookFormStore();
 	const { handleNotebookCreate } = useNotebooksStore();
 
@@ -29,7 +29,7 @@ function CreateNotebookForm() {
 			updateFormVisiblity(false);
 			clearDetails();
 		} catch (error) {
-			console.error("Failed to create notebook")
+			console.error("Failed to create notebook");
 		}
 	}
 
