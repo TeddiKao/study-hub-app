@@ -14,6 +14,17 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+	AlertDialogDescription
+} from "@/components/ui/alert-dialog";
 
 interface NotebookProps {
 	notebookName: string;
@@ -21,20 +32,43 @@ interface NotebookProps {
 
 function NotebookDropdownMenu() {
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<button type="button" aria-label="Notebook actions" className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300">
-					<KebabMenuIcon size={24} />
-				</button>
-			</DropdownMenuTrigger>
+		<AlertDialog>
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<button
+						type="button"
+						aria-label="Notebook actions"
+						className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300"
+					>
+						<KebabMenuIcon size={24} />
+					</button>
+				</DropdownMenuTrigger>
 
-			<DropdownMenuContent side="right">
-				<DropdownMenuItem>Edit</DropdownMenuItem>
-				<DropdownMenuItem variant="destructive">
-					Delete
-				</DropdownMenuItem>
-			</DropdownMenuContent>
-		</DropdownMenu>
+				<DropdownMenuContent side="right">
+					<DropdownMenuItem>Edit</DropdownMenuItem>
+					<AlertDialogTrigger>
+						<DropdownMenuItem variant="destructive">
+							Delete
+						</DropdownMenuItem>
+					</AlertDialogTrigger>
+				</DropdownMenuContent>
+			</DropdownMenu>
+
+			<AlertDialogContent>
+				<AlertDialogHeader>
+					<AlertDialogTitle>Delete notebook?</AlertDialogTitle>
+					<AlertDialogDescription>
+						This will permanently delete your notebook. This cannot
+						be undone
+					</AlertDialogDescription>
+				</AlertDialogHeader>
+
+				<AlertDialogFooter>
+					<AlertDialogCancel>Cancel</AlertDialogCancel>
+					<AlertDialogAction>Delete</AlertDialogAction>
+				</AlertDialogFooter>
+			</AlertDialogContent>
+		</AlertDialog>
 	);
 }
 
