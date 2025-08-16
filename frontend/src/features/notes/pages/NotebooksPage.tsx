@@ -10,6 +10,8 @@ import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores"
 import KebabMenuIcon from "@/shared/components/icons/KebabMenuIcon";
 import {
 	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -40,6 +42,11 @@ function Notebook({ notebookName }: NotebookProps) {
 								<KebabMenuIcon size={24} />
 							</button>
 						</DropdownMenuTrigger>
+
+						<DropdownMenuContent>
+							<DropdownMenuItem>Edit</DropdownMenuItem>
+							<DropdownMenuItem>Delete</DropdownMenuItem>
+						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>
 			</div>
