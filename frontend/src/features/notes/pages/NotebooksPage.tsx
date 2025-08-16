@@ -26,7 +26,6 @@ import {
 	AlertDialogDescription,
 } from "@/components/ui/alert-dialog";
 import { useEditNotebookFormStore } from "../stores/editNotebookForm.stores";
-import { DialogContent, DialogTitle } from "@radix-ui/react-dialog";
 import EditNotebookDialog from "../components/editNotebook/EditNotebookDialog";
 
 interface NotebookProps {
