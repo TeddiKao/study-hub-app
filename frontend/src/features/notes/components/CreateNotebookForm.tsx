@@ -4,7 +4,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores";
 import type { FormEvent } from "react";
 import { useNotebooksStore } from "../stores/notebooks.stores";
-import { DialogClose } from "@radix-ui/react-dialog";
 
 function CreateNotebookForm() {
 	const {
