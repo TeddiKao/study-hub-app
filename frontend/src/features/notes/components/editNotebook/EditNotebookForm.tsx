@@ -39,7 +39,7 @@ function EditNotebookForm({ notebookId }: EditNotebookFormProps) {
 		staleTime: 1000 * 5 * 60,
 
 		refetchOnReconnect: true,
-		refetchOnMount: false,
+		refetchOnMount: true,
 		refetchOnWindowFocus: true,
 	})
 
