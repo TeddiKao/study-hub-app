@@ -6,6 +6,7 @@ interface EditNotebookFormStore {
 
     name: string,
     description: string,
+    activeNotebookId: number | null,
 
     handleNameChange: (e: ChangeEvent<HTMLInputElement>) => void,
     handleDescriptionChange: (e: ChangeEvent<HTMLTextAreaElement>) => void,
@@ -19,6 +20,7 @@ interface EditNotebookFormStore {
 
 const useEditNotebookFormStore = create<EditNotebookFormStore>((set) => ({
     isFormVisible: false,
+    activeNotebookId: null,
     name: "",
     description: "",
 
