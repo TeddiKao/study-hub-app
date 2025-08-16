@@ -49,6 +49,10 @@ const useEditNotebookFormStore = create<EditNotebookFormStore>((set) => ({
 
     updateFormVisiblity: (isFormVisible: boolean) => {
         set({ isFormVisible: isFormVisible })
+
+        if (!isFormVisible) {
+            set({ activeNotebookId: null })
+        }
     },
 
     updateActiveNotebookId: (notebookId: number) => {
