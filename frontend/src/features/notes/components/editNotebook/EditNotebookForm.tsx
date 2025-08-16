@@ -22,7 +22,7 @@ function EditNotebookForm({ notebookId }: EditNotebookFormProps) {
 	} = useEditNotebookFormStore();
 	
 	const { data, isLoading, error } = useQuery({
-		queryKey: ["notebookInfo"],
+		queryKey: ["notebookInfo", notebookId],
 		queryFn: async () => retrieveNotebook(notebookId),
 
 		staleTime: 1000 * 5 * 60,
