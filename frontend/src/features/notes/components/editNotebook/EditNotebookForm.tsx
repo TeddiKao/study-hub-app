@@ -112,7 +112,7 @@ function EditNotebookForm({ notebookId }: EditNotebookFormProps) {
 				type="submit"
 				className="bg-sky-500 w-full rounded-md text-white py-2 hover:bg-sky-700 hover:cursor-pointer"
 			>
-				Create notebook
+				Save changes
 			</button>
 		</form>
 	);
