@@ -104,7 +104,7 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 				<DeleteNotebookAlertDialog notebookId={notebookId} />
 			</AlertDialog>
 
-			<EditNotebookDialog />
+			<EditNotebookDialog notebookId={notebookId} />
 		</Dialog>
 	);
 }
