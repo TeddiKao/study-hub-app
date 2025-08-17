@@ -1,4 +1,6 @@
-const expandedItemMap = {
+type ExpandedItemMap = Record<string, string>
+
+const expandedItemMap: ExpandedItemMap = {
     "notebooks": "notebook"
 }
 
