@@ -28,7 +28,9 @@ interface NotebookDeleteAlertProps {
 	itemId: number;
 }
 
-interface NotebookEditDialogProps extends NotebookDeleteAlertProps {}
+interface NotebookEditDialogProps {
+	itemId: number
+}
 
 function NotebookDeleteAlert({
 	itemType,
@@ -76,50 +78,8 @@ function NotebookDeleteAlert({
 
 function NotebookEditDialog({
 	itemId,
-	itemName,
-	itemType,
 }: NotebookEditDialogProps) {
-	const {
-		isFormVisible,
-		activeNotebookId,
-		updateFormVisibility,
-		updateActiveNotebookId,
-	} = useEditNotebookFormStore();
-	const { disableActiveItemIdUpdate, enableActiveItemIdUpdate } =
-		useActiveItemStore();
-
-	const queryClient = useQueryClient();
-
-	return (
-		<Dialog
-			open={isFormVisible && itemId === activeNotebookId}
-			onOpenChange={(open: boolean) => {
-				updateFormVisibility(open);
-
-				if (open) {
-					disableActiveItemIdUpdate();
-					updateActiveNotebookId(itemId);
-					queryClient.invalidateQueries({
-						queryKey: ["notebookInfo", itemId],
-					});
-				} else {
-					enableActiveItemIdUpdate();
-				}
-			}}
-		>
-			<DialogTrigger asChild>
-				<button
-					type="button"
-					className="ml-0.5 hover:cursor-pointer"
-					aria-label={`Edit ${itemType} ${itemName}`}
-				>
-					<EditIcon size={20} className="fill-gray-500" />
-				</button>
-			</DialogTrigger>
-
-			<NotebookDialog mode="edit" notebookId={itemId} />
-		</Dialog>
-	);
+	return <NotebookDialog mode="edit" notebookId={itemId} />;
 }
 
 function Item({ itemId, itemType, itemName, color }: ItemProps) {
@@ -166,13 +126,15 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 
 			{activeItemId === itemId && (
 				<div className="flex flex-row items-center ml-2 shrink-0">
-					<NotebookDeleteAlert
-						itemId={itemId}
-						itemName={itemName}
-						itemType={itemType}
-					/>
+					<button
+						type="button"
+						className="ml-0.5 hover:cursor-pointer"
+						aria-label={`Edit ${itemType} ${itemName}`}
+					>
+						<EditIcon size={20} className="fill-gray-500" />
+					</button>
 
-					<NotebookEditDialog
+					<NotebookDeleteAlert
 						itemId={itemId}
 						itemName={itemName}
 						itemType={itemType}
@@ -195,33 +157,59 @@ function AddNotebookButton() {
 function NavPanel() {
 	const { expanded, expandedItem } = useDashboardNavbarState();
 	const { notebooks } = useNotebooksStore();
+	const { isFormVisible, updateFormVisibility } = useEditNotebookFormStore();
+	const { activeItemId, activeItemName, activeItemType } =
+		useActiveItemStore();
+	
+	const queryClient = useQueryClient();
 
 	if (!expanded) return null;
 	if (!expandedItem) return null;
 
 	return (
-		<div
-			id="dashboard-notebooks-panel"
-			role="region"
-			aria-labelledby="dashboard-notebooks-trigger"
-			className="flex flex-col bg-gray-100 py-3 pl-3 pr-3"
-		>
-			<p className="text-sm text-gray-500 mb-1 pl-1">Notebooks</p>
+		<>
+			<div
+				id="dashboard-notebooks-panel"
+				role="region"
+				aria-labelledby="dashboard-notebooks-trigger"
+				className="flex flex-col bg-gray-100 py-3 pl-3 pr-3"
+			>
+				<p className="text-sm text-gray-500 mb-1 pl-1">Notebooks</p>
 
-			<div className="flex flex-col">
-				{notebooks.map(({ id, name, notebookColor }) => (
-					<Item
-						key={id}
-						itemId={id}
-						itemName={name}
-						color={notebookColor}
-						itemType={expandedItemMap[expandedItem]}
-					/>
-				))}
+				<div className="flex flex-col">
+					{notebooks.map(({ id, name, notebookColor }) => (
+						<Item
+							key={id}
+							itemId={id}
+							itemName={name}
+							color={notebookColor}
+							itemType={expandedItemMap[expandedItem]}
+						/>
+					))}
+				</div>
+
+				<AddNotebookButton />
 			</div>
 
-			<AddNotebookButton />
-		</div>
+			{activeItemId && activeItemName && activeItemType && (
+				<Dialog
+					open={isFormVisible}
+					onOpenChange={(open) => {
+						updateFormVisibility(open);
+
+						if (open) {
+							queryClient.invalidateQueries({
+								queryKey: ["notebookInfo", activeItemId]
+							})
+						}
+					}}
+				>
+					<NotebookEditDialog
+						itemId={activeItemId}
+					/>
+				</Dialog>
+			)}
+		</>
 	);
 }
 
