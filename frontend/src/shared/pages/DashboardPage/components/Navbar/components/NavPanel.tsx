@@ -65,7 +65,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 			</div>
 
 			{activeItemId === itemId && (
-				<div className="flex flex-row ml-2 shrink-0">
+				<div className="flex flex-row items-center ml-2 shrink-0">
 					<AlertDialog onOpenChange={(open) => {
 						if (open) {
 							disableActiveItemIdUpdate();
