@@ -5,7 +5,6 @@ import { useNotebooksStore } from "../stores/notebooks.stores";
 import type { Notebooks } from "../types/notebooks/notebookStore.types";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import CreateNotebookDialog from "../components/createNotebook/CreateNotebookDialog";
 import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores";
 import KebabMenuIcon from "@/shared/components/icons/KebabMenuIcon";
 import {
@@ -26,7 +25,7 @@ import {
 	AlertDialogDescription,
 } from "@/components/ui/alert-dialog";
 import { useEditNotebookFormStore } from "../stores/editNotebookForm.stores";
-import EditNotebookDialog from "../components/editNotebook/EditNotebookDialog";
+import NotebookDialog from "../components/NotebookDialog";
 
 interface NotebookProps {
 	notebookName: string;
@@ -72,7 +71,7 @@ function DeleteNotebookAlertDialog({ notebookId }: DeleteNotebookAlertDialog) {
 function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 	const {
 		isFormVisible,
-		updateFormVisiblity,
+		updateFormVisibility,
 		activeNotebookId,
 		updateActiveNotebookId,
 	} = useEditNotebookFormStore();
@@ -84,7 +83,7 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 	return (
 		<Dialog
 			open={isFormVisible && isNotebookActive}
-			onOpenChange={updateFormVisiblity}
+			onOpenChange={updateFormVisibility}
 		>
 			<AlertDialog>
 				<DropdownMenu>
@@ -123,7 +122,7 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 				<DeleteNotebookAlertDialog notebookId={notebookId} />
 			</AlertDialog>
 
-			<EditNotebookDialog notebookId={notebookId} />
+			<NotebookDialog mode="edit" notebookId={notebookId} />
 		</Dialog>
 	);
 }
@@ -165,7 +164,7 @@ function CreateNotebookButton() {
 
 function NotebooksPage() {
 	const { notebooks, getNotebooks } = useNotebooksStore();
-	const { isFormVisible, updateFormVisiblity } = useCreateNotebookFormStore();
+	const { isFormVisible, updateFormVisibility } = useCreateNotebookFormStore();
 
 	const { isLoading, error } = useQuery<Notebooks, Error>({
 		queryKey: ["notebooks"],
@@ -194,10 +193,10 @@ function NotebooksPage() {
 
 					<Dialog
 						open={isFormVisible}
-						onOpenChange={updateFormVisiblity}
+						onOpenChange={updateFormVisibility}
 					>
 						<CreateNotebookButton />
-						<CreateNotebookDialog />
+						<NotebookDialog mode="create" />
 					</Dialog>
 				</div>
 
