@@ -3,6 +3,7 @@ import AddIcon from "@/shared/components/icons/AddIcon";
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import { expandedItemMap } from "@/shared/constants/expandedItemMap.constants";
 import { useDashboardNavbarState } from "@/shared/stores/dashboard.stores";
+import { TrashIcon } from "lucide-react";
 
 interface ItemProps {
 	itemType: string;
@@ -36,6 +37,10 @@ function Item({ itemType, itemName, color }: ItemProps) {
 				{getItemIcon()}
 			</div>
 			<p className="ml-2">{itemName}</p>
+
+			<div className="flex flex-row">
+				<TrashIcon size={24} />
+			</div>
 		</button>
 	);
 }
