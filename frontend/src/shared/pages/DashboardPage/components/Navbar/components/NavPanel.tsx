@@ -93,6 +93,8 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 	} = useActiveItemStore();
 	const { updateFormVisibility } = useEditNotebookFormStore();
 
+	const queryClient = useQueryClient();
+
 	function getItemIcon() {
 		switch (itemType) {
 			case "notebook":
@@ -141,6 +143,10 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 							e.stopPropagation();
 							updateFormVisibility(true);
 							disableActiveItemIdUpdate();
+
+							queryClient.invalidateQueries({
+								queryKey: ["notebookInfo", itemId]
+							});
 						}}
 					>
 						<EditIcon size={20} className="fill-gray-500" />
