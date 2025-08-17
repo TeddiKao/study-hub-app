@@ -11,7 +11,7 @@ import type { Notebooks } from "../types/notebooks/notebookStore.types";
 interface NotebookStore {
 	notebooks: Notebooks;
 
-	getNotebooks: () => Promise<void>;
+	getNotebooks: () => Promise<Notebooks>;
 	handleNotebookCreate: (notebookData: CreateNotebookApiPayload) => Promise<void>;
 
 	handleNotebookEdit: (
@@ -21,22 +21,24 @@ interface NotebookStore {
 	handleNotebookDelete: (notebookId: number) => Promise<void>;
 }
 
-const useNotebookStore = create<NotebookStore>((set, get) => ({
+const useNotebooksStore = create<NotebookStore>((set, get) => ({
 	notebooks: [],
 
 	getNotebooks: async () => {
 		const notebookFetchResponse = await fetchNotebooks();
 		if (!notebookFetchResponse.success) {
-			return;
+			throw new Error(notebookFetchResponse.error);
 		}
 
 		set({ notebooks: notebookFetchResponse.notebooks });
+
+		return notebookFetchResponse.notebooks
 	},
 
 	handleNotebookCreate: async (notebookData: CreateNotebookApiPayload) => {
 		const notebookCreateResponse = await createNotebook(notebookData);
 		if (!notebookCreateResponse.success) {
-			return;
+			throw new Error(notebookCreateResponse.error);
 		}
 
 		await get().getNotebooks();
@@ -51,20 +53,20 @@ const useNotebookStore = create<NotebookStore>((set, get) => ({
 			notebookData
 		);
 		if (!notebookEditResponse.success) {
-			return;
+			throw new Error(notebookEditResponse.error);
 		}
 
 		await get().getNotebooks();
 	},
 
-	handleNotebookDelete: async (notebookId) => {
+	handleNotebookDelete: async (notebookId: number) => {
 		const notebookDeleteResponse = await deleteNotebook(notebookId);
 		if (!notebookDeleteResponse.success) {
-			return;
+			throw new Error(notebookDeleteResponse.error);
 		}
 
 		await get().getNotebooks();
 	},
 }));
 
-export { useNotebookStore };
+export { useNotebooksStore };
