@@ -1,4 +1,3 @@
-import type { ChangeEvent } from "react";
 import { create } from "zustand";
 
 interface CreateNotebookFormStore {
@@ -15,7 +14,7 @@ interface CreateNotebookFormStore {
     updateFormVisiblity: (isFormVisible: boolean) => void
 }
 
-const useCreateNotebookFormStore = create<CreateNotebookFormStore>((set, get) => ({
+const useCreateNotebookFormStore = create<CreateNotebookFormStore>((set) => ({
     isFormVisible: false,
     name: "",
     description: "",

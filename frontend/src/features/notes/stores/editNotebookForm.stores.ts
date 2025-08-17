@@ -1,4 +1,3 @@
-import type { ChangeEvent } from "react";
 import { create } from "zustand";
 
 interface EditNotebookFormStore {
