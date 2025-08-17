@@ -12,7 +12,7 @@ interface EditNotebookFormStore {
 
     clearDetails: () => void,
 
-    updateFormVisiblity: (isFormVisible: boolean) => void,
+    updateFormVisibility: (isFormVisible: boolean) => void,
 
     updateActiveNotebookId: (notebookId: number) => void,
     clearActiveNotebookId: () => void,
@@ -36,7 +36,7 @@ const useEditNotebookFormStore = create<EditNotebookFormStore>((set) => ({
         set({ name: "", description: "" })
     },
 
-    updateFormVisiblity: (isFormVisible: boolean) => {
+    updateFormVisibility: (isFormVisible: boolean) => {
         set({ isFormVisible: isFormVisible })
 
         if (!isFormVisible) {

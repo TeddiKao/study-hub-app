@@ -11,7 +11,7 @@ interface CreateNotebookFormStore {
 
     clearDetails: () => void,
 
-    updateFormVisiblity: (isFormVisible: boolean) => void
+    updateFormVisibility: (isFormVisible: boolean) => void
 }
 
 const useCreateNotebookFormStore = create<CreateNotebookFormStore>((set) => ({
@@ -31,7 +31,7 @@ const useCreateNotebookFormStore = create<CreateNotebookFormStore>((set) => ({
         set({ name: "", description: "" })
     },
 
-    updateFormVisiblity: (isFormVisible: boolean) => {
+    updateFormVisibility: (isFormVisible: boolean) => {
         set({ isFormVisible: isFormVisible })
     }
 }))
