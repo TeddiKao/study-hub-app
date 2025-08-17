@@ -4,6 +4,9 @@ import { useEditNotebookFormStore } from "../stores/editNotebookForm.stores";
 import { useNotebooksStore } from "../stores/notebooks.stores";
 import { retrieveNotebook } from "../utils/notebooks.services";
 import { useQuery } from "@tanstack/react-query";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 interface NotebookFormProps {
 	mode: "create" | "edit";
@@ -69,6 +72,42 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
     if (error) {
         return <div>An error occured while retrieving notebook</div>
     }
+
+    return (
+		<form className="flex flex-col p-2" onSubmit={handleFormSubmit}>
+			<div className="flex flex-col mb-2">
+				<Label htmlFor="notebook-name" className="mb-1">
+					Name
+				</Label>
+				<Input
+					type="text"
+					id="notebook-name"
+					value={name}
+					placeholder="New name"
+					onChange={handleNameChange}
+				/>
+			</div>
+
+			<div className="flex flex-col mb-2">
+				<Label htmlFor="notebook-description" className="mb-1">
+					Description
+				</Label>
+				<Textarea
+					id="notebook-description"
+					placeholder="New description"
+					value={description}
+					onChange={handleDescriptionChange}
+				/>
+			</div>
+
+			<button
+				type="submit"
+				className="bg-sky-500 w-full rounded-md text-white py-2 hover:bg-sky-700 hover:cursor-pointer"
+			>
+				Save changes
+			</button>
+		</form>
+	)
 }
 
 export default NotebookForm;
