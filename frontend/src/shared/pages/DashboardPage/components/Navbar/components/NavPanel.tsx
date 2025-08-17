@@ -1,7 +1,11 @@
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import NotebookDialog from "@/features/notes/components/NotebookDialog";
+import { useEditNotebookFormStore } from "@/features/notes/stores/editNotebookForm.stores";
 import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import AddIcon from "@/shared/components/icons/AddIcon";
+import EditIcon from "@/shared/components/icons/EditIcon";
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import TrashIcon from "@/shared/components/icons/TrashIcon";
 import { expandedItemMap } from "@/shared/constants/expandedItemMap.constants";
@@ -9,6 +13,7 @@ import {
 	useActiveItemStore,
 	useDashboardNavbarState,
 } from "@/shared/stores/dashboard.stores";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ItemProps {
 	itemId: number;
@@ -18,9 +23,20 @@ interface ItemProps {
 }
 
 function Item({ itemId, itemType, itemName, color }: ItemProps) {
-	const { activeItemId, updateActiveItem, clearActiveItem } =
-		useActiveItemStore();
+	const {
+		activeItemId,
+		canUpdateActiveItemId,
+		updateActiveItem,
+		clearActiveItem,
+		enableActiveItemIdUpdate,
+		disableActiveItemIdUpdate,
+	} = useActiveItemStore();
 	const { handleNotebookDelete } = useNotebooksStore();
+	const { updateActiveNotebookId, activeNotebookId } =
+		useEditNotebookFormStore();
+	const { updateFormVisibility, isFormVisible } = useEditNotebookFormStore();
+
+	const queryClient = useQueryClient();
 
 	function getItemIcon() {
 		switch (itemType) {
@@ -34,9 +50,15 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 
 	return (
 		<div
-			onMouseEnter={() => updateActiveItem(itemId)}
-			onMouseLeave={() => clearActiveItem()}
-			className="flex flex-row mb-0.5 p-1 items-center justify-between hover:cursor-pointer hover:bg-gray-300 rounded-md"
+			onMouseEnter={() => {
+				if (!canUpdateActiveItemId) return;
+				updateActiveItem(itemId);
+			}}
+			onMouseLeave={() => {
+				if (!canUpdateActiveItemId) return;
+				clearActiveItem();
+			}}
+			className="flex flex-row gap-3 mb-0.5 p-1 items-center justify-between hover:cursor-pointer hover:bg-gray-300 rounded-md"
 		>
 			<div className="flex flex-row items-center">
 				<div
@@ -51,10 +73,22 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 			</div>
 
 			{activeItemId === itemId && (
-				<div className="flex flex-row ml-2 shrink-0">
-					<AlertDialog>
+				<div className="flex flex-row items-center ml-2 shrink-0">
+					<AlertDialog
+						onOpenChange={(open) => {
+							if (open) {
+								disableActiveItemIdUpdate();
+							} else {
+								enableActiveItemIdUpdate();
+							}
+						}}
+					>
 						<AlertDialogTrigger asChild>
-							<button className="p-1 rounded-md" type="button" aria-label={`Delete ${itemType} ${itemName}`}>
+							<button
+								className="rounded-md hover:cursor-pointer"
+								type="button"
+								aria-label={`Delete ${itemType} ${itemName}`}
+							>
 								<TrashIcon
 									color="hsl(220.03 10% 46%)"
 									size={20}
@@ -74,6 +108,35 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 							}}
 						/>
 					</AlertDialog>
+
+					<Dialog
+						open={isFormVisible && itemId === activeNotebookId}
+						onOpenChange={(open: boolean) => {
+							updateFormVisibility(open);
+
+							if (open) {
+								disableActiveItemIdUpdate();
+								updateActiveNotebookId(itemId);
+								queryClient.invalidateQueries({
+									queryKey: ["notebookInfo", itemId],
+								});
+							} else {
+								enableActiveItemIdUpdate();
+							}
+						}}
+					>
+						<DialogTrigger asChild>
+							<button
+								type="button"
+								className="ml-0.5 hover:cursor-pointer"
+								aria-label={`Edit ${itemType} ${itemName}`}
+							>
+								<EditIcon size={20} className="fill-gray-500" />
+							</button>
+						</DialogTrigger>
+
+						<NotebookDialog mode="edit" notebookId={itemId} />
+					</Dialog>
 				</div>
 			)}
 		</div>
