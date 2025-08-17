@@ -82,9 +82,31 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 	const submitButtonText =
 		mode === "create" ? "Create notebook" : "Save changes";
 
-	async function handleCreateNotebookFormSubmit() {}
+	async function handleCreateNotebookFormSubmit() {
+		try {
+			await handleNotebookCreate({
+				name: name,
+				description: description,
+				notebookColor: "#FFA500",
+			});
+		} catch (error) {
+			throw new Error("Failed to create notebook");
+		}
+	}
 
-	async function handleEditNotebookFormSubmit() {}
+	async function handleEditNotebookFormSubmit() {
+		if (!notebookId) return;
+
+		try {
+			await handleNotebookEdit(notebookId, {
+				name: name,
+				description: description,
+				notebookColor: "#FFA500",
+			});
+		} catch (error) {
+			throw new Error("Failed to edit notebook");
+		}
+	}
 
 	async function handleFormSubmit() {
 		try {
@@ -94,12 +116,12 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 				await handleEditNotebookFormSubmit();
 			}
 		} catch (error) {
-            if (mode === "create") {
-                console.error("Failed to create notebook");
-            } else if (mode === "edit") {
-                console.error("Failed to edit notebook");
-            }
-        }
+			if (mode === "create") {
+				console.error("Failed to create notebook");
+			} else if (mode === "edit") {
+				console.error("Failed to edit notebook");
+			}
+		}
 	}
 
 	return (
