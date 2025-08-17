@@ -7,8 +7,6 @@ interface CreateNotebookFormStore {
     name: string,
     description: string,
 
-    handleNameChange: (e: ChangeEvent<HTMLInputElement>) => void,
-    handleDescriptionChange: (e: ChangeEvent<HTMLTextAreaElement>) => void,
     updateName: (newName: string) => void,
     updateDescription: (newDescription: string) => void,
 
@@ -21,14 +19,6 @@ const useCreateNotebookFormStore = create<CreateNotebookFormStore>((set, get) =>
     isFormVisible: false,
     name: "",
     description: "",
-
-    handleNameChange: (e: ChangeEvent<HTMLInputElement>) => {
-        get().updateName(e.target.value)
-    },
-
-    handleDescriptionChange: (e: ChangeEvent<HTMLTextAreaElement>) => {
-        get().updateDescription(e.target.value)
-    },
 
     updateName: (newName: string) => {
         set({ name: newName })
