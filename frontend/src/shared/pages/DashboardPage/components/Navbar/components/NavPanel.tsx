@@ -33,10 +33,19 @@ function NotebookEditDialog({ itemId }: NotebookEditDialogProps) {
 
 function DeleteNotebookAlert() {
 	const { activeItemId, enableActiveItemIdUpdate } = useActiveItemStore();
-	const { isAlertVisible, hideDeleteNotebookAlert } = useDeleteNotebookAlertStore();
+	const { isAlertVisible, hideDeleteNotebookAlert } =
+		useDeleteNotebookAlertStore();
 	const { handleNotebookDelete } = useNotebooksStore();
 
-	if (!activeItemId) return;
+	if (!activeItemId) return null;
+
+	async function dialogAction() {
+		try {
+			await handleNotebookDelete(activeItemId!);
+		} catch (error) {
+			console.error("Failed to delete notebook");
+		}
+	}
 
 	return (
 		<DeleteItemDialog
@@ -49,13 +58,7 @@ function DeleteNotebookAlert() {
 			}}
 			dialogTitle="Delete notebook?"
 			dialogDescription="This will permanently delete your notebook. This cannot be undone"
-			dialogAction={async () => {
-				try {
-					await handleNotebookDelete(activeItemId);
-				} catch (error) {
-					console.error("Failed to delete notebook");
-				}
-			}}
+			dialogAction={dialogAction}
 		/>
 	);
 }
@@ -71,8 +74,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 		disableActiveItemIdUpdate,
 	} = useActiveItemStore();
 	const { updateFormVisibility } = useEditNotebookFormStore();
-	const { showDeleteNotebookAlert } =
-		useDeleteNotebookAlertStore();
+	const { showDeleteNotebookAlert } = useDeleteNotebookAlertStore();
 
 	const queryClient = useQueryClient();
 
