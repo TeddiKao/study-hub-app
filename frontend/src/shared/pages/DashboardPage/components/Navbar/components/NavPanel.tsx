@@ -23,10 +23,17 @@ interface ItemProps {
 }
 
 function Item({ itemId, itemType, itemName, color }: ItemProps) {
-	const { activeItemId, canUpdateActiveItemId, updateActiveItem, clearActiveItem, enableActiveItemIdUpdate, disableActiveItemIdUpdate } =
-		useActiveItemStore();
+	const {
+		activeItemId,
+		canUpdateActiveItemId,
+		updateActiveItem,
+		clearActiveItem,
+		enableActiveItemIdUpdate,
+		disableActiveItemIdUpdate,
+	} = useActiveItemStore();
 	const { handleNotebookDelete } = useNotebooksStore();
-	const { updateActiveNotebookId, activeNotebookId } = useEditNotebookFormStore();
+	const { updateActiveNotebookId, activeNotebookId } =
+		useEditNotebookFormStore();
 	const { updateFormVisibility, isFormVisible } = useEditNotebookFormStore();
 
 	const queryClient = useQueryClient();
@@ -67,13 +74,15 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 
 			{activeItemId === itemId && (
 				<div className="flex flex-row items-center ml-2 shrink-0">
-					<AlertDialog onOpenChange={(open) => {
-						if (open) {
-							disableActiveItemIdUpdate();
-						} else {
-							enableActiveItemIdUpdate();
-						}
-					}}>
+					<AlertDialog
+						onOpenChange={(open) => {
+							if (open) {
+								disableActiveItemIdUpdate();
+							} else {
+								enableActiveItemIdUpdate();
+							}
+						}}
+					>
 						<AlertDialogTrigger asChild>
 							<button
 								className="rounded-md hover:cursor-pointer"
@@ -100,19 +109,22 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 						/>
 					</AlertDialog>
 
-					<Dialog open={isFormVisible && itemId === activeNotebookId} onOpenChange={(open: boolean) => {
-						updateFormVisibility(open);
-						queryClient.invalidateQueries({
-							queryKey: ["notebookInfo", itemId]
-						})
-						
-						if (open) {
-							disableActiveItemIdUpdate();
-							updateActiveNotebookId(itemId);
-						} else {
-							enableActiveItemIdUpdate();
-						}
-					}}>
+					<Dialog
+						open={isFormVisible && itemId === activeNotebookId}
+						onOpenChange={(open: boolean) => {
+							updateFormVisibility(open);
+
+							if (open) {
+								disableActiveItemIdUpdate();
+								updateActiveNotebookId(itemId);
+								queryClient.invalidateQueries({
+									queryKey: ["notebookInfo", itemId],
+								});
+							} else {
+								enableActiveItemIdUpdate();
+							}
+						}}
+					>
 						<DialogTrigger asChild>
 							<button
 								type="button"
