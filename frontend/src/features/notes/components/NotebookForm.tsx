@@ -82,21 +82,25 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 	const submitButtonText =
 		mode === "create" ? "Create notebook" : "Save changes";
 
-    async function handleCreateNotebookFormSubmit() {
+	async function handleCreateNotebookFormSubmit() {}
 
-    }
+	async function handleEditNotebookFormSubmit() {}
 
-    async function handleEditNotebookFormSubmit() {
-
-    }
-
-    async function handleFormSubmit() {
-        if (mode === "create") {
-            await handleCreateNotebookFormSubmit();
-        } else if (mode === "edit") {
-            await handleEditNotebookFormSubmit();
+	async function handleFormSubmit() {
+		try {
+			if (mode === "create") {
+				await handleCreateNotebookFormSubmit();
+			} else if (mode === "edit") {
+				await handleEditNotebookFormSubmit();
+			}
+		} catch (error) {
+            if (mode === "create") {
+                console.error("Failed to create notebook");
+            } else if (mode === "edit") {
+                console.error("Failed to edit notebook");
+            }
         }
-    }
+	}
 
 	return (
 		<form className="flex flex-col p-2" onSubmit={handleFormSubmit}>
