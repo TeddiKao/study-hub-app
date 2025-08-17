@@ -1,5 +1,6 @@
 import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores";
 import { useEditNotebookFormStore } from "../stores/editNotebookForm.stores";
+import { useNotebooksStore } from "../stores/notebooks.stores";
 
 interface NotebookFormProps {
     mode: "create" | "edit",
@@ -15,6 +16,10 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
     const description = usedStore.description
     const handleNameChange = usedStore.handleNameChange
     const handleDescriptionChange = usedStore.handleDescriptionChange
+    const updateName = usedStore.updateName
+    const updateDescription = usedStore.updateDescription
+
+    const { handleNotebookCreate, handleNotebookEdit } = useNotebooksStore();
 }
 
 export default NotebookForm;
