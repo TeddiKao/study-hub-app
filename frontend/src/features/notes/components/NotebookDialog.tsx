@@ -1,8 +1,9 @@
 interface NotebookDialogProps {
     notebookId?: number,
+    mode: "create" | "edit"
 }
 
-function NotebookDialog({ notebookId }: NotebookDialogProps) {
+function NotebookDialog({ notebookId, mode }: NotebookDialogProps) {
     
 }
 
