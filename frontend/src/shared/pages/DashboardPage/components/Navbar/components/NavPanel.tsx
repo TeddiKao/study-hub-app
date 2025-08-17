@@ -50,7 +50,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 				if (!canUpdateActiveItemId) return;
 				clearActiveItem();
 			}}
-			className="flex flex-row mb-0.5 p-1 items-center justify-between hover:cursor-pointer hover:bg-gray-300 rounded-md"
+			className="flex flex-row gap-3 mb-0.5 p-1 items-center justify-between hover:cursor-pointer hover:bg-gray-300 rounded-md"
 		>
 			<div className="flex flex-row items-center">
 				<div
@@ -75,7 +75,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 					}}>
 						<AlertDialogTrigger asChild>
 							<button
-								className="p-1 rounded-md"
+								className="rounded-md hover:cursor-pointer"
 								type="button"
 								aria-label={`Delete ${itemType} ${itemName}`}
 							>
@@ -114,7 +114,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 						<DialogTrigger asChild>
 							<button
 								type="button"
-								className="p-1 rounded-md"
+								className="ml-0.5 hover:cursor-pointer"
 								aria-label={`Edit ${itemType} ${itemName}`}
 							>
 								<EditIcon size={20} className="fill-gray-500" />
