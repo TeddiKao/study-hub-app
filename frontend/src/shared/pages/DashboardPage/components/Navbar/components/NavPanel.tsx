@@ -1,4 +1,5 @@
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import AddIcon from "@/shared/components/icons/AddIcon";
@@ -55,7 +56,11 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 				<div className="flex flex-row ml-2 shrink-0">
 					<AlertDialog>
 						<AlertDialogTrigger asChild>
-							<button className="p-1 rounded-md" type="button" aria-label={`Delete ${itemType} ${itemName}`}>
+							<button
+								className="p-1 rounded-md"
+								type="button"
+								aria-label={`Delete ${itemType} ${itemName}`}
+							>
 								<TrashIcon
 									color="hsl(220.03 10% 46%)"
 									size={20}
@@ -76,9 +81,19 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 						/>
 					</AlertDialog>
 
-					<button type="button" className="p-1 rounded-md" aria-label={`Edit ${itemType} ${itemName}`}>
-						<EditIcon size={20} className="fill-gray-500" />
-					</button>
+					<Dialog>
+						<DialogTrigger>
+							<button
+								type="button"
+								className="p-1 rounded-md"
+								aria-label={`Edit ${itemType} ${itemName}`}
+							>
+								<EditIcon size={20} className="fill-gray-500" />
+							</button>
+						</DialogTrigger>
+
+						
+					</Dialog>
 				</div>
 			)}
 		</div>
