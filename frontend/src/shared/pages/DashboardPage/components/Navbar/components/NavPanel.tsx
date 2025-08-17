@@ -26,6 +26,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 	const { activeItemId, canUpdateActiveItemId, updateActiveItem, clearActiveItem, enableActiveItemIdUpdate, disableActiveItemIdUpdate } =
 		useActiveItemStore();
 	const { handleNotebookDelete } = useNotebooksStore();
+	const { updateActiveNotebookId, activeNotebookId } = useEditNotebookFormStore();
 	const { updateFormVisibility, isFormVisible } = useEditNotebookFormStore();
 
 	const queryClient = useQueryClient();
@@ -99,7 +100,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 						/>
 					</AlertDialog>
 
-					<Dialog open={isFormVisible} onOpenChange={(open: boolean) => {
+					<Dialog open={isFormVisible && itemId === activeNotebookId} onOpenChange={(open: boolean) => {
 						updateFormVisibility(open);
 						queryClient.invalidateQueries({
 							queryKey: ["notebookInfo", itemId]
@@ -107,6 +108,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 						
 						if (open) {
 							disableActiveItemIdUpdate();
+							updateActiveNotebookId(itemId);
 						} else {
 							enableActiveItemIdUpdate();
 						}
