@@ -222,6 +222,7 @@ function NavPanel() {
 					onOpenChange={(open) => {
 						if (!open) {
 							enableActiveItemIdUpdate();
+							updateFormVisibility(false);
 						}
 					}}
 				>
