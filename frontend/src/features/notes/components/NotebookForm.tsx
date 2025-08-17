@@ -72,7 +72,7 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 	}
 
 	if (error) {
-		return <div>An error occured while retrieving notebook</div>;
+		return <div>An error occurred while retrieving notebook</div>;
 	}
 
 	const nameFieldPlaceholder =
