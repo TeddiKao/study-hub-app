@@ -28,6 +28,8 @@ interface NotebookDeleteAlertProps {
 	itemId: number;
 }
 
+interface NotebookEditDialogProps extends NotebookDeleteAlertProps {}
+
 function NotebookDeleteAlert({
 	itemType,
 	itemName,
@@ -72,21 +74,61 @@ function NotebookDeleteAlert({
 	);
 }
 
+function NotebookEditDialog({
+	itemId,
+	itemName,
+	itemType,
+}: NotebookEditDialogProps) {
+	const {
+		isFormVisible,
+		activeNotebookId,
+		updateFormVisibility,
+		updateActiveNotebookId,
+	} = useEditNotebookFormStore();
+	const { disableActiveItemIdUpdate, enableActiveItemIdUpdate } =
+		useActiveItemStore();
+
+	const queryClient = useQueryClient();
+
+	return (
+		<Dialog
+			open={isFormVisible && itemId === activeNotebookId}
+			onOpenChange={(open: boolean) => {
+				updateFormVisibility(open);
+
+				if (open) {
+					disableActiveItemIdUpdate();
+					updateActiveNotebookId(itemId);
+					queryClient.invalidateQueries({
+						queryKey: ["notebookInfo", itemId],
+					});
+				} else {
+					enableActiveItemIdUpdate();
+				}
+			}}
+		>
+			<DialogTrigger asChild>
+				<button
+					type="button"
+					className="ml-0.5 hover:cursor-pointer"
+					aria-label={`Edit ${itemType} ${itemName}`}
+				>
+					<EditIcon size={20} className="fill-gray-500" />
+				</button>
+			</DialogTrigger>
+
+			<NotebookDialog mode="edit" notebookId={itemId} />
+		</Dialog>
+	);
+}
+
 function Item({ itemId, itemType, itemName, color }: ItemProps) {
 	const {
 		activeItemId,
 		canUpdateActiveItemId,
 		updateActiveItem,
 		clearActiveItem,
-		enableActiveItemIdUpdate,
-		disableActiveItemIdUpdate,
 	} = useActiveItemStore();
-	const { handleNotebookDelete } = useNotebooksStore();
-	const { updateActiveNotebookId, activeNotebookId } =
-		useEditNotebookFormStore();
-	const { updateFormVisibility, isFormVisible } = useEditNotebookFormStore();
-
-	const queryClient = useQueryClient();
 
 	function getItemIcon() {
 		switch (itemType) {
@@ -130,34 +172,11 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 						itemType={itemType}
 					/>
 
-					<Dialog
-						open={isFormVisible && itemId === activeNotebookId}
-						onOpenChange={(open: boolean) => {
-							updateFormVisibility(open);
-
-							if (open) {
-								disableActiveItemIdUpdate();
-								updateActiveNotebookId(itemId);
-								queryClient.invalidateQueries({
-									queryKey: ["notebookInfo", itemId],
-								});
-							} else {
-								enableActiveItemIdUpdate();
-							}
-						}}
-					>
-						<DialogTrigger asChild>
-							<button
-								type="button"
-								className="ml-0.5 hover:cursor-pointer"
-								aria-label={`Edit ${itemType} ${itemName}`}
-							>
-								<EditIcon size={20} className="fill-gray-500" />
-							</button>
-						</DialogTrigger>
-
-						<NotebookDialog mode="edit" notebookId={itemId} />
-					</Dialog>
+					<NotebookEditDialog
+						itemId={itemId}
+						itemName={itemName}
+						itemType={itemType}
+					/>
 				</div>
 			)}
 		</div>
