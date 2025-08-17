@@ -1,10 +1,10 @@
-import CreateNotebookForm from "./CreateNotebookForm";
 import {
 	DialogContent,
 	DialogDescription,
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
+import NotebookForm from "../NotebookForm";
 
 function CreateNotebookDialog() {
 	return (
@@ -14,7 +14,7 @@ function CreateNotebookDialog() {
 				<DialogDescription>Create a notebook here</DialogDescription>
 			</DialogHeader>
 
-			<CreateNotebookForm />
+			<NotebookForm mode="create" />
 		</DialogContent>
 	);
 }

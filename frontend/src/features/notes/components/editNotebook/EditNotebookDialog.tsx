@@ -1,5 +1,5 @@
 import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import EditNotebookForm from "./EditNotebookForm";
+import NotebookForm from "../NotebookForm";
 
 interface EditNotebookDialogProps {
     notebookId: number
@@ -13,7 +13,7 @@ function EditNotebookDialog({ notebookId }: EditNotebookDialogProps) {
 				<DialogDescription>Make changes to an existing notebook</DialogDescription>
 			</DialogHeader>
 
-			<EditNotebookForm notebookId={notebookId} />
+			<NotebookForm mode="edit" notebookId={notebookId} />
 		</DialogContent>
 	);
 }
