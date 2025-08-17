@@ -17,17 +17,17 @@ interface CreateNotebookFormStore {
     updateFormVisiblity: (isFormVisible: boolean) => void
 }
 
-const useCreateNotebookFormStore = create<CreateNotebookFormStore>((set) => ({
+const useCreateNotebookFormStore = create<CreateNotebookFormStore>((set, get) => ({
     isFormVisible: false,
     name: "",
     description: "",
 
     handleNameChange: (e: ChangeEvent<HTMLInputElement>) => {
-        set({ name: e.target.value })
+        get().updateName(e.target.value)
     },
 
     handleDescriptionChange: (e: ChangeEvent<HTMLTextAreaElement>) => {
-        set({ description: e.target.value })
+        get().updateDescription(e.target.value)
     },
 
     updateName: (newName: string) => {
