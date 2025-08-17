@@ -1,3 +1,5 @@
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Dialog } from "@/components/ui/dialog";
 import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
@@ -7,6 +9,7 @@ import {
 	useActiveItemStore,
 	useDashboardNavbarState,
 } from "@/shared/stores/dashboard.stores";
+import { DialogTrigger } from "@radix-ui/react-dialog";
 
 interface ItemProps {
 	itemId: number;
@@ -51,9 +54,16 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 
 			{activeItemId === itemId && (
 				<div className="flex flex-row ml-2 shrink-0">
-					<div className="p-1 rounded-md">
-						<TrashIcon color="hsl(220.03 10% 46%)" size={20} />
-					</div>
+					<AlertDialog>
+						<AlertDialogTrigger asChild>
+							<div className="p-1 rounded-md">
+								<TrashIcon
+									color="hsl(220.03 10% 46%)"
+									size={20}
+								/>
+							</div>
+						</AlertDialogTrigger>
+					</AlertDialog>
 				</div>
 			)}
 		</button>
