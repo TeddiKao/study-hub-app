@@ -39,8 +39,14 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 
 	return (
 		<div
-			onMouseEnter={() => updateActiveItem(itemId)}
-			onMouseLeave={() => clearActiveItem()}
+			onMouseEnter={() => {
+				if (!canUpdateActiveItemId) return;
+				updateActiveItem(itemId);
+			}}
+			onMouseLeave={() => {
+				if (!canUpdateActiveItemId) return;
+				clearActiveItem();
+			}}
 			className="flex flex-row mb-0.5 p-1 items-center justify-between hover:cursor-pointer hover:bg-gray-300 rounded-md"
 		>
 			<div className="flex flex-row items-center">
