@@ -13,6 +13,7 @@ import {
 	useActiveItemStore,
 	useDashboardNavbarState,
 } from "@/shared/stores/dashboard.stores";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ItemProps {
 	itemId: number;
@@ -26,6 +27,8 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 		useActiveItemStore();
 	const { handleNotebookDelete } = useNotebooksStore();
 	const { updateFormVisibility, isFormVisible } = useEditNotebookFormStore();
+
+	const queryClient = useQueryClient();
 
 	function getItemIcon() {
 		switch (itemType) {
@@ -98,6 +101,9 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 
 					<Dialog open={isFormVisible} onOpenChange={(open: boolean) => {
 						updateFormVisibility(open);
+						queryClient.invalidateQueries({
+							queryKey: ["notebookInfo", itemId]
+						})
 						
 						if (open) {
 							disableActiveItemIdUpdate();
