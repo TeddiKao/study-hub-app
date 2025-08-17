@@ -61,6 +61,14 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 
         hasHydratedRef.current = true
     }, [data, updateName, updateDescription])
+
+    if (isLoading) {
+        return <div>Retrieving notebook</div>
+    }
+
+    if (error) {
+        return <div>An error occured while retrieving notebook</div>
+    }
 }
 
 export default NotebookForm;
