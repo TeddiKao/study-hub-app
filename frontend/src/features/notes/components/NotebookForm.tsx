@@ -24,7 +24,7 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 	const description = usedStore.description;
 	const updateName = usedStore.updateName;
 	const updateDescription = usedStore.updateDescription;
-	const updateFormVisibility = usedStore.updateFormVisiblity;
+	const updateFormVisibility = usedStore.updateFormVisibility;
 	const clearDetails = usedStore.clearDetails;
 
 	const { handleNotebookCreate, handleNotebookEdit } = useNotebooksStore();
@@ -142,7 +142,7 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 					id="notebook-name"
 					value={name}
 					placeholder={nameFieldPlaceholder}
-					onChange={(e) => updateDescription(e.target.value)}
+					onChange={(e) => updateName(e.target.value)}
 				/>
 			</div>
 
