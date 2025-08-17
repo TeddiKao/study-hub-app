@@ -1,16 +1,27 @@
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
+import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
+import TrashIcon from "@/shared/components/icons/TrashIcon";
 import { expandedItemMap } from "@/shared/constants/expandedItemMap.constants";
-import { useDashboardNavbarState } from "@/shared/stores/dashboard.stores";
+import {
+	useActiveItemStore,
+	useDashboardNavbarState,
+} from "@/shared/stores/dashboard.stores";
 
 interface ItemProps {
+	itemId: number;
 	itemType: string;
 	itemName: string;
 	color: string;
 }
 
-function Item({ itemType, itemName, color }: ItemProps) {
+function Item({ itemId, itemType, itemName, color }: ItemProps) {
+	const { activeItemId, updateActiveItem, clearActiveItem } =
+		useActiveItemStore();
+	const { handleNotebookDelete } = useNotebooksStore();
+
 	function getItemIcon() {
 		switch (itemType) {
 			case "notebook":
@@ -22,21 +33,50 @@ function Item({ itemType, itemName, color }: ItemProps) {
 	}
 
 	return (
-		<button
-			type="button"
-			aria-label={itemName}
-			className="flex flex-row mb-0.5 p-1 items-center hover:cursor-pointer hover:bg-gray-300 rounded-md"
+		<div
+			onMouseEnter={() => updateActiveItem(itemId)}
+			onMouseLeave={() => clearActiveItem()}
+			className="flex flex-row mb-0.5 p-1 items-center justify-between hover:cursor-pointer hover:bg-gray-300 rounded-md"
 		>
-			<div
-				className="p-1 rounded-sm"
-				style={{
-					backgroundColor: color,
-				}}
-			>
-				{getItemIcon()}
+			<div className="flex flex-row items-center">
+				<div
+					className="p-1 rounded-sm"
+					style={{
+						backgroundColor: color,
+					}}
+				>
+					{getItemIcon()}
+				</div>
+				<p className="ml-2 shrink-0 ">{itemName}</p>
 			</div>
-			<p className="ml-2">{itemName}</p>
-		</button>
+
+			{activeItemId === itemId && (
+				<div className="flex flex-row ml-2 shrink-0">
+					<AlertDialog>
+						<AlertDialogTrigger asChild>
+							<button className="p-1 rounded-md" type="button" aria-label={`Delete ${itemType} ${itemName}`}>
+								<TrashIcon
+									color="hsl(220.03 10% 46%)"
+									size={20}
+								/>
+							</button>
+						</AlertDialogTrigger>
+
+						<DeleteItemDialog
+							dialogTitle="Delete notebook?"
+							dialogDescription="This will permanently delete your notebook. This cannot be undone"
+							dialogAction={async () => {
+								try {
+									await handleNotebookDelete(itemId);
+								} catch (error) {
+									console.error("Failed to delete notebook");
+								}
+							}}
+						/>
+					</AlertDialog>
+				</div>
+			)}
+		</div>
 	);
 }
 
@@ -61,7 +101,7 @@ function NavPanel() {
 			id="dashboard-notebooks-panel"
 			role="region"
 			aria-labelledby="dashboard-notebooks-trigger"
-			className="flex flex-col bg-gray-100 py-3 pl-3 pr-10"
+			className="flex flex-col bg-gray-100 py-3 pl-3 pr-3"
 		>
 			<p className="text-sm text-gray-500 mb-1 pl-1">Notebooks</p>
 
@@ -69,6 +109,7 @@ function NavPanel() {
 				{notebooks.map(({ id, name, notebookColor }) => (
 					<Item
 						key={id}
+						itemId={id}
 						itemName={name}
 						color={notebookColor}
 						itemType={expandedItemMap[expandedItem]}

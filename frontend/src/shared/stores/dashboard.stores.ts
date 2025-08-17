@@ -8,6 +8,12 @@ interface DashboardNavbarStateStore {
     collapseNavbar: () => void;
 }
 
+interface ActiveItemStore {
+    activeItemId: number | null,
+    updateActiveItem: (itemId: number) => void,
+    clearActiveItem: () => void,
+}
+
 const useDashboardNavbarState = create<DashboardNavbarStateStore>((set) => ({
     expanded: false,
     expandedItem: null,
@@ -21,4 +27,16 @@ const useDashboardNavbarState = create<DashboardNavbarStateStore>((set) => ({
     }
 }))
 
-export { useDashboardNavbarState }
+const useActiveItemStore = create<ActiveItemStore>((set) => ({
+    activeItemId: null,
+
+    updateActiveItem: (itemId: number) => {
+        set({ activeItemId: itemId })
+    },
+
+    clearActiveItem: () => {
+        set({ activeItemId: null })
+    }
+}))
+
+export { useDashboardNavbarState, useActiveItemStore }
