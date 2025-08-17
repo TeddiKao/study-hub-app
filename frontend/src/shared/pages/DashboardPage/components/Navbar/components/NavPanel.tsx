@@ -3,7 +3,10 @@ import AddIcon from "@/shared/components/icons/AddIcon";
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import TrashIcon from "@/shared/components/icons/TrashIcon";
 import { expandedItemMap } from "@/shared/constants/expandedItemMap.constants";
-import { useDashboardNavbarState } from "@/shared/stores/dashboard.stores";
+import {
+	useActiveItemStore,
+	useDashboardNavbarState,
+} from "@/shared/stores/dashboard.stores";
 
 interface ItemProps {
 	itemId: number;
@@ -13,6 +16,9 @@ interface ItemProps {
 }
 
 function Item({ itemId, itemType, itemName, color }: ItemProps) {
+	const { activeItemId, updateActiveItem, clearActiveItem } =
+		useActiveItemStore();
+
 	function getItemIcon() {
 		switch (itemType) {
 			case "notebook":
@@ -41,11 +47,13 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 				<p className="ml-2 shrink-0 ">{itemName}</p>
 			</div>
 
-			<div className="flex flex-row ml-2 shrink-0">
-				<div className="p-1 rounded-md">
-					<TrashIcon color="hsl(220.03 10% 46%)" size={20} />
+			{activeItemId === itemId && (
+				<div className="flex flex-row ml-2 shrink-0">
+					<div className="p-1 rounded-md">
+						<TrashIcon color="hsl(220.03 10% 46%)" size={20} />
+					</div>
 				</div>
-			</div>
+			)}
 		</button>
 	);
 }
