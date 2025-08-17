@@ -1,6 +1,7 @@
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import NotebookDialog from "@/features/notes/components/NotebookDialog";
+import { useDeleteNotebookAlertStore } from "@/features/notes/stores/deleteNotebookAlert.stores";
 import { useEditNotebookFormStore } from "@/features/notes/stores/editNotebookForm.stores";
 import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
@@ -33,50 +34,6 @@ interface NotebookEditDialogProps {
 	itemId: number;
 }
 
-function NotebookDeleteAlert({
-	itemType,
-	itemName,
-	itemId,
-}: NotebookDeleteAlertProps) {
-	const { enableActiveItemIdUpdate, disableActiveItemIdUpdate } =
-		useActiveItemStore();
-	const { handleNotebookDelete } = useNotebooksStore();
-
-	return (
-		<AlertDialog
-			onOpenChange={(open) => {
-				if (open) {
-					disableActiveItemIdUpdate();
-				} else {
-					enableActiveItemIdUpdate();
-				}
-			}}
-		>
-			<AlertDialogTrigger asChild>
-				<button
-					className="rounded-md hover:cursor-pointer"
-					type="button"
-					aria-label={`Delete ${itemType} ${itemName}`}
-				>
-					<TrashIcon color="hsl(220.03 10% 46%)" size={20} />
-				</button>
-			</AlertDialogTrigger>
-
-			<DeleteItemDialog
-				dialogTitle="Delete notebook?"
-				dialogDescription="This will permanently delete your notebook. This cannot be undone"
-				dialogAction={async () => {
-					try {
-						await handleNotebookDelete(itemId);
-					} catch (error) {
-						console.error("Failed to delete notebook");
-					}
-				}}
-			/>
-		</AlertDialog>
-	);
-}
-
 function NotebookEditDialog({ itemId }: NotebookEditDialogProps) {
 	return <NotebookDialog mode="edit" notebookId={itemId} />;
 }
@@ -92,6 +49,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 		disableActiveItemIdUpdate,
 	} = useActiveItemStore();
 	const { updateFormVisibility } = useEditNotebookFormStore();
+	const { showDeleteNotebookAlert, hideDeleteNotebookAlert } = useDeleteNotebookAlertStore();
 
 	const queryClient = useQueryClient();
 
@@ -145,18 +103,25 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 							disableActiveItemIdUpdate();
 
 							queryClient.invalidateQueries({
-								queryKey: ["notebookInfo", itemId]
+								queryKey: ["notebookInfo", itemId],
 							});
 						}}
 					>
 						<EditIcon size={20} className="fill-gray-500" />
 					</button>
 
-					<NotebookDeleteAlert
-						itemId={itemId}
-						itemName={itemName}
-						itemType={itemType}
-					/>
+					<button
+						className="rounded-md hover:cursor-pointer"
+						type="button"
+						aria-label={`Delete ${itemType} ${itemName}`}
+						onClick={(e: MouseEvent) => {
+							e.stopPropagation();
+							showDeleteNotebookAlert();
+							disableActiveItemIdUpdate();
+						}}
+					>
+						<TrashIcon color="hsl(220.03 10% 46%)" size={20} />
+					</button>
 				</div>
 			)}
 		</div>
@@ -180,11 +145,10 @@ function NavPanel() {
 		activeItemId,
 		activeItemName,
 		activeItemType,
-		disableActiveItemIdUpdate,
 		enableActiveItemIdUpdate,
 	} = useActiveItemStore();
-
-	const queryClient = useQueryClient();
+	const { handleNotebookDelete } = useNotebooksStore();
+	const { isAlertVisible, hideDeleteNotebookAlert } = useDeleteNotebookAlertStore();
 
 	if (!expanded) return null;
 	if (!expandedItem) return null;
@@ -217,17 +181,38 @@ function NavPanel() {
 			</div>
 
 			{activeItemId && activeItemName && activeItemType && (
-				<Dialog
-					open={isFormVisible}
-					onOpenChange={(open) => {
+				<>
+					<Dialog
+						open={isFormVisible}
+						onOpenChange={(open) => {
+							if (!open) {
+								enableActiveItemIdUpdate();
+								updateFormVisibility(false);
+							}
+						}}
+					>
+						<NotebookEditDialog itemId={activeItemId} />
+					</Dialog>
+
+					<AlertDialog open={isAlertVisible} onOpenChange={(open) => {
 						if (!open) {
 							enableActiveItemIdUpdate();
-							updateFormVisibility(false);
+							hideDeleteNotebookAlert();
 						}
-					}}
-				>
-					<NotebookEditDialog itemId={activeItemId} />
-				</Dialog>
+					}}>
+						<DeleteItemDialog
+							dialogTitle="Delete notebook?"
+							dialogDescription="This will permanently delete your notebook. This cannot be undone"
+							dialogAction={async () => {
+								try {
+									await handleNotebookDelete(activeItemId);
+								} catch (error) {
+									console.error("Failed to delete notebook");
+								}
+							}}
+						/>
+					</AlertDialog>
+				</>
 			)}
 		</>
 	);
