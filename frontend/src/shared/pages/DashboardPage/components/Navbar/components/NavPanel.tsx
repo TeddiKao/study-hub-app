@@ -47,15 +47,17 @@ function DeleteNotebookAlert() {
 		}
 	}
 
+	function onOpenChange(open: boolean) {
+		if (!open) {
+			enableActiveItemIdUpdate();
+			hideDeleteNotebookAlert();
+		}
+	}
+
 	return (
 		<DeleteItemDialog
 			isOpen={isAlertVisible}
-			onOpenChange={(open: boolean) => {
-				if (!open) {
-					enableActiveItemIdUpdate();
-					hideDeleteNotebookAlert();
-				}
-			}}
+			onOpenChange={onOpenChange}
 			dialogTitle="Delete notebook?"
 			dialogDescription="This will permanently delete your notebook. This cannot be undone"
 			dialogAction={dialogAction}
