@@ -1,5 +1,4 @@
-import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog } from "@/components/ui/dialog";
 import NotebookDialog from "@/features/notes/components/NotebookDialog";
 import { useDeleteNotebookAlertStore } from "@/features/notes/stores/deleteNotebookAlert.stores";
 import { useEditNotebookFormStore } from "@/features/notes/stores/editNotebookForm.stores";
@@ -24,18 +23,41 @@ interface ItemProps {
 	color: string;
 }
 
-interface NotebookDeleteAlertProps {
-	itemType: string;
-	itemName: string;
-	itemId: number;
-}
-
 interface NotebookEditDialogProps {
 	itemId: number;
 }
 
 function NotebookEditDialog({ itemId }: NotebookEditDialogProps) {
 	return <NotebookDialog mode="edit" notebookId={itemId} />;
+}
+
+function DeleteNotebookAlert() {
+	const { activeItemId, enableActiveItemIdUpdate } = useActiveItemStore();
+	const { isAlertVisible, hideDeleteNotebookAlert } = useDeleteNotebookAlertStore();
+	const { handleNotebookDelete } = useNotebooksStore();
+
+	if (!activeItemId) return;
+
+	return (
+		<DeleteItemDialog
+			isOpen={isAlertVisible}
+			onOpenChange={(open: boolean) => {
+				if (!open) {
+					enableActiveItemIdUpdate();
+					hideDeleteNotebookAlert();
+				}
+			}}
+			dialogTitle="Delete notebook?"
+			dialogDescription="This will permanently delete your notebook. This cannot be undone"
+			dialogAction={async () => {
+				try {
+					await handleNotebookDelete(activeItemId);
+				} catch (error) {
+					console.error("Failed to delete notebook");
+				}
+			}}
+		/>
+	);
 }
 
 function Item({ itemId, itemType, itemName, color }: ItemProps) {
@@ -49,7 +71,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 		disableActiveItemIdUpdate,
 	} = useActiveItemStore();
 	const { updateFormVisibility } = useEditNotebookFormStore();
-	const { showDeleteNotebookAlert, hideDeleteNotebookAlert } =
+	const { showDeleteNotebookAlert } =
 		useDeleteNotebookAlertStore();
 
 	const queryClient = useQueryClient();
@@ -148,9 +170,6 @@ function NavPanel() {
 		activeItemType,
 		enableActiveItemIdUpdate,
 	} = useActiveItemStore();
-	const { handleNotebookDelete } = useNotebooksStore();
-	const { isAlertVisible, hideDeleteNotebookAlert } =
-		useDeleteNotebookAlertStore();
 
 	if (!expanded) return null;
 	if (!expandedItem) return null;
@@ -196,24 +215,7 @@ function NavPanel() {
 						<NotebookEditDialog itemId={activeItemId} />
 					</Dialog>
 
-					<DeleteItemDialog
-						isOpen={isAlertVisible}
-						onOpenChange={(open: boolean) => {
-							if (!open) {
-								enableActiveItemIdUpdate();
-								hideDeleteNotebookAlert();
-							}
-						}}
-						dialogTitle="Delete notebook?"
-						dialogDescription="This will permanently delete your notebook. This cannot be undone"
-						dialogAction={async () => {
-							try {
-								await handleNotebookDelete(activeItemId);
-							} catch (error) {
-								console.error("Failed to delete notebook");
-							}
-						}}
-					/>
+					<DeleteNotebookAlert />
 				</>
 			)}
 		</>
