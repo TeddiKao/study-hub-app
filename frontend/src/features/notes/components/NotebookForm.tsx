@@ -19,22 +19,22 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 
 	const usedStore =
 		mode === "create" ? createNotebookFormStore : editNotebookFormStore;
-	
-        const name = usedStore.name;
+
+	const name = usedStore.name;
 	const description = usedStore.description;
-	const handleNameChange = usedStore.handleNameChange;
-	const handleDescriptionChange = usedStore.handleDescriptionChange;
 	const updateName = usedStore.updateName;
 	const updateDescription = usedStore.updateDescription;
-    const updateFormVisibility = usedStore.updateFormVisiblity
-    const clearDetails = usedStore.clearDetails
+	const updateFormVisibility = usedStore.updateFormVisiblity;
+	const clearDetails = usedStore.clearDetails;
 
 	const { handleNotebookCreate, handleNotebookEdit } = useNotebooksStore();
 
 	const { data, isLoading, error } = useQuery({
 		queryKey: ["notebookInfo", notebookId],
 		queryFn: async () => {
-			const notebookRetrieveResponse = await retrieveNotebook(notebookId!);
+			const notebookRetrieveResponse = await retrieveNotebook(
+				notebookId!
+			);
 			if (!notebookRetrieveResponse.success) {
 				throw new Error(notebookRetrieveResponse.error);
 			}
@@ -118,8 +118,8 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 				await handleEditNotebookFormSubmit();
 			}
 
-            updateFormVisibility(false);
-            clearDetails();
+			updateFormVisibility(false);
+			clearDetails();
 		} catch (error) {
 			if (mode === "create") {
 				console.error("Failed to create notebook");
@@ -140,7 +140,7 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 					id="notebook-name"
 					value={name}
 					placeholder={nameFieldPlaceholder}
-					onChange={handleNameChange}
+					onChange={(e) => updateDescription(e.target.value)}
 				/>
 			</div>
 
@@ -152,7 +152,7 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 					id="notebook-description"
 					placeholder={descriptionFieldPlaceholder}
 					value={description}
-					onChange={handleDescriptionChange}
+					onChange={(e) => updateDescription(e.target.value)}
 				/>
 			</div>
 
