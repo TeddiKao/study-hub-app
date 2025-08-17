@@ -1,6 +1,7 @@
 import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
+import { expandedItemMap } from "@/shared/constants/expandedItemMap.constants";
 import { useDashboardNavbarState } from "@/shared/stores/dashboard.stores";
 
 interface ItemProps {
@@ -70,7 +71,7 @@ function NavPanel() {
 						key={id}
 						itemName={name}
 						color={notebookColor}
-						itemType={expandedItem}
+						itemType={expandedItemMap[expandedItem]}
 					/>
 				))}
 			</div>
