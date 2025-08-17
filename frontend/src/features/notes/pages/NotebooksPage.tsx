@@ -58,7 +58,13 @@ function DeleteNotebookAlertDialog({ notebookId }: DeleteNotebookAlertDialog) {
 					Cancel
 				</AlertDialogCancel>
 				<AlertDialogAction
-					onClick={() => handleNotebookDelete(notebookId)}
+					onClick={async () => {
+						try {
+							await handleNotebookDelete(notebookId);
+						} catch (error) {
+							console.error(error);
+						}
+					}}
 					className="bg-red-500 hover:bg-red-900 hover:cursor-pointer"
 				>
 					Delete
