@@ -91,6 +91,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 		updateActiveItemType,
 		clearActiveItem,
 	} = useActiveItemStore();
+	const { updateFormVisibility } = useEditNotebookFormStore();
 
 	function getItemIcon() {
 		switch (itemType) {
@@ -134,6 +135,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 						type="button"
 						className="ml-0.5 hover:cursor-pointer"
 						aria-label={`Edit ${itemType} ${itemName}`}
+						onClick={() => updateFormVisibility(true)}
 					>
 						<EditIcon size={20} className="fill-gray-500" />
 					</button>
