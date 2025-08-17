@@ -71,7 +71,7 @@ function DeleteNotebookAlertDialog({ notebookId }: DeleteNotebookAlertDialog) {
 function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 	const {
 		isFormVisible,
-		updateFormVisiblity,
+		updateFormVisibility,
 		activeNotebookId,
 		updateActiveNotebookId,
 	} = useEditNotebookFormStore();
@@ -83,7 +83,7 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 	return (
 		<Dialog
 			open={isFormVisible && isNotebookActive}
-			onOpenChange={updateFormVisiblity}
+			onOpenChange={updateFormVisibility}
 		>
 			<AlertDialog>
 				<DropdownMenu>
@@ -164,7 +164,7 @@ function CreateNotebookButton() {
 
 function NotebooksPage() {
 	const { notebooks, getNotebooks } = useNotebooksStore();
-	const { isFormVisible, updateFormVisiblity } = useCreateNotebookFormStore();
+	const { isFormVisible, updateFormVisibility } = useCreateNotebookFormStore();
 
 	const { isLoading, error } = useQuery<Notebooks, Error>({
 		queryKey: ["notebooks"],
@@ -193,7 +193,7 @@ function NotebooksPage() {
 
 					<Dialog
 						open={isFormVisible}
-						onOpenChange={updateFormVisiblity}
+						onOpenChange={updateFormVisibility}
 					>
 						<CreateNotebookButton />
 						<NotebookDialog mode="create" />
