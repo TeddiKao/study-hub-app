@@ -64,7 +64,7 @@ function NavPanel() {
 		>
 			<p className="text-sm text-gray-500 mb-1 pl-1">Notebooks</p>
 
-			<div className="flex flex-row">
+			<div className="flex flex-col">
 				{notebooks.map(({ id, name, notebookColor }) => (
 					<Item
 						key={id}
