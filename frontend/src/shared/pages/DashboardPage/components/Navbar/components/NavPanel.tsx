@@ -14,6 +14,7 @@ import {
 	useDashboardNavbarState,
 } from "@/shared/stores/dashboard.stores";
 import { useQueryClient } from "@tanstack/react-query";
+import type { MouseEvent } from "react";
 
 interface ItemProps {
 	itemId: number;
@@ -135,7 +136,10 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 						type="button"
 						className="ml-0.5 hover:cursor-pointer"
 						aria-label={`Edit ${itemType} ${itemName}`}
-						onClick={() => updateFormVisibility(true)}
+						onClick={(e: MouseEvent<HTMLButtonElement>) => {
+							e.stopPropagation();
+							updateFormVisibility(true);
+						}}
 					>
 						<EditIcon size={20} className="fill-gray-500" />
 					</button>
@@ -164,13 +168,15 @@ function NavPanel() {
 	const { expanded, expandedItem } = useDashboardNavbarState();
 	const { notebooks } = useNotebooksStore();
 	const { isFormVisible, updateFormVisibility } = useEditNotebookFormStore();
-	const { activeItemId, activeItemName, activeItemType } =
+	const { activeItemId, activeItemName, activeItemType, disableActiveItemIdUpdate, enableActiveItemIdUpdate } =
 		useActiveItemStore();
 	
 	const queryClient = useQueryClient();
 
 	if (!expanded) return null;
 	if (!expandedItem) return null;
+
+	console.log(activeItemId, activeItemName, activeItemType, isFormVisible);
 
 	return (
 		<>
@@ -204,9 +210,12 @@ function NavPanel() {
 						updateFormVisibility(open);
 
 						if (open) {
+							disableActiveItemIdUpdate();
 							queryClient.invalidateQueries({
 								queryKey: ["notebookInfo", activeItemId]
 							})
+						} else {
+							enableActiveItemIdUpdate()
 						}
 					}}
 				>
