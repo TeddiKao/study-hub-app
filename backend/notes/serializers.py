@@ -1,11 +1,12 @@
-from rest_framework.serializers import ModelSerializer, ValidationError
+from rest_framework.serializers import ModelSerializer, ValidationError, SerializerMethodField
 
 from .models import Notebook
-from authentication.serializers import UserSerializer
 
 from django.db import models
 
 class NotebookSerializer(ModelSerializer):
+	owner = SerializerMethodField()
+
 	def validate(self, data):
 		notebook_name = data.get("name")
 		request = self.context.get("request")
@@ -27,6 +28,14 @@ class NotebookSerializer(ModelSerializer):
 				})
 
 		return data
+	
+	def get_owner(self, obj):
+		return {
+			"id": obj.owner.id,
+			"username": obj.owner.username,
+			"email": obj.owner.email
+		}
+
 
 	class Meta:
 		model = Notebook
@@ -37,4 +46,3 @@ class NotebookSerializer(ModelSerializer):
 				"read_only": True
 			}
 		}
-		depth = 1
