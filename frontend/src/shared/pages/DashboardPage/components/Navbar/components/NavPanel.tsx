@@ -79,6 +79,7 @@ function NavPanel() {
 				{notebooks.map(({ id, name, notebookColor }) => (
 					<Item
 						key={id}
+						itemId={id}
 						itemName={name}
 						color={notebookColor}
 						itemType={expandedItemMap[expandedItem]}
