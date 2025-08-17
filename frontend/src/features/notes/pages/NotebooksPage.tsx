@@ -1,11 +1,11 @@
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import Navbar from "@/shared/pages/DashboardPage/components/Navbar/Navbar";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNotebooksStore } from "../stores/notebooks.stores";
 import type { Notebooks } from "../types/notebooks/notebookStore.types";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import CreateNotebookDialog from "../components/CreateNotebookDialog";
+import CreateNotebookDialog from "../components/createNotebook/CreateNotebookDialog";
 import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores";
 import KebabMenuIcon from "@/shared/components/icons/KebabMenuIcon";
 import {
@@ -25,6 +25,8 @@ import {
 	AlertDialogTrigger,
 	AlertDialogDescription,
 } from "@/components/ui/alert-dialog";
+import { useEditNotebookFormStore } from "../stores/editNotebookForm.stores";
+import EditNotebookDialog from "../components/editNotebook/EditNotebookDialog";
 
 interface NotebookProps {
 	notebookName: string;
@@ -32,7 +34,7 @@ interface NotebookProps {
 }
 
 interface NotebookDropdownMenuProps {
-	notebookId: number,
+	notebookId: number;
 }
 
 interface DeleteNotebookAlertDialog {
@@ -68,31 +70,61 @@ function DeleteNotebookAlertDialog({ notebookId }: DeleteNotebookAlertDialog) {
 }
 
 function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
+	const {
+		isFormVisible,
+		updateFormVisiblity,
+		activeNotebookId,
+		updateActiveNotebookId,
+	} = useEditNotebookFormStore();
+
+	const queryClient = useQueryClient();
+
+	const isNotebookActive = notebookId === activeNotebookId;
+
 	return (
-		<AlertDialog>
-			<DropdownMenu>
-				<DropdownMenuTrigger asChild>
-					<button
-						type="button"
-						aria-label="Notebook actions"
-						className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300"
-					>
-						<KebabMenuIcon size={24} />
-					</button>
-				</DropdownMenuTrigger>
+		<Dialog
+			open={isFormVisible && isNotebookActive}
+			onOpenChange={updateFormVisiblity}
+		>
+			<AlertDialog>
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<button
+							type="button"
+							aria-label="Notebook actions"
+							className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300"
+						>
+							<KebabMenuIcon size={24} />
+						</button>
+					</DropdownMenuTrigger>
 
-				<DropdownMenuContent side="right">
-					<DropdownMenuItem>Edit</DropdownMenuItem>
-					<AlertDialogTrigger className="w-full">
-						<DropdownMenuItem variant="destructive">
-							Delete
+					<DropdownMenuContent side="right">
+						<DropdownMenuItem asChild>
+							<DialogTrigger
+								onClick={() => {
+									updateActiveNotebookId(notebookId);
+									queryClient.invalidateQueries({
+										queryKey: ["notebookInfo", notebookId]
+									})
+								}}
+								className="w-full"
+							>
+								Edit
+							</DialogTrigger>
 						</DropdownMenuItem>
-					</AlertDialogTrigger>
-				</DropdownMenuContent>
-			</DropdownMenu>
+						<DropdownMenuItem asChild variant="destructive">
+							<AlertDialogTrigger className="w-full">
+								Delete
+							</AlertDialogTrigger>
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
 
-			<DeleteNotebookAlertDialog notebookId={notebookId} />
-		</AlertDialog>
+				<DeleteNotebookAlertDialog notebookId={notebookId} />
+			</AlertDialog>
+
+			<EditNotebookDialog notebookId={notebookId} />
+		</Dialog>
 	);
 }
 

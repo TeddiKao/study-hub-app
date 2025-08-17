@@ -17,6 +17,10 @@ interface NotebookEditSuccess extends NotebookApiSuccess {
 	editedNotebook: Notebook;
 }
 
+interface NotebookRetrieveSuccess extends NotebookApiSuccess {
+	retrievedNotebook: Notebook,
+}
+
 interface CreateNotebookApiPayload {
 	name: string;
 	description: string;
@@ -30,6 +34,7 @@ export type {
 	NotebookCreateSuccess,
 	NotebookApiSuccess,
 	NotebookEditSuccess,
+	NotebookRetrieveSuccess,
 	CreateNotebookApiPayload,
 	EditNotebookApiPayload,
 };

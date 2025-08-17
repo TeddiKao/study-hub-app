@@ -11,7 +11,7 @@ import LogoutRoute from "@/features/auth/pages/LogoutRoute";
 import AuthRoute from "@/features/auth/components/routes/AuthRoute";
 import NotebooksPage from "@/features/notes/pages/NotebooksPage";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 function App() {
 	return (

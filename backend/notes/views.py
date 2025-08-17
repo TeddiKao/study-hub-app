@@ -1,4 +1,4 @@
-from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Notebook
@@ -11,6 +11,16 @@ class FetchNotebooksEndpoint(ListAPIView):
     def get_queryset(self):
         # Filter logic not implemented yet, for future purposes
         filter = self.request.query_params.getlist("filters")
+        queryset = Notebook.objects.filter(owner=self.request.user)
+
+        return queryset
+    
+class RetrieveNotebookEndpoint(RetrieveAPIView):
+    serializer_class = NotebookSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = "pk"
+
+    def get_queryset(self):
         queryset = Notebook.objects.filter(owner=self.request.user)
 
         return queryset
