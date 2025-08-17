@@ -6,12 +6,13 @@ import { expandedItemMap } from "@/shared/constants/expandedItemMap.constants";
 import { useDashboardNavbarState } from "@/shared/stores/dashboard.stores";
 
 interface ItemProps {
+	itemId: number;
 	itemType: string;
 	itemName: string;
 	color: string;
 }
 
-function Item({ itemType, itemName, color }: ItemProps) {
+function Item({ itemId, itemType, itemName, color }: ItemProps) {
 	function getItemIcon() {
 		switch (itemType) {
 			case "notebook":
