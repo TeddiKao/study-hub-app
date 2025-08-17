@@ -49,7 +49,8 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 		disableActiveItemIdUpdate,
 	} = useActiveItemStore();
 	const { updateFormVisibility } = useEditNotebookFormStore();
-	const { showDeleteNotebookAlert, hideDeleteNotebookAlert } = useDeleteNotebookAlertStore();
+	const { showDeleteNotebookAlert, hideDeleteNotebookAlert } =
+		useDeleteNotebookAlertStore();
 
 	const queryClient = useQueryClient();
 
@@ -148,7 +149,8 @@ function NavPanel() {
 		enableActiveItemIdUpdate,
 	} = useActiveItemStore();
 	const { handleNotebookDelete } = useNotebooksStore();
-	const { isAlertVisible, hideDeleteNotebookAlert } = useDeleteNotebookAlertStore();
+	const { isAlertVisible, hideDeleteNotebookAlert } =
+		useDeleteNotebookAlertStore();
 
 	if (!expanded) return null;
 	if (!expandedItem) return null;
@@ -194,24 +196,24 @@ function NavPanel() {
 						<NotebookEditDialog itemId={activeItemId} />
 					</Dialog>
 
-					<AlertDialog open={isAlertVisible} onOpenChange={(open) => {
-						if (!open) {
-							enableActiveItemIdUpdate();
-							hideDeleteNotebookAlert();
-						}
-					}}>
-						<DeleteItemDialog
-							dialogTitle="Delete notebook?"
-							dialogDescription="This will permanently delete your notebook. This cannot be undone"
-							dialogAction={async () => {
-								try {
-									await handleNotebookDelete(activeItemId);
-								} catch (error) {
-									console.error("Failed to delete notebook");
-								}
-							}}
-						/>
-					</AlertDialog>
+					<DeleteItemDialog
+						isOpen={isAlertVisible}
+						onOpenChange={(open: boolean) => {
+							if (!open) {
+								enableActiveItemIdUpdate();
+								hideDeleteNotebookAlert();
+							}
+						}}
+						dialogTitle="Delete notebook?"
+						dialogDescription="This will permanently delete your notebook. This cannot be undone"
+						dialogAction={async () => {
+							try {
+								await handleNotebookDelete(activeItemId);
+							} catch (error) {
+								console.error("Failed to delete notebook");
+							}
+						}}
+					/>
 				</>
 			)}
 		</>
