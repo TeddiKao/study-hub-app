@@ -2,6 +2,7 @@ import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import AddIcon from "@/shared/components/icons/AddIcon";
+import EditIcon from "@/shared/components/icons/EditIcon";
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import TrashIcon from "@/shared/components/icons/TrashIcon";
 import { expandedItemMap } from "@/shared/constants/expandedItemMap.constants";
@@ -76,7 +77,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 					</AlertDialog>
 
 					<button type="button" className="p-1 rounded-md" aria-label={`Edit ${itemType} ${itemName}`}>
-
+						<EditIcon size={20} className="fill-gray-500" />
 					</button>
 				</div>
 			)}
