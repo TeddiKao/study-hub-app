@@ -23,12 +23,24 @@ interface ItemProps {
 	color: string;
 }
 
-interface NotebookEditDialogProps {
-	itemId: number;
-}
+function NotebookEditDialog() {
+	const { isFormVisible, updateFormVisibility } = useEditNotebookFormStore();
+	const { activeItemId, enableActiveItemIdUpdate } = useActiveItemStore();
 
-function NotebookEditDialog({ itemId }: NotebookEditDialogProps) {
-	return <NotebookDialog mode="edit" notebookId={itemId} />;
+	if (!activeItemId) return;
+
+	function onOpenChange(open: boolean) {
+		if (!open) {
+			updateFormVisibility(false);
+			enableActiveItemIdUpdate();
+		}
+	}
+
+	return (
+		<Dialog open={isFormVisible} onOpenChange={onOpenChange}>
+			<NotebookDialog mode="edit" notebookId={activeItemId} />
+		</Dialog>
+	);
 }
 
 function DeleteNotebookAlert() {
@@ -167,12 +179,11 @@ function AddNotebookButton() {
 function NavPanel() {
 	const { expanded, expandedItem } = useDashboardNavbarState();
 	const { notebooks } = useNotebooksStore();
-	const { isFormVisible, updateFormVisibility } = useEditNotebookFormStore();
+	const { isFormVisible } = useEditNotebookFormStore();
 	const {
 		activeItemId,
 		activeItemName,
 		activeItemType,
-		enableActiveItemIdUpdate,
 	} = useActiveItemStore();
 
 	if (!expanded) return null;
@@ -207,18 +218,7 @@ function NavPanel() {
 
 			{activeItemId && activeItemName && activeItemType && (
 				<>
-					<Dialog
-						open={isFormVisible}
-						onOpenChange={(open) => {
-							if (!open) {
-								enableActiveItemIdUpdate();
-								updateFormVisibility(false);
-							}
-						}}
-					>
-						<NotebookEditDialog itemId={activeItemId} />
-					</Dialog>
-
+					<NotebookEditDialog />
 					<DeleteNotebookAlert />
 				</>
 			)}
