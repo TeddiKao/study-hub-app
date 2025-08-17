@@ -59,7 +59,7 @@ const useNotebooksStore = create<NotebookStore>((set, get) => ({
 		await get().getNotebooks();
 	},
 
-	handleNotebookDelete: async (notebookId) => {
+	handleNotebookDelete: async (notebookId: number) => {
 		const notebookDeleteResponse = await deleteNotebook(notebookId);
 		if (!notebookDeleteResponse.success) {
 			throw new Error(notebookDeleteResponse.error);
