@@ -22,6 +22,56 @@ interface ItemProps {
 	color: string;
 }
 
+interface NotebookDeleteAlertProps {
+	itemType: string;
+	itemName: string;
+	itemId: number;
+}
+
+function NotebookDeleteAlert({
+	itemType,
+	itemName,
+	itemId,
+}: NotebookDeleteAlertProps) {
+	const { enableActiveItemIdUpdate, disableActiveItemIdUpdate } =
+		useActiveItemStore();
+	const { handleNotebookDelete } = useNotebooksStore();
+
+	return (
+		<AlertDialog
+			onOpenChange={(open) => {
+				if (open) {
+					disableActiveItemIdUpdate();
+				} else {
+					enableActiveItemIdUpdate();
+				}
+			}}
+		>
+			<AlertDialogTrigger asChild>
+				<button
+					className="rounded-md hover:cursor-pointer"
+					type="button"
+					aria-label={`Delete ${itemType} ${itemName}`}
+				>
+					<TrashIcon color="hsl(220.03 10% 46%)" size={20} />
+				</button>
+			</AlertDialogTrigger>
+
+			<DeleteItemDialog
+				dialogTitle="Delete notebook?"
+				dialogDescription="This will permanently delete your notebook. This cannot be undone"
+				dialogAction={async () => {
+					try {
+						await handleNotebookDelete(itemId);
+					} catch (error) {
+						console.error("Failed to delete notebook");
+					}
+				}}
+			/>
+		</AlertDialog>
+	);
+}
+
 function Item({ itemId, itemType, itemName, color }: ItemProps) {
 	const {
 		activeItemId,
@@ -74,40 +124,11 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 
 			{activeItemId === itemId && (
 				<div className="flex flex-row items-center ml-2 shrink-0">
-					<AlertDialog
-						onOpenChange={(open) => {
-							if (open) {
-								disableActiveItemIdUpdate();
-							} else {
-								enableActiveItemIdUpdate();
-							}
-						}}
-					>
-						<AlertDialogTrigger asChild>
-							<button
-								className="rounded-md hover:cursor-pointer"
-								type="button"
-								aria-label={`Delete ${itemType} ${itemName}`}
-							>
-								<TrashIcon
-									color="hsl(220.03 10% 46%)"
-									size={20}
-								/>
-							</button>
-						</AlertDialogTrigger>
-
-						<DeleteItemDialog
-							dialogTitle="Delete notebook?"
-							dialogDescription="This will permanently delete your notebook. This cannot be undone"
-							dialogAction={async () => {
-								try {
-									await handleNotebookDelete(itemId);
-								} catch (error) {
-									console.error("Failed to delete notebook");
-								}
-							}}
-						/>
-					</AlertDialog>
+					<NotebookDeleteAlert
+						itemId={itemId}
+						itemName={itemName}
+						itemType={itemType}
+					/>
 
 					<Dialog
 						open={isFormVisible && itemId === activeNotebookId}
