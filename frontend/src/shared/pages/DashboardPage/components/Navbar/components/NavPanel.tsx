@@ -87,6 +87,8 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 		activeItemId,
 		canUpdateActiveItemId,
 		updateActiveItem,
+		updateActiveItemName,
+		updateActiveItemType,
 		clearActiveItem,
 	} = useActiveItemStore();
 
@@ -105,6 +107,8 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 			onMouseEnter={() => {
 				if (!canUpdateActiveItemId) return;
 				updateActiveItem(itemId);
+				updateActiveItemName(itemName);
+				updateActiveItemType(itemType);
 			}}
 			onMouseLeave={() => {
 				if (!canUpdateActiveItemId) return;
