@@ -19,12 +19,15 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 
 	const usedStore =
 		mode === "create" ? createNotebookFormStore : editNotebookFormStore;
-	const name = usedStore.name;
+	
+        const name = usedStore.name;
 	const description = usedStore.description;
 	const handleNameChange = usedStore.handleNameChange;
 	const handleDescriptionChange = usedStore.handleDescriptionChange;
 	const updateName = usedStore.updateName;
 	const updateDescription = usedStore.updateDescription;
+    const updateFormVisibility = usedStore.updateFormVisiblity
+    const clearDetails = usedStore.clearDetails
 
 	const { handleNotebookCreate, handleNotebookEdit } = useNotebooksStore();
 
@@ -115,6 +118,9 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 			} else if (mode === "edit") {
 				await handleEditNotebookFormSubmit();
 			}
+
+            updateFormVisibility(false);
+            clearDetails();
 		} catch (error) {
 			if (mode === "create") {
 				console.error("Failed to create notebook");
