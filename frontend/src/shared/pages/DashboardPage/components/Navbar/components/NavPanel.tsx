@@ -33,9 +33,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 	}
 
 	return (
-		<button
-			type="button"
-			aria-label={itemName}
+		<div
 			onMouseEnter={() => updateActiveItem(itemId)}
 			onMouseLeave={() => clearActiveItem()}
 			className="flex flex-row mb-0.5 p-1 items-center justify-between hover:cursor-pointer hover:bg-gray-300 rounded-md"
@@ -78,7 +76,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 					</AlertDialog>
 				</div>
 			)}
-		</button>
+		</div>
 	);
 }
 
