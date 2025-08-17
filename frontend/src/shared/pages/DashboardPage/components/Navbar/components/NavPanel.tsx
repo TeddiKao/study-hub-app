@@ -1,6 +1,7 @@
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import NotebookDialog from "@/features/notes/components/NotebookDialog";
+import { useEditNotebookFormStore } from "@/features/notes/stores/editNotebookForm.stores";
 import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import AddIcon from "@/shared/components/icons/AddIcon";
@@ -24,6 +25,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 	const { activeItemId, updateActiveItem, clearActiveItem } =
 		useActiveItemStore();
 	const { handleNotebookDelete } = useNotebooksStore();
+	const { updateFormVisibility, isFormVisible } = useEditNotebookFormStore();
 
 	function getItemIcon() {
 		switch (itemType) {
@@ -82,7 +84,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 						/>
 					</AlertDialog>
 
-					<Dialog>
+					<Dialog open={isFormVisible} onOpenChange={updateFormVisibility}>
 						<DialogTrigger>
 							<button
 								type="button"
