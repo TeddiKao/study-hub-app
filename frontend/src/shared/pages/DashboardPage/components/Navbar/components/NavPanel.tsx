@@ -30,7 +30,7 @@ interface NotebookDeleteAlertProps {
 }
 
 interface NotebookEditDialogProps {
-	itemId: number
+	itemId: number;
 }
 
 function NotebookDeleteAlert({
@@ -77,9 +77,7 @@ function NotebookDeleteAlert({
 	);
 }
 
-function NotebookEditDialog({
-	itemId,
-}: NotebookEditDialogProps) {
+function NotebookEditDialog({ itemId }: NotebookEditDialogProps) {
 	return <NotebookDialog mode="edit" notebookId={itemId} />;
 }
 
@@ -91,6 +89,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 		updateActiveItemName,
 		updateActiveItemType,
 		clearActiveItem,
+		disableActiveItemIdUpdate,
 	} = useActiveItemStore();
 	const { updateFormVisibility } = useEditNotebookFormStore();
 
@@ -114,6 +113,8 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 			}}
 			onMouseLeave={() => {
 				if (!canUpdateActiveItemId) return;
+
+				console.log("Active item cleared");
 				clearActiveItem();
 			}}
 			className="flex flex-row gap-3 mb-0.5 p-1 items-center justify-between hover:cursor-pointer hover:bg-gray-300 rounded-md"
@@ -139,6 +140,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 						onClick={(e: MouseEvent<HTMLButtonElement>) => {
 							e.stopPropagation();
 							updateFormVisibility(true);
+							disableActiveItemIdUpdate();
 						}}
 					>
 						<EditIcon size={20} className="fill-gray-500" />
@@ -168,9 +170,14 @@ function NavPanel() {
 	const { expanded, expandedItem } = useDashboardNavbarState();
 	const { notebooks } = useNotebooksStore();
 	const { isFormVisible, updateFormVisibility } = useEditNotebookFormStore();
-	const { activeItemId, activeItemName, activeItemType, disableActiveItemIdUpdate, enableActiveItemIdUpdate } =
-		useActiveItemStore();
-	
+	const {
+		activeItemId,
+		activeItemName,
+		activeItemType,
+		disableActiveItemIdUpdate,
+		enableActiveItemIdUpdate,
+	} = useActiveItemStore();
+
 	const queryClient = useQueryClient();
 
 	if (!expanded) return null;
@@ -207,21 +214,12 @@ function NavPanel() {
 				<Dialog
 					open={isFormVisible}
 					onOpenChange={(open) => {
-						updateFormVisibility(open);
-
-						if (open) {
-							disableActiveItemIdUpdate();
-							queryClient.invalidateQueries({
-								queryKey: ["notebookInfo", activeItemId]
-							})
-						} else {
-							enableActiveItemIdUpdate()
+						if (!open) {
+							enableActiveItemIdUpdate();
 						}
 					}}
 				>
-					<NotebookEditDialog
-						itemId={activeItemId}
-					/>
+					<NotebookEditDialog itemId={activeItemId} />
 				</Dialog>
 			)}
 		</>
