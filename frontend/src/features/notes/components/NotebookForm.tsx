@@ -31,7 +31,7 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 	const { data, isLoading, error } = useQuery({
 		queryKey: ["notebookInfo", notebookId],
 		queryFn: async () => {
-            if (!notebookId) return;
+			if (!notebookId) return;
 
 			const notebookRetrieveResponse = await retrieveNotebook(notebookId);
 			if (!notebookRetrieveResponse.success) {
@@ -48,32 +48,41 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 		refetchOnWindowFocus: false,
 	});
 
-    const hasHydratedRef = useRef(false);
+	const hasHydratedRef = useRef(false);
 
-    useEffect(() => {
-        hasHydratedRef.current = false
-    }, [data]);
+	useEffect(() => {
+		hasHydratedRef.current = false;
+	}, [data]);
 
-    useEffect(() => {
-        if (hasHydratedRef.current) return;
-        if (!data?.success) return;
-        if (mode !== "edit") return;
-        
-        updateName(data.retrievedNotebook.name);
-        updateDescription(data.retrievedNotebook.description);
+	useEffect(() => {
+		if (hasHydratedRef.current) return;
+		if (!data?.success) return;
+		if (mode !== "edit") return;
 
-        hasHydratedRef.current = true
-    }, [data, updateName, updateDescription])
+		updateName(data.retrievedNotebook.name);
+		updateDescription(data.retrievedNotebook.description);
 
-    if (isLoading) {
-        return <div>Retrieving notebook</div>
-    }
+		hasHydratedRef.current = true;
+	}, [data, updateName, updateDescription]);
 
-    if (error) {
-        return <div>An error occured while retrieving notebook</div>
-    }
+	if (isLoading) {
+		return <div>Retrieving notebook</div>;
+	}
 
-    return (
+	if (error) {
+		return <div>An error occured while retrieving notebook</div>;
+	}
+
+	const nameFieldPlaceholder =
+		mode === "create" ? "Notebook name" : "New name";
+	const descriptionFieldPlaceholder =
+		mode === "create"
+			? "Briefly describe what this notebook is about"
+			: "New description";
+	const submitButtonText =
+		mode === "create" ? "Create notebook" : "Save changes";
+
+	return (
 		<form className="flex flex-col p-2" onSubmit={handleFormSubmit}>
 			<div className="flex flex-col mb-2">
 				<Label htmlFor="notebook-name" className="mb-1">
@@ -83,7 +92,7 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 					type="text"
 					id="notebook-name"
 					value={name}
-					placeholder="New name"
+					placeholder={nameFieldPlaceholder}
 					onChange={handleNameChange}
 				/>
 			</div>
@@ -94,7 +103,7 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 				</Label>
 				<Textarea
 					id="notebook-description"
-					placeholder="New description"
+					placeholder={descriptionFieldPlaceholder}
 					value={description}
 					onChange={handleDescriptionChange}
 				/>
@@ -104,10 +113,10 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 				type="submit"
 				className="bg-sky-500 w-full rounded-md text-white py-2 hover:bg-sky-700 hover:cursor-pointer"
 			>
-				Save changes
+				{submitButtonText}
 			</button>
 		</form>
-	)
+	);
 }
 
 export default NotebookForm;
