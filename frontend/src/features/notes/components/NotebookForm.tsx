@@ -34,9 +34,7 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 	const { data, isLoading, error } = useQuery({
 		queryKey: ["notebookInfo", notebookId],
 		queryFn: async () => {
-			if (!notebookId) return;
-
-			const notebookRetrieveResponse = await retrieveNotebook(notebookId);
+			const notebookRetrieveResponse = await retrieveNotebook(notebookId!);
 			if (!notebookRetrieveResponse.success) {
 				throw new Error(notebookRetrieveResponse.error);
 			}
@@ -45,6 +43,7 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 		},
 
 		staleTime: 1000 * 5 * 60,
+		enabled: !!notebookId,
 
 		refetchOnReconnect: true,
 		refetchOnMount: true,
