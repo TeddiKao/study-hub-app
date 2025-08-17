@@ -1,6 +1,6 @@
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Dialog } from "@/components/ui/dialog";
 import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
+import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import TrashIcon from "@/shared/components/icons/TrashIcon";
@@ -9,7 +9,6 @@ import {
 	useActiveItemStore,
 	useDashboardNavbarState,
 } from "@/shared/stores/dashboard.stores";
-import { DialogTrigger } from "@radix-ui/react-dialog";
 
 interface ItemProps {
 	itemId: number;
@@ -21,6 +20,7 @@ interface ItemProps {
 function Item({ itemId, itemType, itemName, color }: ItemProps) {
 	const { activeItemId, updateActiveItem, clearActiveItem } =
 		useActiveItemStore();
+	const { handleNotebookDelete } = useNotebooksStore();
 
 	function getItemIcon() {
 		switch (itemType) {
@@ -63,6 +63,18 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 								/>
 							</div>
 						</AlertDialogTrigger>
+
+						<DeleteItemDialog
+							dialogTitle="Delete notebook?"
+							dialogDescription="This will permanently delete your notebook. This cannot be undone"
+							dialogAction={async () => {
+								try {
+									await handleNotebookDelete(itemId);
+								} catch (error) {
+									console.error("Failed to delete notebook");
+								}
+							}}
+						/>
 					</AlertDialog>
 				</div>
 			)}
