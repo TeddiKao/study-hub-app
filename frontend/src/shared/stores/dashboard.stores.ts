@@ -32,16 +32,20 @@ const useDashboardNavbarState = create<DashboardNavbarStateStore>((set) => ({
     }
 }))
 
-const useActiveItemStore = create<ActiveItemStore>((set) => ({
+const useActiveItemStore = create<ActiveItemStore>((set, get) => ({
     activeItemId: null,
     canUpdateActiveItemId: true,
 
     updateActiveItem: (itemId: number) => {
-        set({ activeItemId: itemId })
+        if (get().canUpdateActiveItemId) {
+            set({ activeItemId: itemId })
+        }
     },
 
     clearActiveItem: () => {
-        set({ activeItemId: null })
+        if (get().canUpdateActiveItemId) {
+            set({ activeItemId: null })
+        }
     },
 
     enableActiveItemIdUpdate: () => {
