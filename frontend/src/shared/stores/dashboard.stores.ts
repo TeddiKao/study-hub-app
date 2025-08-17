@@ -10,9 +10,15 @@ interface DashboardNavbarStateStore {
 
 interface ActiveItemStore {
     activeItemId: number | null,
+    activeItemName: string | null,
+    activeItemType: string | null,
+
     canUpdateActiveItemId: boolean,
 
     updateActiveItem: (itemId: number) => void,
+    updateActiveItemName: (itemName: string) => void,
+    updateActiveItemType: (itemType: string) => void,
+
     clearActiveItem: () => void,
 
     enableActiveItemIdUpdate: () => void,
@@ -34,11 +40,26 @@ const useDashboardNavbarState = create<DashboardNavbarStateStore>((set) => ({
 
 const useActiveItemStore = create<ActiveItemStore>((set, get) => ({
     activeItemId: null,
+    activeItemName: null,
+    activeItemType: null,
+
     canUpdateActiveItemId: true,
 
     updateActiveItem: (itemId: number) => {
         if (get().canUpdateActiveItemId) {
             set({ activeItemId: itemId })
+        }
+    },
+
+    updateActiveItemName: (itemName: string) => {
+        if (get().canUpdateActiveItemId) {
+            set({ activeItemName: itemName })
+        }
+    },
+
+    updateActiveItemType: (itemType: string) => {
+        if (get().canUpdateActiveItemId) {
+            set({ activeItemType: itemType })
         }
     },
 
@@ -54,7 +75,7 @@ const useActiveItemStore = create<ActiveItemStore>((set, get) => ({
 
     disableActiveItemIdUpdate: () => {
         set({ canUpdateActiveItemId: false })
-    }
+    },
 }))
 
 export { useDashboardNavbarState, useActiveItemStore }
