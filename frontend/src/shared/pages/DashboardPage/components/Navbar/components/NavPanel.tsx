@@ -74,6 +74,10 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 							}}
 						/>
 					</AlertDialog>
+
+					<button type="button" className="p-1 rounded-md" aria-label={`Edit ${itemType} ${itemName}`}>
+
+					</button>
 				</div>
 			)}
 		</div>
