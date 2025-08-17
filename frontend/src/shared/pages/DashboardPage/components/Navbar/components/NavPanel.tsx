@@ -52,7 +52,8 @@ function NavPanel() {
 	const { expanded, expandedItem } = useDashboardNavbarState();
 	const { notebooks } = useNotebooksStore();
 
-	if (!(expanded && expandedItem === "notebooks")) return null;
+	if (!expanded) return null;
+	if (!expandedItem) return null;
 
 	return (
 		<div
