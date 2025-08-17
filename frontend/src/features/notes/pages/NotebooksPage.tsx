@@ -181,7 +181,7 @@ function NotebooksPage() {
 	}
 
 	if (error) {
-		return <div>An error occured while fetching notebooks</div>;
+		return <div>An error occurred while fetching notebooks</div>;
 	}
 
 	return (
