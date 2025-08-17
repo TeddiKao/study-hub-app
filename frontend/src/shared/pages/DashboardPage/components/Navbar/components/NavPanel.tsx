@@ -1,5 +1,6 @@
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import NotebookDialog from "@/features/notes/components/NotebookDialog";
 import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import AddIcon from "@/shared/components/icons/AddIcon";
@@ -92,7 +93,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 							</button>
 						</DialogTrigger>
 
-						
+						<NotebookDialog mode="edit" notebookId={itemId} />
 					</Dialog>
 				</div>
 			)}
