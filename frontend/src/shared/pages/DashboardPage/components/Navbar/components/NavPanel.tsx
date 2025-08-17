@@ -22,7 +22,7 @@ interface ItemProps {
 }
 
 function Item({ itemId, itemType, itemName, color }: ItemProps) {
-	const { activeItemId, updateActiveItem, clearActiveItem } =
+	const { activeItemId, canUpdateActiveItemId, updateActiveItem, clearActiveItem, enableActiveItemIdUpdate, disableActiveItemIdUpdate } =
 		useActiveItemStore();
 	const { handleNotebookDelete } = useNotebooksStore();
 	const { updateFormVisibility, isFormVisible } = useEditNotebookFormStore();
@@ -57,7 +57,13 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 
 			{activeItemId === itemId && (
 				<div className="flex flex-row ml-2 shrink-0">
-					<AlertDialog>
+					<AlertDialog onOpenChange={(open) => {
+						if (open) {
+							disableActiveItemIdUpdate();
+						} else {
+							enableActiveItemIdUpdate();
+						}
+					}}>
 						<AlertDialogTrigger asChild>
 							<button
 								className="p-1 rounded-md"
@@ -84,7 +90,15 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 						/>
 					</AlertDialog>
 
-					<Dialog open={isFormVisible} onOpenChange={updateFormVisibility}>
+					<Dialog open={isFormVisible} onOpenChange={(open: boolean) => {
+						updateFormVisibility(open);
+						
+						if (open) {
+							disableActiveItemIdUpdate();
+						} else {
+							enableActiveItemIdUpdate();
+						}
+					}}>
 						<DialogTrigger asChild>
 							<button
 								type="button"
