@@ -38,7 +38,7 @@ const useNotebooksStore = create<NotebookStore>((set, get) => ({
 	handleNotebookCreate: async (notebookData: CreateNotebookApiPayload) => {
 		const notebookCreateResponse = await createNotebook(notebookData);
 		if (!notebookCreateResponse.success) {
-			return;
+			throw new Error(notebookCreateResponse.error);
 		}
 
 		await get().getNotebooks();
@@ -53,7 +53,7 @@ const useNotebooksStore = create<NotebookStore>((set, get) => ({
 			notebookData
 		);
 		if (!notebookEditResponse.success) {
-			return;
+			throw new Error(notebookEditResponse.error);
 		}
 
 		await get().getNotebooks();
@@ -62,7 +62,7 @@ const useNotebooksStore = create<NotebookStore>((set, get) => ({
 	handleNotebookDelete: async (notebookId) => {
 		const notebookDeleteResponse = await deleteNotebook(notebookId);
 		if (!notebookDeleteResponse.success) {
-			return;
+			throw new Error(notebookDeleteResponse.error);
 		}
 
 		await get().getNotebooks();

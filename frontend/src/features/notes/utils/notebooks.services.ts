@@ -9,6 +9,7 @@ import type {
 	EditNotebookApiPayload,
 	NotebookEditSuccess,
 	NotebookApiSuccess,
+	NotebookRetrieveSuccess,
 } from "../types/notebooks/notebookApi.types";
 
 async function fetchNotebooks(): Promise<
@@ -42,7 +43,7 @@ async function createNotebook(
 ): Promise<NotebookCreateSuccess | ApiErrorResponse> {
 	try {
 		const response = await api.post(
-			"notes/notebooks/create/",
+			"notes/notebook/create/",
 			notebookData
 		);
 
@@ -121,4 +122,28 @@ async function deleteNotebook(
 	}
 }
 
-export { fetchNotebooks, createNotebook, editNotebook, deleteNotebook };
+async function retrieveNotebook(notebookId: number): Promise<ApiErrorResponse | NotebookRetrieveSuccess> {
+	try {
+		const response = await api.get(`notes/notebook/${notebookId}/`);
+
+		return {
+			success: true,
+			message: "Notebook retrieved successfully",
+			retrievedNotebook: response.data,
+		};
+	} catch (error) {
+		if (!isAxiosError(error)) {
+			return {
+				success: false,
+				error: "Failed to retrieve notebook",
+			};
+		}
+
+		return {
+			success: false,
+			error: error.response?.data.error ?? "Failed to retrieve notebook",
+		};
+	}
+}
+
+export { fetchNotebooks, createNotebook, editNotebook, deleteNotebook, retrieveNotebook };
