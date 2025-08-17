@@ -8,12 +8,21 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
-interface NotebookFormProps {
-	mode: "create" | "edit";
-	notebookId?: number;
+interface NotebookFormCreateModeProps {
+	mode: "create"
 }
 
-function NotebookForm({ mode, notebookId }: NotebookFormProps) {
+interface NotebookFormEditModeProps {
+	mode: "edit",
+	notebookId: number
+}
+
+type NotebookFormProps = NotebookFormCreateModeProps | NotebookFormEditModeProps
+
+function NotebookForm(props: NotebookFormProps) {
+	const { mode } = props;
+	const notebookId = mode === "edit" ? props.notebookId : undefined
+
 	const createNotebookFormStore = useCreateNotebookFormStore();
 	const editNotebookFormStore = useEditNotebookFormStore();
 
