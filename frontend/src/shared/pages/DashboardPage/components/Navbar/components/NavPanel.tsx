@@ -56,12 +56,12 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 				<div className="flex flex-row ml-2 shrink-0">
 					<AlertDialog>
 						<AlertDialogTrigger asChild>
-							<div className="p-1 rounded-md">
+							<button className="p-1 rounded-md" aria-label={`Delete ${itemType} ${itemName}`}>
 								<TrashIcon
 									color="hsl(220.03 10% 46%)"
 									size={20}
 								/>
-							</div>
+							</button>
 						</AlertDialogTrigger>
 
 						<DeleteItemDialog
