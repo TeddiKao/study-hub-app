@@ -1,9 +1,9 @@
 import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
+import TrashIcon from "@/shared/components/icons/TrashIcon";
 import { expandedItemMap } from "@/shared/constants/expandedItemMap.constants";
 import { useDashboardNavbarState } from "@/shared/stores/dashboard.stores";
-import { TrashIcon } from "lucide-react";
 
 interface ItemProps {
 	itemType: string;
@@ -26,20 +26,24 @@ function Item({ itemType, itemName, color }: ItemProps) {
 		<button
 			type="button"
 			aria-label={itemName}
-			className="flex flex-row mb-0.5 p-1 items-center hover:cursor-pointer hover:bg-gray-300 rounded-md"
+			className="flex flex-row mb-0.5 p-1 items-center justify-between hover:cursor-pointer hover:bg-gray-300 rounded-md"
 		>
-			<div
-				className="p-1 rounded-sm"
-				style={{
-					backgroundColor: color,
-				}}
-			>
-				{getItemIcon()}
+			<div className="flex flex-row items-center">
+				<div
+					className="p-1 rounded-sm"
+					style={{
+						backgroundColor: color,
+					}}
+				>
+					{getItemIcon()}
+				</div>
+				<p className="ml-2 shrink-0 ">{itemName}</p>
 			</div>
-			<p className="ml-2">{itemName}</p>
 
-			<div className="flex flex-row">
-				<TrashIcon size={24} />
+			<div className="flex flex-row ml-2 shrink-0">
+				<div className="p-1 rounded-md">
+					<TrashIcon color="hsl(220.03 10% 46%)" size={20} />
+				</div>
 			</div>
 		</button>
 	);
@@ -66,7 +70,7 @@ function NavPanel() {
 			id="dashboard-notebooks-panel"
 			role="region"
 			aria-labelledby="dashboard-notebooks-trigger"
-			className="flex flex-col bg-gray-100 py-3 pl-3 pr-10"
+			className="flex flex-col bg-gray-100 py-3 pl-3 pr-3"
 		>
 			<p className="text-sm text-gray-500 mb-1 pl-1">Notebooks</p>
 
