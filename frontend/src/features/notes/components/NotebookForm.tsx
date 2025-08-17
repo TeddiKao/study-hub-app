@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores";
 import { useEditNotebookFormStore } from "../stores/editNotebookForm.stores";
 import { useNotebooksStore } from "../stores/notebooks.stores";
@@ -44,6 +44,23 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 		refetchOnMount: true,
 		refetchOnWindowFocus: false,
 	});
+
+    const hasHydratedRef = useRef(false);
+
+    useEffect(() => {
+        hasHydratedRef.current = false
+    }, [data]);
+
+    useEffect(() => {
+        if (hasHydratedRef.current) return;
+        if (!data?.success) return;
+        if (mode !== "edit") return;
+        
+        updateName(data.retrievedNotebook.name);
+        updateDescription(data.retrievedNotebook.description);
+
+        hasHydratedRef.current = true
+    }, [data, updateName, updateDescription])
 }
 
 export default NotebookForm;
