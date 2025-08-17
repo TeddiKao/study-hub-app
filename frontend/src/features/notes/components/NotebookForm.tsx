@@ -97,7 +97,9 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 	}
 
 	async function handleEditNotebookFormSubmit() {
-		if (!notebookId) return;
+		if (!notebookId) {
+			throw new Error("Missing notebook ID when editing notebook");
+		};
 
 		try {
 			await handleNotebookEdit(notebookId, {
