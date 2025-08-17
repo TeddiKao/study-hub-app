@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type FormEvent } from "react";
 import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores";
 import { useEditNotebookFormStore } from "../stores/editNotebookForm.stores";
 import { useNotebooksStore } from "../stores/notebooks.stores";
@@ -110,7 +110,9 @@ function NotebookForm({ mode, notebookId }: NotebookFormProps) {
 		}
 	}
 
-	async function handleFormSubmit() {
+	async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
+		e.preventDefault();
+
 		try {
 			if (mode === "create") {
 				await handleCreateNotebookFormSubmit();
