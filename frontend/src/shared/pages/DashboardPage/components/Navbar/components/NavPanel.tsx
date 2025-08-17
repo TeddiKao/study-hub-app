@@ -85,7 +85,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 					</AlertDialog>
 
 					<Dialog open={isFormVisible} onOpenChange={updateFormVisibility}>
-						<DialogTrigger>
+						<DialogTrigger asChild>
 							<button
 								type="button"
 								className="p-1 rounded-md"
