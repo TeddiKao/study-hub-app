@@ -253,6 +253,7 @@ function NavPanel() {
 				<>
 					<NotebookEditDialog />
 					<DeleteNotebookAlert />
+					<CreateNotebookDialog />
 				</>
 			)}
 		</>
