@@ -1,4 +1,5 @@
 import {
+	AlertDialog,
 	AlertDialogAction,
 	AlertDialogCancel,
 	AlertDialogContent,
@@ -12,34 +13,41 @@ interface DeleteItemDialogProps {
 	dialogTitle: string;
 	dialogDescription: string;
 	dialogAction: () => void | Promise<void>;
+
+	isOpen: boolean;
+	onOpenChange: (open: boolean) => void;
 }
 
 function DeleteItemDialog({
 	dialogTitle,
 	dialogDescription,
 	dialogAction,
+	isOpen,
+	onOpenChange,
 }: DeleteItemDialogProps) {
 	return (
-		<AlertDialogContent>
-			<AlertDialogHeader>
-				<AlertDialogTitle>{dialogTitle}</AlertDialogTitle>
-				<AlertDialogDescription>
-					{dialogDescription}
-				</AlertDialogDescription>
-			</AlertDialogHeader>
+		<AlertDialog open={isOpen} onOpenChange={onOpenChange}>
+			<AlertDialogContent>
+				<AlertDialogHeader>
+					<AlertDialogTitle>{dialogTitle}</AlertDialogTitle>
+					<AlertDialogDescription>
+						{dialogDescription}
+					</AlertDialogDescription>
+				</AlertDialogHeader>
 
-			<AlertDialogFooter>
-				<AlertDialogCancel className="hover:cursor-pointer">
-					Cancel
-				</AlertDialogCancel>
-				<AlertDialogAction
-					onClick={dialogAction}
-					className="bg-red-500 hover:bg-red-900 hover:cursor-pointer"
-				>
-					Delete
-				</AlertDialogAction>
-			</AlertDialogFooter>
-		</AlertDialogContent>
+				<AlertDialogFooter>
+					<AlertDialogCancel className="hover:cursor-pointer">
+						Cancel
+					</AlertDialogCancel>
+					<AlertDialogAction
+						onClick={dialogAction}
+						className="bg-red-500 hover:bg-red-900 hover:cursor-pointer"
+					>
+						Delete
+					</AlertDialogAction>
+				</AlertDialogFooter>
+			</AlertDialogContent>
+		</AlertDialog>
 	);
 }
 

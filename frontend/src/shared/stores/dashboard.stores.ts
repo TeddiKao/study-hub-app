@@ -1,60 +1,85 @@
 import { create } from "zustand";
 
 interface DashboardNavbarStateStore {
-    expanded: boolean;
-    expandedItem: string | null
+	expanded: boolean;
+	expandedItem: string | null;
 
-    expandNavbar: (expandedItem: string) => void;
-    collapseNavbar: () => void;
+	expandNavbar: (expandedItem: string) => void;
+	collapseNavbar: () => void;
 }
 
 interface ActiveItemStore {
-    activeItemId: number | null,
-    canUpdateActiveItemId: boolean,
+	activeItemId: number | null;
+	activeItemName: string | null;
+	activeItemType: string | null;
 
-    updateActiveItem: (itemId: number) => void,
-    clearActiveItem: () => void,
+	canUpdateActiveItemId: boolean;
 
-    enableActiveItemIdUpdate: () => void,
-    disableActiveItemIdUpdate: () => void,
+	updateActiveItem: (itemId: number) => void;
+	updateActiveItemName: (itemName: string) => void;
+	updateActiveItemType: (itemType: string) => void;
+
+	clearActiveItem: () => void;
+
+	enableActiveItemIdUpdate: () => void;
+	disableActiveItemIdUpdate: () => void;
 }
 
 const useDashboardNavbarState = create<DashboardNavbarStateStore>((set) => ({
-    expanded: false,
-    expandedItem: null,
+	expanded: false,
+	expandedItem: null,
 
-    expandNavbar: (expandedItem: string) => {
-        set({ expanded: true, expandedItem})
-    },
+	expandNavbar: (expandedItem: string) => {
+		set({ expanded: true, expandedItem });
+	},
 
-    collapseNavbar: () => {
-        set({ expanded: false, expandedItem: null })
-    }
-}))
+	collapseNavbar: () => {
+		set({ expanded: false, expandedItem: null });
+	},
+}));
 
 const useActiveItemStore = create<ActiveItemStore>((set, get) => ({
-    activeItemId: null,
-    canUpdateActiveItemId: true,
+	activeItemId: null,
+	activeItemName: null,
+	activeItemType: null,
 
-    updateActiveItem: (itemId: number) => {
-        if (get().canUpdateActiveItemId) {
-            set({ activeItemId: itemId })
-        }
-    },
+	canUpdateActiveItemId: true,
 
-    clearActiveItem: () => {
-        if (get().canUpdateActiveItemId) {
-            set({ activeItemId: null })
-        }
-    },
+	updateActiveItem: (itemId: number) => {
+		if (get().canUpdateActiveItemId) {
+			set({ activeItemId: itemId });
+		}
+	},
 
-    enableActiveItemIdUpdate: () => {
-        set({ canUpdateActiveItemId: true })
-    },
+	updateActiveItemName: (itemName: string) => {
+		if (get().canUpdateActiveItemId) {
+			set({ activeItemName: itemName });
+		}
+	},
 
-    disableActiveItemIdUpdate: () => {
-        set({ canUpdateActiveItemId: false })
-    }
-}))
+	updateActiveItemType: (itemType: string) => {
+		if (get().canUpdateActiveItemId) {
+			set({ activeItemType: itemType });
+		}
+	},
 
-export { useDashboardNavbarState, useActiveItemStore }
+	clearActiveItem: () => {
+		if (get().canUpdateActiveItemId) {
+			set({
+				activeItemId: null,
+				activeItemName: null,
+				activeItemType: null,
+			});
+		}
+	},
+
+	enableActiveItemIdUpdate: () => {
+		set({ canUpdateActiveItemId: true });
+	},
+
+	disableActiveItemIdUpdate: () => {
+		set({ canUpdateActiveItemId: false });
+	},
+}));
+
+export { useDashboardNavbarState, useActiveItemStore };
