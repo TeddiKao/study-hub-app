@@ -45,6 +45,22 @@ function NotebookEditDialog() {
 	);
 }
 
+function CreateNotebookDialog() {
+	const { isFormVisible, updateFormVisibility } = useCreateNotebookFormStore();
+	const { enableActiveItemIdUpdate } = useActiveItemStore();
+
+	function onOpenChange(open: boolean) {
+		if (!open) {
+			updateFormVisibility(true);
+			enableActiveItemIdUpdate();
+		}
+	}
+
+	return (
+		<Dialog open={isFormVisible} onOpenChange={onOpenChange}></Dialog>
+	)
+}
+
 function DeleteNotebookAlert() {
 	const { activeItemId, enableActiveItemIdUpdate } = useActiveItemStore();
 	const { visible: isAlertVisible, closeAlert: hideDeleteNotebookAlert } =
