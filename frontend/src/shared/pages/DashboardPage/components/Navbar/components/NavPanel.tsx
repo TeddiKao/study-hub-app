@@ -1,6 +1,7 @@
 import { Dialog } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import NotebookDialog from "@/features/notes/components/NotebookDialog";
+import { useCreateNotebookFormStore } from "@/features/notes/stores/createNotebookForm.stores";
 import { useDeleteNotebookAlertStore } from "@/features/notes/stores/deleteNotebookAlert.stores";
 import { useEditNotebookFormStore } from "@/features/notes/stores/editNotebookForm.stores";
 import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
@@ -181,14 +182,15 @@ function AddNotebookButton() {
 function NavPanel() {
 	const { expanded, expandedItem } = useDashboardNavbarState();
 	const { notebooks } = useNotebooksStore();
-	const { isFormVisible } = useEditNotebookFormStore();
+	const { isFormVisible: isEditNotebookFormVisible } = useEditNotebookFormStore();
+	const { isFormVisible: isCreateNotebookFormVisible, updateFormVisibility: updateCreateNotebookFormVisiblity } = useCreateNotebookFormStore();
 	const { activeItemId, activeItemName, activeItemType } =
 		useActiveItemStore();
 
 	if (!expanded) return null;
 	if (!expandedItem) return null;
 
-	console.log(activeItemId, activeItemName, activeItemType, isFormVisible);
+	console.log(activeItemId, activeItemName, activeItemType, isEditNotebookFormVisible);
 
 	return (
 		<>
@@ -203,7 +205,7 @@ function NavPanel() {
 
 					<Tooltip>
 						<TooltipTrigger asChild>
-							<button className="p-1 hover:bg-gray-300 hover:cursor-pointer rounded-md">
+							<button onClick={() => updateCreateNotebookFormVisiblity(true)} className="p-1 hover:bg-gray-300 hover:cursor-pointer rounded-md">
 								<AddIcon size={20} className="fill-gray-500" />
 							</button>
 						</TooltipTrigger>
