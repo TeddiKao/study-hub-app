@@ -199,7 +199,12 @@ function NavPanel() {
 				aria-labelledby="dashboard-notebooks-trigger"
 				className="flex flex-col bg-gray-100 py-3 pl-3 pr-3"
 			>
-				<p className="text-sm text-gray-500 mb-1 pl-1">Notebooks</p>
+				<div className="flex flex-row items-center justify-between">
+					<p className="text-sm text-gray-500 pl-1">Notebooks</p>
+					<div className="p-1 hover:bg-gray-300 rounded-md">
+						<AddIcon size={20} className="fill-gray-500" />
+					</div>
+				</div>
 
 				<div className="flex flex-col">
 					{notebooks.map(({ id, name, notebookColor }) => (
