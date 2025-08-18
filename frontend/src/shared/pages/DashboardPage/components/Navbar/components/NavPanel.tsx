@@ -201,7 +201,7 @@ function NavPanel() {
 	const { expanded, expandedItem } = useDashboardNavbarState();
 	const { notebooks } = useNotebooksStore();
 	const { isFormVisible: isEditNotebookFormVisible } = useEditNotebookFormStore();
-	const { isFormVisible: isCreateNotebookFormVisible, updateFormVisibility: updateCreateNotebookFormVisiblity } = useCreateNotebookFormStore();
+	const { updateFormVisibility: updateCreateNotebookFormVisiblity } = useCreateNotebookFormStore();
 	const { activeItemId, activeItemName, activeItemType } =
 		useActiveItemStore();
 
