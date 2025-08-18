@@ -57,7 +57,9 @@ function CreateNotebookDialog() {
 	}
 
 	return (
-		<Dialog open={isFormVisible} onOpenChange={onOpenChange}></Dialog>
+		<Dialog open={isFormVisible} onOpenChange={onOpenChange}>
+			<NotebookDialog mode="create" />
+		</Dialog>
 	)
 }
 
