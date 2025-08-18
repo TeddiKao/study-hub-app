@@ -1,17 +1,5 @@
-import { create } from "zustand";
+import { createAlertDialogVisibleStore } from "@/shared/stores/alerts.stores";
 
-interface DeleteNotebookAlertStore {
-    isAlertVisible: boolean;
-    
-    showDeleteNotebookAlert: () => void;
-    hideDeleteNotebookAlert: () => void;
-}
-
-const useDeleteNotebookAlertStore = create<DeleteNotebookAlertStore>((set) => ({
-    isAlertVisible: false,
-
-    showDeleteNotebookAlert: () => set({ isAlertVisible: true }),
-    hideDeleteNotebookAlert: () => set({ isAlertVisible: false })
-}))
+const useDeleteNotebookAlertStore = createAlertDialogVisibleStore();
 
 export { useDeleteNotebookAlertStore }

@@ -45,7 +45,7 @@ function NotebookEditDialog() {
 
 function DeleteNotebookAlert() {
 	const { activeItemId, enableActiveItemIdUpdate } = useActiveItemStore();
-	const { isAlertVisible, hideDeleteNotebookAlert } =
+	const { visible: isAlertVisible, closeAlert: hideDeleteNotebookAlert } =
 		useDeleteNotebookAlertStore();
 	const { handleNotebookDelete } = useNotebooksStore();
 
@@ -88,7 +88,7 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 		disableActiveItemIdUpdate,
 	} = useActiveItemStore();
 	const { updateFormVisibility } = useEditNotebookFormStore();
-	const { showDeleteNotebookAlert } = useDeleteNotebookAlertStore();
+	const { showAlert: showDeleteNotebookAlert } = useDeleteNotebookAlertStore();
 
 	const queryClient = useQueryClient();
 
