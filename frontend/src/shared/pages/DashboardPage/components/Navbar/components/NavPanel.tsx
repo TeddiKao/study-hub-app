@@ -203,7 +203,7 @@ function NavPanel() {
 
 					<Tooltip>
 						<TooltipTrigger asChild>
-							<div className="p-1 hover:bg-gray-300 rounded-md">
+							<div className="p-1 hover:bg-gray-300 hover:cursor-pointer rounded-md">
 								<AddIcon size={20} className="fill-gray-500" />
 							</div>
 						</TooltipTrigger>
