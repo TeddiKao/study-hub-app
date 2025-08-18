@@ -1,4 +1,5 @@
 import { Dialog } from "@/components/ui/dialog";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import NotebookDialog from "@/features/notes/components/NotebookDialog";
 import { useDeleteNotebookAlertStore } from "@/features/notes/stores/deleteNotebookAlert.stores";
 import { useEditNotebookFormStore } from "@/features/notes/stores/editNotebookForm.stores";
@@ -88,7 +89,8 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 		disableActiveItemIdUpdate,
 	} = useActiveItemStore();
 	const { updateFormVisibility } = useEditNotebookFormStore();
-	const { showAlert: showDeleteNotebookAlert } = useDeleteNotebookAlertStore();
+	const { showAlert: showDeleteNotebookAlert } =
+		useDeleteNotebookAlertStore();
 
 	const queryClient = useQueryClient();
 
@@ -180,11 +182,8 @@ function NavPanel() {
 	const { expanded, expandedItem } = useDashboardNavbarState();
 	const { notebooks } = useNotebooksStore();
 	const { isFormVisible } = useEditNotebookFormStore();
-	const {
-		activeItemId,
-		activeItemName,
-		activeItemType,
-	} = useActiveItemStore();
+	const { activeItemId, activeItemName, activeItemType } =
+		useActiveItemStore();
 
 	if (!expanded) return null;
 	if (!expandedItem) return null;
@@ -201,9 +200,18 @@ function NavPanel() {
 			>
 				<div className="flex flex-row items-center justify-between">
 					<p className="text-sm text-gray-500 pl-1">Notebooks</p>
-					<div className="p-1 hover:bg-gray-300 rounded-md">
-						<AddIcon size={20} className="fill-gray-500" />
-					</div>
+
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<div className="p-1 hover:bg-gray-300 rounded-md">
+								<AddIcon size={20} className="fill-gray-500" />
+							</div>
+						</TooltipTrigger>
+
+						<TooltipContent side="bottom">
+							<p>Create notebook</p>
+						</TooltipContent>
+					</Tooltip>
 				</div>
 
 				<div className="flex flex-col">
