@@ -260,7 +260,9 @@ function NavPanel() {
 				</>
 			)}
 
-			<CreateNotebookDialog />
+			{expandedItem === "notebooks" && (
+				<CreateNotebookDialog />
+			)}
 		</>
 	);
 }
