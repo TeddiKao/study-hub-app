@@ -249,7 +249,7 @@ function NavPanel() {
 				<AddNotebookButton />
 			</div>
 
-			{activeItemId && activeItemName && activeItemType && (
+			{activeItemId && activeItemName && activeItemType === "notebook" && (
 				<>
 					<NotebookEditDialog />
 					<DeleteNotebookAlert />
