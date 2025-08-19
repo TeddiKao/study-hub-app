@@ -223,7 +223,11 @@ function NavPanel() {
 
 					<Tooltip>
 						<TooltipTrigger asChild>
-							<button onClick={() => updateCreateNotebookFormVisiblity(true)} className="p-1 hover:bg-gray-300 hover:cursor-pointer rounded-md">
+							<button onClick={() => {
+								if (expandedItem === "notebooks") {
+									updateCreateNotebookFormVisiblity(true);
+								}
+							}} className="p-1 hover:bg-gray-300 hover:cursor-pointer rounded-md">
 								<AddIcon size={20} className="fill-gray-500" />
 							</button>
 						</TooltipTrigger>
