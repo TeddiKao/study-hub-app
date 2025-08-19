@@ -219,7 +219,7 @@ function NavPanel() {
 				}
 
 			default:
-				console.error(`Invalid item ${expandedItem}`)
+				return async () => null;
 		}
 	}
 
