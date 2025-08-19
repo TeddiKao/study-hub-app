@@ -5,6 +5,7 @@ import { useCreateNotebookFormStore } from "@/features/notes/stores/createNotebo
 import { useDeleteNotebookAlertStore } from "@/features/notes/stores/deleteNotebookAlert.stores";
 import { useEditNotebookFormStore } from "@/features/notes/stores/editNotebookForm.stores";
 import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
+import { fetchNotebooks } from "@/features/notes/utils/notebooks.services";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import EditIcon from "@/shared/components/icons/EditIcon";
@@ -210,7 +211,7 @@ function NavPanel() {
 			case "notebooks":
 				return async () => {
 					try {
-						const notebooks = await getNotebooks();
+						const notebooks = await fetchNotebooks();
 
 						return notebooks;
 					} catch (error) {
