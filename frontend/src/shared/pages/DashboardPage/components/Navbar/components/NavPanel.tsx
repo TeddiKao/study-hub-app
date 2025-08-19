@@ -57,7 +57,7 @@ function CreateNotebookDialog() {
 
 	function onOpenChange(open: boolean) {
 		if (!open) {
-			updateFormVisibility(true);
+			updateFormVisibility(false);
 			enableActiveItemIdUpdate();
 		}
 	}
@@ -203,13 +203,83 @@ function AddNotebookButton() {
 	);
 }
 
+function ItemsContainer() {
+	const { expandedItem } = useDashboardNavbarState();
+	const { notebooks } = useNotebooksStore();
+
+	if (!expandedItem) return null;
+
+	function getItemList() {
+		switch (expandedItem) {
+			case "notebooks":
+				return notebooks;
+				
+			default:
+				throw new Error(`Invalid item ${expandedItem}`)
+		}
+	}
+
+	return (
+		<div className="flex flex-col">
+			{getItemList().map(({ id, name, notebookColor }) => (
+				<Item
+					key={id}
+					itemId={id}
+					itemName={name}
+					color={notebookColor}
+					itemType={expandedItemMap[expandedItem]}
+				/>
+			))}
+		</div>
+	);
+}
+
+function NavPanelContent() {
+	const { expandedItem } = useDashboardNavbarState();
+	const { updateFormVisibility: updateCreateNotebookFormVisibility } =
+		useCreateNotebookFormStore();
+
+	if (!expandedItem) return null;
+
+	return (
+		<div
+			id="dashboard-notebooks-panel"
+			role="region"
+			aria-labelledby="dashboard-notebooks-trigger"
+			className="flex flex-col bg-gray-100 py-3 pl-3 pr-3"
+		>
+			<div className="flex flex-row items-center justify-between">
+				<p className="text-sm text-gray-500 pl-1">Notebooks</p>
+
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<button
+							onClick={() => {
+								if (expandedItem === "notebooks") {
+									updateCreateNotebookFormVisibility(true);
+								}
+							}}
+							className="p-1 hover:bg-gray-300 hover:cursor-pointer rounded-md"
+						>
+							<AddIcon size={20} className="fill-gray-500" />
+						</button>
+					</TooltipTrigger>
+
+					<TooltipContent side="bottom">
+						<p>Create notebook</p>
+					</TooltipContent>
+				</Tooltip>
+			</div>
+
+			<ItemsContainer />
+			<AddNotebookButton />
+		</div>
+	);
+}
+
 function NavPanel() {
 	const { expanded, expandedItem } = useDashboardNavbarState();
-	const { notebooks, updateNotebooks } = useNotebooksStore();
-	const { isFormVisible: isEditNotebookFormVisible } =
-		useEditNotebookFormStore();
-	const { updateFormVisibility: updateCreateNotebookFormVisiblity } =
-		useCreateNotebookFormStore();
+	const { updateNotebooks } = useNotebooksStore();
 	const { activeItemId, activeItemName, activeItemType } =
 		useActiveItemStore();
 
@@ -264,58 +334,9 @@ function NavPanel() {
 		return <div>An error occurred while fetching notebooks</div>;
 	}
 
-	console.log(
-		activeItemId,
-		activeItemName,
-		activeItemType,
-		isEditNotebookFormVisible
-	);
-
 	return (
 		<>
-			<div
-				id="dashboard-notebooks-panel"
-				role="region"
-				aria-labelledby="dashboard-notebooks-trigger"
-				className="flex flex-col bg-gray-100 py-3 pl-3 pr-3"
-			>
-				<div className="flex flex-row items-center justify-between">
-					<p className="text-sm text-gray-500 pl-1">Notebooks</p>
-
-					<Tooltip>
-						<TooltipTrigger asChild>
-							<button
-								onClick={() => {
-									if (expandedItem === "notebooks") {
-										updateCreateNotebookFormVisiblity(true);
-									}
-								}}
-								className="p-1 hover:bg-gray-300 hover:cursor-pointer rounded-md"
-							>
-								<AddIcon size={20} className="fill-gray-500" />
-							</button>
-						</TooltipTrigger>
-
-						<TooltipContent side="bottom">
-							<p>Create notebook</p>
-						</TooltipContent>
-					</Tooltip>
-				</div>
-
-				<div className="flex flex-col">
-					{notebooks.map(({ id, name, notebookColor }) => (
-						<Item
-							key={id}
-							itemId={id}
-							itemName={name}
-							color={notebookColor}
-							itemType={expandedItemMap[expandedItem]}
-						/>
-					))}
-				</div>
-
-				<AddNotebookButton />
-			</div>
+			<NavPanelContent />
 
 			{activeItemId &&
 				activeItemName &&
