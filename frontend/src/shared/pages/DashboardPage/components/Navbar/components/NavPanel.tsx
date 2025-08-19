@@ -1,5 +1,7 @@
 import { Dialog } from "@/components/ui/dialog";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import NotebookDialog from "@/features/notes/components/NotebookDialog";
+import { useCreateNotebookFormStore } from "@/features/notes/stores/createNotebookForm.stores";
 import { useDeleteNotebookAlertStore } from "@/features/notes/stores/deleteNotebookAlert.stores";
 import { useEditNotebookFormStore } from "@/features/notes/stores/editNotebookForm.stores";
 import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
@@ -41,6 +43,24 @@ function NotebookEditDialog() {
 			<NotebookDialog mode="edit" notebookId={activeItemId} />
 		</Dialog>
 	);
+}
+
+function CreateNotebookDialog() {
+	const { isFormVisible, updateFormVisibility } = useCreateNotebookFormStore();
+	const { enableActiveItemIdUpdate } = useActiveItemStore();
+
+	function onOpenChange(open: boolean) {
+		if (!open) {
+			updateFormVisibility(true);
+			enableActiveItemIdUpdate();
+		}
+	}
+
+	return (
+		<Dialog open={isFormVisible} onOpenChange={onOpenChange}>
+			<NotebookDialog mode="create" />
+		</Dialog>
+	)
 }
 
 function DeleteNotebookAlert() {
@@ -88,7 +108,8 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 		disableActiveItemIdUpdate,
 	} = useActiveItemStore();
 	const { updateFormVisibility } = useEditNotebookFormStore();
-	const { showAlert: showDeleteNotebookAlert } = useDeleteNotebookAlertStore();
+	const { showAlert: showDeleteNotebookAlert } =
+		useDeleteNotebookAlertStore();
 
 	const queryClient = useQueryClient();
 
@@ -179,17 +200,15 @@ function AddNotebookButton() {
 function NavPanel() {
 	const { expanded, expandedItem } = useDashboardNavbarState();
 	const { notebooks } = useNotebooksStore();
-	const { isFormVisible } = useEditNotebookFormStore();
-	const {
-		activeItemId,
-		activeItemName,
-		activeItemType,
-	} = useActiveItemStore();
+	const { isFormVisible: isEditNotebookFormVisible } = useEditNotebookFormStore();
+	const { updateFormVisibility: updateCreateNotebookFormVisiblity } = useCreateNotebookFormStore();
+	const { activeItemId, activeItemName, activeItemType } =
+		useActiveItemStore();
 
 	if (!expanded) return null;
 	if (!expandedItem) return null;
 
-	console.log(activeItemId, activeItemName, activeItemType, isFormVisible);
+	console.log(activeItemId, activeItemName, activeItemType, isEditNotebookFormVisible);
 
 	return (
 		<>
@@ -199,7 +218,25 @@ function NavPanel() {
 				aria-labelledby="dashboard-notebooks-trigger"
 				className="flex flex-col bg-gray-100 py-3 pl-3 pr-3"
 			>
-				<p className="text-sm text-gray-500 mb-1 pl-1">Notebooks</p>
+				<div className="flex flex-row items-center justify-between">
+					<p className="text-sm text-gray-500 pl-1">Notebooks</p>
+
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<button onClick={() => {
+								if (expandedItem === "notebooks") {
+									updateCreateNotebookFormVisiblity(true);
+								}
+							}} className="p-1 hover:bg-gray-300 hover:cursor-pointer rounded-md">
+								<AddIcon size={20} className="fill-gray-500" />
+							</button>
+						</TooltipTrigger>
+
+						<TooltipContent side="bottom">
+							<p>Create notebook</p>
+						</TooltipContent>
+					</Tooltip>
+				</div>
 
 				<div className="flex flex-col">
 					{notebooks.map(({ id, name, notebookColor }) => (
@@ -216,11 +253,15 @@ function NavPanel() {
 				<AddNotebookButton />
 			</div>
 
-			{activeItemId && activeItemName && activeItemType && (
+			{activeItemId && activeItemName && activeItemType === "notebook" && (
 				<>
 					<NotebookEditDialog />
 					<DeleteNotebookAlert />
 				</>
+			)}
+
+			{expandedItem === "notebooks" && (
+				<CreateNotebookDialog />
 			)}
 		</>
 	);
