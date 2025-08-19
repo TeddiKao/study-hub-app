@@ -1,10 +1,15 @@
 import { Dialog } from "@/components/ui/dialog";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 import NotebookDialog from "@/features/notes/components/NotebookDialog";
 import { useCreateNotebookFormStore } from "@/features/notes/stores/createNotebookForm.stores";
 import { useDeleteNotebookAlertStore } from "@/features/notes/stores/deleteNotebookAlert.stores";
 import { useEditNotebookFormStore } from "@/features/notes/stores/editNotebookForm.stores";
 import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
+import { fetchNotebooks } from "@/features/notes/utils/notebooks.services";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import EditIcon from "@/shared/components/icons/EditIcon";
@@ -15,8 +20,8 @@ import {
 	useActiveItemStore,
 	useDashboardNavbarState,
 } from "@/shared/stores/dashboard.stores";
-import { useQueryClient } from "@tanstack/react-query";
-import type { MouseEvent } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, type MouseEvent } from "react";
 
 interface ItemProps {
 	itemId: number;
@@ -46,7 +51,8 @@ function NotebookEditDialog() {
 }
 
 function CreateNotebookDialog() {
-	const { isFormVisible, updateFormVisibility } = useCreateNotebookFormStore();
+	const { isFormVisible, updateFormVisibility } =
+		useCreateNotebookFormStore();
 	const { enableActiveItemIdUpdate } = useActiveItemStore();
 
 	function onOpenChange(open: boolean) {
@@ -60,7 +66,7 @@ function CreateNotebookDialog() {
 		<Dialog open={isFormVisible} onOpenChange={onOpenChange}>
 			<NotebookDialog mode="create" />
 		</Dialog>
-	)
+	);
 }
 
 function DeleteNotebookAlert() {
@@ -199,16 +205,71 @@ function AddNotebookButton() {
 
 function NavPanel() {
 	const { expanded, expandedItem } = useDashboardNavbarState();
-	const { notebooks } = useNotebooksStore();
-	const { isFormVisible: isEditNotebookFormVisible } = useEditNotebookFormStore();
-	const { updateFormVisibility: updateCreateNotebookFormVisiblity } = useCreateNotebookFormStore();
+	const { notebooks, updateNotebooks } = useNotebooksStore();
+	const { isFormVisible: isEditNotebookFormVisible } =
+		useEditNotebookFormStore();
+	const { updateFormVisibility: updateCreateNotebookFormVisiblity } =
+		useCreateNotebookFormStore();
 	const { activeItemId, activeItemName, activeItemType } =
 		useActiveItemStore();
+
+	function getQueryFunction() {
+		switch (expandedItem) {
+			case "notebooks":
+				return async () => {
+					try {
+						const notebooks = await fetchNotebooks();
+
+						return notebooks;
+					} catch (error) {
+						throw new Error(
+							"Error occured while fetching notebooks"
+						);
+					}
+				};
+
+			default:
+				return async () => null;
+		}
+	}
+
+	const { data, isLoading, error } = useQuery({
+		queryKey: ["dashboardItems"],
+		queryFn: getQueryFunction(),
+		staleTime: 1000 * 60 * 5,
+		enabled: !!expanded,
+
+		refetchOnReconnect: true,
+		refetchOnWindowFocus: true,
+		refetchOnMount: true,
+	});
+
+	useEffect(() => {
+		if (!data?.success) return;
+
+		switch (expandedItem) {
+			case "notebooks":
+				updateNotebooks(data.notebooks);
+		}
+	}, [data]);
 
 	if (!expanded) return null;
 	if (!expandedItem) return null;
 
-	console.log(activeItemId, activeItemName, activeItemType, isEditNotebookFormVisible);
+	if (isLoading) {
+		return <div>Fetching notebooks</div>;
+	}
+
+	if (error) {
+		return <div>An error occurred while fetching notebooks</div>;
+	}
+
+	console.log(
+		activeItemId,
+		activeItemName,
+		activeItemType,
+		isEditNotebookFormVisible
+	);
 
 	return (
 		<>
@@ -223,11 +284,14 @@ function NavPanel() {
 
 					<Tooltip>
 						<TooltipTrigger asChild>
-							<button onClick={() => {
-								if (expandedItem === "notebooks") {
-									updateCreateNotebookFormVisiblity(true);
-								}
-							}} className="p-1 hover:bg-gray-300 hover:cursor-pointer rounded-md">
+							<button
+								onClick={() => {
+									if (expandedItem === "notebooks") {
+										updateCreateNotebookFormVisiblity(true);
+									}
+								}}
+								className="p-1 hover:bg-gray-300 hover:cursor-pointer rounded-md"
+							>
 								<AddIcon size={20} className="fill-gray-500" />
 							</button>
 						</TooltipTrigger>
@@ -253,16 +317,16 @@ function NavPanel() {
 				<AddNotebookButton />
 			</div>
 
-			{activeItemId && activeItemName && activeItemType === "notebook" && (
-				<>
-					<NotebookEditDialog />
-					<DeleteNotebookAlert />
-				</>
-			)}
+			{activeItemId &&
+				activeItemName &&
+				activeItemType === "notebook" && (
+					<>
+						<NotebookEditDialog />
+						<DeleteNotebookAlert />
+					</>
+				)}
 
-			{expandedItem === "notebooks" && (
-				<CreateNotebookDialog />
-			)}
+			{expandedItem === "notebooks" && <CreateNotebookDialog />}
 		</>
 	);
 }
