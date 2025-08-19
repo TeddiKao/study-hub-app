@@ -203,6 +203,37 @@ function AddNotebookButton() {
 	);
 }
 
+function ItemsContainer() {
+	const { expandedItem } = useDashboardNavbarState();
+	const { notebooks } = useNotebooksStore();
+
+	if (!expandedItem) return null;
+
+	function getItemList() {
+		switch (expandedItem) {
+			case "notebooks":
+				return notebooks;
+				
+			default:
+				throw new Error(`Invalid item ${expandedItem}`)
+		}
+	}
+
+	return (
+		<div className="flex flex-col">
+			{getItemList().map(({ id, name, notebookColor }) => (
+				<Item
+					key={id}
+					itemId={id}
+					itemName={name}
+					color={notebookColor}
+					itemType={expandedItemMap[expandedItem]}
+				/>
+			))}
+		</div>
+	);
+}
+
 function NavPanelContent() {
 	const { notebooks } = useNotebooksStore();
 	const { expandedItem } = useDashboardNavbarState();
@@ -241,18 +272,7 @@ function NavPanelContent() {
 				</Tooltip>
 			</div>
 
-			<div className="flex flex-col">
-				{notebooks.map(({ id, name, notebookColor }) => (
-					<Item
-						key={id}
-						itemId={id}
-						itemName={name}
-						color={notebookColor}
-						itemType={expandedItemMap[expandedItem]}
-					/>
-				))}
-			</div>
-
+			<ItemsContainer />
 			<AddNotebookButton />
 		</div>
 	);
