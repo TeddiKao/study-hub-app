@@ -319,13 +319,6 @@ function NavPanel() {
 		return <div>An error occurred while fetching notebooks</div>;
 	}
 
-	console.log(
-		activeItemId,
-		activeItemName,
-		activeItemType,
-		isEditNotebookFormVisible
-	);
-
 	return (
 		<>
 			<NavPanelContent />
