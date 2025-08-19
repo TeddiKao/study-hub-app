@@ -15,8 +15,8 @@ import {
 	useActiveItemStore,
 	useDashboardNavbarState,
 } from "@/shared/stores/dashboard.stores";
-import { useQueryClient } from "@tanstack/react-query";
-import type { MouseEvent } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, type MouseEvent } from "react";
 
 interface ItemProps {
 	itemId: number;
@@ -199,14 +199,51 @@ function AddNotebookButton() {
 
 function NavPanel() {
 	const { expanded, expandedItem } = useDashboardNavbarState();
-	const { notebooks } = useNotebooksStore();
+	const { notebooks, getNotebooks } = useNotebooksStore();
 	const { isFormVisible: isEditNotebookFormVisible } = useEditNotebookFormStore();
 	const { updateFormVisibility: updateCreateNotebookFormVisiblity } = useCreateNotebookFormStore();
 	const { activeItemId, activeItemName, activeItemType } =
 		useActiveItemStore();
 
+	function getQueryFunction() {
+		switch (expandedItem) {
+			case "notebooks":
+				return async () => {
+					try {
+						const notebooks = await getNotebooks();
+
+						return notebooks;
+					} catch (error) {
+						throw new Error("Error occured while fetching notebooks")
+					}
+				}
+
+			default:
+				console.error(`Invalid item ${expandedItem}`)
+		}
+	}
+
+	const { isLoading, error } = useQuery({
+		queryKey: ["dashboardItems"],
+		queryFn: getQueryFunction(),
+		staleTime: 1000 * 60 * 5,
+		enabled: !!expanded,
+
+		refetchOnReconnect: true,
+		refetchOnWindowFocus: true,
+		refetchOnMount: true,
+	});
+	
 	if (!expanded) return null;
 	if (!expandedItem) return null;
+
+	if (isLoading) {
+		return <div>Fetching notebooks</div>
+	}
+
+	if (error) {
+		return <div>An error occured while fetching notebooks</div>
+	}
 
 	console.log(activeItemId, activeItemName, activeItemType, isEditNotebookFormVisible);
 
