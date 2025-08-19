@@ -16,7 +16,7 @@ import {
 	useDashboardNavbarState,
 } from "@/shared/stores/dashboard.stores";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, type MouseEvent } from "react";
+import { type MouseEvent } from "react";
 
 interface ItemProps {
 	itemId: number;
