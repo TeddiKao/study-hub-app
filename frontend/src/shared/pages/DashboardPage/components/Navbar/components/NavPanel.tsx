@@ -235,7 +235,6 @@ function ItemsContainer() {
 }
 
 function NavPanelContent() {
-	const { notebooks } = useNotebooksStore();
 	const { expandedItem } = useDashboardNavbarState();
 	const { updateFormVisibility: updateCreateNotebookFormVisibility } =
 		useCreateNotebookFormStore();
