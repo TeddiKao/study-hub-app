@@ -12,6 +12,7 @@ interface NotebookStore {
 	notebooks: Notebooks;
 
 	getNotebooks: () => Promise<Notebooks>;
+	updateNotebooks: (notebooks: Notebooks) => void;
 	handleNotebookCreate: (notebookData: CreateNotebookApiPayload) => Promise<void>;
 
 	handleNotebookEdit: (
@@ -33,6 +34,10 @@ const useNotebooksStore = create<NotebookStore>((set, get) => ({
 		set({ notebooks: notebookFetchResponse.notebooks });
 
 		return notebookFetchResponse.notebooks
+	},
+
+	updateNotebooks: (notebooks: Notebooks) => {
+		set({ notebooks: notebooks })
 	},
 
 	handleNotebookCreate: async (notebookData: CreateNotebookApiPayload) => {
