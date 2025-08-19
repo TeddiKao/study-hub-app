@@ -57,7 +57,7 @@ function CreateNotebookDialog() {
 
 	function onOpenChange(open: boolean) {
 		if (!open) {
-			updateFormVisibility(true);
+			updateFormVisibility(false);
 			enableActiveItemIdUpdate();
 		}
 	}
