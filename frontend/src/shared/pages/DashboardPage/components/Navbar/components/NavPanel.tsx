@@ -1,5 +1,9 @@
 import { Dialog } from "@/components/ui/dialog";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 import NotebookDialog from "@/features/notes/components/NotebookDialog";
 import { useCreateNotebookFormStore } from "@/features/notes/stores/createNotebookForm.stores";
 import { useDeleteNotebookAlertStore } from "@/features/notes/stores/deleteNotebookAlert.stores";
@@ -47,7 +51,8 @@ function NotebookEditDialog() {
 }
 
 function CreateNotebookDialog() {
-	const { isFormVisible, updateFormVisibility } = useCreateNotebookFormStore();
+	const { isFormVisible, updateFormVisibility } =
+		useCreateNotebookFormStore();
 	const { enableActiveItemIdUpdate } = useActiveItemStore();
 
 	function onOpenChange(open: boolean) {
@@ -61,7 +66,7 @@ function CreateNotebookDialog() {
 		<Dialog open={isFormVisible} onOpenChange={onOpenChange}>
 			<NotebookDialog mode="create" />
 		</Dialog>
-	)
+	);
 }
 
 function DeleteNotebookAlert() {
@@ -201,8 +206,10 @@ function AddNotebookButton() {
 function NavPanel() {
 	const { expanded, expandedItem } = useDashboardNavbarState();
 	const { notebooks, updateNotebooks } = useNotebooksStore();
-	const { isFormVisible: isEditNotebookFormVisible } = useEditNotebookFormStore();
-	const { updateFormVisibility: updateCreateNotebookFormVisiblity } = useCreateNotebookFormStore();
+	const { isFormVisible: isEditNotebookFormVisible } =
+		useEditNotebookFormStore();
+	const { updateFormVisibility: updateCreateNotebookFormVisiblity } =
+		useCreateNotebookFormStore();
 	const { activeItemId, activeItemName, activeItemType } =
 		useActiveItemStore();
 
@@ -215,9 +222,11 @@ function NavPanel() {
 
 						return notebooks;
 					} catch (error) {
-						throw new Error("Error occured while fetching notebooks")
+						throw new Error(
+							"Error occured while fetching notebooks"
+						);
 					}
-				}
+				};
 
 			default:
 				return async () => null;
@@ -238,21 +247,29 @@ function NavPanel() {
 	useEffect(() => {
 		if (!data?.success) return;
 
-		updateNotebooks(data.notebooks);
+		switch (expandedItem) {
+			case "notebooks":
+				updateNotebooks(data.notebooks);
+		}
 	}, [data]);
-	
+
 	if (!expanded) return null;
 	if (!expandedItem) return null;
 
 	if (isLoading) {
-		return <div>Fetching notebooks</div>
+		return <div>Fetching notebooks</div>;
 	}
 
 	if (error) {
-		return <div>An error occurred while fetching notebooks</div>
+		return <div>An error occurred while fetching notebooks</div>;
 	}
 
-	console.log(activeItemId, activeItemName, activeItemType, isEditNotebookFormVisible);
+	console.log(
+		activeItemId,
+		activeItemName,
+		activeItemType,
+		isEditNotebookFormVisible
+	);
 
 	return (
 		<>
@@ -267,11 +284,14 @@ function NavPanel() {
 
 					<Tooltip>
 						<TooltipTrigger asChild>
-							<button onClick={() => {
-								if (expandedItem === "notebooks") {
-									updateCreateNotebookFormVisiblity(true);
-								}
-							}} className="p-1 hover:bg-gray-300 hover:cursor-pointer rounded-md">
+							<button
+								onClick={() => {
+									if (expandedItem === "notebooks") {
+										updateCreateNotebookFormVisiblity(true);
+									}
+								}}
+								className="p-1 hover:bg-gray-300 hover:cursor-pointer rounded-md"
+							>
 								<AddIcon size={20} className="fill-gray-500" />
 							</button>
 						</TooltipTrigger>
@@ -297,16 +317,16 @@ function NavPanel() {
 				<AddNotebookButton />
 			</div>
 
-			{activeItemId && activeItemName && activeItemType === "notebook" && (
-				<>
-					<NotebookEditDialog />
-					<DeleteNotebookAlert />
-				</>
-			)}
+			{activeItemId &&
+				activeItemName &&
+				activeItemType === "notebook" && (
+					<>
+						<NotebookEditDialog />
+						<DeleteNotebookAlert />
+					</>
+				)}
 
-			{expandedItem === "notebooks" && (
-				<CreateNotebookDialog />
-			)}
+			{expandedItem === "notebooks" && <CreateNotebookDialog />}
 		</>
 	);
 }
