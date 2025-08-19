@@ -17,7 +17,7 @@ import {
 	useDashboardNavbarState,
 } from "@/shared/stores/dashboard.stores";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { type MouseEvent } from "react";
+import { useEffect, type MouseEvent } from "react";
 
 interface ItemProps {
 	itemId: number;
@@ -200,7 +200,7 @@ function AddNotebookButton() {
 
 function NavPanel() {
 	const { expanded, expandedItem } = useDashboardNavbarState();
-	const { notebooks, getNotebooks } = useNotebooksStore();
+	const { notebooks, updateNotebooks } = useNotebooksStore();
 	const { isFormVisible: isEditNotebookFormVisible } = useEditNotebookFormStore();
 	const { updateFormVisibility: updateCreateNotebookFormVisiblity } = useCreateNotebookFormStore();
 	const { activeItemId, activeItemName, activeItemType } =
@@ -224,7 +224,7 @@ function NavPanel() {
 		}
 	}
 
-	const { isLoading, error } = useQuery({
+	const { data, isLoading, error } = useQuery({
 		queryKey: ["dashboardItems"],
 		queryFn: getQueryFunction(),
 		staleTime: 1000 * 60 * 5,
@@ -234,6 +234,12 @@ function NavPanel() {
 		refetchOnWindowFocus: true,
 		refetchOnMount: true,
 	});
+
+	useEffect(() => {
+		if (!data?.success) return;
+
+		updateNotebooks(data.notebooks);
+	}, [data]);
 	
 	if (!expanded) return null;
 	if (!expandedItem) return null;
