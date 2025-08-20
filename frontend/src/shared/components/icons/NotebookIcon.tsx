@@ -1,13 +1,17 @@
+import { hasSizingClass } from "@/shared/utils/styles.utils";
+
 interface NotebookIconProps {
 	size?: number;
 	className?: string;
 }
 
 function NotebookIcon({ size = 16, className }: NotebookIconProps) {
+	console.log(className);
+
 	return (
 		<svg
-			width={size}
-			height={size}
+			width={hasSizingClass(className) ? undefined : size}
+			height={hasSizingClass(className) ? undefined : size}
 			viewBox="0 0 24 24"
 			fill="currentColor"
 			xmlns="http://www.w3.org/2000/svg"
