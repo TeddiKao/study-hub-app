@@ -221,7 +221,7 @@ function NotebooksPage() {
 							notebookName={name}
 							notebookColor={notebookColor}
 							notebookId={id}
-							key={name}
+							key={id}
 						/>
 					))}
 				</div>
