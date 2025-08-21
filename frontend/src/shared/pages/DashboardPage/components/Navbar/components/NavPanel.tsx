@@ -310,7 +310,7 @@ function NavPanel() {
 	}
 
 	const { data, isLoading, error } = useQuery({
-		queryKey: ["dashboardItems"],
+		queryKey: ["dashboardItems", expandedItem],
 		queryFn: getQueryFunction(),
 		staleTime: 1000 * 60 * 5,
 		enabled: !!expanded,
