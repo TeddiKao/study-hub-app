@@ -1,5 +1,6 @@
 import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import NotebookForm from "./NotebookForm";
+import { isNullOrUndefined } from "@/shared/utils/types.utils";
 
 interface NotebookDialogProps {
 	notebookId?: number;
@@ -12,6 +13,10 @@ function NotebookDialog({ notebookId, mode }: NotebookDialogProps) {
 		mode === "create"
 			? "Create a notebook here"
 			: "Make changes to an existing notebook";
+
+	if (mode === "edit" && isNullOrUndefined(notebookId)) {
+		throw new Error("NotebookDialog: notebookId is required in edit mode");
+	}
     
     return (
 		<DialogContent>
@@ -20,7 +25,11 @@ function NotebookDialog({ notebookId, mode }: NotebookDialogProps) {
 				<DialogDescription>{dialogDescription}</DialogDescription>
 			</DialogHeader>
 
-			<NotebookForm mode={mode} notebookId={notebookId} />
+			{mode === "create" ? (
+				<NotebookForm mode="create" />
+			) : (
+				<NotebookForm mode="edit" notebookId={notebookId!} />
+			)}
 		</DialogContent>
 	);
 }
