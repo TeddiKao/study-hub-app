@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import useIsAuthenticated from "../../hooks/useIsAuthenticated";
 
 interface AuthRouteProps {
@@ -13,7 +13,7 @@ function AuthRoute({ children }: AuthRouteProps) {
 		return <div>Loading</div>;
 	}
 
-	return isAuthenticated ? <Navigate to="/home" /> : children;
+	return isAuthenticated ? <Navigate to="/home" /> : <Outlet />;
 }
 
 export default AuthRoute;

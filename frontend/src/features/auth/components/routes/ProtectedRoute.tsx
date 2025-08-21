@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import useIsAuthenticated from "../../hooks/useIsAuthenticated";
 
 interface ProtectedRouteProps {
@@ -13,7 +13,7 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
 		return <div>Loading</div>;
 	}
 
-	return isAuthenticated ? children : <Navigate to={"/login"} />;
+	return isAuthenticated ? <Outlet /> : <Navigate to={"/login"} />;
 }
 
 export default ProtectedRoute;
