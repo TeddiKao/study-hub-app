@@ -299,7 +299,7 @@ function NavPanel() {
 						return notebooks;
 					} catch (error) {
 						throw new Error(
-							"Error occured while fetching notebooks"
+							"Error occurred while fetching notebooks"
 						);
 					}
 				};
