@@ -144,7 +144,7 @@ function Notebook({ notebookName, notebookId }: NotebookProps) {
 				<NotebookIcon size={20} />
 			</div>
 
-			<div className="flex flex-col ml-3 mr-1">
+			<div className="flex flex-col ml-3 mr-3">
 				<p className="font-semibold text-left">{notebookName}</p>
 
 				<div className="flex flex-row justify-between items-center">
