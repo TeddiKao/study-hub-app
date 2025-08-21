@@ -138,7 +138,7 @@ function Notebook({ notebookName, notebookId }: NotebookProps) {
 		<div
 			aria-label="open-notebook-button"
 			role="button"
-			className="flex flex-row p-3 bg-white rounded-2xl shadow-xl items-center"
+			className="flex flex-row py-3 pl-3 pr-2 bg-white rounded-2xl shadow-xl items-center"
 		>
 			<div className="p-1 w-max h-max rounded-md bg-gray-300">
 				<NotebookIcon size={20} />
