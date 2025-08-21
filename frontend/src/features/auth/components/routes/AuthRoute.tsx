@@ -8,7 +8,7 @@ function AuthRoute() {
 		return <div>Loading</div>;
 	}
 
-	return isAuthenticated ? <Navigate to="/home" /> : <Outlet />;
+	return isAuthenticated ? <Navigate replace to="/home" /> : <Outlet />;
 }
 
 export default AuthRoute;
