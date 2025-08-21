@@ -102,8 +102,8 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 							<KebabMenuIcon size={20} />
 						</button>
 					</DropdownMenuTrigger>
-
-					<DropdownMenuContent side="right">
+ 
+					<DropdownMenuContent side="right" align="start" alignOffset={-8}>
 						<DropdownMenuItem asChild>
 							<DialogTrigger
 								onClick={() => {
