@@ -18,41 +18,15 @@ function App() {
 		<QueryClientProvider client={queryClient}>
 			<BrowserRouter>
 				<Routes>
-					<Route
-						path="/login"
-						element={
-							<AuthRoute>
-								<LoginPage />
-							</AuthRoute>
-						}
-					/>
+					<Route element={<AuthRoute />}>
+						<Route path="/login" element={<LoginPage />} />
+						<Route path="/signup" element={<SignupPage />} />
+					</Route>
 
-					<Route
-						path="/signup"
-						element={
-							<AuthRoute>
-								<SignupPage />
-							</AuthRoute>
-						}
-					/>
-
-					<Route
-						path="/home"
-						element={
-							<ProtectedRoute>
-								<DashboardPage />
-							</ProtectedRoute>
-						}
-					/>
-
-					<Route
-						path="/notebooks"
-						element={
-							<ProtectedRoute>
-								<NotebooksPage />
-							</ProtectedRoute>
-						}
-					/>
+					<Route element={<ProtectedRoute />}>
+						<Route path="/home" element={<DashboardPage />} />
+						<Route path="/notebooks" element={<NotebooksPage />} />
+					</Route>
 
 					<Route path="/logout" element={<LogoutRoute />} />
 				</Routes>

@@ -1,19 +1,15 @@
-import { type ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import useIsAuthenticated from "../../hooks/useIsAuthenticated";
 
-interface AuthRouteProps {
-	children: ReactNode;
-}
-
-function AuthRoute({ children }: AuthRouteProps) {
+function AuthRoute() {
 	const isAuthenticated = useIsAuthenticated();
+	const location = useLocation();
 
 	if (isAuthenticated === null) {
 		return <div>Loading</div>;
 	}
 
-	return isAuthenticated ? <Navigate to="/home" /> : children;
+	return isAuthenticated ? <Navigate state={{ from: location }} replace to="/home" /> : <Outlet />;
 }
 
 export default AuthRoute;

@@ -5,7 +5,7 @@ import {
 	useAuthStatusStore,
 } from "../stores/authForm.stores";
 import { handleUserCreation, handleUserLogin } from "../utils/auth.services";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import formatErrorMessage from "../utils/authErrors";
 import ErrorAlert from "@/shared/components/alerts/ErrorAlert";
 import {
@@ -115,6 +115,9 @@ function AuthFormSubmitButton({ authMethod }: AuthFormSubmitButtonProps) {
 }
 
 function AuthForm({ authMethod }: AuthFormProps) {
+	const location = useLocation();
+	const redirectRoute = location.state?.from.pathname ?? "/home";
+
 	const { email, username, password, clearAllFields, clearPassword } =
 		useAuthCredentialsStore((state) => state);
 	const { updateErrors, general: generalErrors } = useAuthErrorsStore();
@@ -216,7 +219,7 @@ function AuthForm({ authMethod }: AuthFormProps) {
 		updateAccessToken(response.accessToken);
 		updateRefreshToken(response.refreshToken);
 
-		navigate("/home");
+		navigate(redirectRoute, { replace: true });
 	}
 
 	async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
