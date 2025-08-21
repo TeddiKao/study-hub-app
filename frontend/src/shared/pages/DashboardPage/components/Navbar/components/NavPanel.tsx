@@ -221,7 +221,7 @@ function ItemsContainer() {
 				return notebooks;
 				
 			default:
-				throw new Error(`Invalid item ${expandedItem}`)
+				return [];
 		}
 	}
 
