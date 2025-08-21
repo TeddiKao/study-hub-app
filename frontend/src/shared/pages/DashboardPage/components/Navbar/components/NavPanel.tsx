@@ -15,6 +15,7 @@ import AddIcon from "@/shared/components/icons/AddIcon";
 import EditIcon from "@/shared/components/icons/EditIcon";
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import TrashIcon from "@/shared/components/icons/TrashIcon";
+import { expandedItemLinkMap } from "@/shared/constants/expandedItemLinkMap.constants";
 import { expandedItemMap } from "@/shared/constants/expandedItemMap.constants";
 import {
 	useActiveItemStore,
@@ -22,12 +23,18 @@ import {
 } from "@/shared/stores/dashboard.stores";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, type MouseEvent } from "react";
+import { Link } from "react-router-dom";
 
 interface ItemProps {
 	itemId: number;
 	itemType: string;
 	itemName: string;
 	color: string;
+}
+
+interface ViewAllItemsButtonProps {
+	link: string;
+	label: string;
 }
 
 function NotebookEditDialog() {
@@ -194,12 +201,11 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 	);
 }
 
-function AddNotebookButton() {
+function ViewAllItemsButton({ link, label }: ViewAllItemsButtonProps) {
 	return (
-		<button className="flex flex-row items-center px-1 py-2 rounded-md hover:cursor-pointer hover:bg-gray-300">
-			<AddIcon size={16} className="fill-sky-500" />
-			<p className="text-sky-500 ml-1">Add notebook</p>
-		</button>
+		<Link to={link} className="flex flex-row items-center px-1 py-2 rounded-md hover:cursor-pointer hover:bg-gray-300">
+			<p className="text-sky-500 ml-1">{label}</p>
+		</Link>
 	);
 }
 
@@ -272,7 +278,7 @@ function NavPanelContent() {
 			</div>
 
 			<ItemsContainer />
-			<AddNotebookButton />
+			<ViewAllItemsButton link={expandedItemLinkMap[expandedItem]} label={`View all ${expandedItem}`} />
 		</div>
 	);
 }
