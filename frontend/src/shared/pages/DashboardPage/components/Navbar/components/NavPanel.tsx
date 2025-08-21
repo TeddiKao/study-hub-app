@@ -15,6 +15,7 @@ import AddIcon from "@/shared/components/icons/AddIcon";
 import EditIcon from "@/shared/components/icons/EditIcon";
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import TrashIcon from "@/shared/components/icons/TrashIcon";
+import { expandedItemLinkMap } from "@/shared/constants/expandedItemLinkMap.constants";
 import { expandedItemMap } from "@/shared/constants/expandedItemMap.constants";
 import {
 	useActiveItemStore,
@@ -277,7 +278,7 @@ function NavPanelContent() {
 			</div>
 
 			<ItemsContainer />
-			<ViewAllItemsButton />
+			<ViewAllItemsButton link={expandedItemLinkMap[expandedItem]} label={`View all ${expandedItem}`} />
 		</div>
 	);
 }
