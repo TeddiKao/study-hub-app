@@ -6,10 +6,12 @@ interface NotebookIconProps {
 }
 
 function NotebookIcon({ size = 16, className }: NotebookIconProps) {
+	const sizedUsingClass = hasSizingClass(className)
+
 	return (
 		<svg
-			width={hasSizingClass(className) ? undefined : size}
-			height={hasSizingClass(className) ? undefined : size}
+			width={sizedUsingClass ? undefined : size}
+			height={sizedUsingClass ? undefined : size}
 			viewBox="0 0 24 24"
 			fill="currentColor"
 			xmlns="http://www.w3.org/2000/svg"
