@@ -215,7 +215,7 @@ function NotebooksPage() {
 					</Dialog>
 				</div>
 
-				<div className="grid grid-cols-5 gap-4 mt-2">
+				<div className="grid grid-cols-4 gap-4 mt-2 pr-8">
 					{notebooks.map(({ name, id, notebookColor }) => (
 						<Notebook
 							notebookName={name}
