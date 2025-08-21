@@ -24,24 +24,6 @@ function App() {
 					</Route>
 
 					<Route
-						path="/login"
-						element={
-							<AuthRoute>
-								<LoginPage />
-							</AuthRoute>
-						}
-					/>
-
-					<Route
-						path="/signup"
-						element={
-							<AuthRoute>
-								<SignupPage />
-							</AuthRoute>
-						}
-					/>
-
-					<Route
 						path="/home"
 						element={
 							<ProtectedRoute>
