@@ -194,11 +194,10 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 	);
 }
 
-function AddNotebookButton() {
+function ViewAllNotebooksButton() {
 	return (
 		<button className="flex flex-row items-center px-1 py-2 rounded-md hover:cursor-pointer hover:bg-gray-300">
-			<AddIcon size={16} className="fill-sky-500" />
-			<p className="text-sky-500 ml-1">Add notebook</p>
+			<p className="text-sky-500 ml-1">View all notebooks</p>
 		</button>
 	);
 }
@@ -272,7 +271,7 @@ function NavPanelContent() {
 			</div>
 
 			<ItemsContainer />
-			<AddNotebookButton />
+			<ViewAllNotebooksButton />
 		</div>
 	);
 }
