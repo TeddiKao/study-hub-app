@@ -138,21 +138,21 @@ function Notebook({ notebookName, notebookId }: NotebookProps) {
 		<div
 			aria-label="open-notebook-button"
 			role="button"
-			className="flex flex-col pb-2 bg-white rounded-2xl shadow-xl"
+			className="flex flex-row p-3 bg-white rounded-2xl shadow-xl items-center"
 		>
-			<div className="aspect-square w-full max-w-[180px] rounded-t-2xl bg-gray-100 flex flex-row items-center justify-center">
-				<NotebookIcon className="w-3/4 h-3/4" />
+			<div className="p-1 w-max h-max rounded-md bg-gray-300">
+				<NotebookIcon size={20} />
 			</div>
 
 			<div className="flex flex-col ml-3 mr-1">
-				<p className="font-semibold mt-2 text-left">{notebookName}</p>
+				<p className="font-semibold text-left">{notebookName}</p>
 
 				<div className="flex flex-row justify-between items-center">
 					<p className="text-gray-400 text-left">0 notes</p>
-
-					<NotebookDropdownMenu notebookId={notebookId} />
 				</div>
 			</div>
+
+			<NotebookDropdownMenu notebookId={notebookId} />
 		</div>
 	);
 }
