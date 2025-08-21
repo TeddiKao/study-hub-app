@@ -141,8 +141,8 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 function Notebook({ notebookName, notebookId, notebookColor }: NotebookProps) {
 	return (
 		<div
-			aria-label="open-notebook-button"
-			role="button"
+			// aria-label="open-notebook-button"
+			// role="button"
 			className="flex flex-row py-3 pl-3 pr-2 bg-white rounded-2xl shadow-xl items-center"
 		>
 			<div
