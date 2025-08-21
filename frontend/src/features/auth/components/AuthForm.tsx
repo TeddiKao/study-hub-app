@@ -116,7 +116,7 @@ function AuthFormSubmitButton({ authMethod }: AuthFormSubmitButtonProps) {
 
 function AuthForm({ authMethod }: AuthFormProps) {
 	const location = useLocation();
-	const redirectRoute = location.state?.from ?? "/home";
+	const redirectRoute = location.state?.from.pathname ?? "/home";
 
 	const { email, username, password, clearAllFields, clearPassword } =
 		useAuthCredentialsStore((state) => state);
