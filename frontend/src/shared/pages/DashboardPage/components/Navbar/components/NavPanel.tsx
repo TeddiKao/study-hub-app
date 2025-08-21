@@ -31,6 +31,11 @@ interface ItemProps {
 	color: string;
 }
 
+interface ViewAllItemsButtonProps {
+	link: string;
+	label: string;
+}
+
 function NotebookEditDialog() {
 	const { isFormVisible, updateFormVisibility } = useEditNotebookFormStore();
 	const { activeItemId, enableActiveItemIdUpdate } = useActiveItemStore();
@@ -195,10 +200,10 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 	);
 }
 
-function ViewAllNotebooksButton() {
+function ViewAllItemsButton({ link, label }: ViewAllItemsButtonProps) {
 	return (
-		<Link to="/notebooks" className="flex flex-row items-center px-1 py-2 rounded-md hover:cursor-pointer hover:bg-gray-300">
-			<p className="text-sky-500 ml-1">View all notebooks</p>
+		<Link to={link} className="flex flex-row items-center px-1 py-2 rounded-md hover:cursor-pointer hover:bg-gray-300">
+			<p className="text-sky-500 ml-1">{label}</p>
 		</Link>
 	);
 }
@@ -272,7 +277,7 @@ function NavPanelContent() {
 			</div>
 
 			<ItemsContainer />
-			<ViewAllNotebooksButton />
+			<ViewAllItemsButton />
 		</div>
 	);
 }
