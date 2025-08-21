@@ -1,7 +1,9 @@
+const SIZING_CLASS_REGEX = /(?:^|[\s:])(?:w-|h-|size-)/;
+
 function hasSizingClass(className?: string) {
     if (!className) return false;
 
-    const hasSizing = className.match(/\b(w-|h-)/);
+    const hasSizing = SIZING_CLASS_REGEX.test(className);
 
     return hasSizing;
 }
