@@ -22,6 +22,7 @@ import {
 } from "@/shared/stores/dashboard.stores";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, type MouseEvent } from "react";
+import { Link } from "react-router-dom";
 
 interface ItemProps {
 	itemId: number;
@@ -196,9 +197,9 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 
 function ViewAllNotebooksButton() {
 	return (
-		<button className="flex flex-row items-center px-1 py-2 rounded-md hover:cursor-pointer hover:bg-gray-300">
+		<Link to="/notebooks" className="flex flex-row items-center px-1 py-2 rounded-md hover:cursor-pointer hover:bg-gray-300">
 			<p className="text-sky-500 ml-1">View all notebooks</p>
-		</button>
+		</Link>
 	);
 }
 
