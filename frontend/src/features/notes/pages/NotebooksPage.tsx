@@ -30,6 +30,7 @@ import NotebookDialog from "../components/NotebookDialog";
 interface NotebookProps {
 	notebookName: string;
 	notebookId: number;
+	notebookColor: string;
 }
 
 interface NotebookDropdownMenuProps {
@@ -102,15 +103,19 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 							<KebabMenuIcon size={20} />
 						</button>
 					</DropdownMenuTrigger>
- 
-					<DropdownMenuContent side="right" align="start" alignOffset={-8}>
+
+					<DropdownMenuContent
+						side="right"
+						align="start"
+						alignOffset={-8}
+					>
 						<DropdownMenuItem asChild>
 							<DialogTrigger
 								onClick={() => {
 									updateActiveNotebookId(notebookId);
 									queryClient.invalidateQueries({
-										queryKey: ["notebookInfo", notebookId]
-									})
+										queryKey: ["notebookInfo", notebookId],
+									});
 								}}
 								className="w-full"
 							>
@@ -133,14 +138,17 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 	);
 }
 
-function Notebook({ notebookName, notebookId }: NotebookProps) {
+function Notebook({ notebookName, notebookId, notebookColor }: NotebookProps) {
 	return (
 		<div
 			aria-label="open-notebook-button"
 			role="button"
 			className="flex flex-row py-3 pl-3 pr-2 bg-white rounded-2xl shadow-xl items-center"
 		>
-			<div className="p-1 w-max h-max rounded-md bg-gray-300">
+			<div
+				style={{ backgroundColor: notebookColor }}
+				className="p-1 w-max h-max rounded-md bg-gray-300"
+			>
 				<NotebookIcon size={20} />
 			</div>
 
@@ -170,7 +178,8 @@ function CreateNotebookButton() {
 
 function NotebooksPage() {
 	const { notebooks, getNotebooks } = useNotebooksStore();
-	const { isFormVisible, updateFormVisibility } = useCreateNotebookFormStore();
+	const { isFormVisible, updateFormVisibility } =
+		useCreateNotebookFormStore();
 
 	const { isLoading, error } = useQuery<Notebooks, Error>({
 		queryKey: ["notebooks"],
@@ -207,9 +216,10 @@ function NotebooksPage() {
 				</div>
 
 				<div className="grid grid-cols-5 gap-4 mt-2">
-					{notebooks.map(({ name, id }) => (
+					{notebooks.map(({ name, id, notebookColor }) => (
 						<Notebook
 							notebookName={name}
+							notebookColor={notebookColor}
 							notebookId={id}
 							key={name}
 						/>
