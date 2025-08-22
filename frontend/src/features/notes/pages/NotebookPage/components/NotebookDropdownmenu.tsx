@@ -1,3 +1,7 @@
+interface NotebookDropdownMenuProps {
+	notebookId: number;
+}
+
 function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 	const {
 		isFormVisible,
