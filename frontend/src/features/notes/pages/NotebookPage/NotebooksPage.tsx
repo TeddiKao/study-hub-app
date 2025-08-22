@@ -26,6 +26,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useEditNotebookFormStore } from "../../stores/editNotebookForm.stores";
 import NotebookDialog from "../../components/NotebookDialog";
+import NotebookDropdownMenu from "./components/NotebookDropdownmenu";
+import NotebookCard from "./components/NotebookCard";
 
 interface NotebookProps {
 	notebookName: string;
@@ -35,136 +37,6 @@ interface NotebookProps {
 
 interface NotebookDropdownMenuProps {
 	notebookId: number;
-}
-
-interface DeleteNotebookAlertDialog {
-	notebookId: number;
-}
-
-function DeleteNotebookAlertDialog({ notebookId }: DeleteNotebookAlertDialog) {
-	const { handleNotebookDelete } = useNotebooksStore();
-
-	return (
-		<AlertDialogContent>
-			<AlertDialogHeader>
-				<AlertDialogTitle>Delete notebook?</AlertDialogTitle>
-				<AlertDialogDescription>
-					This will permanently delete your notebook. This cannot be
-					undone
-				</AlertDialogDescription>
-			</AlertDialogHeader>
-
-			<AlertDialogFooter>
-				<AlertDialogCancel className="hover:cursor-pointer">
-					Cancel
-				</AlertDialogCancel>
-				<AlertDialogAction
-					onClick={async () => {
-						try {
-							await handleNotebookDelete(notebookId);
-						} catch (error) {
-							console.error(error);
-						}
-					}}
-					className="bg-red-500 hover:bg-red-900 hover:cursor-pointer"
-				>
-					Delete
-				</AlertDialogAction>
-			</AlertDialogFooter>
-		</AlertDialogContent>
-	);
-}
-
-function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
-	const {
-		isFormVisible,
-		updateFormVisibility,
-		activeNotebookId,
-		updateActiveNotebookId,
-	} = useEditNotebookFormStore();
-
-	const queryClient = useQueryClient();
-
-	const isNotebookActive = notebookId === activeNotebookId;
-
-	return (
-		<Dialog
-			open={isFormVisible && isNotebookActive}
-			onOpenChange={updateFormVisibility}
-		>
-			<AlertDialog>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<button
-							type="button"
-							aria-label="Notebook actions"
-							className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300"
-						>
-							<KebabMenuIcon size={20} />
-						</button>
-					</DropdownMenuTrigger>
-
-					<DropdownMenuContent
-						side="right"
-						align="start"
-						alignOffset={-8}
-					>
-						<DropdownMenuItem asChild>
-							<DialogTrigger
-								onClick={() => {
-									updateActiveNotebookId(notebookId);
-									queryClient.invalidateQueries({
-										queryKey: ["notebookInfo", notebookId],
-									});
-								}}
-								className="w-full"
-							>
-								Edit
-							</DialogTrigger>
-						</DropdownMenuItem>
-						<DropdownMenuItem asChild variant="destructive">
-							<AlertDialogTrigger className="w-full">
-								Delete
-							</AlertDialogTrigger>
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
-
-				<DeleteNotebookAlertDialog notebookId={notebookId} />
-			</AlertDialog>
-
-			<NotebookDialog mode="edit" notebookId={notebookId} />
-		</Dialog>
-	);
-}
-
-function Notebook({ notebookName, notebookId, notebookColor }: NotebookProps) {
-	return (
-		<div
-			// aria-label="open-notebook-button"
-			// role="button"
-			className="flex flex-row py-3 pl-3 pr-2 bg-white rounded-2xl shadow-xl items-center"
-		>
-			<div
-				style={{ backgroundColor: notebookColor }}
-				className="p-1 w-max h-max rounded-md bg-gray-300"
-			>
-				<NotebookIcon size={20} />
-			</div>
-
-			<div className="flex flex-col flex-1 min-w-0 ml-3 mr-3">
-				<p className="font-semibold text-left break-words">
-					{notebookName}
-				</p>
-
-				<div className="flex flex-row justify-between items-center">
-					<p className="text-gray-400 text-left">0 notes</p>
-				</div>
-			</div>
-
-			<NotebookDropdownMenu notebookId={notebookId} />
-		</div>
-	);
 }
 
 function CreateNotebookButton() {
@@ -219,7 +91,7 @@ function NotebooksPage() {
 
 				<div className="grid grid-cols-4 gap-4 mt-2 pr-8">
 					{notebooks.map(({ name, id, notebookColor }) => (
-						<Notebook
+						<NotebookCard
 							notebookName={name}
 							notebookColor={notebookColor}
 							notebookId={id}
