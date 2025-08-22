@@ -1,3 +1,5 @@
+import { DialogTrigger } from "@/components/ui/dialog";
+
 function CreateNotebookButton() {
 	return (
 		<DialogTrigger asChild>
