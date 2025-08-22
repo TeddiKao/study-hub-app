@@ -1,32 +1,10 @@
-import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import Navbar from "@/shared/pages/DashboardPage/components/Navbar/Navbar";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useNotebooksStore } from "../../stores/notebooks.stores";
 import type { Notebooks } from "../../types/notebooks/notebookStore.types";
-import AddIcon from "@/shared/components/icons/AddIcon";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog } from "@/components/ui/dialog";
 import { useCreateNotebookFormStore } from "../../stores/createNotebookForm.stores";
-import KebabMenuIcon from "@/shared/components/icons/KebabMenuIcon";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
-	AlertDialogDescription,
-} from "@/components/ui/alert-dialog";
-import { useEditNotebookFormStore } from "../../stores/editNotebookForm.stores";
 import NotebookDialog from "../../components/NotebookDialog";
-import NotebookDropdownMenu from "./components/NotebookDropdownmenu";
 import NotebookCard from "./components/NotebookCard";
 import CreateNotebookButton from "./components/CreateNotebookButton";
 
