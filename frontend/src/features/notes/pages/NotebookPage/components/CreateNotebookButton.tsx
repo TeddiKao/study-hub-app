@@ -1,4 +1,5 @@
 import { DialogTrigger } from "@/components/ui/dialog";
+import AddIcon from "@/shared/components/icons/AddIcon";
 
 function CreateNotebookButton() {
 	return (
