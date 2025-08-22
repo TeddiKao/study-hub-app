@@ -5,12 +5,11 @@ import type { Notebooks } from "../../types/notebooks/notebookStore.types";
 import { Dialog } from "@/components/ui/dialog";
 import { useCreateNotebookFormStore } from "../../stores/createNotebookForm.stores";
 import NotebookDialog from "../../components/NotebookDialog";
-import NotebookCard from "./components/NotebookCard";
 import CreateNotebookButton from "./components/CreateNotebookButton";
 import NotebookGrid from "./components/NotebookGrid";
 
 function NotebooksPage() {
-	const { notebooks, getNotebooks } = useNotebooksStore();
+	const { getNotebooks } = useNotebooksStore();
 	const { isFormVisible, updateFormVisibility } =
 		useCreateNotebookFormStore();
 
