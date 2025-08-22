@@ -30,16 +30,6 @@ import NotebookDropdownMenu from "./components/NotebookDropdownmenu";
 import NotebookCard from "./components/NotebookCard";
 import CreateNotebookButton from "./components/CreateNotebookButton";
 
-interface NotebookProps {
-	notebookName: string;
-	notebookId: number;
-	notebookColor: string;
-}
-
-interface NotebookDropdownMenuProps {
-	notebookId: number;
-}
-
 function NotebooksPage() {
 	const { notebooks, getNotebooks } = useNotebooksStore();
 	const { isFormVisible, updateFormVisibility } =
