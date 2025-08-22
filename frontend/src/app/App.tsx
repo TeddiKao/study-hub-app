@@ -9,7 +9,7 @@ import ProtectedRoute from "@/features/auth/components/routes/ProtectedRoute";
 import DashboardPage from "@/shared/pages/DashboardPage/DashboardPage";
 import LogoutRoute from "@/features/auth/pages/LogoutRoute";
 import AuthRoute from "@/features/auth/components/routes/AuthRoute";
-import NotebooksPage from "@/features/notes/pages/NotebooksPage";
+import NotebooksPage from "@/features/notes/pages/NotebookPage/NotebooksPage";
 
 export const queryClient = new QueryClient();
 
