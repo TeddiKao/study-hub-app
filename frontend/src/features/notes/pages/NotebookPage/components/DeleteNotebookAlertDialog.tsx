@@ -1,3 +1,5 @@
+import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
+
 function DeleteNotebookAlertDialog({ notebookId }: DeleteNotebookAlertDialog) {
 	const { handleNotebookDelete } = useNotebooksStore();
 
