@@ -7,6 +7,7 @@ import { useCreateNotebookFormStore } from "../../stores/createNotebookForm.stor
 import NotebookDialog from "../../components/NotebookDialog";
 import NotebookCard from "./components/NotebookCard";
 import CreateNotebookButton from "./components/CreateNotebookButton";
+import NotebookGrid from "./components/NotebookGrid";
 
 function NotebooksPage() {
 	const { notebooks, getNotebooks } = useNotebooksStore();
@@ -47,16 +48,7 @@ function NotebooksPage() {
 					</Dialog>
 				</div>
 
-				<div className="grid grid-cols-4 gap-4 mt-2 pr-8">
-					{notebooks.map(({ name, id, notebookColor }) => (
-						<NotebookCard
-							notebookName={name}
-							notebookColor={notebookColor}
-							notebookId={id}
-							key={id}
-						/>
-					))}
-				</div>
+				<NotebookGrid />
 			</div>
 		</div>
 	);
