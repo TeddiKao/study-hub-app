@@ -32,3 +32,4 @@ function DeleteNotebookAlertDialog({ notebookId }: DeleteNotebookAlertDialog) {
 	);
 }
 
+export default DeleteNotebookAlertDialog;
