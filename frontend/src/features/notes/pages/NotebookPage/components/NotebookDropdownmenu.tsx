@@ -5,6 +5,7 @@ import NotebookDialog from "@/features/notes/components/NotebookDialog";
 import { useEditNotebookFormStore } from "@/features/notes/stores/editNotebookForm.stores";
 import KebabMenuIcon from "@/shared/components/icons/KebabMenuIcon";
 import { useQueryClient } from "@tanstack/react-query";
+import DeleteNotebookAlertDialog from "./DeleteNotebookAlertDialog";
 
 interface NotebookDropdownMenuProps {
 	notebookId: number;

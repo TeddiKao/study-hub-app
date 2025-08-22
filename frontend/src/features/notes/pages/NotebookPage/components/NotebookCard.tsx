@@ -1,4 +1,5 @@
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
+import NotebookDropdownMenu from "./NotebookDropdownmenu";
 
 interface NotebookProps {
 	notebookName: string;
