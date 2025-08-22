@@ -1,3 +1,4 @@
+import { AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
 
 function DeleteNotebookAlertDialog({ notebookId }: DeleteNotebookAlertDialog) {
