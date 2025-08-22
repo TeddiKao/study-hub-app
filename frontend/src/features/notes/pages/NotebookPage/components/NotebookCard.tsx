@@ -1,3 +1,9 @@
+interface NotebookProps {
+	notebookName: string;
+	notebookId: number;
+	notebookColor: string;
+}
+
 function NotebookCard({ notebookName, notebookId, notebookColor }: NotebookProps) {
 	return (
 		<div
