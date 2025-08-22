@@ -1,3 +1,5 @@
+import NotebookIcon from "@/shared/components/icons/NotebookIcon";
+
 interface NotebookProps {
 	notebookName: string;
 	notebookId: number;
