@@ -7,6 +7,7 @@ import { useCreateNotebookFormStore } from "../../stores/createNotebookForm.stor
 import NotebookDialog from "../../components/NotebookDialog";
 import CreateNotebookButton from "./components/CreateNotebookButton";
 import NotebookGrid from "./components/NotebookGrid";
+import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
 
 function NotebooksPage() {
 	const { getNotebooks } = useNotebooksStore();
@@ -32,24 +33,26 @@ function NotebooksPage() {
 	}
 
 	return (
-		<div className="flex flex-row gap-4">
-			<Navbar />
-			<div className="flex flex-col">
-				<div className="flex flex-row mt-3 gap-4">
-					<h1 className="font-bold text-3xl">Notebooks</h1>
+		<DashboardLayout>
+			<div className="flex flex-row gap-4">
+				<Navbar />
+				<div className="flex flex-col">
+					<div className="flex flex-row mt-3 gap-4">
+						<h1 className="font-bold text-3xl">Notebooks</h1>
 
-					<Dialog
-						open={isFormVisible}
-						onOpenChange={updateFormVisibility}
-					>
-						<CreateNotebookButton />
-						<NotebookDialog mode="create" />
-					</Dialog>
+						<Dialog
+							open={isFormVisible}
+							onOpenChange={updateFormVisibility}
+						>
+							<CreateNotebookButton />
+							<NotebookDialog mode="create" />
+						</Dialog>
+					</div>
+
+					<NotebookGrid />
 				</div>
-
-				<NotebookGrid />
 			</div>
-		</div>
+		</DashboardLayout>
 	);
 }
 
