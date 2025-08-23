@@ -1,10 +1,5 @@
-from django.urls import path
-from .views.notebook_views import CreateNotebookEndpoint, FetchNotebooksEndpoint, DeleteNotebookEndpoint, EditNotebookEndpoint, RetrieveNotebookEndpoint
+from django.urls import path, include
 
 urlpatterns = [
-    path("notebooks/", FetchNotebooksEndpoint.as_view(), name="fetch_notebooks"),
-    path("notebook/create/", CreateNotebookEndpoint.as_view(), name="create_notebook"),
-    path("notebook/<int:pk>/", RetrieveNotebookEndpoint.as_view(), name="retrieve_notebook"),
-    path("notebook/<int:pk>/edit/", EditNotebookEndpoint.as_view(), name="edit_notebook"),
-    path("notebook/<int:pk>/delete/", DeleteNotebookEndpoint.as_view(), name="delete_notebook")
+    path("notebooks/", include("note_taking.urls.notebook_urls"))
 ]
