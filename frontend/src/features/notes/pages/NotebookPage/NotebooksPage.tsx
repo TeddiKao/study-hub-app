@@ -33,24 +33,21 @@ function NotebooksPage() {
 	}
 
 	return (
-		<DashboardLayout>
-			<div className="flex flex-row gap-4">
-				<Navbar />
-				<div className="flex flex-col">
-					<div className="flex flex-row mt-3 gap-4">
-						<h1 className="font-bold text-3xl">Notebooks</h1>
+		<DashboardLayout className="gap-4">
+			<div className="flex flex-col">
+				<div className="flex flex-row mt-3 gap-4">
+					<h1 className="font-bold text-3xl">Notebooks</h1>
 
-						<Dialog
-							open={isFormVisible}
-							onOpenChange={updateFormVisibility}
-						>
-							<CreateNotebookButton />
-							<NotebookDialog mode="create" />
-						</Dialog>
-					</div>
-
-					<NotebookGrid />
+					<Dialog
+						open={isFormVisible}
+						onOpenChange={updateFormVisibility}
+					>
+						<CreateNotebookButton />
+						<NotebookDialog mode="create" />
+					</Dialog>
 				</div>
+
+				<NotebookGrid />
 			</div>
 		</DashboardLayout>
 	);
