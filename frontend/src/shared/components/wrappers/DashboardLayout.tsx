@@ -15,10 +15,8 @@ function Content({ children }: ContentProps) {
 }
 
 function DashboardLayout({ children, className = "" }: DashboardLayoutProps) {
-	const baseClasses = "flex flex-row h-screen overflow-hidden"
-    
     return (
-		<div className={cn(baseClasses, className)}>
+		<div className={cn("flex flex-row h-screen overflow-hidden", className)}>
 			<Navbar />
 			<Content>{children}</Content>
 		</div>
