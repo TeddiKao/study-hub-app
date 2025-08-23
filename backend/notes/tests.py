@@ -19,6 +19,13 @@ class NotebooksTestCase(TestCase):
         self.assertRaises(IntegrityError, create_notebooks)
 
     def test_duplicate_notebooks_for_different_owners(self):
-        notebook1 = Notebook.objects.create(name="Notebook 1", description="Random description", owner=self.user1)
-        notebook2 = Notebook.objects.create(name="Notebook 1", description="Another description", owner=self.user2)
+        Notebook.objects.create(name="Notebook 1", description="Random description", owner=self.user1)
+        Notebook.objects.create(name="Notebook 1", description="Another description", owner=self.user2)
             
+        self.assertTrue(
+            Notebook.objects.filter(name="Notebook 1", owner=self.user1).exists()
+        )
+
+        self.assertTrue(
+            Notebook.objects.filter(name="Notebook 1", owner=self.user2).exists()
+        )
