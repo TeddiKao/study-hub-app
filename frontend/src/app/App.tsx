@@ -10,10 +10,26 @@ import DashboardPage from "@/shared/pages/DashboardPage/DashboardPage";
 import LogoutRoute from "@/features/auth/pages/LogoutRoute";
 import AuthRoute from "@/features/auth/components/routes/AuthRoute";
 import NotebooksPage from "@/features/notes/pages/NotebookPage/NotebooksPage";
+import { useEffect, useRef } from "react";
+import { handleTokenRefresh } from "@/features/auth/utils/authTokens.services";
 
 export const queryClient = new QueryClient();
 
 function App() {
+	const tokenRefreshIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+	useEffect(() => {
+		tokenRefreshIntervalRef.current = setInterval(async () => {
+			handleTokenRefresh();
+		}, 30 * 1000 * 0.8)
+
+		return () => {
+			if (!tokenRefreshIntervalRef.current) return;
+
+			clearInterval(tokenRefreshIntervalRef.current);
+		}
+	}, []);
+
 	return (
 		<QueryClientProvider client={queryClient}>
 			<BrowserRouter>
