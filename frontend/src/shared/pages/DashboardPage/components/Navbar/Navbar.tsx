@@ -3,7 +3,7 @@ import NavPanel from "./components/NavPanel";
 
 function Navbar() {
     return (
-        <nav className="flex flex-row shrink-0 h-screen overflow-y-auto" aria-label="Dashboard navigation bar">
+        <nav className="flex flex-row shrink-0 h-full" aria-label="Dashboard navigation bar">
             <NavIcons />
             <NavPanel />
         </nav>
