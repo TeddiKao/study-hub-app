@@ -10,30 +10,12 @@ import DashboardPage from "@/shared/pages/DashboardPage/DashboardPage";
 import LogoutRoute from "@/features/auth/pages/LogoutRoute";
 import AuthRoute from "@/features/auth/components/routes/AuthRoute";
 import NotebooksPage from "@/features/notes/pages/NotebookPage/NotebooksPage";
-import { useEffect, useRef } from "react";
-import { handleTokenRefresh } from "@/features/auth/utils/authTokens.services";
-import { useAuthTokensStore } from "@/features/auth/stores/authTokens.stores";
+import useTokenRefreshInterval from "@/features/auth/hooks/useTokenRefreshInterval";
 
 export const queryClient = new QueryClient();
 
 function App() {
-	const tokenRefreshIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
-	const { updateAccessToken } = useAuthTokensStore();
-
-	useEffect(() => {
-		tokenRefreshIntervalRef.current = setInterval(async () => {
-			const tokenRefreshResponse = await handleTokenRefresh();
-			if (!tokenRefreshResponse.success) return;
-
-			updateAccessToken(tokenRefreshResponse.access);
-		}, 30 * 1000 * 0.8)
-
-		return () => {
-			if (!tokenRefreshIntervalRef.current) return;
-
-			clearInterval(tokenRefreshIntervalRef.current);
-		}
-	}, []);
+	useTokenRefreshInterval();
 
 	return (
 		<QueryClientProvider client={queryClient}>
