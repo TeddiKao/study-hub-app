@@ -1,3 +1,3 @@
-from .notebook_models import Notebook
+from .notebook import Notebook
 
 __all__ = ["Notebook"]
