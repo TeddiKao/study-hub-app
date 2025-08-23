@@ -10,10 +10,13 @@ import DashboardPage from "@/shared/pages/DashboardPage/DashboardPage";
 import LogoutRoute from "@/features/auth/pages/LogoutRoute";
 import AuthRoute from "@/features/auth/components/routes/AuthRoute";
 import NotebooksPage from "@/features/notes/pages/NotebookPage/NotebooksPage";
+import useTokenRefreshInterval from "@/features/auth/hooks/useTokenRefreshInterval";
 
 export const queryClient = new QueryClient();
 
 function App() {
+	useTokenRefreshInterval();
+
 	return (
 		<QueryClientProvider client={queryClient}>
 			<BrowserRouter>
