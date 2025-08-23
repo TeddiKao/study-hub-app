@@ -1,3 +1,4 @@
-from .notebook_models import Notebook
+from .notebook import Notebook
+from .note import Note
 
-__all__ = ["Notebook"]
+__all__ = ["Notebook", "Note"]
