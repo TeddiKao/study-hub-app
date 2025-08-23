@@ -15,9 +15,8 @@ class NotebooksTestCase(TestCase):
     def test_duplicate_notebook_per_owner(self):
         Notebook.objects.create(name="Notebook 1", description="Random description", owner=self.user1)
 
-        with self.assertRaises(IntegrityError):
-            with transaction.atomic():
-                Notebook.objects.create(name="Notebook 1", description="Another description", owner=self.user1)
+        with self.assertRaises(IntegrityError), transaction.atomic():
+            Notebook.objects.create(name="Notebook 1", description="Another description", owner=self.user1)
 
         self.assertEqual(Notebook.objects.filter(owner=self.user1, name="Notebook 1").count(), 1)
 
