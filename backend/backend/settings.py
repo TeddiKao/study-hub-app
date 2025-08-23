@@ -73,7 +73,7 @@ INSTALLED_APPS = [
     "corsheaders",
 
     "authentication",
-    "notes"
+    "note_taking"
 ]
 
 AUTH_USER_MODEL = "authentication.AuthUser"
