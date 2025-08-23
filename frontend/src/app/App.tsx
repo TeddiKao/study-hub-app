@@ -20,7 +20,7 @@ function App() {
 
 	useEffect(() => {
 		tokenRefreshIntervalRef.current = setInterval(async () => {
-			handleTokenRefresh();
+			await handleTokenRefresh();
 		}, 30 * 1000 * 0.8)
 
 		return () => {
