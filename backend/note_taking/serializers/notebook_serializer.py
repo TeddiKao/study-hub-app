@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer, ValidationError, SerializerMethodField
 
-from ..models import Notebook
+from ..models.notebook_models import Notebook
 
 from django.db import models
 
