@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models.notebook_models import Notebook
+from .models import Notebook
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from django.db import transaction
