@@ -1,10 +1,10 @@
-import Navbar from "./components/Navbar/Navbar";
+import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
 
 function DashboardPage() {
 	return (
-		<div className="flex flex-row">
-			<Navbar />
-		</div>
+		<DashboardLayout>
+			<></>
+		</DashboardLayout>
 	);
 }
 
