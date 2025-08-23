@@ -11,13 +11,13 @@ import type {
 	NotebookApiSuccess,
 	NotebookRetrieveSuccess,
 } from "../types/notebooks/notebookApi.types";
-import { NOTE_TAKING_BASE } from "@/app/api.constants";
+import { NOTEBOOKS_BASE } from "@/app/api.constants";
 
 async function fetchNotebooks(): Promise<
 	NotebookFetchSuccess | ApiErrorResponse
 > {
 	try {
-		const response = await api.get(`${NOTE_TAKING_BASE}/notebooks/`);
+		const response = await api.get(`${NOTEBOOKS_BASE}/`);
 
 		return {
 			success: true,
@@ -44,7 +44,7 @@ async function createNotebook(
 ): Promise<NotebookCreateSuccess | ApiErrorResponse> {
 	try {
 		const response = await api.post(
-			`${NOTE_TAKING_BASE}/notebook/create/`,
+			`${NOTEBOOKS_BASE}/notebook/create/`,
 			notebookData
 		);
 
@@ -74,7 +74,7 @@ async function editNotebook(
 ): Promise<NotebookEditSuccess | ApiErrorResponse> {
 	try {
 		const response = await api.put(
-			`${NOTE_TAKING_BASE}/notebook/${notebookId}/edit/`,
+			`${NOTEBOOKS_BASE}/notebook/${notebookId}/edit/`,
 			notebookData
 		);
 
@@ -102,7 +102,7 @@ async function deleteNotebook(
 	notebookId: number
 ): Promise<NotebookApiSuccess | ApiErrorResponse> {
 	try {
-		await api.delete(`${NOTE_TAKING_BASE}/notebook/${notebookId}/delete/`);
+		await api.delete(`${NOTEBOOKS_BASE}/notebook/${notebookId}/delete/`);
 
 		return {
 			success: true,
@@ -125,7 +125,7 @@ async function deleteNotebook(
 
 async function retrieveNotebook(notebookId: number): Promise<ApiErrorResponse | NotebookRetrieveSuccess> {
 	try {
-		const response = await api.get(`${NOTE_TAKING_BASE}/notebook/${notebookId}/`);
+		const response = await api.get(`${NOTEBOOKS_BASE}/notebook/${notebookId}/`);
 
 		return {
 			success: true,
