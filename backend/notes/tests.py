@@ -9,8 +9,8 @@ class NotebooksTestCase(TestCase):
     def setUp(self):
         user = get_user_model()
         
-        self.user1 = user.objects.create(email="user1@gmail.com", username="user1", password="test")
-        self.user2 = user.objects.create(email="user2@gmail.com", username="user2", password="test")
+        self.user1 = user.objects.create_user(email="user1@gmail.com", username="user1", password="test")
+        self.user2 = user.objects.create_user(email="user2@gmail.com", username="user2", password="test")
 
     def test_duplicate_notebook_per_owner(self):
         Notebook.objects.create(name="Notebook 1", description="Random description", owner=self.user1)
