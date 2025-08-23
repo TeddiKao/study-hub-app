@@ -2,8 +2,6 @@ from rest_framework.serializers import ModelSerializer, ValidationError, Seriali
 
 from ..models import Notebook
 
-from django.db import models
-
 class NotebookSerializer(ModelSerializer):
 	owner = SerializerMethodField()
 
