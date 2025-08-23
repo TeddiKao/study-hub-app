@@ -1,8 +1,8 @@
 from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 
-from ..models.notebook_models import Notebook
-from ..serializers.notebook_serializer import NotebookSerializer
+from ..models import Notebook
+from ..serializers import NotebookSerializer
 
 class FetchNotebooksEndpoint(ListAPIView):
     serializer_class = NotebookSerializer
