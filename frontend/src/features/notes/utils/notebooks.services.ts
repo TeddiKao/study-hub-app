@@ -16,7 +16,7 @@ async function fetchNotebooks(): Promise<
 	NotebookFetchSuccess | ApiErrorResponse
 > {
 	try {
-		const response = await api.get("notes/notebooks/");
+		const response = await api.get("note_taking/notebooks/");
 
 		return {
 			success: true,
@@ -43,7 +43,7 @@ async function createNotebook(
 ): Promise<NotebookCreateSuccess | ApiErrorResponse> {
 	try {
 		const response = await api.post(
-			"notes/notebook/create/",
+			"note_taking/notebook/create/",
 			notebookData
 		);
 
@@ -73,7 +73,7 @@ async function editNotebook(
 ): Promise<NotebookEditSuccess | ApiErrorResponse> {
 	try {
 		const response = await api.put(
-			`notes/notebook/${notebookId}/edit/`,
+			`note_taking/notebook/${notebookId}/edit/`,
 			notebookData
 		);
 
@@ -101,7 +101,7 @@ async function deleteNotebook(
 	notebookId: number
 ): Promise<NotebookApiSuccess | ApiErrorResponse> {
 	try {
-		await api.delete(`notes/notebook/${notebookId}/delete/`);
+		await api.delete(`note_taking/notebook/${notebookId}/delete/`);
 
 		return {
 			success: true,
@@ -124,7 +124,7 @@ async function deleteNotebook(
 
 async function retrieveNotebook(notebookId: number): Promise<ApiErrorResponse | NotebookRetrieveSuccess> {
 	try {
-		const response = await api.get(`notes/notebook/${notebookId}/`);
+		const response = await api.get(`note_taking/notebook/${notebookId}/`);
 
 		return {
 			success: true,
