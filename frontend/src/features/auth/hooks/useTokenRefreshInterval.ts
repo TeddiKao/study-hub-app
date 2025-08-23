@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import { useAuthTokensStore } from "../stores/authTokens.stores";
 import { handleTokenRefresh } from "../utils/authTokens.services";
+import { ACCESS_TOKEN_LIFETIME } from "../constants/tokenLifetimes.constants";
 
 function useTokenRefreshInterval() {
     const tokenRefreshIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -12,7 +13,7 @@ function useTokenRefreshInterval() {
 			if (!tokenRefreshResponse.success) return;
 
 			updateAccessToken(tokenRefreshResponse.access);
-		}, 30 * 1000 * 0.8)
+		}, ACCESS_TOKEN_LIFETIME * 0.8)
 
 		return () => {
 			if (!tokenRefreshIntervalRef.current) return;
