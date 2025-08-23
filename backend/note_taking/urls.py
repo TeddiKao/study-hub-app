@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CreateNotebookEndpoint, FetchNotebooksEndpoint, DeleteNotebookEndpoint, EditNotebookEndpoint, RetrieveNotebookEndpoint
+from .views.notebook_views import CreateNotebookEndpoint, FetchNotebooksEndpoint, DeleteNotebookEndpoint, EditNotebookEndpoint, RetrieveNotebookEndpoint
 
 urlpatterns = [
     path("notebooks/", FetchNotebooksEndpoint.as_view(), name="fetch_notebooks"),
