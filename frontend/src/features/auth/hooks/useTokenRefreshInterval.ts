@@ -20,7 +20,7 @@ function useTokenRefreshInterval() {
 
 			clearInterval(tokenRefreshIntervalRef.current);
 		}
-	}, []);
+	}, [updateAccessToken]);
 }
 
 export default useTokenRefreshInterval;
