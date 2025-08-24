@@ -1,5 +1,6 @@
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import NotebookDropdownMenu from "./NotebookDropdownMenu";
+import { useNavigate } from "react-router-dom";
 
 interface NotebookProps {
 	notebookName: string;
@@ -8,10 +9,17 @@ interface NotebookProps {
 }
 
 function NotebookCard({ notebookName, notebookId, notebookColor }: NotebookProps) {
+	const navigate = useNavigate();
+	
+	function handleNotebookCardClick() {
+		navigate(`/notebooks/${notebookId}`)
+	}
+	
 	return (
 		<div
-			// aria-label="open-notebook-button"
-			// role="button"
+			aria-label="open-notebook-button"
+			role="button"
+			onClick={handleNotebookCardClick}
 			className="flex flex-row py-3 pl-3 pr-2 bg-white rounded-2xl shadow-xl items-center"
 		>
 			<div
