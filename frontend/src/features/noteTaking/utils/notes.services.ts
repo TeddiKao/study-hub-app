@@ -88,7 +88,7 @@ async function deleteNote(noteId: number): Promise<ApiSuccessResponse | ApiError
 
         return {
             success: false,
-            error: error?.response?.data?.error ?? "Failed to delete note"
+            error: error.response?.data?.error ?? "Failed to delete note"
         }
     }
 }
