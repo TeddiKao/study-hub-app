@@ -70,8 +70,17 @@ async function createNote(noteData: Note): Promise<CreateNoteSuccess | ApiErrorR
     }
 }
 
-async function deleteNote(noteId: number): Promise<void> {
+async function deleteNote(noteId: number): Promise<ApiSuccessResponse | ApiErrorResponse> {
+    try {
+        await api.delete(`${NOTES_BASE}/note/${noteId}/delete/`)
 
+        return {
+            success: true,
+            message: "Note deleted successfully"
+        }
+    } catch (error) {
+        
+    }
 }
 
 export { fetchNotes, createNote, deleteNote }
