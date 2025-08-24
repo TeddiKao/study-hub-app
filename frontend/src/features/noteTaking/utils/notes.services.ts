@@ -3,7 +3,6 @@ import { NOTES_BASE } from "@/app/api.constants"
 import type { ApiErrorResponse, ApiSuccessResponse } from "@/shared/types/api.types"
 import type { Notebook } from "../types/notebooks/notebookStore.types";
 import { isAxiosError } from "axios";
-import { data } from "react-router-dom";
 
 interface Note {
     name: string;
