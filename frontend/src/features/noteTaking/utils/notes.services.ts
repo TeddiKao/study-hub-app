@@ -24,20 +24,20 @@ async function fetchNotes(notebookId: number): Promise<FetchNotesSuccess | ApiEr
 
         return {
             success: true,
-            message: "Successfully fetched notebooks",
+            message: "Successfully fetched notes",
             notes: response.data
         }
     } catch (error) {
         if (!isAxiosError(error)) {
             return {
                 success: false,
-                error: "Failed to fetch notebooks"
+                error: "Failed to fetch notes"
             }
         }
 
         return {
             success: false,
-            error: error.response?.data.error ?? "Failed to fetch notebooks"
+            error: error.response?.data.error ?? "Failed to fetch notes"
         }
     }
 }
