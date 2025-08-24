@@ -70,4 +70,8 @@ async function createNote(noteData: Note): Promise<CreateNoteSuccess | ApiErrorR
     }
 }
 
-export { fetchNotes, createNote }
+async function deleteNote(noteId: number): Promise<void> {
+
+}
+
+export { fetchNotes, createNote, deleteNote }
