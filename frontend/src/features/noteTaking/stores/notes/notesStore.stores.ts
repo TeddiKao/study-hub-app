@@ -8,7 +8,6 @@ interface Note {
 
 interface NotesStore {
     notes: Note[],
-
     updateNotes: (newNotes: Note[]) => void
 
     getNotes: () => void
