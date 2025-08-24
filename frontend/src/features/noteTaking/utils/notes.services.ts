@@ -82,7 +82,7 @@ async function createNote(
 
 async function editNote(
 	noteId: number,
-	newNoteData: Note
+	newNoteData: NotePayload
 ): Promise<EditNoteSuccess | ApiErrorResponse> {
 	try {
 		const response = await api.put(

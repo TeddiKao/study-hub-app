@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createNote, deleteNote, editNote, fetchNotes } from "../../utils/notes.services";
 import type { Note, Notes } from "../../types/notes/notesStore.types";
-import type { RawNoteData } from "../../types/notes/notesApi.types";
+import type { NotePayload, RawNoteData } from "../../types/notes/notesApi.types";
 
 interface NotesStore {
 	notes: Notes;
@@ -13,7 +13,7 @@ interface NotesStore {
 	getNotes: () => Promise<void>;
 
 	handleNoteCreate: (createdNote: RawNoteData) => Promise<void>;
-	handleNoteEdit: (noteId: number, newNoteData: Note) => Promise<void>;
+	handleNoteEdit: (noteId: number, newNoteData: NotePayload) => Promise<void>;
 	handleNoteDelete: (noteId: number) => Promise<void>;
 }
 
@@ -46,7 +46,7 @@ const useNotesStore = create<NotesStore>((set, get) => ({
         await get().getNotes();
     },
 
-	handleNoteEdit: async (noteId: number, newNoteData: Note) => {
+	handleNoteEdit: async (noteId: number, newNoteData: NotePayload) => {
         const noteEditResponse = await editNote(noteId, newNoteData);
         if (!noteEditResponse.success) {
             throw new Error(noteEditResponse.error);
