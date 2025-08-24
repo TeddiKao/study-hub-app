@@ -122,4 +122,4 @@ async function deleteNote(noteId: number): Promise<ApiSuccessResponse | ApiError
     }
 }
 
-export { fetchNotes, createNote, deleteNote }
+export { fetchNotes, createNote, deleteNote, editNote }
