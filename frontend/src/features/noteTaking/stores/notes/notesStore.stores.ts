@@ -69,3 +69,5 @@ const useNotesStore = create<NotesStore>((set, get) => ({
         get().getNotes()
     },
 }));
+
+export { useNotesStore }
