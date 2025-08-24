@@ -1,4 +1,5 @@
-from rest_framework.serializers import ModelSerializer, ValidationError, SerializerMethodField
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework.exceptions import ValidationError
 
 from ..models import Notebook
 
