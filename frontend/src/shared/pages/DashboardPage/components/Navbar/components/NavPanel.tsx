@@ -4,12 +4,12 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import NotebookDialog from "@/features/notes/components/NotebookDialog";
-import { useCreateNotebookFormStore } from "@/features/notes/stores/createNotebookForm.stores";
-import { useDeleteNotebookAlertStore } from "@/features/notes/stores/deleteNotebookAlert.stores";
-import { useEditNotebookFormStore } from "@/features/notes/stores/editNotebookForm.stores";
-import { useNotebooksStore } from "@/features/notes/stores/notebooks.stores";
-import { fetchNotebooks } from "@/features/notes/utils/notebooks.services";
+import NotebookDialog from "@/features/noteTaking/components/NotebookDialog";
+import { useCreateNotebookFormStore } from "@/features/noteTaking/stores/createNotebookForm.stores";
+import { useDeleteNotebookAlertStore } from "@/features/noteTaking/stores/deleteNotebookAlert.stores";
+import { useEditNotebookFormStore } from "@/features/noteTaking/stores/editNotebookForm.stores";
+import { useNotebooksStore } from "@/features/noteTaking/stores/notebooks.stores";
+import { fetchNotebooks } from "@/features/noteTaking/utils/notebooks.services";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import EditIcon from "@/shared/components/icons/EditIcon";
@@ -203,7 +203,10 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 
 function ViewAllItemsButton({ link, label }: ViewAllItemsButtonProps) {
 	return (
-		<Link to={link} className="flex flex-row items-center px-1 py-2 rounded-md hover:cursor-pointer hover:bg-gray-300">
+		<Link
+			to={link}
+			className="flex flex-row items-center px-1 py-2 rounded-md hover:cursor-pointer hover:bg-gray-300"
+		>
 			<p className="text-sky-500 ml-1">{label}</p>
 		</Link>
 	);
@@ -219,7 +222,7 @@ function ItemsContainer() {
 		switch (expandedItem) {
 			case "notebooks":
 				return notebooks;
-				
+
 			default:
 				return [];
 		}
@@ -278,7 +281,10 @@ function NavPanelContent() {
 			</div>
 
 			<ItemsContainer />
-			<ViewAllItemsButton link={expandedItemLinkMap[expandedItem]} label={`View all ${expandedItem}`} />
+			<ViewAllItemsButton
+				link={expandedItemLinkMap[expandedItem]}
+				label={`View all ${expandedItem}`}
+			/>
 		</div>
 	);
 }

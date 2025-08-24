@@ -1,4 +1,7 @@
-import type { Notebook, Notebooks } from "@/features/notes/types/notebooks/notebookStore.types"
+import type {
+	Notebook,
+	Notebooks,
+} from "@/features/noteTaking/types/notebooks/notebookStore.types";
 
 interface NotebookApiSuccess {
 	success: true;
@@ -18,7 +21,7 @@ interface NotebookEditSuccess extends NotebookApiSuccess {
 }
 
 interface NotebookRetrieveSuccess extends NotebookApiSuccess {
-	retrievedNotebook: Notebook,
+	retrievedNotebook: Notebook;
 }
 
 interface CreateNotebookApiPayload {

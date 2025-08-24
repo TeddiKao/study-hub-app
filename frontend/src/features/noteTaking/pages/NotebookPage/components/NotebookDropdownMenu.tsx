@@ -1,8 +1,13 @@
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import NotebookDialog from "@/features/notes/components/NotebookDialog";
-import { useEditNotebookFormStore } from "@/features/notes/stores/editNotebookForm.stores";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import NotebookDialog from "@/features/noteTaking/components/NotebookDialog";
+import { useEditNotebookFormStore } from "@/features/noteTaking/stores/editNotebookForm.stores";
 import KebabMenuIcon from "@/shared/components/icons/KebabMenuIcon";
 import { useQueryClient } from "@tanstack/react-query";
 import DeleteNotebookAlertDialog from "./DeleteNotebookAlertDialog";
