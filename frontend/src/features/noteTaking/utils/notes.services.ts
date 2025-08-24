@@ -8,6 +8,7 @@ import type { Notebook } from "../types/notebooks/notebookStore.types";
 import { isAxiosError, type AxiosResponse } from "axios";
 
 interface NoteResponse {
+    id: number,
 	name: string;
 	description: string;
 	notebook: Notebook;
