@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { Notebook } from "../../types/notebooks/notebookStore.types";
-import { createNote, fetchNotes } from "../../utils/notes.services";
+import { createNote, deleteNote, editNote, fetchNotes } from "../../utils/notes.services";
 
 interface Note {
 	name: string;
@@ -51,7 +51,21 @@ const useNotesStore = create<NotesStore>((set, get) => ({
         get().getNotes();
     },
 
-	handleNoteEdit: () => {},
+	handleNoteEdit: async (noteId: number, newNoteData: Note) => {
+        const noteEditResponse = await editNote(noteId, newNoteData);
+        if (!noteEditResponse.success) {
+            throw new Error(noteEditResponse.error);
+        }
 
-	handleNoteDelete: () => {},
+        get().getNotes();
+    },
+
+	handleNoteDelete: async (noteId: number) => {
+        const noteDeleteResponse = await deleteNote(noteId);
+        if (!noteDeleteResponse.success) {
+            throw new Error(noteDeleteResponse.error);
+        }
+
+        get().getNotes()
+    },
 }));
