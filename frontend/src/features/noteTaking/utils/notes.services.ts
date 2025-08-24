@@ -14,6 +14,10 @@ interface FetchNotesSuccess extends ApiSuccessResponse {
     notes: Note[]
 }
 
+interface CreateNoteSuccess extends ApiSuccessResponse {
+    createdNote: Note
+}
+
 async function fetchNotes(notebookId: number): Promise<FetchNotesSuccess | ApiErrorResponse> {
     try {
         const response = await api.get(`${NOTES_BASE}/`, {
@@ -42,8 +46,14 @@ async function fetchNotes(notebookId: number): Promise<FetchNotesSuccess | ApiEr
     }
 }
 
-async function createNote(noteData: Note) {
-    
+async function createNote(noteData: Note): Promise<CreateNoteSuccess | ApiErrorResponse> {
+    try {
+        const response = await api.post(`${NOTES_BASE}/note/create/`)
+
+        return {
+
+        }
+    }
 }
 
 export { fetchNotes, createNote }
