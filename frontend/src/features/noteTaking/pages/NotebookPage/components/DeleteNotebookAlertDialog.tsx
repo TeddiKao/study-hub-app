@@ -7,7 +7,7 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useNotebooksStore } from "@/features/noteTaking/stores/notebooks.stores";
+import { useNotebooksStore } from "@/features/noteTaking/stores/notebooks/notebooks.stores";
 
 interface DeleteNotebookAlertDialog {
 	notebookId: number;

@@ -1,4 +1,4 @@
-import { useNotebooksStore } from "@/features/noteTaking/stores/notebooks.stores";
+import { useNotebooksStore } from "@/features/noteTaking/stores/notebooks/notebooks.stores";
 import NotebookCard from "./NotebookCard";
 
 function NotebookGrid() {

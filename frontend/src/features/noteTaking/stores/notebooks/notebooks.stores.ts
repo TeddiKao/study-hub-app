@@ -4,16 +4,21 @@ import {
 	deleteNotebook,
 	editNotebook,
 	fetchNotebooks,
-} from "../utils/notebooks.services";
-import type { CreateNotebookApiPayload, EditNotebookApiPayload } from "../types/notebooks/notebookApi.types";
-import type { Notebooks } from "../types/notebooks/notebookStore.types";
+} from "../../utils/notebooks.services";
+import type {
+	CreateNotebookApiPayload,
+	EditNotebookApiPayload,
+} from "../../types/notebooks/notebookApi.types";
+import type { Notebooks } from "../../types/notebooks/notebookStore.types";
 
 interface NotebookStore {
 	notebooks: Notebooks;
 
 	getNotebooks: () => Promise<Notebooks>;
 	updateNotebooks: (notebooks: Notebooks) => void;
-	handleNotebookCreate: (notebookData: CreateNotebookApiPayload) => Promise<void>;
+	handleNotebookCreate: (
+		notebookData: CreateNotebookApiPayload
+	) => Promise<void>;
 
 	handleNotebookEdit: (
 		notebookId: number,
@@ -33,11 +38,11 @@ const useNotebooksStore = create<NotebookStore>((set, get) => ({
 
 		set({ notebooks: notebookFetchResponse.notebooks });
 
-		return notebookFetchResponse.notebooks
+		return notebookFetchResponse.notebooks;
 	},
 
 	updateNotebooks: (notebooks: Notebooks) => {
-		set({ notebooks: notebooks })
+		set({ notebooks: notebooks });
 	},
 
 	handleNotebookCreate: async (notebookData: CreateNotebookApiPayload) => {
