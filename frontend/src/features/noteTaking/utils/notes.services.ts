@@ -42,4 +42,8 @@ async function fetchNotes(notebookId: number): Promise<FetchNotesSuccess | ApiEr
     }
 }
 
+async function createNote(noteData: Note) {
+    
+}
+
 export { fetchNotes }
