@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView, UpdateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError, PermissionDenied
 
@@ -53,8 +53,12 @@ class EditNoteEndpoint(UpdateAPIView):
         
         serializer.save()
 
-class RetrieveNoteEndpoint():
-    pass
+class RetrieveNoteEndpoint(RetrieveAPIView):
+    serializer_class = NoteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = Note.objects.filter(notebook__owner=self.request.user)
 
 class DeleteNoteEndpoint(DestroyAPIView):
     serializer_class = NoteSerializer
