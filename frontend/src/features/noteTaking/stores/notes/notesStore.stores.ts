@@ -1,36 +1,35 @@
 import { create } from "zustand";
-import type { Notebook } from "../../types/notebooks/notebookStore.types";
 import { createNote, deleteNote, editNote, fetchNotes } from "../../utils/notes.services";
-
-interface Note {
-	name: string;
-	description: string;
-	notebook: Notebook;
-}
+import type { Notes } from "../../types/notes/notesStore.types";
+import type { NotePayload, RawNoteData } from "../../types/notes/notesApi.types";
+import { isNullOrUndefined } from "@/shared/utils/types.utils";
 
 interface NotesStore {
-	notes: Note[];
+	notes: Notes;
 	currentNotebookId: number | null;
 
-	updateNotes: (newNotes: Note[]) => void;
+	updateNotes: (newNotes: Notes) => void;
 	updateCurrentNotebookId: (newNotebookId: number) => void;
+    clearCurrentNotebookId: () => void,
 
 	getNotes: () => Promise<void>;
 
-	handleNoteCreate: (createdNote: Note) => Promise<void>;
-	handleNoteEdit: (noteId: number, newNoteData: Note) => Promise<void>;
+	handleNoteCreate: (createdNote: RawNoteData) => Promise<void>;
+	handleNoteEdit: (noteId: number, newNoteData: NotePayload) => Promise<void>;
 	handleNoteDelete: (noteId: number) => Promise<void>;
 }
 
 const useNotesStore = create<NotesStore>((set, get) => ({
 	notes: [],
 	currentNotebookId: null,
-	updateNotes: (newNotes: Note[]) => set({ notes: newNotes }),
+	updateNotes: (newNotes: Notes) => set({ notes: newNotes }),
+
 	updateCurrentNotebookId: (newNotebookId: number) =>
 		set({ currentNotebookId: newNotebookId }),
+    clearCurrentNotebookId: () => set({ currentNotebookId: null }),
 
 	getNotes: async () => {
-        if (!get().currentNotebookId) return;
+        if (isNullOrUndefined(get().currentNotebookId)) return;
 
         const notebookFetchResponse = await fetchNotes(get().currentNotebookId!)
         if (!notebookFetchResponse.success) {
@@ -40,8 +39,8 @@ const useNotesStore = create<NotesStore>((set, get) => ({
         get().updateNotes(notebookFetchResponse.notes);
     },
 
-	handleNoteCreate: async (createdNote: Note) => {
-        if (!get().currentNotebookId) return;
+	handleNoteCreate: async (createdNote: RawNoteData) => {
+        if (isNullOrUndefined(get().currentNotebookId)) return;
 
         const noteCreateResponse = await createNote(createdNote, get().currentNotebookId!);
         if (!noteCreateResponse.success) {
@@ -51,7 +50,7 @@ const useNotesStore = create<NotesStore>((set, get) => ({
         await get().getNotes();
     },
 
-	handleNoteEdit: async (noteId: number, newNoteData: Note) => {
+	handleNoteEdit: async (noteId: number, newNoteData: NotePayload) => {
         const noteEditResponse = await editNote(noteId, newNoteData);
         if (!noteEditResponse.success) {
             throw new Error(noteEditResponse.error);

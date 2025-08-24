@@ -4,38 +4,15 @@ import type {
 	ApiErrorResponse,
 	ApiSuccessResponse,
 } from "@/shared/types/api.types";
-import type { Notebook } from "../types/notebooks/notebookStore.types";
 import { isAxiosError, type AxiosResponse } from "axios";
-
-interface NoteResponse {
-    id: number,
-	name: string;
-	description: string;
-	notebook: Notebook;
-}
-
-interface RawNoteData {
-    name: string;
-    description: string;
-}
-
-interface NotePayload {
-    name: string;
-    description: string;
-    notebookId: number;
-}
-
-interface FetchNotesSuccess extends ApiSuccessResponse {
-	notes: NoteResponse[];
-}
-
-interface CreateNoteSuccess extends ApiSuccessResponse {
-	createdNote: NoteResponse;
-}
-
-interface EditNoteSuccess extends ApiSuccessResponse {
-	editedNote: NoteResponse;
-}
+import type {
+	FetchNotesSuccess,
+	RawNoteData,
+	CreateNoteSuccess,
+	NoteResponse,
+	NotePayload,
+	EditNoteSuccess,
+} from "../types/notes/notesApi.types";
 
 async function fetchNotes(
 	notebookId: number
@@ -72,14 +49,15 @@ async function createNote(
 	notebookId: number
 ): Promise<CreateNoteSuccess | ApiErrorResponse> {
 	try {
-		const response = await api.post<NoteResponse, AxiosResponse<NoteResponse>, NotePayload>(
-			`${NOTES_BASE}/note/create/`,
-			{
-                name: noteData.name,
-                description: noteData.description,
-                notebookId: notebookId,
-            }
-		);
+		const response = await api.post<
+			NoteResponse,
+			AxiosResponse<NoteResponse>,
+			NotePayload
+		>(`${NOTES_BASE}/note/create/`, {
+			name: noteData.name,
+			description: noteData.description,
+			notebookId: notebookId,
+		});
 
 		return {
 			success: true,
@@ -103,7 +81,7 @@ async function createNote(
 
 async function editNote(
 	noteId: number,
-	newNoteData: NoteResponse
+	newNoteData: NotePayload
 ): Promise<EditNoteSuccess | ApiErrorResponse> {
 	try {
 		const response = await api.put(
