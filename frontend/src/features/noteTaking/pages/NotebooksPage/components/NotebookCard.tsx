@@ -20,7 +20,7 @@ function NotebookCard({ notebookName, notebookId, notebookColor }: NotebookProps
 			aria-label="open-notebook-button"
 			role="button"
 			onClick={handleNotebookCardClick}
-			className="flex flex-row py-3 pl-3 pr-2 bg-white rounded-2xl shadow-xl items-center"
+			className="flex flex-row py-3 pl-3 pr-2 bg-white rounded-2xl shadow-xl items-center hover:cursor-pointer"
 		>
 			<div
 				style={{ backgroundColor: notebookColor }}
