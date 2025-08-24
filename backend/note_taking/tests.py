@@ -49,6 +49,8 @@ class NotesTestCase(TestCase):
         with self.assertRaises(IntegrityError), transaction.atomic():
             Note.objects.create(name="Note 1", description="Another note", notebook=self.notebook1user1)
 
+        self.assertEqual(Note.objects.filter(name="Note 1", notebook=self.notebook1user1).count(), 1)
+
     def test_duplicate_note_per_owner_for_different_notebooks():
         pass
 
