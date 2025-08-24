@@ -1,18 +1,12 @@
 import { create } from "zustand";
-import type { Notebook } from "../../types/notebooks/notebookStore.types";
 import { createNote, deleteNote, editNote, fetchNotes } from "../../utils/notes.services";
-
-interface Note {
-	name: string;
-	description: string;
-	notebook: Notebook;
-}
+import type { Note, Notes } from "../../types/notes/notesStore.types";
 
 interface NotesStore {
-	notes: Note[];
+	notes: Notes;
 	currentNotebookId: number | null;
 
-	updateNotes: (newNotes: Note[]) => void;
+	updateNotes: (newNotes: Notes) => void;
 	updateCurrentNotebookId: (newNotebookId: number) => void;
 
 	getNotes: () => Promise<void>;
@@ -25,7 +19,7 @@ interface NotesStore {
 const useNotesStore = create<NotesStore>((set, get) => ({
 	notes: [],
 	currentNotebookId: null,
-	updateNotes: (newNotes: Note[]) => set({ notes: newNotes }),
+	updateNotes: (newNotes: Notes) => set({ notes: newNotes }),
 	updateCurrentNotebookId: (newNotebookId: number) =>
 		set({ currentNotebookId: newNotebookId }),
 
