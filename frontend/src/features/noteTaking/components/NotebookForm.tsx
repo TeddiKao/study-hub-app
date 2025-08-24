@@ -1,7 +1,7 @@
 import { useEffect, useRef, type FormEvent } from "react";
-import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores";
-import { useEditNotebookFormStore } from "../stores/editNotebookForm.stores";
-import { useNotebooksStore } from "../stores/notebooks.stores";
+import { useCreateNotebookFormStore } from "../stores/notebooks/createNotebookForm.stores";
+import { useEditNotebookFormStore } from "../stores/notebooks/editNotebookForm.stores";
+import { useNotebooksStore } from "../stores/notebooks/notebooks.stores";
 import { retrieveNotebook } from "../utils/notebooks.services";
 import { useQuery } from "@tanstack/react-query";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,19 +9,21 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
 interface NotebookFormCreateModeProps {
-	mode: "create"
+	mode: "create";
 }
 
 interface NotebookFormEditModeProps {
-	mode: "edit",
-	notebookId: number
+	mode: "edit";
+	notebookId: number;
 }
 
-type NotebookFormProps = NotebookFormCreateModeProps | NotebookFormEditModeProps
+type NotebookFormProps =
+	| NotebookFormCreateModeProps
+	| NotebookFormEditModeProps;
 
 function NotebookForm(props: NotebookFormProps) {
 	const { mode } = props;
-	const notebookId = mode === "edit" ? props.notebookId : undefined
+	const notebookId = mode === "edit" ? props.notebookId : undefined;
 
 	const createNotebookFormStore = useCreateNotebookFormStore();
 	const editNotebookFormStore = useEditNotebookFormStore();
@@ -108,7 +110,7 @@ function NotebookForm(props: NotebookFormProps) {
 	async function handleEditNotebookFormSubmit() {
 		if (!notebookId) {
 			throw new Error("Missing notebook ID when editing notebook");
-		};
+		}
 
 		try {
 			await handleNotebookEdit(notebookId, {

@@ -5,10 +5,10 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import NotebookDialog from "@/features/noteTaking/components/NotebookDialog";
-import { useCreateNotebookFormStore } from "@/features/noteTaking/stores/createNotebookForm.stores";
-import { useDeleteNotebookAlertStore } from "@/features/noteTaking/stores/deleteNotebookAlert.stores";
-import { useEditNotebookFormStore } from "@/features/noteTaking/stores/editNotebookForm.stores";
-import { useNotebooksStore } from "@/features/noteTaking/stores/notebooks.stores";
+import { useCreateNotebookFormStore } from "@/features/noteTaking/stores/notebooks/createNotebookForm.stores";
+import { useDeleteNotebookAlertStore } from "@/features/noteTaking/stores/notebooks/deleteNotebookAlert.stores";
+import { useEditNotebookFormStore } from "@/features/noteTaking/stores/notebooks/editNotebookForm.stores";
+import { useNotebooksStore } from "@/features/noteTaking/stores/notebooks/notebooks.stores";
 import { fetchNotebooks } from "@/features/noteTaking/utils/notebooks.services";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import AddIcon from "@/shared/components/icons/AddIcon";

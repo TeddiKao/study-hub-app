@@ -1,9 +1,9 @@
 import Navbar from "@/shared/pages/DashboardPage/components/Navbar/Navbar";
 import { useQuery } from "@tanstack/react-query";
-import { useNotebooksStore } from "../../stores/notebooks.stores";
+import { useNotebooksStore } from "../../stores/notebooks/notebooks.stores";
 import type { Notebooks } from "../../types/notebooks/notebookStore.types";
 import { Dialog } from "@/components/ui/dialog";
-import { useCreateNotebookFormStore } from "../../stores/createNotebookForm.stores";
+import { useCreateNotebookFormStore } from "../../stores/notebooks/createNotebookForm.stores";
 import NotebookDialog from "../../components/NotebookDialog";
 import CreateNotebookButton from "./components/CreateNotebookButton";
 import NotebookGrid from "./components/NotebookGrid";
