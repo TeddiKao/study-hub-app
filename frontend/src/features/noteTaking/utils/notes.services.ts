@@ -2,6 +2,7 @@ import api from "@/app/api"
 import { NOTES_BASE } from "@/app/api.constants"
 import type { ApiErrorResponse, ApiSuccessResponse } from "@/shared/types/api.types"
 import type { Notebook } from "../types/notebooks/notebookStore.types";
+import { isAxiosError } from "axios";
 
 interface Note {
     name: string;
@@ -21,7 +22,23 @@ async function fetchNotes(notebookId: number): Promise<FetchNotesSuccess | ApiEr
             }
         })
 
+        return {
+            success: true,
+            message: "Successfully fetched notebooks",
+            notes: response.data
+        }
+    } catch (error) {
+        if (!isAxiosError(error)) {
+            return {
+                success: false,
+                error: "Failed to fetch notebooks"
+            }
+        }
 
+        return {
+            success: false,
+            error: error.response?.data.error ?? "Failed to fetch notebooks"
+        }
     }
 }
 
