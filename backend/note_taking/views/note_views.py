@@ -53,6 +53,9 @@ class EditNoteEndpoint(UpdateAPIView):
         
         serializer.save()
 
+class RetrieveNoteEndpoint():
+    pass
+
 class DeleteNoteEndpoint(DestroyAPIView):
     serializer_class = NoteSerializer
     permission_classes = [IsAuthenticated]
