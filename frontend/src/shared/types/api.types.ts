@@ -3,4 +3,9 @@ interface ApiErrorResponse {
     error: string
 }
 
-export type { ApiErrorResponse }
+interface ApiSuccessResponse {
+    success: true,
+    message: string
+}
+
+export type { ApiErrorResponse, ApiSuccessResponse }
