@@ -13,7 +13,6 @@ import type {
 	NotePayload,
 	EditNoteSuccess,
 } from "../types/notes/notesApi.types";
-import type { Note } from "../types/notes/notesStore.types";
 
 async function fetchNotes(
 	notebookId: number
