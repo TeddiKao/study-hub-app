@@ -51,8 +51,12 @@ class NotesTestCase(TestCase):
 
         self.assertEqual(Note.objects.filter(name="Note 1", notebook=self.notebook1user1).count(), 1)
 
-    def test_duplicate_note_per_owner_for_different_notebooks():
-        pass
+    def test_duplicate_note_per_owner_for_different_notebooks(self):
+        Note.objects.create(name="Note 1", description="My first note", notebook=self.notebook1user1)
+        Note.objects.create(name="Note 1", description="My first note", notebook=self.notebook2user1)
+
+        self.assertTrue(Note.objects.filter(name="Note 1", notebook=self.notebook1user1).exists())
+        self.assertTrue(Note.objects.filter(name="Note 1", notebook=self.notebook2user1).exists())
 
     def test_duplicate_note_for_different_owners():
         pass
