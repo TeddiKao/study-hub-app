@@ -23,7 +23,7 @@ import {
 } from "@/shared/stores/dashboard.stores";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, type MouseEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface ItemProps {
 	itemId: number;
@@ -123,8 +123,10 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 	const { updateFormVisibility } = useEditNotebookFormStore();
 	const { showAlert: showDeleteNotebookAlert } =
 		useDeleteNotebookAlertStore();
+	const { expandedItem } = useDashboardNavbarState();
 
 	const queryClient = useQueryClient();
+	const navigate = useNavigate();
 
 	function getItemIcon() {
 		switch (itemType) {
@@ -134,6 +136,12 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 			default:
 				return null;
 		}
+	}
+
+	function handleItemCardClick() {
+		if (!expandedItem) return;
+
+		navigate(`${expandedItemLinkMap[expandedItem]}/${itemId}`)
 	}
 
 	return (
@@ -151,6 +159,8 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 				clearActiveItem();
 			}}
 			className="flex flex-row gap-3 mb-0.5 p-1 items-center justify-between hover:cursor-pointer hover:bg-gray-300 rounded-md"
+			role="button"
+			onClick={handleItemCardClick}
 		>
 			<div className="flex flex-row items-center">
 				<div
