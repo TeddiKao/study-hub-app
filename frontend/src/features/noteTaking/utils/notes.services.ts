@@ -76,7 +76,7 @@ async function createNote(noteData: Note): Promise<CreateNoteSuccess | ApiErrorR
 
 async function editNote(noteId: number, newNoteData: Note): Promise<EditNoteSuccess | ApiErrorResponse> {
     try {
-        const response = await api.put(`${NOTES_BASE}/note/${noteId}/edit/`)
+        const response = await api.put(`${NOTES_BASE}/note/${noteId}/edit/`, newNoteData)
 
         return {
             success: true,
