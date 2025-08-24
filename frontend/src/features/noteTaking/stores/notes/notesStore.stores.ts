@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { createNote, deleteNote, editNote, fetchNotes } from "../../utils/notes.services";
-import type { Note, Notes } from "../../types/notes/notesStore.types";
+import type { Notes } from "../../types/notes/notesStore.types";
 import type { NotePayload, RawNoteData } from "../../types/notes/notesApi.types";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 
