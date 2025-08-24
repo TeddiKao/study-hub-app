@@ -13,6 +13,7 @@ import type {
 	NotePayload,
 	EditNoteSuccess,
 } from "../types/notes/notesApi.types";
+import type { Note } from "../types/notes/notesStore.types";
 
 async function fetchNotes(
 	notebookId: number
@@ -81,7 +82,7 @@ async function createNote(
 
 async function editNote(
 	noteId: number,
-	newNoteData: NoteResponse
+	newNoteData: Note
 ): Promise<EditNoteSuccess | ApiErrorResponse> {
 	try {
 		const response = await api.put(
