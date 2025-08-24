@@ -46,4 +46,4 @@ async function createNote(noteData: Note) {
     
 }
 
-export { fetchNotes }
+export { fetchNotes, createNote }
