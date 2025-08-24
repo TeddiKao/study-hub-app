@@ -62,6 +62,11 @@ async function createNote(noteData: Note): Promise<CreateNoteSuccess | ApiErrorR
                 error: "Failed to create note"
             }
         }
+
+        return {
+            success: false,
+            error: error.response?.data?.error ?? "Failed to create note"
+        }
     }
 }
 
