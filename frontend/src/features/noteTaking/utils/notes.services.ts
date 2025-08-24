@@ -48,7 +48,7 @@ async function fetchNotes(notebookId: number): Promise<FetchNotesSuccess | ApiEr
 
 async function createNote(noteData: Note): Promise<CreateNoteSuccess | ApiErrorResponse> {
     try {
-        const response = await api.post(`${NOTES_BASE}/note/create/`)
+        const response = await api.post(`${NOTES_BASE}/note/create/`, noteData)
 
         return {
             success: true,
