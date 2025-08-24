@@ -51,7 +51,9 @@ async function createNote(noteData: Note): Promise<CreateNoteSuccess | ApiErrorR
         const response = await api.post(`${NOTES_BASE}/note/create/`)
 
         return {
-
+            success: true,
+            message: "Successfully created note",
+            createdNote: response.data
         }
     }
 }
