@@ -26,4 +26,6 @@ class FetchNotesEndpoint(ListAPIView):
         return queryset
     
 class CreateNoteEndpoint(CreateAPIView):
-    pass
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
+    permission_classes = [IsAuthenticated]
