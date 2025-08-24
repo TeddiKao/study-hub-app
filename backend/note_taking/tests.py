@@ -31,3 +31,23 @@ class NotebooksTestCase(TestCase):
         self.assertTrue(
             Notebook.objects.filter(name="Notebook 1", owner=self.user2).exists()
         )
+
+class NotesTestCase(TestCase):
+    def setUp(self):
+        user = get_user_model()
+
+        self.user1 = user.objects.create_user(email="user1@gmail.com", username="user1", password="test")
+        self.user2 = user.objects.create_user(email="user2@gmail.com", username="user2", password="test")
+
+        self.notebook1user1 = Notebook.objects.create(name="Notebook 1", description="Random description", owner=self.user1)
+        self.notebook2user1 = Notebook.objects.create(name="Notebook 2", description="Random description", owner=self.user1)
+        self.notebook1user2 = Notebook.objects.create(name="Notebook 1", description="Random description", owner=self.user2)
+
+    def test_duplicate_note_per_owner_per_notebook():
+        pass
+
+    def test_duplicate_note_per_owner_for_different_notebooks():
+        pass
+
+    def test_duplicate_note_for_different_owners():
+        pass
