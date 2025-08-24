@@ -16,7 +16,7 @@ interface NotePayload extends RawNoteData {
 }
 
 interface FetchNotesSuccess extends ApiSuccessResponse {
-	notes: NoteResponse[];
+	notes: NoteResponseList;
 }
 
 interface CreateNoteSuccess extends ApiSuccessResponse {
@@ -26,6 +26,8 @@ interface CreateNoteSuccess extends ApiSuccessResponse {
 interface EditNoteSuccess extends ApiSuccessResponse {
 	editedNote: NoteResponse;
 }
+
+type NoteResponseList = NoteResponse[];
 
 export type {
 	NoteResponse,
