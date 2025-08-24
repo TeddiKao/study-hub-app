@@ -80,14 +80,14 @@ async function editNote(noteId: number, newNoteData: Note): Promise<EditNoteSucc
 
         return {
             success: true,
-            message: "Notebook edited successfully",
+            message: "Note edited successfully",
             editedNote: response.data
         }
     } catch (error) {
         if (!isAxiosError(error)) {
             return {
                 success: false,
-                error: "Failed to edit notebook"
+                error: "Failed to edit note"
             }
         }
 
