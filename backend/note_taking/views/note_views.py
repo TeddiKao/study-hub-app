@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError
 
@@ -24,3 +24,6 @@ class FetchNotesEndpoint(ListAPIView):
         queryset = Note.objects.filter(notebook=notebook_id, notebook__owner=self.request.user)
 
         return queryset
+    
+class CreateNoteEndpoint(CreateAPIView):
+    pass
