@@ -45,6 +45,13 @@ class EditNoteEndpoint(UpdateAPIView):
         queryset = Note.objects.filter(notebook__owner=self.request.user)
 
         return queryset
+    
+    def perform_update(self, serializer):
+        new_notebook = serializer.validated_data.get("notebook")
+        if new_notebook and new_notebook.owner.id != self.request.user.id:
+            raise PermissionDenied("You do not have permission to move notes to this notebook")
+        
+        serializer.save()
 
 class DeleteNoteEndpoint(DestroyAPIView):
     serializer_class = NoteSerializer
