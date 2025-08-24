@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError, PermissionDenied
 
@@ -34,3 +34,12 @@ class CreateNoteEndpoint(CreateAPIView):
         notebook = serializer.validated_data["notebook"]
         if notebook.owner.id != self.request.user.id:
             raise PermissionDenied("You do not have permission to create notes in this notebook")
+        
+class DeleteNoteEndpoint(DestroyAPIView):
+    serializer_class = NoteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = Note.objects.filter(notebook__owner=self.request.user)
+
+        return queryset
