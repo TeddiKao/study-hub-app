@@ -55,6 +55,13 @@ async function createNote(noteData: Note): Promise<CreateNoteSuccess | ApiErrorR
             message: "Successfully created note",
             createdNote: response.data
         }
+    } catch (error) {
+        if (!isAxiosError(error)) {
+            return {
+                success: false,
+                error: "Failed to create note"
+            }
+        }
     }
 }
 
