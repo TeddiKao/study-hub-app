@@ -45,3 +45,4 @@ class DeleteNoteEndpoint(DestroyAPIView):
         queryset = Note.objects.filter(notebook__owner=self.request.user)
 
         return queryset
+    
