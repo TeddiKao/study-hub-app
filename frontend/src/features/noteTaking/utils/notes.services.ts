@@ -93,7 +93,7 @@ async function editNote(noteId: number, newNoteData: Note): Promise<EditNoteSucc
 
         return {
             success: false,
-            error: error.response?.data?.error
+            error: error.response?.data?.error ?? "Failed to edit note"
         }
     }
 }
