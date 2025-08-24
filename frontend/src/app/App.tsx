@@ -9,8 +9,9 @@ import ProtectedRoute from "@/features/auth/components/routes/ProtectedRoute";
 import DashboardPage from "@/shared/pages/DashboardPage/DashboardPage";
 import LogoutRoute from "@/features/auth/pages/LogoutRoute";
 import AuthRoute from "@/features/auth/components/routes/AuthRoute";
-import NotebooksPage from "@/features/noteTaking/pages/NotebookPage/NotebooksPage";
+import NotebooksPage from "@/features/noteTaking/pages/NotebooksPage/NotebooksPage";
 import useTokenRefreshInterval from "@/features/auth/hooks/useTokenRefreshInterval";
+import NotesPage from "@/features/noteTaking/pages/NotesPage";
 
 export const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ function App() {
 					<Route element={<ProtectedRoute />}>
 						<Route path="/home" element={<DashboardPage />} />
 						<Route path="/notebooks" element={<NotebooksPage />} />
+						<Route path="/notebooks/:noteId" element={<NotesPage />} />
 					</Route>
 
 					<Route path="/logout" element={<LogoutRoute />} />
