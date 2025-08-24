@@ -79,7 +79,12 @@ async function deleteNote(noteId: number): Promise<ApiSuccessResponse | ApiError
             message: "Note deleted successfully"
         }
     } catch (error) {
-        
+        if (!isAxiosError(error)) {
+            return {
+                success: false,
+                error: "Failed to delete note"
+            }
+        }
     }
 }
 
