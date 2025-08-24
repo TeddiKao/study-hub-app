@@ -6,7 +6,7 @@ from ..serializers import NotebookSerializer
 class NoteSerializer(ModelSerializer):
     notebook = NotebookSerializer(read_only=True)
     notebook_id = PrimaryKeyRelatedField(
-        queryset=Notebook.objects.all(),
+        queryset=Notebook.objects.none(),
         source="notebook",
     )
 
@@ -35,7 +35,13 @@ class NoteSerializer(ModelSerializer):
                 })
             
         return data
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            self.fields["notebook_id"].queryset = Notebook.objects.filter(owner=request.user)
 
     class Meta:
         model = Note
