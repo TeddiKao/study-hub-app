@@ -37,7 +37,7 @@ async function fetchNotes(notebookId: number): Promise<FetchNotesSuccess | ApiEr
 
         return {
             success: false,
-            error: error.response?.data.error ?? "Failed to fetch notes"
+            error: error.response?.data?.error ?? "Failed to fetch notes"
         }
     }
 }
