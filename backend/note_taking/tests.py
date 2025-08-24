@@ -58,5 +58,9 @@ class NotesTestCase(TestCase):
         self.assertTrue(Note.objects.filter(name="Note 1", notebook=self.notebook1user1).exists())
         self.assertTrue(Note.objects.filter(name="Note 1", notebook=self.notebook2user1).exists())
 
-    def test_duplicate_note_for_different_owners():
-        pass
+    def test_duplicate_note_for_different_owners(self):
+        Note.objects.create(name="Note 1", description="My first note", notebook=self.notebook1user1)
+        Note.objects.create(name="Note 1", description="My first note", notebook=self.notebook1user2)
+
+        self.assertTrue(Note.objects.filter(name="Note 1", notebook=self.notebook1user1).exists())
+        self.assertTrue(Note.objects.filter(name="Note 1", notebook=self.notebook1user2).exists())
