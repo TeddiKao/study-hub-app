@@ -3,6 +3,7 @@ import { NOTES_BASE } from "@/app/api.constants"
 import type { ApiErrorResponse, ApiSuccessResponse } from "@/shared/types/api.types"
 import type { Notebook } from "../types/notebooks/notebookStore.types";
 import { isAxiosError } from "axios";
+import { data } from "react-router-dom";
 
 interface Note {
     name: string;
@@ -84,7 +85,17 @@ async function editNote(noteId: number, newNoteData: Note): Promise<EditNoteSucc
             editedNote: response.data
         }
     } catch (error) {
+        if (!isAxiosError(error)) {
+            return {
+                success: false,
+                error: "Failed to edit notebook"
+            }
+        }
 
+        return {
+            success: false,
+            error: error.response?.data?.error
+        }
     }
 }
 
