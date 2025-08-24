@@ -21,6 +21,6 @@ class FetchNotesEndpoint(ListAPIView):
         except (ValueError, TypeError):
             raise ValidationError({ "notebook_id": "Must be an integer" })
 
-        queryset = Note.objects.filter(notebook=notebook_id)
+        queryset = Note.objects.filter(notebook=notebook_id, notebook__owner=self.request.user)
 
         return queryset
