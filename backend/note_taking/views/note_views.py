@@ -35,6 +35,8 @@ class CreateNoteEndpoint(CreateAPIView):
         if notebook.owner.id != self.request.user.id:
             raise PermissionDenied("You do not have permission to create notes in this notebook")
         
+        serializer.save()
+
 class DeleteNoteEndpoint(DestroyAPIView):
     serializer_class = NoteSerializer
     permission_classes = [IsAuthenticated]
