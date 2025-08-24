@@ -10,6 +10,7 @@ interface NotesStore {
 
 	updateNotes: (newNotes: Notes) => void;
 	updateCurrentNotebookId: (newNotebookId: number) => void;
+    clearCurrentNotebookId: () => void,
 
 	getNotes: () => Promise<void>;
 
@@ -22,8 +23,10 @@ const useNotesStore = create<NotesStore>((set, get) => ({
 	notes: [],
 	currentNotebookId: null,
 	updateNotes: (newNotes: Notes) => set({ notes: newNotes }),
+
 	updateCurrentNotebookId: (newNotebookId: number) =>
 		set({ currentNotebookId: newNotebookId }),
+    clearCurrentNotebookId: () => set({ currentNotebookId: null }),
 
 	getNotes: async () => {
         if (isNullOrUndefined(get().currentNotebookId)) return;
