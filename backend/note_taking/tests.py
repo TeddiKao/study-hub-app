@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Notebook
+from .models import Notebook, Note
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from django.db import transaction
@@ -43,8 +43,11 @@ class NotesTestCase(TestCase):
         self.notebook2user1 = Notebook.objects.create(name="Notebook 2", description="Random description", owner=self.user1)
         self.notebook1user2 = Notebook.objects.create(name="Notebook 1", description="Random description", owner=self.user2)
 
-    def test_duplicate_note_per_owner_per_notebook():
-        pass
+    def test_duplicate_note_per_owner_per_notebook(self):
+        Note.objects.create(name="Note 1", description="My first note", notebook=self.notebook1user1)
+
+        with self.assertRaises(IntegrityError), transaction.atomic():
+            Note.objects.create(name="Note 1", description="Another note", notebook=self.notebook1user1)
 
     def test_duplicate_note_per_owner_for_different_notebooks():
         pass
