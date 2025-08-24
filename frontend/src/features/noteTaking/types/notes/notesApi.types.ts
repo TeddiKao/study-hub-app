@@ -1,22 +1,18 @@
 import type { ApiSuccessResponse } from "@/shared/types/api.types";
 import type { Notebook } from "../notebooks/notebookStore.types";
 
-interface NoteResponse {
-	id: number;
-	name: string;
-	description: string;
-	notebook: Notebook;
-}
-
 interface RawNoteData {
 	name: string;
 	description: string;
 }
 
-interface NotePayload {
-	name: string;
-	description: string;
-	notebookId: number;
+interface NoteResponse extends RawNoteData {
+    id: number;
+    notebook: Notebook;
+}
+
+interface NotePayload extends RawNoteData {
+    notebookId: number;
 }
 
 interface FetchNotesSuccess extends ApiSuccessResponse {
