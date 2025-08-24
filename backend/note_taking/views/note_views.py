@@ -60,6 +60,8 @@ class RetrieveNoteEndpoint(RetrieveAPIView):
     def get_queryset(self):
         queryset = Note.objects.filter(notebook__owner=self.request.user)
 
+        return queryset
+
 class DeleteNoteEndpoint(DestroyAPIView):
     serializer_class = NoteSerializer
     permission_classes = [IsAuthenticated]
