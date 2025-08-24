@@ -75,7 +75,17 @@ async function createNote(noteData: Note): Promise<CreateNoteSuccess | ApiErrorR
 }
 
 async function editNote(noteId: number, newNoteData: Note): Promise<EditNoteSuccess | ApiErrorResponse> {
+    try {
+        const response = await api.put(`${NOTES_BASE}/note/${noteId}/edit/`)
 
+        return {
+            success: true,
+            message: "Notebook edited successfully",
+            editedNote: response.data
+        }
+    } catch (error) {
+
+    }
 }
 
 async function deleteNote(noteId: number): Promise<ApiSuccessResponse | ApiErrorResponse> {
