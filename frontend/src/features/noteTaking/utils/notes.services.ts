@@ -18,6 +18,10 @@ interface CreateNoteSuccess extends ApiSuccessResponse {
     createdNote: Note
 }
 
+interface EditNoteSuccess extends ApiSuccessResponse {
+    editedNote: Note
+}
+
 async function fetchNotes(notebookId: number): Promise<FetchNotesSuccess | ApiErrorResponse> {
     try {
         const response = await api.get(`${NOTES_BASE}/`, {
@@ -70,6 +74,30 @@ async function createNote(noteData: Note): Promise<CreateNoteSuccess | ApiErrorR
     }
 }
 
+async function editNote(noteId: number, newNoteData: Note): Promise<EditNoteSuccess | ApiErrorResponse> {
+    try {
+        const response = await api.put(`${NOTES_BASE}/note/${noteId}/edit/`, newNoteData)
+
+        return {
+            success: true,
+            message: "Note edited successfully",
+            editedNote: response.data
+        }
+    } catch (error) {
+        if (!isAxiosError(error)) {
+            return {
+                success: false,
+                error: "Failed to edit note"
+            }
+        }
+
+        return {
+            success: false,
+            error: error.response?.data?.error ?? "Failed to edit note"
+        }
+    }
+}
+
 async function deleteNote(noteId: number): Promise<ApiSuccessResponse | ApiErrorResponse> {
     try {
         await api.delete(`${NOTES_BASE}/note/${noteId}/delete/`)
@@ -93,4 +121,4 @@ async function deleteNote(noteId: number): Promise<ApiSuccessResponse | ApiError
     }
 }
 
-export { fetchNotes, createNote, deleteNote }
+export { fetchNotes, createNote, deleteNote, editNote }
