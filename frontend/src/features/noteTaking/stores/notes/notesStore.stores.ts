@@ -15,11 +15,11 @@ interface NotesStore {
 	updateNotes: (newNotes: Note[]) => void;
 	updateCurrentNotebookId: (newNotebookId: number) => void;
 
-	getNotes: () => void;
+	getNotes: () => Promise<void>;
 
-	handleNoteCreate: (createdNote: Note) => void;
-	handleNoteEdit: (noteId: number, newNoteData: Note) => void;
-	handleNoteDelete: (noteId: number) => void;
+	handleNoteCreate: (createdNote: Note) => Promise<void>;
+	handleNoteEdit: (noteId: number, newNoteData: Note) => Promise<void>;
+	handleNoteDelete: (noteId: number) => Promise<void>;
 }
 
 const useNotesStore = create<NotesStore>((set, get) => ({
