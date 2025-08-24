@@ -48,7 +48,7 @@ const useNotesStore = create<NotesStore>((set, get) => ({
             throw new Error(noteCreateResponse.error);
         };
         
-        get().getNotes();
+        await get().getNotes();
     },
 
 	handleNoteEdit: async (noteId: number, newNoteData: Note) => {
@@ -57,7 +57,7 @@ const useNotesStore = create<NotesStore>((set, get) => ({
             throw new Error(noteEditResponse.error);
         }
 
-        get().getNotes();
+        await get().getNotes();
     },
 
 	handleNoteDelete: async (noteId: number) => {
@@ -66,7 +66,7 @@ const useNotesStore = create<NotesStore>((set, get) => ({
             throw new Error(noteDeleteResponse.error);
         }
 
-        get().getNotes()
+        await get().getNotes()
     },
 }));
 
