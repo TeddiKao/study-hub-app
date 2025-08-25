@@ -23,7 +23,7 @@ import {
 } from "@/shared/stores/dashboard.stores";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, type MouseEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface ItemProps {
 	itemId: number;
@@ -123,8 +123,10 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 	const { updateFormVisibility } = useEditNotebookFormStore();
 	const { showAlert: showDeleteNotebookAlert } =
 		useDeleteNotebookAlertStore();
+	const { expandedItem } = useDashboardNavbarState();
 
 	const queryClient = useQueryClient();
+	const navigate = useNavigate();
 
 	function getItemIcon() {
 		switch (itemType) {
@@ -134,6 +136,15 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 			default:
 				return null;
 		}
+	}
+
+	function handleItemCardClick() {
+		if (!expandedItem) return;
+
+		const linkBase = expandedItemLinkMap[expandedItem];
+		if (!linkBase) return;
+
+		navigate(`${linkBase}/${itemId}`)
 	}
 
 	return (
@@ -146,13 +157,11 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 			}}
 			onMouseLeave={() => {
 				if (!canUpdateActiveItemId) return;
-
-				console.log("Active item cleared");
 				clearActiveItem();
 			}}
-			className="flex flex-row gap-3 mb-0.5 p-1 items-center justify-between hover:cursor-pointer hover:bg-gray-300 rounded-md"
+			className="flex flex-row mb-0.5 p-1 items-center hover:bg-gray-300 rounded-md w-full"
 		>
-			<div className="flex flex-row items-center">
+			<button aria-label={`Open ${itemType} \"${itemName}\"`} type="button" className="flex flex-row text-left grow items-center hover:cursor-pointer" onClick={handleItemCardClick}>
 				<div
 					className="p-1 rounded-sm"
 					style={{
@@ -161,11 +170,11 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 				>
 					{getItemIcon()}
 				</div>
-				<p className="ml-2 shrink-0 ">{itemName}</p>
-			</div>
+				<p className="ml-2 shrink-0 grow pr-5">{itemName}</p>
+			</button>
 
 			{activeItemId === itemId && (
-				<div className="flex flex-row items-center ml-2 shrink-0">
+				<div className="flex flex-row items-center shrink-0">
 					<button
 						type="button"
 						className="ml-0.5 hover:cursor-pointer"
