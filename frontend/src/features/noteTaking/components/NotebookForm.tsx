@@ -173,6 +173,7 @@ function NotebookForm(props: NotebookFormProps) {
 
 			<button
 				type="submit"
+				onClick={(e) => e.stopPropagation()}
 				className="bg-sky-500 w-full rounded-md text-white py-2 hover:bg-sky-700 hover:cursor-pointer"
 			>
 				{submitButtonText}
