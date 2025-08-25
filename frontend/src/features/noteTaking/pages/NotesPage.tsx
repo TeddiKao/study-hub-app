@@ -9,7 +9,7 @@ function NotesPage() {
 				<h1 className="text-3xl font-semibold">Notes</h1>
 				<Button
 					type="button"
-					className="bg-sky-500 hover:bg-sky-700 hover:cursor-pointer"
+					className="hover:cursor-pointer"
 				>
 					<AddIcon /> <span className="-ml-0.5">New note</span>
 				</Button>
