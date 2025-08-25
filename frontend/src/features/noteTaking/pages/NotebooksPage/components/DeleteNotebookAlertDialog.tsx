@@ -31,7 +31,9 @@ function DeleteNotebookAlertDialog({ notebookId }: DeleteNotebookAlertDialog) {
 					Cancel
 				</AlertDialogCancel>
 				<AlertDialogAction
-					onClick={async () => {
+					onClick={async (e: React.MouseEvent) => {
+						e.stopPropagation()
+
 						try {
 							await handleNotebookDelete(notebookId);
 						} catch (error) {
