@@ -141,7 +141,10 @@ function Item({ itemId, itemType, itemName, color }: ItemProps) {
 	function handleItemCardClick() {
 		if (!expandedItem) return;
 
-		navigate(`${expandedItemLinkMap[expandedItem]}/${itemId}`)
+		const linkBase = expandedItemLinkMap[expandedItem];
+		if (!linkBase) return;
+
+		navigate(`${linkBase}/${itemId}`)
 	}
 
 	return (
