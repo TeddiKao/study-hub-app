@@ -123,6 +123,7 @@ function AlertDialogAction({
   return (
     <AlertDialogPrimitive.Action
       className={cn(buttonVariants(), className)}
+      onClick={(e) => e.stopPropagation()}
       {...props}
     />
   )
