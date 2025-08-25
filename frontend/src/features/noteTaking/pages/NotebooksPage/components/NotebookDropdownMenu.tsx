@@ -39,6 +39,7 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 						<button
 							type="button"
 							aria-label="Notebook actions"
+							onClick={(e) => e.stopPropagation()}
 							className="py-0.5 rounded-sm hover:cursor-pointer hover:bg-gray-300"
 						>
 							<KebabMenuIcon size={20} />
@@ -49,6 +50,7 @@ function NotebookDropdownMenu({ notebookId }: NotebookDropdownMenuProps) {
 						side="right"
 						align="start"
 						alignOffset={-8}
+						onClick={(e) => e.stopPropagation()}
 					>
 						<DropdownMenuItem asChild>
 							<DialogTrigger
