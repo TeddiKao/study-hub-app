@@ -22,7 +22,9 @@ function NotesPage() {
 							<p>Chapter 5</p>
 						</div>
 
-						<KebabMenuIcon className="w-6 h-6" />
+						<button className="py-1 hover:cursor-pointer hover:bg-gray-300 rounded-md">
+							<KebabMenuIcon className="w-6 h-6" />
+						</button>
 					</div>
 				</div>
 			</div>
