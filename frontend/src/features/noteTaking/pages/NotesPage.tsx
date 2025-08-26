@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import { NotepadText } from "lucide-react";
 import { useParams } from "react-router-dom";
 import { fetchNotes } from "../utils/notes.services";
+import { useEffect } from "react";
+import { useNotesStore } from "../stores/notes/notesStore.stores";
 
 interface NoteCardProps {
 	noteName: string;
@@ -28,6 +30,7 @@ function NoteCard({ noteName }: NoteCardProps) {
 
 function NotesPage() {
 	const { notebookId } = useParams();
+	const { updateNotes } = useNotesStore();
 
 	const { data: notes, isLoading, error, refetch } = useQuery({
 		queryKey: ["notes", notebookId],
@@ -45,7 +48,11 @@ function NotesPage() {
 		}
 	})
 
-	
+	useEffect(() => {
+		if (!notes) return;
+
+		updateNotes(notes);
+	}, [notes]);
 
 	return (
 		<DashboardLayout className="gap-4 pr-4">
