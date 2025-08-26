@@ -7,7 +7,7 @@ import { StickyNote } from "lucide-react";
 function NotesPage() {
 	return (
 		<DashboardLayout className="gap-4 pr-4">
-			<div className="flex flex-col">
+			<div className="flex flex-col gap-2">
 				<div className="flex flex-row items-center justify-between mt-3">
 					<h1 className="text-3xl font-semibold">Notes</h1>
 					<Button type="button" className="hover:cursor-pointer">
