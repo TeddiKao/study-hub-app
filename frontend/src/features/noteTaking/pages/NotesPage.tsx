@@ -2,7 +2,10 @@ import { Button } from "@/components/ui/button";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import KebabMenuIcon from "@/shared/components/icons/KebabMenuIcon";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
+import { useQuery } from "@tanstack/react-query";
 import { NotepadText } from "lucide-react";
+import { useParams } from "react-router-dom";
+import { fetchNotes } from "../utils/notes.services";
 
 interface NoteCardProps {
 	noteName: string;
@@ -24,6 +27,26 @@ function NoteCard({ noteName }: NoteCardProps) {
 }
 
 function NotesPage() {
+	const { notebookId } = useParams();
+
+	const { data: notes, isLoading, error, refetch } = useQuery({
+		queryKey: ["notes", notebookId],
+		queryFn: async () => {
+			if (!notebookId) {
+				throw new Error("Notebook ID must be provided!")
+			}
+
+			const fetchNotesReponse = await fetchNotes(Number(notebookId!));
+			if (!fetchNotesReponse.success) {
+				throw new Error(fetchNotesReponse.error);
+			}
+
+			return fetchNotesReponse.notes;			
+		}
+	})
+
+	
+
 	return (
 		<DashboardLayout className="gap-4 pr-4">
 			<div className="flex flex-col gap-2">
