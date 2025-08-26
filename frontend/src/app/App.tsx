@@ -30,7 +30,7 @@ function App() {
 					<Route element={<ProtectedRoute />}>
 						<Route path="/home" element={<DashboardPage />} />
 						<Route path="/notebooks" element={<NotebooksPage />} />
-						<Route path="/notebooks/:noteId" element={<NotesPage />} />
+						<Route path="/notebooks/:notebookId" element={<NotesPage />} />
 					</Route>
 
 					<Route path="/logout" element={<LogoutRoute />} />
