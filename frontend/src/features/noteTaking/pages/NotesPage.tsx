@@ -4,6 +4,25 @@ import KebabMenuIcon from "@/shared/components/icons/KebabMenuIcon";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
 import { NotepadText } from "lucide-react";
 
+interface NoteCardProps {
+	noteName: string;
+}
+
+function NoteCard({ noteName }: NoteCardProps) {
+	return (
+		<div className="flex flex-row py-2 pl-2 justify-between items-center bg-white shadow-md rounded-md pr-1">
+			<div className="flex flex-row gap-1">
+				<NotepadText className="w-6 h-6" />
+				<p>{noteName}</p>
+			</div>
+
+			<button className="py-1 hover:cursor-pointer hover:bg-gray-300 rounded-md">
+				<KebabMenuIcon className="w-6 h-6" />
+			</button>
+		</div>
+	);
+}
+
 function NotesPage() {
 	return (
 		<DashboardLayout className="gap-4 pr-4">
