@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import KebabMenuIcon from "@/shared/components/icons/KebabMenuIcon";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
-import { NotepadText, StickyNote } from "lucide-react";
+import { NotepadText } from "lucide-react";
 
 function NotesPage() {
 	return (
