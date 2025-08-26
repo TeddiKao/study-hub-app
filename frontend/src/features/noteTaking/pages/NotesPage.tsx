@@ -16,7 +16,7 @@ function NotesPage() {
 				</div>
 
 				<div className="flex flex-col">
-					<div className="flex flex-row bg-white shadow-md">
+					<div className="flex flex-row bg-white shadow-md rounded-md">
 						<StickyNote className="w-6 h-6" />
 						<p>Chapter 5</p>
 						<KebabMenuIcon className="w-6 h-6" />
