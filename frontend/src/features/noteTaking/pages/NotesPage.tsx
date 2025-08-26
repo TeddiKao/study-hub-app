@@ -16,7 +16,7 @@ function NotesPage() {
 				</div>
 
 				<div className="flex flex-col">
-					<div className="flex flex-row py-2 pl-2 justify-between bg-white shadow-md rounded-md pr-1">
+					<div className="flex flex-row py-2 pl-2 justify-between items-center bg-white shadow-md rounded-md pr-1">
 						<div className="flex flex-row gap-1">
 							<NotepadText className="w-6 h-6" />
 							<p>Chapter 5</p>
