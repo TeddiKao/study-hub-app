@@ -16,9 +16,12 @@ function NotesPage() {
 				</div>
 
 				<div className="flex flex-col">
-					<div className="flex flex-row bg-white shadow-md rounded-md">
-						<StickyNote className="w-6 h-6" />
-						<p>Chapter 5</p>
+					<div className="flex flex-row py-2 pl-2 justify-between bg-white shadow-md rounded-md">
+						<div className="flex flex-row">
+							<StickyNote className="w-6 h-6" />
+							<p>Chapter 5</p>
+						</div>
+						
 						<KebabMenuIcon className="w-6 h-6" />
 					</div>
 				</div>
