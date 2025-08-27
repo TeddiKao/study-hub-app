@@ -30,22 +30,25 @@ function NoteCard({ noteName }: NoteCardProps) {
 
 function NotesPage() {
 	const { notebookId } = useParams();
-	const { updateCurrentNotebookId, clearCurrentNotebookId, updateNotes } = useNotesStore();
+	const { updateNotes } = useNotesStore();
 
-	const { data: fetchedNotes, isLoading, error, refetch } = useQuery({
+	const { data: fetchedNotes, isLoading, error } = useQuery({
 		queryKey: ["notes", notebookId],
 		queryFn: async () => {
 			if (!notebookId) {
 				throw new Error("Notebook ID must be provided!")
 			}
 
-			const fetchNotesReponse = await fetchNotes(Number(notebookId!));
+			const fetchNotesReponse = await fetchNotes(Number(notebookId));
 			if (!fetchNotesReponse.success) {
 				throw new Error(fetchNotesReponse.error);
 			}
 
 			return fetchNotesReponse.notes;			
-		}
+		},
+
+		enabled: !!notebookId,
+		staleTime: 2 * 60 * 1000
 	})
 
 	useEffect(() => {
@@ -53,14 +56,6 @@ function NotesPage() {
 
 		updateNotes(fetchedNotes);
 	}, [fetchedNotes]);
-
-	useEffect(() => {
-		updateCurrentNotebookId(Number(notebookId))
-
-		return () => {
-			clearCurrentNotebookId();
-		}
-	}, [notebookId])
 
 	return (
 		<DashboardLayout className="gap-4 pr-4">
