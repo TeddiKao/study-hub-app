@@ -30,16 +30,12 @@ function NoteCard({ noteName }: NoteCardProps) {
 
 function NotesPage() {
 	const { notebookId } = useParams();
-	const { notes, updateNotes, clearCurrentNotebookId, updateCurrentNotebookId } = useNotesStore();
+	const { notes, currentNotebookId, updateNotes, clearCurrentNotebookId, updateCurrentNotebookId } = useNotesStore();
 
 	const { data: fetchedNotes, isLoading, error } = useQuery({
-		queryKey: ["notes", notebookId],
+		queryKey: ["notes", currentNotebookId],
 		queryFn: async () => {
-			if (!notebookId) {
-				throw new Error("Notebook ID must be provided!")
-			}
-
-			const fetchNotesReponse = await fetchNotes(Number(notebookId));
+			const fetchNotesReponse = await fetchNotes(currentNotebookId!);
 			if (!fetchNotesReponse.success) {
 				throw new Error(fetchNotesReponse.error);
 			}
@@ -47,7 +43,7 @@ function NotesPage() {
 			return fetchNotesReponse.notes;			
 		},
 
-		enabled: !!notebookId,
+		enabled: !!currentNotebookId,
 		staleTime: 2 * 60 * 1000
 	})
 
