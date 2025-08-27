@@ -11,12 +11,12 @@ function useNotesQuery() {
 			? ["notes", currentNotebookId]
 			: [],
 		queryFn: async () => {
-			const fetchNotesReponse = await fetchNotes(currentNotebookId!);
-			if (!fetchNotesReponse.success) {
-				throw new Error(fetchNotesReponse.error);
+			const fetchNotesResponse = await fetchNotes(currentNotebookId!);
+			if (!fetchNotesResponse.success) {
+				throw new Error(fetchNotesResponse.error);
 			}
 
-			return fetchNotesReponse.notes;
+			return fetchNotesResponse.notes;
 		},
 
 		enabled: !!currentNotebookId,
