@@ -30,7 +30,7 @@ function NoteCard({ noteName }: NoteCardProps) {
 
 function NotesPage() {
 	const { notebookId } = useParams();
-	const { updateNotes } = useNotesStore();
+	const { notes, updateNotes, clearCurrentNotebookId, updateCurrentNotebookId } = useNotesStore();
 
 	const { data: fetchedNotes, isLoading, error } = useQuery({
 		queryKey: ["notes", notebookId],
@@ -56,6 +56,14 @@ function NotesPage() {
 
 		updateNotes(fetchedNotes);
 	}, [fetchedNotes]);
+
+	useEffect(() => {
+		updateCurrentNotebookId(Number(notebookId));
+
+		return () => {
+			clearCurrentNotebookId();
+		}
+	}, [notebookId])
 
 	if (isLoading) {
 		return <div>Fetching notes</div>
