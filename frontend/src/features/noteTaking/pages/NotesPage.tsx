@@ -57,6 +57,14 @@ function NotesPage() {
 		updateNotes(fetchedNotes);
 	}, [fetchedNotes]);
 
+	if (isLoading) {
+		return <div>Fetching notes</div>
+	}
+
+	if (error) {
+		return <div>An error occured while fetching notes</div>
+	}
+
 	return (
 		<DashboardLayout className="gap-4 pr-4">
 			<div className="flex flex-col gap-2">
