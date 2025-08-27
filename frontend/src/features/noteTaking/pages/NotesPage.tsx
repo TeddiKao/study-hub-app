@@ -36,11 +36,7 @@ function NotesPage() {
 		updateCurrentNotebookId,
 	} = useNotesStore();
 
-	const {
-		data: fetchedNotes,
-		isLoading,
-		error,
-	} = useNotesQuery();
+	const { data: fetchedNotes, isLoading, error } = useNotesQuery();
 
 	useEffect(() => {
 		if (!fetchedNotes) return;
