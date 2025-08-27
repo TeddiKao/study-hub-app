@@ -30,9 +30,19 @@ function NoteCard({ noteName }: NoteCardProps) {
 
 function NotesPage() {
 	const { notebookId } = useParams();
-	const { notes, currentNotebookId, updateNotes, clearCurrentNotebookId, updateCurrentNotebookId } = useNotesStore();
+	const {
+		notes,
+		currentNotebookId,
+		updateNotes,
+		clearCurrentNotebookId,
+		updateCurrentNotebookId,
+	} = useNotesStore();
 
-	const { data: fetchedNotes, isLoading, error } = useQuery({
+	const {
+		data: fetchedNotes,
+		isLoading,
+		error,
+	} = useQuery({
 		queryKey: ["notes", currentNotebookId],
 		queryFn: async () => {
 			const fetchNotesReponse = await fetchNotes(currentNotebookId!);
@@ -40,12 +50,12 @@ function NotesPage() {
 				throw new Error(fetchNotesReponse.error);
 			}
 
-			return fetchNotesReponse.notes;			
+			return fetchNotesReponse.notes;
 		},
 
 		enabled: !!currentNotebookId,
-		staleTime: 2 * 60 * 1000
-	})
+		staleTime: 2 * 60 * 1000,
+	});
 
 	useEffect(() => {
 		if (!fetchedNotes) return;
@@ -58,15 +68,15 @@ function NotesPage() {
 
 		return () => {
 			clearCurrentNotebookId();
-		}
-	}, [notebookId])
+		};
+	}, [notebookId]);
 
 	if (isLoading) {
-		return <div>Fetching notes</div>
+		return <div>Fetching notes</div>;
 	}
 
 	if (error) {
-		return <div>An error occured while fetching notes</div>
+		return <div>An error occured while fetching notes</div>;
 	}
 
 	return (
@@ -80,16 +90,9 @@ function NotesPage() {
 				</div>
 
 				<div className="flex flex-col">
-					<div className="flex flex-row py-2 pl-2 justify-between items-center bg-white shadow-md rounded-md pr-1">
-						<div className="flex flex-row gap-1">
-							<NotepadText className="w-6 h-6" />
-							<p>Chapter 5</p>
-						</div>
-
-						<button className="py-1 hover:cursor-pointer hover:bg-gray-300 rounded-md">
-							<KebabMenuIcon className="w-6 h-6" />
-						</button>
-					</div>
+					{notes.map(({ name, id }, _) => (
+						<NoteCard noteName={name} key={id} />
+					))}
 				</div>
 			</div>
 		</DashboardLayout>
