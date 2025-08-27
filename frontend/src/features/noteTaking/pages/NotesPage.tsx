@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useNotesStore } from "../stores/notes/notesStore.stores";
 import useNotesQuery from "../hooks/query/useNotesQuery.hooks";
+import { isNullOrUndefined } from "@/shared/utils/types.utils";
 
 interface NoteCardProps {
 	noteName: string;
@@ -45,7 +46,17 @@ function NotesPage() {
 	}, [fetchedNotes]);
 
 	useEffect(() => {
-		updateCurrentNotebookId(Number(notebookId));
+		if (notebookId === undefined) {
+			return;
+		}
+
+		const id = Number(notebookId);
+		if (Number.isNaN(id)) {
+			clearCurrentNotebookId();
+			return;
+		}
+
+		updateCurrentNotebookId(id);
 
 		return () => {
 			clearCurrentNotebookId();
