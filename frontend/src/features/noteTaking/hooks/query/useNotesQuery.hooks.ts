@@ -19,7 +19,7 @@ function useNotesQuery() {
 			return fetchNotesResponse.notes;
 		},
 
-		enabled: !!currentNotebookId,
+		enabled: !isNullOrUndefined(currentNotebookId),
 		staleTime: 2 * 60 * 1000,
 	});
 }
