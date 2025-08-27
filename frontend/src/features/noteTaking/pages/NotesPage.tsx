@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useNotesStore } from "../stores/notes/notesStore.stores";
 import useNotesQuery from "../hooks/query/useNotesQuery.hooks";
-import { isNullOrUndefined } from "@/shared/utils/types.utils";
 
 interface NoteCardProps {
 	noteName: string;
