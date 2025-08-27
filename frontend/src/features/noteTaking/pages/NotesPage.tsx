@@ -31,7 +31,6 @@ function NotesPage() {
 	const { notebookId } = useParams();
 	const {
 		notes,
-		currentNotebookId,
 		updateNotes,
 		clearCurrentNotebookId,
 		updateCurrentNotebookId,
