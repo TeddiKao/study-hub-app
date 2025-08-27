@@ -9,6 +9,7 @@ import { fetchNotes } from "../utils/notes.services";
 import { useEffect } from "react";
 import { useNotesStore } from "../stores/notes/notesStore.stores";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
+import useNotesQuery from "../hooks/query/useNotesQuery.hooks";
 
 interface NoteCardProps {
 	noteName: string;
@@ -43,22 +44,7 @@ function NotesPage() {
 		data: fetchedNotes,
 		isLoading,
 		error,
-	} = useQuery({
-		queryKey: !isNullOrUndefined(currentNotebookId)
-			? ["notes", currentNotebookId]
-			: [],
-		queryFn: async () => {
-			const fetchNotesReponse = await fetchNotes(currentNotebookId!);
-			if (!fetchNotesReponse.success) {
-				throw new Error(fetchNotesReponse.error);
-			}
-
-			return fetchNotesReponse.notes;
-		},
-
-		enabled: !!currentNotebookId,
-		staleTime: 2 * 60 * 1000,
-	});
+	} = useNotesQuery();
 
 	useEffect(() => {
 		if (!fetchedNotes) return;
