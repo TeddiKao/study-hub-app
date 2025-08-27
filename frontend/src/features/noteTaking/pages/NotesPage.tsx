@@ -2,13 +2,10 @@ import { Button } from "@/components/ui/button";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import KebabMenuIcon from "@/shared/components/icons/KebabMenuIcon";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
-import { useQuery } from "@tanstack/react-query";
 import { NotepadText } from "lucide-react";
 import { useParams } from "react-router-dom";
-import { fetchNotes } from "../utils/notes.services";
 import { useEffect } from "react";
 import { useNotesStore } from "../stores/notes/notesStore.stores";
-import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import useNotesQuery from "../hooks/query/useNotesQuery.hooks";
 
 interface NoteCardProps {
