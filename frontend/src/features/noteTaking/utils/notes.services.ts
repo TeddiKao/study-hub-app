@@ -12,6 +12,7 @@ import type {
 	NoteResponse,
 	NotePayload,
 	EditNoteSuccess,
+	RetrieveNoteSuccess,
 } from "../types/notes/notesApi.types";
 
 async function fetchNotes(
@@ -79,13 +80,17 @@ async function createNote(
 	}
 }
 
-async function retrieveNote(noteId: number): Promise<NoteResponse | ApiErrorResponse> {
+async function retrieveNote(noteId: number): Promise<RetrieveNoteSuccess | ApiErrorResponse> {
 	try {
 		const response = await api.get<NoteResponse>(
 			`${NOTES_BASE}/note/${noteId}/`
 		);
 
-		return response.data;
+		return {
+			success: true,
+			message: "Successfully retrieved note",
+			retrievedNote: response.data,
+		};
 	} catch (error) {
 		if (!isAxiosError(error)) {
 			return {
