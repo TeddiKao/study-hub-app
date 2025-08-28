@@ -90,7 +90,7 @@ function NotesPage() {
 					</div>
 
 					<div className="flex flex-col">
-						{notes.map(({ name, id }, _) => (
+						{notes.map(({ name, id }) => (
 							<NoteCard noteName={name} key={id} />
 						))}
 					</div>
