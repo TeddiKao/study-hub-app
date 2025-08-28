@@ -9,6 +9,7 @@ import { useNotesStore } from "../stores/notes/notesStore.stores";
 import useNotesQuery from "../hooks/query/useNotesQuery.hooks";
 import NoteDialog from "../components/NoteDialog";
 import { useCreateNoteDialogStore } from "../stores/notes/noteDialog.stores";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 interface NoteCardProps {
 	noteName: string;
@@ -23,7 +24,16 @@ function NoteCard({ noteName }: NoteCardProps) {
 			</div>
 
 			<button className="py-1 hover:cursor-pointer hover:bg-gray-300 rounded-md">
-				<KebabMenuIcon className="w-6 h-6" />
+				<DropdownMenu>
+					<DropdownMenuTrigger>
+						<KebabMenuIcon className="w-6 h-6" />
+					</DropdownMenuTrigger>
+
+					<DropdownMenuContent>
+						<DropdownMenuItem>Edit</DropdownMenuItem>
+						<DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
 			</button>
 		</div>
 	);
