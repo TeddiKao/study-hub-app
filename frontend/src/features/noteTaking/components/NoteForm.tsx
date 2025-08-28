@@ -3,7 +3,19 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { FormEvent } from "react";
 
-function NoteForm() {
+interface NoteFormProps {
+	mode: "create" | "edit";
+	noteId?: number;
+}
+
+function NoteForm({ mode, noteId }: NoteFormProps) {
+	const nameFieldPlaceholder =
+		mode === "create" ? "Note name" : "New name";
+	const descriptionFieldPlaceholder =
+		mode === "create"
+			? "Briefly describe what this note is about"
+			: "New description";
+
 	function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		// Handle form submission logic here
@@ -13,12 +25,12 @@ function NoteForm() {
 		<form className="flex flex-col p-2 gap-2" onSubmit={handleFormSubmit}>
 			<div className="flex flex-col">
 				<Label htmlFor="note-name">Note Name</Label>
-				<Input name="note-name" type="text" />
+				<Input placeholder={nameFieldPlaceholder} name="note-name" type="text" />
 			</div>
 
 			<div className="flex flex-col">
 				<Label htmlFor="note-description">Note Description</Label>
-				<Textarea id="note-description" />
+				<Textarea placeholder={descriptionFieldPlaceholder} id="note-description" />
 			</div>
 
 			<button
