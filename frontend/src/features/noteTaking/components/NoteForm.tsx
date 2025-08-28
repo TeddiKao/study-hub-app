@@ -54,7 +54,7 @@ function NoteForm({ mode, noteId }: NoteFormProps) {
 				<Label htmlFor="note-name">Note Name</Label>
 				<Input
 					placeholder={nameFieldPlaceholder}
-					name="note-name"
+					id="note-name"
 					type="text"
 					value={name}
 					onChange={(e) => updateName(e.target.value)}
