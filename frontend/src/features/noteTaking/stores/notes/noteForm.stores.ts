@@ -12,7 +12,6 @@ interface NoteFormStore {
 const useNoteFormStore = create<NoteFormStore>((set) => ({
     name: "",
     description: "",
-    isVisible: false,
 
     updateName: (name) => set({ name }),
     updateDescription: (description) => set({ description }),
