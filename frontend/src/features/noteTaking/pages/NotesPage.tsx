@@ -7,7 +7,8 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useNotesStore } from "../stores/notes/notesStore.stores";
 import useNotesQuery from "../hooks/query/useNotesQuery.hooks";
-import { useNoteDialogStore } from "../stores/notes/noteDialog.stores";
+import NoteDialog from "../components/NoteDialog";
+import { useCreateNoteDialogStore } from "../stores/notes/noteDialog.stores";
 
 interface NoteCardProps {
 	noteName: string;
@@ -38,7 +39,7 @@ function NotesPage() {
 	} = useNotesStore();
 
 	const { data: fetchedNotes, isLoading, error } = useNotesQuery();
-	const { showDialog } = useNoteDialogStore();
+	const { showDialog: showCreateNoteDialog } = useCreateNoteDialogStore();
 
 	useEffect(() => {
 		if (!fetchedNotes) return;
@@ -73,22 +74,31 @@ function NotesPage() {
 	}
 
 	return (
-		<DashboardLayout className="gap-4 pr-4">
-			<div className="flex flex-col gap-2">
-				<div className="flex flex-row items-center justify-between mt-3">
-					<h1 className="text-3xl font-semibold">Notes</h1>
-					<Button onClick={showDialog} type="button" className="hover:cursor-pointer">
-						<AddIcon /> <span className="-ml-0.5">New note</span>
-					</Button>
-				</div>
+		<>
+			<DashboardLayout className="gap-4 pr-4">
+				<div className="flex flex-col gap-2">
+					<div className="flex flex-row items-center justify-between mt-3">
+						<h1 className="text-3xl font-semibold">Notes</h1>
+						<Button
+							onClick={showCreateNoteDialog}
+							type="button"
+							className="hover:cursor-pointer"
+						>
+							<AddIcon />{" "}
+							<span className="-ml-0.5">New note</span>
+						</Button>
+					</div>
 
-				<div className="flex flex-col">
-					{notes.map(({ name, id }, _) => (
-						<NoteCard noteName={name} key={id} />
-					))}
+					<div className="flex flex-col">
+						{notes.map(({ name, id }, _) => (
+							<NoteCard noteName={name} key={id} />
+						))}
+					</div>
 				</div>
-			</div>
-		</DashboardLayout>
+			</DashboardLayout>
+
+			<NoteDialog mode="create" />
+		</>
 	);
 }
 
