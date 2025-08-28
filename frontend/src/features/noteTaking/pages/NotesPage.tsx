@@ -84,7 +84,7 @@ function NotesPage() {
 							type="button"
 							className="hover:cursor-pointer"
 						>
-							<AddIcon />{" "}
+							<AddIcon />
 							<span className="-ml-0.5">New note</span>
 						</Button>
 					</div>
