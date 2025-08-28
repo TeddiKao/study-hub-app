@@ -70,7 +70,7 @@ function NotesPage() {
 	}
 
 	if (error) {
-		return <div>An error occured while fetching notes</div>;
+		return <div>An error occurred while fetching notes</div>;
 	}
 
 	return (
