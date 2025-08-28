@@ -41,11 +41,17 @@ function NoteForm({ mode, noteId }: NoteFormProps) {
 		}
 	}
 
+	async function handleNoteEdit() {
+		
+	}
+
 	async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
 		if (mode === "create") {
 			await handleNoteCreation();
+		} else if (mode === "edit" && noteId) {
+			await handleNoteEdit();
 		}
 	}
 
