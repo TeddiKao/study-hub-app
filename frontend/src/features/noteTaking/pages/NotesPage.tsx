@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useNotesStore } from "../stores/notes/notesStore.stores";
 import useNotesQuery from "../hooks/query/useNotesQuery.hooks";
+import { useNoteDialogStore } from "../stores/notes/noteDialog.stores";
 
 interface NoteCardProps {
 	noteName: string;
@@ -37,6 +38,7 @@ function NotesPage() {
 	} = useNotesStore();
 
 	const { data: fetchedNotes, isLoading, error } = useNotesQuery();
+	const { showDialog } = useNoteDialogStore();
 
 	useEffect(() => {
 		if (!fetchedNotes) return;
@@ -75,7 +77,7 @@ function NotesPage() {
 			<div className="flex flex-col gap-2">
 				<div className="flex flex-row items-center justify-between mt-3">
 					<h1 className="text-3xl font-semibold">Notes</h1>
-					<Button type="button" className="hover:cursor-pointer">
+					<Button onClick={showDialog} type="button" className="hover:cursor-pointer">
 						<AddIcon /> <span className="-ml-0.5">New note</span>
 					</Button>
 				</div>
