@@ -63,7 +63,7 @@ function NotesPage() {
 		return () => {
 			clearCurrentNotebookId();
 		};
-	}, [notebookId]);
+	}, [notebookId, updateCurrentNotebookId, clearCurrentNotebookId]);
 
 	if (isLoading) {
 		return <div>Fetching notes</div>;
