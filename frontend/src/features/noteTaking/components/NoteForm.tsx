@@ -22,6 +22,7 @@ function NoteForm({ mode, noteId }: NoteFormProps) {
 		mode === "create"
 			? "Briefly describe what this note is about"
 			: "New description";
+	const submitButtonText = mode === "create" ? "Create note" : "Save changes";
 
 	async function handleNoteCreation() {
 		try {
@@ -74,7 +75,7 @@ function NoteForm({ mode, noteId }: NoteFormProps) {
 				type="submit"
 				className="bg-sky-500 w-full rounded-md text-white py-2 hover:bg-sky-700 hover:cursor-pointer"
 			>
-				Create note
+				{submitButtonText}
 			</button>
 		</form>
 	);
