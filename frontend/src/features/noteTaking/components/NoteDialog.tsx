@@ -1,7 +1,16 @@
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import NoteForm from "./NoteForm";
-import { useEditNoteDialogStore, useCreateNoteDialogStore } from "../stores/notes/noteDialog.stores";
+import {
+	useEditNoteDialogStore,
+	useCreateNoteDialogStore,
+} from "../stores/notes/noteDialog.stores";
 
 interface NoteDialogProps {
 	mode: "create" | "edit";
@@ -23,8 +32,10 @@ function NoteDialogContent({ mode, noteId }: NoteDialogContentProps) {
 
 	return (
 		<DialogContent>
-			<DialogTitle>{dialogTitle}</DialogTitle>
-			<DialogDescription>{dialogDescription}</DialogDescription>
+			<DialogHeader>
+				<DialogTitle>{dialogTitle}</DialogTitle>
+				<DialogDescription>{dialogDescription}</DialogDescription>
+			</DialogHeader>
 
 			<NoteForm mode={mode} noteId={noteId} />
 		</DialogContent>

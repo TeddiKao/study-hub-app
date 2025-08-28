@@ -84,12 +84,12 @@ function NotesPage() {
 							type="button"
 							className="hover:cursor-pointer"
 						>
-							<AddIcon />{" "}
+							<AddIcon />
 							<span className="-ml-0.5">New note</span>
 						</Button>
 					</div>
 
-					<div className="flex flex-col">
+					<div className="flex flex-col gap-2">
 						{notes.map(({ name, id }) => (
 							<NoteCard noteName={name} key={id} />
 						))}
