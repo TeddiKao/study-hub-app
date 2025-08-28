@@ -1,5 +1,6 @@
 import { createDialogVisibleStore } from "@/shared/stores/dialogs.stores";
 
-const useNoteDialogStore = createDialogVisibleStore();
+const useCreateNoteDialogStore = createDialogVisibleStore();
+const useEditNoteDialogStore = createDialogVisibleStore();
 
-export { useNoteDialogStore };
+export { useCreateNoteDialogStore, useEditNoteDialogStore };
