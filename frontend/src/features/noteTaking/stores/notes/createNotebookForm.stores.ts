@@ -19,7 +19,7 @@ const useCreateNotebookFormStore = create<CreateNotebookFormStore>((set) => ({
 
     updateName: (name) => set({ name }),
     updateDescription: (description) => set({ description }),
-    clearDetails: () => set({ name: '', description: '' }),
+    clearDetails: () => set({ name: "", description: "" }),
 
     updateFormVisibility: (isVisible) => set({ isVisible: isVisible }),
 }));
