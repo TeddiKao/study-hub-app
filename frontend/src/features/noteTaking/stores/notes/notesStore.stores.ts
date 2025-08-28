@@ -7,6 +7,7 @@ import { isNullOrUndefined } from "@/shared/utils/types.utils";
 interface NotesStore {
 	notes: Notes;
 	currentNotebookId: number | null;
+    currentNoteId: number | null,
 
 	updateNotes: (newNotes: Notes) => void;
 	updateCurrentNotebookId: (newNotebookId: number) => void;
@@ -22,11 +23,17 @@ interface NotesStore {
 const useNotesStore = create<NotesStore>((set, get) => ({
 	notes: [],
 	currentNotebookId: null,
+    currentNoteId: null,
+
 	updateNotes: (newNotes: Notes) => set({ notes: newNotes }),
 
 	updateCurrentNotebookId: (newNotebookId: number) =>
 		set({ currentNotebookId: newNotebookId }),
     clearCurrentNotebookId: () => set({ currentNotebookId: null }),
+
+    updateCurrentNoteId: (newNoteId: number) =>
+        set({ currentNoteId: newNoteId }),
+    clearCurrentNoteId: () => set({ currentNoteId: null }),
 
 	getNotes: async () => {
         if (isNullOrUndefined(get().currentNotebookId)) return;
