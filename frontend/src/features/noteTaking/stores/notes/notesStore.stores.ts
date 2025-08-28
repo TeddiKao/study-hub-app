@@ -13,6 +13,9 @@ interface NotesStore {
 	updateCurrentNotebookId: (newNotebookId: number) => void;
     clearCurrentNotebookId: () => void,
 
+    updateCurrentNoteId: (newNoteId: number) => void,
+    clearCurrentNoteId: () => void,
+
 	getNotes: () => Promise<void>;
 
 	handleNoteCreate: (createdNote: RawNoteData) => Promise<void>;
