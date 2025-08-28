@@ -1,6 +1,5 @@
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
-import { DialogDescription } from "@radix-ui/react-dialog";
 import NoteForm from "./NoteForm";
 import { useEditNoteDialogStore, useCreateNoteDialogStore } from "../stores/notes/noteDialog.stores";
 
