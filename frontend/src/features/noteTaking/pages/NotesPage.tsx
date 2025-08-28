@@ -45,7 +45,7 @@ function NotesPage() {
 		if (!fetchedNotes) return;
 
 		updateNotes(fetchedNotes);
-	}, [fetchedNotes]);
+	}, [fetchedNotes, updateNotes]);
 
 	useEffect(() => {
 		if (notebookId === undefined) {
