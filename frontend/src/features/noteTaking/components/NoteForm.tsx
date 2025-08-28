@@ -50,7 +50,7 @@ function NoteForm({ mode, noteId }: NoteFormProps) {
 
 	return (
 		<form className="flex flex-col p-2 gap-2" onSubmit={handleFormSubmit}>
-			<div className="flex flex-col">
+			<div className="flex flex-col gap-1">
 				<Label htmlFor="note-name">Note Name</Label>
 				<Input
 					placeholder={nameFieldPlaceholder}
@@ -61,7 +61,7 @@ function NoteForm({ mode, noteId }: NoteFormProps) {
 				/>
 			</div>
 
-			<div className="flex flex-col">
+			<div className="flex flex-col gap-1">
 				<Label htmlFor="note-description">Note Description</Label>
 				<Textarea
 					placeholder={descriptionFieldPlaceholder}
