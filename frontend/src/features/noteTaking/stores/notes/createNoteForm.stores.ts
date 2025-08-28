@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface CreateNotebookFormStore {
+interface CreateNoteFormStore {
     name: string;
     description: string;
     isVisible: boolean;
@@ -12,7 +12,7 @@ interface CreateNotebookFormStore {
     updateFormVisibility: (isVisible: boolean) => void;
 }
 
-const useCreateNotebookFormStore = create<CreateNotebookFormStore>((set) => ({
+const useCreateNoteFormStore = create<CreateNoteFormStore>((set) => ({
     name: "",
     description: "",
     isVisible: false,
@@ -24,4 +24,4 @@ const useCreateNotebookFormStore = create<CreateNotebookFormStore>((set) => ({
     updateFormVisibility: (isVisible) => set({ isVisible: isVisible }),
 }));
 
-export { useCreateNotebookFormStore }
+export { useCreateNoteFormStore }
