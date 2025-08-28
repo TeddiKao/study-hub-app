@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import type { FormEvent } from "react";
 import { useNotesStore } from "../stores/notes/notesStore.stores";
 import { useNoteFormStore } from "../stores/notes/noteForm.stores";
-import { useCreateNoteDialogStore } from "../stores/notes/noteDialog.stores";
+import { useCreateNoteDialogStore, useEditNoteDialogStore } from "../stores/notes/noteDialog.stores";
 
 interface NoteFormProps {
 	mode: "create" | "edit";
@@ -12,11 +12,12 @@ interface NoteFormProps {
 }
 
 function NoteForm({ mode, noteId }: NoteFormProps) {
-	const { handleNoteCreate } = useNotesStore();
+	const { handleNoteCreate, handleNoteEdit, currentNotebookId } = useNotesStore();
 	const { name, description, updateName, updateDescription, clearDetails } =
 		useNoteFormStore();
 
 	const { closeDialog: closeCreateNoteDialog } = useCreateNoteDialogStore();
+	const { closeDialog: closeEditNoteDialog } = useEditNoteDialogStore();
 
 	const nameFieldPlaceholder = mode === "create" ? "Note name" : "New name";
 	const descriptionFieldPlaceholder =
@@ -41,8 +42,19 @@ function NoteForm({ mode, noteId }: NoteFormProps) {
 		}
 	}
 
-	async function handleNoteEdit() {
-		
+	async function handleNoteEditing() {
+		try {
+			await handleNoteEdit(noteId!, {
+				name: name,
+				description: description,
+				notebookId: currentNotebookId!,
+			});
+
+			clearDetails();
+			closeEditNoteDialog();
+		} catch (error) {
+			console.error("Error editing note:", error);
+		}
 	}
 
 	async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
@@ -51,7 +63,7 @@ function NoteForm({ mode, noteId }: NoteFormProps) {
 		if (mode === "create") {
 			await handleNoteCreation();
 		} else if (mode === "edit" && noteId) {
-			await handleNoteEdit();
+			await handleNoteEditing();
 		}
 	}
 
