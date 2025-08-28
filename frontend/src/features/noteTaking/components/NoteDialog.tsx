@@ -26,10 +26,6 @@ function NoteDialogContent({ mode, noteId }: NoteDialogContentProps) {
             ? "Create a note here"
             : "Make changes to an existing note";
 
-    if (mode === "edit" && isNullOrUndefined(noteId)) {
-        throw new Error("NoteDialog: noteId is required in edit mode");
-    }
-
     return (
         <DialogContent>
             <DialogHeader>
