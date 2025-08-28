@@ -12,6 +12,8 @@ interface CreateNoteFormStore {
     updateFormVisibility: (isVisible: boolean) => void;
 }
 
+type EditNotebookFormStore = CreateNoteFormStore;
+
 const useCreateNoteFormStore = create<CreateNoteFormStore>((set) => ({
     name: "",
     description: "",
@@ -24,4 +26,16 @@ const useCreateNoteFormStore = create<CreateNoteFormStore>((set) => ({
     updateFormVisibility: (isVisible) => set({ isVisible: isVisible }),
 }));
 
-export { useCreateNoteFormStore }
+const useEditNoteFormStore = create<EditNotebookFormStore>((set) => ({
+    name: "",
+    description: "",
+    isVisible: false,
+
+    updateName: (name) => set({ name }),
+    updateDescription: (description) => set({ description }),
+    clearDetails: () => set({ name: "", description: "" }),
+
+    updateFormVisibility: (isVisible) => set({ isVisible: isVisible }),
+}));
+
+export { useCreateNoteFormStore, useEditNoteFormStore }
