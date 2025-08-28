@@ -73,6 +73,7 @@ function NotesPage() {
 
     const { data: fetchedNotes, isLoading, error } = useNotesQuery();
     const { showDialog: showCreateNoteDialog } = useCreateNoteDialogStore();
+    const { currentNoteId } = useNotesStore();
 
     useEffect(() => {
         if (!fetchedNotes) return;
@@ -106,6 +107,8 @@ function NotesPage() {
         return <div>An error occurred while fetching notes</div>;
     }
 
+	if (!currentNoteId) return null;
+
     return (
         <>
             <DashboardLayout className="gap-4 pr-4">
@@ -131,7 +134,7 @@ function NotesPage() {
             </DashboardLayout>
 
             <NoteDialog mode="create" />
-            
+            <NoteDialog mode="edit" noteId={currentNoteId} />
         </>
     );
 }
