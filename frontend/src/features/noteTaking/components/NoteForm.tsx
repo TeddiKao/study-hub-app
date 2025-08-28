@@ -55,6 +55,8 @@ function NoteForm({ mode, noteId }: NoteFormProps) {
 					placeholder={nameFieldPlaceholder}
 					name="note-name"
 					type="text"
+					value={name}
+					onChange={(e) => updateName(e.target.value)}
 				/>
 			</div>
 
@@ -63,6 +65,8 @@ function NoteForm({ mode, noteId }: NoteFormProps) {
 				<Textarea
 					placeholder={descriptionFieldPlaceholder}
 					id="note-description"
+					value={description}
+					onChange={(e) => updateDescription(e.target.value)}
 				/>
 			</div>
 
