@@ -52,6 +52,14 @@ function NoteForm({ mode, noteId }: NoteFormProps) {
 		}
 	}, [note, updateName, updateDescription]);
 
+	if (isLoading) {
+		return <div>Loading note...</div>;
+	}
+
+	if (error) {
+		return <div>An error occurred while loading note</div>;
+	}
+
 	async function handleNoteCreation() {
 		try {
 			await handleNoteCreate({
