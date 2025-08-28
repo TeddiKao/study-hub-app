@@ -2,6 +2,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import NoteForm from "./NoteForm";
+import { useNoteDialogStore } from "../stores/notes/noteDialog.stores";
 
 interface NoteDialogProps {
     mode: "create" | "edit";
@@ -32,8 +33,16 @@ function NoteDialogContent({ mode, noteId }: NoteDialogContentProps) {
 }
 
 function NoteDialog({ mode, noteId }: NoteDialogProps) {
+    const { visible, showDialog, closeDialog } = useNoteDialogStore();
+
     return (
-        <Dialog>
+        <Dialog open={visible} onOpenChange={(open: boolean) => {
+            if (open) {
+                showDialog();
+            } else {
+                closeDialog();
+            }
+        }}>
             <NoteDialogContent mode={mode} noteId={noteId} />
         </Dialog>
     );
