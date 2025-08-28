@@ -2,6 +2,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { FormEvent } from "react";
+import { useNotesStore } from "../stores/notes/notesStore.stores";
+import { useNoteFormStore } from "../stores/notes/noteForm.stores";
 
 interface NoteFormProps {
 	mode: "create" | "edit";
@@ -9,15 +11,36 @@ interface NoteFormProps {
 }
 
 function NoteForm({ mode, noteId }: NoteFormProps) {
+	const { handleNoteCreate } = useNotesStore();
+	const { name, description, updateFormVisibility, updateName, updateDescription, clearDetails } = useNoteFormStore();
+
 	const nameFieldPlaceholder = mode === "create" ? "Note name" : "New name";
 	const descriptionFieldPlaceholder =
 		mode === "create"
 			? "Briefly describe what this note is about"
 			: "New description";
 
-	function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
+	async function handleNoteCreation() {
+		try {
+			await handleNoteCreate({
+				name: name,
+				description: description,
+			});
+
+			clearDetails();
+			updateFormVisibility(false);
+		} catch (error) {
+			console.error("Error creating note:", error);
+			// Optionally, set an error state here to display an error message to the user
+		}
+	}
+
+	async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		// Handle form submission logic here
+
+		if (mode === "create") {
+			await handleNoteCreation();
+		}
 	}
 
 	return (
