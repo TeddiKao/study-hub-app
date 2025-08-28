@@ -1,6 +1,7 @@
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import NoteForm from "./NoteForm";
 
 interface NoteDialogProps {
     mode: "create" | "edit";
@@ -22,7 +23,8 @@ function NoteDialog({ mode, noteId }: NoteDialogProps) {
         <DialogContent>
             <DialogTitle>{dialogTitle}</DialogTitle>
             <DialogDescription>{dialogDescription}</DialogDescription>
-            {/* NoteForm component would go here */}
+            
+            <NoteForm mode={mode} noteId={noteId} />
         </DialogContent>
     );
 }
