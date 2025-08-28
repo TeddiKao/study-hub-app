@@ -27,6 +27,10 @@ interface EditNoteSuccess extends ApiSuccessResponse {
 	editedNote: NoteResponse;
 }
 
+interface RetrieveNoteSuccess extends ApiSuccessResponse {
+	retrievedNote: NoteResponse;
+}
+
 type NoteResponseList = NoteResponse[];
 
 export type {
@@ -36,4 +40,5 @@ export type {
 	FetchNotesSuccess,
 	CreateNoteSuccess,
 	EditNoteSuccess,
+	RetrieveNoteSuccess,
 };
