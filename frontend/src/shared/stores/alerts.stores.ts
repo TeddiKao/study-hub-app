@@ -1,9 +1,10 @@
 import { create } from "zustand";
+import type { OverlayStore } from "../types/overlayStore.types";
 
-interface AlertVisibleStore {
-    visible: boolean;
-    closeAlert: () => void;
-    showAlert: () => void;
+type AlertVisibleStore = {
+    visible: OverlayStore["visible"];
+    closeAlert: OverlayStore["close"];
+    showAlert: OverlayStore["show"];
 }
 
 const createAlertVisibleStore = () => create<AlertVisibleStore>((set) => ({
