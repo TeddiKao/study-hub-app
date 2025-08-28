@@ -29,7 +29,7 @@ function NoteCard({ noteName }: NoteCardProps) {
 						<KebabMenuIcon className="w-6 h-6" />
 					</DropdownMenuTrigger>
 
-					<DropdownMenuContent>
+					<DropdownMenuContent side="left" align="start" alignOffset={-2}>
 						<DropdownMenuItem>Edit</DropdownMenuItem>
 						<DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
 					</DropdownMenuContent>
