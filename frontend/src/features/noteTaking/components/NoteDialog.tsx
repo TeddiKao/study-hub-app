@@ -8,7 +8,7 @@ interface NoteDialogProps {
     noteId?: number;
 }
 
-function NoteDialog({ mode, noteId }: NoteDialogProps) {
+function NoteDialogContent({ mode, noteId }: NoteDialogProps) {
     const dialogTitle = mode === "create" ? "Create note" : "Edit note";
     const dialogDescription =
         mode === "create"
@@ -29,4 +29,4 @@ function NoteDialog({ mode, noteId }: NoteDialogProps) {
     );
 }
 
-export default NoteDialog;
+export default NoteDialogContent;
