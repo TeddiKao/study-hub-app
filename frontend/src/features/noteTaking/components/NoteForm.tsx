@@ -9,8 +9,7 @@ interface NoteFormProps {
 }
 
 function NoteForm({ mode, noteId }: NoteFormProps) {
-	const nameFieldPlaceholder =
-		mode === "create" ? "Note name" : "New name";
+	const nameFieldPlaceholder = mode === "create" ? "Note name" : "New name";
 	const descriptionFieldPlaceholder =
 		mode === "create"
 			? "Briefly describe what this note is about"
@@ -25,12 +24,19 @@ function NoteForm({ mode, noteId }: NoteFormProps) {
 		<form className="flex flex-col p-2 gap-2" onSubmit={handleFormSubmit}>
 			<div className="flex flex-col">
 				<Label htmlFor="note-name">Note Name</Label>
-				<Input placeholder={nameFieldPlaceholder} name="note-name" type="text" />
+				<Input
+					placeholder={nameFieldPlaceholder}
+					name="note-name"
+					type="text"
+				/>
 			</div>
 
 			<div className="flex flex-col">
 				<Label htmlFor="note-description">Note Description</Label>
-				<Textarea placeholder={descriptionFieldPlaceholder} id="note-description" />
+				<Textarea
+					placeholder={descriptionFieldPlaceholder}
+					id="note-description"
+				/>
 			</div>
 
 			<button
