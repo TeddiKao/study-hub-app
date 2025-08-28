@@ -25,7 +25,7 @@ function NoteCard({ noteName }: NoteCardProps) {
 
 			<button className="py-1 hover:cursor-pointer hover:bg-gray-300 rounded-md">
 				<DropdownMenu>
-					<DropdownMenuTrigger>
+					<DropdownMenuTrigger asChild>
 						<KebabMenuIcon className="w-6 h-6" />
 					</DropdownMenuTrigger>
 
