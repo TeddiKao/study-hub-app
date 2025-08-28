@@ -50,8 +50,15 @@ const useNotesStore = create<NotesStore>((set, get) => ({
         await get().getNotes();
     },
 
-	handleNoteEdit: async (noteId: number, newNoteData: NotePayload) => {
-        const noteEditResponse = await editNote(noteId, newNoteData);
+	handleNoteEdit: async (noteId: number, newNoteData: RawNoteData) => {
+        if (isNullOrUndefined(get().currentNotebookId)) return;
+
+        const noteEditResponse = await editNote(noteId, {
+            name: newNoteData.name,
+            description: newNoteData.description,
+            notebookId: get().currentNotebookId!,
+        });
+
         if (!noteEditResponse.success) {
             throw new Error(noteEditResponse.error);
         }
