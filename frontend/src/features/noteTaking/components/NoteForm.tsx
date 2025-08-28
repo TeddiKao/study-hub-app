@@ -14,7 +14,7 @@ interface NoteFormProps {
 function NoteForm({ mode, noteId }: NoteFormProps) {
 	const { handleNoteCreate } = useNotesStore();
 	const { name, description, updateName, updateDescription, clearDetails } = useNoteFormStore();
-	const { visible, closeDialog, showDialog } = useNoteDialogStore();
+	const { closeDialog } = useNoteDialogStore();
 
 	const nameFieldPlaceholder = mode === "create" ? "Note name" : "New name";
 	const descriptionFieldPlaceholder =
