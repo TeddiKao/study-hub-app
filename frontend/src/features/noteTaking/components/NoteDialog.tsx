@@ -1,4 +1,4 @@
-import { DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import NoteForm from "./NoteForm";
@@ -8,7 +8,9 @@ interface NoteDialogProps {
     noteId?: number;
 }
 
-function NoteDialogContent({ mode, noteId }: NoteDialogProps) {
+type NoteDialogContentProps = NoteDialogProps;
+
+function NoteDialogContent({ mode, noteId }: NoteDialogContentProps) {
     const dialogTitle = mode === "create" ? "Create note" : "Edit note";
     const dialogDescription =
         mode === "create"
@@ -29,4 +31,12 @@ function NoteDialogContent({ mode, noteId }: NoteDialogProps) {
     );
 }
 
-export default NoteDialogContent;
+function NoteDialog({ mode, noteId }: NoteDialogProps) {
+    return (
+        <Dialog>
+            <NoteDialogContent mode={mode} noteId={noteId} />
+        </Dialog>
+    );
+}
+
+export default NoteDialog;
