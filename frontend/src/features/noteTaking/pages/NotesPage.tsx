@@ -89,7 +89,7 @@ function NotesPage() {
 						</Button>
 					</div>
 
-					<div className="flex flex-col">
+					<div className="flex flex-col gap-2">
 						{notes.map(({ name, id }) => (
 							<NoteCard noteName={name} key={id} />
 						))}
