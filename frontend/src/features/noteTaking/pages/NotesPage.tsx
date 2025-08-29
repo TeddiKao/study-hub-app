@@ -67,6 +67,7 @@ function NoteCard({ noteName, noteId }: NoteCardProps) {
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => {
                             setTimeout(() => {
+                                updateCurrentNoteId(noteId);
                                 showDeleteNoteAlert();
                             }, 0);
                         }} variant="destructive">
