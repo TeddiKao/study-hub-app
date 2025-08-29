@@ -48,8 +48,10 @@ function NoteCard({ noteName, noteId }: NoteCardProps) {
                     >
                         <DropdownMenuItem
                             onClick={() => {
-                                updateCurrentNoteId(noteId);
-                                showDialog()
+                                setTimeout(() => {
+                                    updateCurrentNoteId(noteId);
+                                    showDialog();
+                                }, 0);
                             }}
                         >
                             Edit
