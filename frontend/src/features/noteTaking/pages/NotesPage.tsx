@@ -168,10 +168,10 @@ function NotesPage() {
                 }}
                 dialogTitle="Delete note"
                 dialogDescription="Are you sure you want to delete this note?"
-                dialogAction={() => {
+                dialogAction={async () => {
                     if (!currentNoteId) return;
 
-                    handleNoteDelete(currentNoteId);
+                    await handleNoteDelete(currentNoteId);
                 }}
             />
         </>
