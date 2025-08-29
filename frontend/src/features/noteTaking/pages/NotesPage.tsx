@@ -65,12 +65,15 @@ function NoteCard({ noteName, noteId }: NoteCardProps) {
                         >
                             Edit
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => {
-                            setTimeout(() => {
-                                updateCurrentNoteId(noteId);
-                                showDeleteNoteAlert();
-                            }, 0);
-                        }} variant="destructive">
+                        <DropdownMenuItem
+                            onClick={() => {
+                                setTimeout(() => {
+                                    updateCurrentNoteId(noteId);
+                                    showDeleteNoteAlert();
+                                }, 0);
+                            }}
+                            variant="destructive"
+                        >
                             Delete
                         </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -91,7 +94,8 @@ function NotesPage() {
 
     const { data: fetchedNotes, isLoading, error } = useNotesQuery();
     const { showDialog: showCreateNoteDialog } = useCreateNoteDialogStore();
-    const { currentNoteId, handleNoteDelete } = useNotesStore();
+    const { currentNoteId, handleNoteDelete, clearCurrentNoteId } =
+        useNotesStore();
     const {
         visible: isDeleteNoteAlertVisible,
         closeAlert: closeDeleteNoteAlert,
@@ -169,9 +173,16 @@ function NotesPage() {
                 dialogTitle="Delete note"
                 dialogDescription="Are you sure you want to delete this note?"
                 dialogAction={async () => {
-                    if (!currentNoteId) return;
+                    try {
+                        if (!currentNoteId) return;
 
-                    await handleNoteDelete(currentNoteId);
+                        await handleNoteDelete(currentNoteId);
+
+                        closeDeleteNoteAlert();
+                        clearCurrentNoteId();
+                    } catch (error) {
+                        console.error(error);
+                    }
                 }}
             />
         </>
