@@ -142,7 +142,7 @@ function NotesPage() {
             </DashboardLayout>
 
             <NoteDialog mode="create" />
-            <NoteDialog mode="edit" noteId={currentNoteId!} />
+            <NoteDialog mode="edit" noteId={currentNoteId ?? undefined} />
         </>
     );
 }
