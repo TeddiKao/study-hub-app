@@ -28,6 +28,7 @@ interface NoteCardProps {
 function NoteCard({ noteName, noteId }: NoteCardProps) {
     const { showDialog: showEditNoteDialog } = useEditNoteDialogStore();
     const { updateCurrentNoteId } = useNotesStore();
+    const { showAlert: showDeleteNoteAlert } = useDeleteNoteAlertStore();
 
     const queryClient = useQueryClient();
 
@@ -64,7 +65,11 @@ function NoteCard({ noteName, noteId }: NoteCardProps) {
                         >
                             Edit
                         </DropdownMenuItem>
-                        <DropdownMenuItem variant="destructive">
+                        <DropdownMenuItem onClick={() => {
+                            setTimeout(() => {
+                                showDeleteNoteAlert();
+                            }, 0);
+                        }} variant="destructive">
                             Delete
                         </DropdownMenuItem>
                     </DropdownMenuContent>
