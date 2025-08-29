@@ -1,10 +1,13 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import type { FormEvent } from "react";
+import { useEffect, type FormEvent } from "react";
 import { useNotesStore } from "../stores/notes/notesStore.stores";
 import { useNoteFormStore } from "../stores/notes/noteForm.stores";
-import { useCreateNoteDialogStore } from "../stores/notes/noteDialog.stores";
+import { useCreateNoteDialogStore, useEditNoteDialogStore } from "../stores/notes/noteDialog.stores";
+import { isNullOrUndefined } from "@/shared/utils/types.utils";
+import { useQuery } from "@tanstack/react-query";
+import { retrieveNote } from "../utils/notes.services";
 
 interface NoteFormProps {
 	mode: "create" | "edit";
@@ -12,11 +15,12 @@ interface NoteFormProps {
 }
 
 function NoteForm({ mode, noteId }: NoteFormProps) {
-	const { handleNoteCreate } = useNotesStore();
+	const { handleNoteCreate, handleNoteEdit, currentNotebookId } = useNotesStore();
 	const { name, description, updateName, updateDescription, clearDetails } =
 		useNoteFormStore();
 
 	const { closeDialog: closeCreateNoteDialog } = useCreateNoteDialogStore();
+	const { closeDialog: closeEditNoteDialog } = useEditNoteDialogStore();
 
 	const nameFieldPlaceholder = mode === "create" ? "Note name" : "New name";
 	const descriptionFieldPlaceholder =
@@ -24,6 +28,37 @@ function NoteForm({ mode, noteId }: NoteFormProps) {
 			? "Briefly describe what this note is about"
 			: "New description";
 	const submitButtonText = mode === "create" ? "Create note" : "Save changes";
+
+	const { data: note, isLoading, error } = useQuery({
+		queryKey: ["note", noteId],
+		queryFn: async () => {
+			const noteRetriveResponse = await retrieveNote(noteId!);
+
+			if (!noteRetriveResponse.success) {
+				throw new Error(noteRetriveResponse.error);
+			}
+
+			return noteRetriveResponse.retrievedNote;
+		},
+
+		enabled: mode === "edit" && !isNullOrUndefined(noteId),
+		staleTime: 2 * 1000 * 60,
+	})
+
+	useEffect(() => {
+		if (note) {
+			updateName(note.name);
+			updateDescription(note.description);
+		}
+	}, [note, updateName, updateDescription]);
+
+	if (isLoading) {
+		return <div>Loading note...</div>;
+	}
+
+	if (error) {
+		return <div>An error occurred while loading note</div>;
+	}
 
 	async function handleNoteCreation() {
 		try {
@@ -41,11 +76,28 @@ function NoteForm({ mode, noteId }: NoteFormProps) {
 		}
 	}
 
+	async function handleNoteEditing() {
+		try {
+			await handleNoteEdit(noteId!, {
+				name: name,
+				description: description,
+				notebookId: currentNotebookId!,
+			});
+
+			clearDetails();
+			closeEditNoteDialog();
+		} catch (error) {
+			console.error("Error editing note:", error);
+		}
+	}
+
 	async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
 		if (mode === "create") {
 			await handleNoteCreation();
+		} else if (mode === "edit" && noteId) {
+			await handleNoteEditing();
 		}
 	}
 

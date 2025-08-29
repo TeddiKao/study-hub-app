@@ -7,10 +7,14 @@ import { isNullOrUndefined } from "@/shared/utils/types.utils";
 interface NotesStore {
 	notes: Notes;
 	currentNotebookId: number | null;
+    currentNoteId: number | null,
 
 	updateNotes: (newNotes: Notes) => void;
 	updateCurrentNotebookId: (newNotebookId: number) => void;
     clearCurrentNotebookId: () => void,
+
+    updateCurrentNoteId: (newNoteId: number) => void,
+    clearCurrentNoteId: () => void,
 
 	getNotes: () => Promise<void>;
 
@@ -22,11 +26,17 @@ interface NotesStore {
 const useNotesStore = create<NotesStore>((set, get) => ({
 	notes: [],
 	currentNotebookId: null,
+    currentNoteId: null,
+
 	updateNotes: (newNotes: Notes) => set({ notes: newNotes }),
 
 	updateCurrentNotebookId: (newNotebookId: number) =>
 		set({ currentNotebookId: newNotebookId }),
     clearCurrentNotebookId: () => set({ currentNotebookId: null }),
+
+    updateCurrentNoteId: (newNoteId: number) =>
+        set({ currentNoteId: newNoteId }),
+    clearCurrentNoteId: () => set({ currentNoteId: null }),
 
 	getNotes: async () => {
         if (isNullOrUndefined(get().currentNotebookId)) return;
@@ -50,8 +60,15 @@ const useNotesStore = create<NotesStore>((set, get) => ({
         await get().getNotes();
     },
 
-	handleNoteEdit: async (noteId: number, newNoteData: NotePayload) => {
-        const noteEditResponse = await editNote(noteId, newNoteData);
+	handleNoteEdit: async (noteId: number, newNoteData: RawNoteData) => {
+        if (isNullOrUndefined(get().currentNotebookId)) return;
+
+        const noteEditResponse = await editNote(noteId, {
+            name: newNoteData.name,
+            description: newNoteData.description,
+            notebookId: get().currentNotebookId!,
+        });
+
         if (!noteEditResponse.success) {
             throw new Error(noteEditResponse.error);
         }
