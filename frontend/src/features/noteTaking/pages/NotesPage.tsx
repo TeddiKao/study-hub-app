@@ -16,6 +16,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useEditNoteDialogStore } from "../stores/notes/noteDialog.stores";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface NoteCardProps {
     noteName: string;
@@ -25,6 +26,8 @@ interface NoteCardProps {
 function NoteCard({ noteName, noteId }: NoteCardProps) {
     const { showDialog: showEditNoteDialog } = useEditNoteDialogStore();
 	const { updateCurrentNoteId } = useNotesStore();
+
+    const queryClient = useQueryClient();
 
     return (
         <div className="flex flex-row py-2 pl-2 justify-between items-center bg-white shadow-md rounded-md pr-1">
@@ -49,6 +52,9 @@ function NoteCard({ noteName, noteId }: NoteCardProps) {
                         <DropdownMenuItem
                             onClick={() => {
                                 setTimeout(() => {
+                                    queryClient.invalidateQueries({
+                                        queryKey: ["notes", noteId],
+                                    });
                                     updateCurrentNoteId(noteId);
                                     showEditNoteDialog();
                                 }, 0);
