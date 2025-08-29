@@ -23,7 +23,7 @@ interface NoteCardProps {
 }
 
 function NoteCard({ noteName, noteId }: NoteCardProps) {
-    const { showDialog } = useEditNoteDialogStore();
+    const { showDialog: showEditNoteDialog } = useEditNoteDialogStore();
 	const { updateCurrentNoteId } = useNotesStore();
 
     return (
@@ -50,7 +50,7 @@ function NoteCard({ noteName, noteId }: NoteCardProps) {
                             onClick={() => {
                                 setTimeout(() => {
                                     updateCurrentNoteId(noteId);
-                                    showDialog();
+                                    showEditNoteDialog();
                                 }, 0);
                             }}
                         >
