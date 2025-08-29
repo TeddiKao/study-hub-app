@@ -33,10 +33,10 @@ function NoteCard({ noteName, noteId }: NoteCardProps) {
                 <p>{noteName}</p>
             </div>
 
-            <button className="py-1 hover:cursor-pointer hover:bg-gray-300 rounded-md">
+            <div className="hover:cursor-pointer hover:bg-gray-300 rounded-md w-6 h-6">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <button type="button">
+                        <button type="button" className="w-6 h-6">
                             <KebabMenuIcon className="w-6 h-6" />
                         </button>
                     </DropdownMenuTrigger>
@@ -59,7 +59,7 @@ function NoteCard({ noteName, noteId }: NoteCardProps) {
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
-            </button>
+            </div>
         </div>
     );
 }
