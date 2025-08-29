@@ -53,7 +53,7 @@ function NoteCard({ noteName, noteId }: NoteCardProps) {
                             onClick={() => {
                                 setTimeout(() => {
                                     queryClient.invalidateQueries({
-                                        queryKey: ["notes", noteId],
+                                        queryKey: ["note", noteId],
                                     });
                                     updateCurrentNoteId(noteId);
                                     showEditNoteDialog();
