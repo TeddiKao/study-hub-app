@@ -11,6 +11,7 @@ import {
     useEditNoteDialogStore,
     useCreateNoteDialogStore,
 } from "../stores/notes/noteDialog.stores";
+import { useNotesStore } from "../stores/notes/notesStore.stores";
 
 interface NoteDialogProps {
     mode: "create" | "edit";
@@ -42,6 +43,8 @@ function NoteDialog({ mode, noteId }: NoteDialogProps) {
     const editNotebookDialogStore = useEditNoteDialogStore();
     const createNoteDialogStore = useCreateNoteDialogStore();
 
+    const { clearCurrentNoteId } = useNotesStore();
+
     const visible =
         mode === "create"
             ? createNoteDialogStore.visible
@@ -66,6 +69,10 @@ function NoteDialog({ mode, noteId }: NoteDialogProps) {
                     showDialog();
                 } else {
                     closeDialog();
+
+                    if (mode === "edit") {
+                        clearCurrentNoteId();   
+                    }
                 }
             }}
         >
