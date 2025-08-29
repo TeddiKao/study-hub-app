@@ -168,6 +168,7 @@ function NotesPage() {
                         showDeleteNoteAlert();
                     } else {
                         closeDeleteNoteAlert();
+                        clearCurrentNoteId();
                     }
                 }}
                 dialogTitle="Delete note"
