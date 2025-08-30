@@ -10,8 +10,8 @@ import NoteForm from "./NoteForm";
 import {
     useEditNoteDialogStore,
     useCreateNoteDialogStore,
-} from "../../stores/notes/noteDialog.stores";
-import { useNotesStore } from "../../stores/notes/notesStore.stores";
+} from "../stores/noteDialog.stores";
+import { useNotesStore } from "../stores/notesStore.stores";
 
 interface NoteDialogProps {
     mode: "create" | "edit";

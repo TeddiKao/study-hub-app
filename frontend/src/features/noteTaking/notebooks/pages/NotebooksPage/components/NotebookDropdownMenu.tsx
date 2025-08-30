@@ -7,7 +7,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import NotebookDialog from "@/features/noteTaking/notebooks/components/NotebookDialog";
-import { useEditNotebookFormStore } from "@/features/noteTaking/stores/notebooks/editNotebookForm.stores";
+import { useEditNotebookFormStore } from "@/features/noteTaking/notebooks/stores/editNotebookForm.stores";
 import KebabMenuIcon from "@/shared/components/icons/KebabMenuIcon";
 import { useQueryClient } from "@tanstack/react-query";
 import DeleteNotebookAlertDialog from "./DeleteNotebookAlertDialog";

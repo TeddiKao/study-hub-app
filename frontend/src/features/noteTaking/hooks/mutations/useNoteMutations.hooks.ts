@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useNotesStore } from "../../stores/notes/notesStore.stores";
+import { useNotesStore } from "../../notes/stores/notesStore.stores";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { createNote, deleteNote, editNote } from "../../utils/notes.services";
 import type { RawNoteData } from "../../types/notes/notesApi.types";
@@ -22,7 +22,10 @@ function useNoteMutations() {
 
         queryClient.setQueryData(
             ["notes", currentNotebookId],
-            (oldNotes: Notes) => oldNotes ? [...oldNotes, noteCreateResponse.createdNote] : [noteCreateResponse.createdNote]
+            (oldNotes: Notes) =>
+                oldNotes
+                    ? [...oldNotes, noteCreateResponse.createdNote]
+                    : [noteCreateResponse.createdNote]
         );
 
         queryClient.invalidateQueries({
@@ -46,9 +49,13 @@ function useNoteMutations() {
         queryClient.setQueryData(
             ["notes", currentNotebookId],
             (oldNotes: Notes) =>
-                oldNotes ? oldNotes.map((note) =>
-                    note.id === noteId ? noteEditResponse.editedNote : note
-                ) : oldNotes
+                oldNotes
+                    ? oldNotes.map((note) =>
+                          note.id === noteId
+                              ? noteEditResponse.editedNote
+                              : note
+                      )
+                    : oldNotes
         );
 
         queryClient.invalidateQueries({
@@ -66,7 +73,10 @@ function useNoteMutations() {
 
         queryClient.setQueryData(
             ["notes", currentNotebookId],
-            (oldNotes: Notes) => oldNotes ? oldNotes.filter((note) => note.id !== noteId) : oldNotes
+            (oldNotes: Notes) =>
+                oldNotes
+                    ? oldNotes.filter((note) => note.id !== noteId)
+                    : oldNotes
         );
 
         queryClient.invalidateQueries({

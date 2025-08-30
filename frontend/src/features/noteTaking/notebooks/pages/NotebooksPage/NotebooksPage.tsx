@@ -1,5 +1,5 @@
 import { Dialog } from "@/components/ui/dialog";
-import { useCreateNotebookFormStore } from "../../../stores/notebooks/createNotebookForm.stores";
+import { useCreateNotebookFormStore } from "../../stores/createNotebookForm.stores";
 import NotebookDialog from "../../components/NotebookDialog";
 import CreateNotebookButton from "./components/CreateNotebookButton";
 import NotebookGrid from "./components/NotebookGrid";

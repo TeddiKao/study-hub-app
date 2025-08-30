@@ -5,9 +5,9 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import NotebookDialog from "@/features/noteTaking/notebooks/components/NotebookDialog";
-import { useCreateNotebookFormStore } from "@/features/noteTaking/stores/notebooks/createNotebookForm.stores";
-import { useDeleteNotebookAlertStore } from "@/features/noteTaking/stores/notebooks/deleteNotebookAlert.stores";
-import { useEditNotebookFormStore } from "@/features/noteTaking/stores/notebooks/editNotebookForm.stores";
+import { useCreateNotebookFormStore } from "@/features/noteTaking/notebooks/stores/createNotebookForm.stores";
+import { useDeleteNotebookAlertStore } from "@/features/noteTaking/notebooks/stores/deleteNotebookAlert.stores";
+import { useEditNotebookFormStore } from "@/features/noteTaking/notebooks/stores/editNotebookForm.stores";
 import useNotebookMutations from "@/features/noteTaking/hooks/mutations/useNotebookMutations.hooks";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import AddIcon from "@/shared/components/icons/AddIcon";

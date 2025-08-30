@@ -1,6 +1,6 @@
 import { useEffect, useRef, type FormEvent } from "react";
-import { useCreateNotebookFormStore } from "../../stores/notebooks/createNotebookForm.stores";
-import { useEditNotebookFormStore } from "../../stores/notebooks/editNotebookForm.stores";
+import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores";
+import { useEditNotebookFormStore } from "../stores/editNotebookForm.stores";
 import { retrieveNotebook } from "../../utils/notebooks.services";
 import { useQuery } from "@tanstack/react-query";
 import { Textarea } from "@/components/ui/textarea";
