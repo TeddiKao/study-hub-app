@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchNotebooks } from "../../utils/notebooks.services";
+import { fetchNotebooks } from "../utils/notebooks.services";
 
 function useNotebooksQuery() {
     return useQuery({
