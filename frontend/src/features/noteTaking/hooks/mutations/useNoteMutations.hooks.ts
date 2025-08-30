@@ -1,7 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useNotesStore } from "../../notes/stores/notesStore.stores";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
-import { createNote, deleteNote, editNote } from "../../utils/notes.services";
+import {
+    createNote,
+    deleteNote,
+    editNote,
+} from "../../notes/utils/notes.services";
 import type { RawNoteData } from "../../types/notes/notesApi.types";
 import type { Notes } from "../../types/notes/notesStore.types";
 

@@ -1,6 +1,6 @@
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { useQuery } from "@tanstack/react-query";
-import { fetchNotes } from "../../utils/notes.services";
+import { fetchNotes } from "../../notes/utils/notes.services";
 import { useNotesStore } from "../../notes/stores/notesStore.stores";
 
 function useNotesQuery() {
