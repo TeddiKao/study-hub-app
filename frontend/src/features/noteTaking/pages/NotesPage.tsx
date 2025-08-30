@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useEditNoteDialogStore } from "../stores/notes/noteDialog.stores";
 import { useQueryClient } from "@tanstack/react-query";
+import { useDeleteNoteAlertStore } from "../stores/notes/noteAlerts.stores";
+import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 
 interface NoteCardProps {
     noteName: string;
@@ -25,7 +27,8 @@ interface NoteCardProps {
 
 function NoteCard({ noteName, noteId }: NoteCardProps) {
     const { showDialog: showEditNoteDialog } = useEditNoteDialogStore();
-	const { updateCurrentNoteId } = useNotesStore();
+    const { updateCurrentNoteId } = useNotesStore();
+    const { showAlert: showDeleteNoteAlert } = useDeleteNoteAlertStore();
 
     const queryClient = useQueryClient();
 
@@ -62,7 +65,15 @@ function NoteCard({ noteName, noteId }: NoteCardProps) {
                         >
                             Edit
                         </DropdownMenuItem>
-                        <DropdownMenuItem variant="destructive">
+                        <DropdownMenuItem
+                            onClick={() => {
+                                setTimeout(() => {
+                                    updateCurrentNoteId(noteId);
+                                    showDeleteNoteAlert();
+                                }, 0);
+                            }}
+                            variant="destructive"
+                        >
                             Delete
                         </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -83,7 +94,13 @@ function NotesPage() {
 
     const { data: fetchedNotes, isLoading, error } = useNotesQuery();
     const { showDialog: showCreateNoteDialog } = useCreateNoteDialogStore();
-    const { currentNoteId } = useNotesStore();
+    const { currentNoteId, handleNoteDelete, clearCurrentNoteId } =
+        useNotesStore();
+    const {
+        visible: isDeleteNoteAlertVisible,
+        closeAlert: closeDeleteNoteAlert,
+        showAlert: showDeleteNoteAlert,
+    } = useDeleteNoteAlertStore();
 
     useEffect(() => {
         if (!fetchedNotes) return;
@@ -143,6 +160,32 @@ function NotesPage() {
 
             <NoteDialog mode="create" />
             <NoteDialog mode="edit" noteId={currentNoteId ?? undefined} />
+
+            <DeleteItemDialog
+                isOpen={isDeleteNoteAlertVisible}
+                onOpenChange={(open: boolean) => {
+                    if (open) {
+                        showDeleteNoteAlert();
+                    } else {
+                        closeDeleteNoteAlert();
+                        clearCurrentNoteId();
+                    }
+                }}
+                dialogTitle="Delete note"
+                dialogDescription="Are you sure you want to delete this note?"
+                dialogAction={async () => {
+                    try {
+                        if (!currentNoteId) return;
+
+                        await handleNoteDelete(currentNoteId);
+
+                        closeDeleteNoteAlert();
+                        clearCurrentNoteId();
+                    } catch (error) {
+                        console.error(error);
+                    }
+                }}
+            />
         </>
     );
 }
