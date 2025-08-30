@@ -11,9 +11,18 @@ function useNotebookInfoQuery(notebookId: number | undefined) {
     return useQuery({
         queryKey: ["notebookInfo", notebookId],
         queryFn: async () => {
+            if (
+                typeof notebookId !== "number" ||
+                Number.isNaN(notebookId) ||
+                !Number.isFinite(notebookId)
+            ) {
+                throw new Error("Notebook ID is not a number");
+            }
+
             const fetchNotebookInfoResponse = await retrieveNotebook(
-                notebookId!
+                notebookId
             );
+
             if (!fetchNotebookInfoResponse.success) {
                 throw new Error(fetchNotebookInfoResponse.error);
             }
