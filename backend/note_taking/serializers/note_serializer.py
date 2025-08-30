@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField
 from rest_framework.exceptions import ValidationError
 from ..models import Note, Notebook
-from ..serializers import NotebookSerializer
+from .notebook_serializer import NotebookSerializer
 
 class NoteSerializer(ModelSerializer):
     notebook = NotebookSerializer(read_only=True)
