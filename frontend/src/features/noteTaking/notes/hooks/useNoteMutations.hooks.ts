@@ -2,9 +2,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useNotesStore } from "../stores/notesStore.stores";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { createNote, deleteNote, editNote } from "../utils/notes.services";
-import type { RawNoteData } from "../../types/notes/notesApi.types";
-import type { Notes } from "../../types/notes/notesStore.types";
-
+import type { RawNoteData } from "../types/notesApi.types";
+import type { Notes } from "../types/notesStore.types";
 function useNoteMutations() {
     const queryClient = useQueryClient();
     const { currentNotebookId } = useNotesStore();
