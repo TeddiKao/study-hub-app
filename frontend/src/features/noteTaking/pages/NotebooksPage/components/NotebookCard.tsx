@@ -31,7 +31,7 @@ function NotebookCard({
 
     return (
         <button
-            aria-label="open-notebook-button"
+            aria-label={`Open notebook ${notebookName}`}
             type="button"
             onClick={handleNotebookCardClick}
             className="flex flex-row py-3 pl-3 pr-2 bg-white rounded-2xl shadow-xl items-center hover:cursor-pointer"
