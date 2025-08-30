@@ -22,6 +22,9 @@ class NoteSerializer(ModelSerializer):
                 notebook = self.instance.notebook
 
         if note_name and notebook:
+            if isinstance(note_name, str):
+                note_name = note_name.strip()
+
             notes = Note.objects.filter(notebook=notebook)
 
             if self.instance:
