@@ -4,6 +4,7 @@ import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { createNote, deleteNote, editNote } from "../utils/notes.services";
 import type { RawNoteData } from "../types/notesApi.types";
 import type { Notes } from "../types/notesStore.types";
+
 function useNoteMutations() {
     const queryClient = useQueryClient();
     const { currentNotebookId } = useNotesStore();
@@ -54,7 +55,7 @@ function useNoteMutations() {
                               ? noteEditResponse.editedNote
                               : note
                       )
-                    : oldNotes
+                    : []
         );
 
         queryClient.invalidateQueries({
@@ -75,7 +76,7 @@ function useNoteMutations() {
             (oldNotes: Notes) =>
                 oldNotes
                     ? oldNotes.filter((note) => note.id !== noteId)
-                    : oldNotes
+                    : []
         );
 
         queryClient.invalidateQueries({
