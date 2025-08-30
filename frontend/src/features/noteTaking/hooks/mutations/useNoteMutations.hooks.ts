@@ -46,9 +46,9 @@ function useNoteMutations() {
         queryClient.setQueryData(
             ["notes", currentNotebookId],
             (oldNotes: Notes) =>
-                oldNotes.map((note) =>
+                oldNotes ? oldNotes.map((note) =>
                     note.id === noteId ? noteEditResponse.editedNote : note
-                )
+                ) : oldNotes
         );
 
         queryClient.invalidateQueries({
