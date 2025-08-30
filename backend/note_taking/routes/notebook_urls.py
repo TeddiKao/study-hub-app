@@ -7,5 +7,4 @@ urlpatterns = [
     path("notebook/<int:pk>/", RetrieveNotebookEndpoint.as_view(), name="retrieve_notebook"),
     path("notebook/<int:pk>/edit/", EditNotebookEndpoint.as_view(), name="edit_notebook"),
     path("notebook/<int:pk>/delete/", DeleteNotebookEndpoint.as_view(), name="delete_notebook"),
-    path("notebook/<int:pk>/note-count/", GetNoteCountEndpoint.as_view(), name="get_note_count")
 ]

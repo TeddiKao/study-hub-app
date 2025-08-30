@@ -52,19 +52,3 @@ class DeleteNotebookEndpoint(DestroyAPIView):
         queryset = Notebook.objects.filter(owner=self.request.user)
 
         return queryset
-
-class GetNoteCountEndpoint(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        try:
-            notebook_id = request.query_params.get("notebook_id")
-            if not notebook_id:
-                raise ValidationError("Notebook ID is required")
-
-            notebook = Notebook.objects.get(pk=notebook_id, owner=request.user)
-            note_count = Note.objects.filter(notebook=notebook).count()
-
-            return Response({"note_count": note_count})
-        except Notebook.DoesNotExist:
-            raise PermissionDenied("Notebook not found")
