@@ -3,154 +3,162 @@ import type { ApiErrorResponse } from "@/shared/types/api.types";
 import { isAxiosError } from "axios";
 
 import type {
-	NotebookFetchSuccess,
-	CreateNotebookApiPayload,
-	NotebookCreateSuccess,
-	EditNotebookApiPayload,
-	NotebookEditSuccess,
-	NotebookApiSuccess,
-	NotebookRetrieveSuccess,
-	GetNoteCountSuccess,
-} from "../types/notebooks/notebookApi.types";
+    NotebookFetchSuccess,
+    CreateNotebookApiPayload,
+    NotebookCreateSuccess,
+    EditNotebookApiPayload,
+    NotebookEditSuccess,
+    NotebookApiSuccess,
+    NotebookRetrieveSuccess,
+    GetNoteCountSuccess,
+} from "../notebooks/types/notebookApi.types";
 import { NOTEBOOKS_BASE } from "@/app/api.constants";
 
 async function fetchNotebooks(): Promise<
-	NotebookFetchSuccess | ApiErrorResponse
+    NotebookFetchSuccess | ApiErrorResponse
 > {
-	try {
-		const response = await api.get(`${NOTEBOOKS_BASE}/`);
+    try {
+        const response = await api.get(`${NOTEBOOKS_BASE}/`);
 
-		return {
-			success: true,
-			notebooks: response.data,
-			message: "Notebooks fetched successfully",
-		};
-	} catch (error) {
-		if (!isAxiosError(error)) {
-			return {
-				success: false,
-				error: "Failed to fetch notebooks",
-			};
-		}
+        return {
+            success: true,
+            notebooks: response.data,
+            message: "Notebooks fetched successfully",
+        };
+    } catch (error) {
+        if (!isAxiosError(error)) {
+            return {
+                success: false,
+                error: "Failed to fetch notebooks",
+            };
+        }
 
-		return {
-			success: false,
-			error: error.response?.data.error ?? "Failed to fetch notebooks",
-		};
-	}
+        return {
+            success: false,
+            error: error.response?.data.error ?? "Failed to fetch notebooks",
+        };
+    }
 }
 
 async function createNotebook(
-	notebookData: CreateNotebookApiPayload
+    notebookData: CreateNotebookApiPayload
 ): Promise<NotebookCreateSuccess | ApiErrorResponse> {
-	try {
-		const response = await api.post(
-			`${NOTEBOOKS_BASE}/notebook/create/`,
-			notebookData
-		);
+    try {
+        const response = await api.post(
+            `${NOTEBOOKS_BASE}/notebook/create/`,
+            notebookData
+        );
 
-		return {
-			success: true,
-			createdNotebook: response.data,
-			message: "Notebook created successfully",
-		};
-	} catch (error) {
-		if (!isAxiosError(error)) {
-			return {
-				success: false,
-				error: "Failed to create notebook",
-			};
-		}
+        return {
+            success: true,
+            createdNotebook: response.data,
+            message: "Notebook created successfully",
+        };
+    } catch (error) {
+        if (!isAxiosError(error)) {
+            return {
+                success: false,
+                error: "Failed to create notebook",
+            };
+        }
 
-		return {
-			success: false,
-			error: error.response?.data.error ?? "Failed to create notebook",
-		};
-	}
+        return {
+            success: false,
+            error: error.response?.data.error ?? "Failed to create notebook",
+        };
+    }
 }
 
 async function editNotebook(
-	notebookId: number,
-	notebookData: EditNotebookApiPayload
+    notebookId: number,
+    notebookData: EditNotebookApiPayload
 ): Promise<NotebookEditSuccess | ApiErrorResponse> {
-	try {
-		const response = await api.put(
-			`${NOTEBOOKS_BASE}/notebook/${notebookId}/edit/`,
-			notebookData
-		);
+    try {
+        const response = await api.put(
+            `${NOTEBOOKS_BASE}/notebook/${notebookId}/edit/`,
+            notebookData
+        );
 
-		return {
-			success: true,
-			message: "Notebook edited successfully",
-			editedNotebook: response.data,
-		};
-	} catch (error) {
-		if (!isAxiosError(error)) {
-			return {
-				success: false,
-				error: "Failed to edit notebook",
-			};
-		}
+        return {
+            success: true,
+            message: "Notebook edited successfully",
+            editedNotebook: response.data,
+        };
+    } catch (error) {
+        if (!isAxiosError(error)) {
+            return {
+                success: false,
+                error: "Failed to edit notebook",
+            };
+        }
 
-		return {
-			success: false,
-			error: error.response?.data.error ?? "Failed to edit notebook",
-		};
-	}
+        return {
+            success: false,
+            error: error.response?.data.error ?? "Failed to edit notebook",
+        };
+    }
 }
 
 async function deleteNotebook(
-	notebookId: number
+    notebookId: number
 ): Promise<NotebookApiSuccess | ApiErrorResponse> {
-	try {
-		await api.delete(`${NOTEBOOKS_BASE}/notebook/${notebookId}/delete/`);
-
-		return {
-			success: true,
-			message: "Notebook deleted successfully",
-		};
-	} catch (error) {
-		if (!isAxiosError(error)) {
-			return {
-				success: false,
-				error: "Failed to delete notebook",
-			};
-		}
-
-		return {
-			success: false,
-			error: error.response?.data.error ?? "Failed to delete notebook",
-		};
-	}
-}
-
-async function retrieveNotebook(notebookId: number): Promise<ApiErrorResponse | NotebookRetrieveSuccess> {
-	try {
-		const response = await api.get(`${NOTEBOOKS_BASE}/notebook/${notebookId}/`);
-
-		return {
-			success: true,
-			message: "Notebook retrieved successfully",
-			retrievedNotebook: response.data,
-		};
-	} catch (error) {
-		if (!isAxiosError(error)) {
-			return {
-				success: false,
-				error: "Failed to retrieve notebook",
-			};
-		}
-
-		return {
-			success: false,
-			error: error.response?.data.error ?? "Failed to retrieve notebook",
-		};
-	}
-}
-
-async function getNoteCount(notebookId: number): Promise<ApiErrorResponse | GetNoteCountSuccess> {
     try {
-        const response = await api.get(`${NOTEBOOKS_BASE}/notebook/${notebookId}/note-count/`);
+        await api.delete(`${NOTEBOOKS_BASE}/notebook/${notebookId}/delete/`);
+
+        return {
+            success: true,
+            message: "Notebook deleted successfully",
+        };
+    } catch (error) {
+        if (!isAxiosError(error)) {
+            return {
+                success: false,
+                error: "Failed to delete notebook",
+            };
+        }
+
+        return {
+            success: false,
+            error: error.response?.data.error ?? "Failed to delete notebook",
+        };
+    }
+}
+
+async function retrieveNotebook(
+    notebookId: number
+): Promise<ApiErrorResponse | NotebookRetrieveSuccess> {
+    try {
+        const response = await api.get(
+            `${NOTEBOOKS_BASE}/notebook/${notebookId}/`
+        );
+
+        return {
+            success: true,
+            message: "Notebook retrieved successfully",
+            retrievedNotebook: response.data,
+        };
+    } catch (error) {
+        if (!isAxiosError(error)) {
+            return {
+                success: false,
+                error: "Failed to retrieve notebook",
+            };
+        }
+
+        return {
+            success: false,
+            error: error.response?.data.error ?? "Failed to retrieve notebook",
+        };
+    }
+}
+
+async function getNoteCount(
+    notebookId: number
+): Promise<ApiErrorResponse | GetNoteCountSuccess> {
+    try {
+        const response = await api.get(
+            `${NOTEBOOKS_BASE}/notebook/${notebookId}/note-count/`
+        );
 
         return {
             success: true,
@@ -167,9 +175,17 @@ async function getNoteCount(notebookId: number): Promise<ApiErrorResponse | GetN
 
         return {
             success: false,
-            error: error.response?.data.error ?? "Failed to retrieve note count",
+            error:
+                error.response?.data.error ?? "Failed to retrieve note count",
         };
     }
 }
 
-export { fetchNotebooks, createNotebook, editNotebook, deleteNotebook, retrieveNotebook, getNoteCount };
+export {
+    fetchNotebooks,
+    createNotebook,
+    editNotebook,
+    deleteNotebook,
+    retrieveNotebook,
+    getNoteCount,
+};

@@ -2,13 +2,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import type {
     CreateNotebookApiPayload,
     EditNotebookApiPayload,
-} from "../../types/notebooks/notebookApi.types";
+} from "../../notebooks/types/notebookApi.types";
 import {
     createNotebook,
     editNotebook,
     deleteNotebook,
 } from "../../utils/notebooks.services";
-import type { Notebooks } from "../../types/notebooks/notebookStore.types";
+import type { Notebooks } from "../../notebooks/types/notebookStore.types";
 
 function useNotebookMutations() {
     const queryClient = useQueryClient();
