@@ -33,6 +33,8 @@ interface NoteMenuProps {
     noteId: number;
 }
 
+type NoteMenuContentProps = NoteMenuProps;
+
 function NoteTitle({ noteName }: NoteTitleProps) {
     return (
         <div className="flex flex-row gap-1">
@@ -52,7 +54,7 @@ function NoteMenuButton() {
     );
 }
 
-function NoteMenuContent({ noteId }: NoteMenuProps) {
+function NoteMenuContent({ noteId }: NoteMenuContentProps) {
     const queryClient = useQueryClient();
     const { showDialog: showEditNoteDialog } = useEditNoteDialogStore();
     const { updateCurrentNoteId } = useNotesStore();
