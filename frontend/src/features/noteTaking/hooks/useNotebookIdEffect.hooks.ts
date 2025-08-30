@@ -22,6 +22,11 @@ function useNotebookIdEffect({
             return;
         }
 
+        if (!Number.isFinite(id)) {
+            clearCurrentNotebookId();
+            return;
+        }
+
         updateCurrentNotebookId(id);
 
         return () => {
