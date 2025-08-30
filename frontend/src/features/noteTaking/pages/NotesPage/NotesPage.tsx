@@ -127,7 +127,7 @@ function NotebookBreadcrumb({ notebookId }: NotebookBreadcrumbProps) {
         <Breadcrumb>
             <BreadcrumbList>
                 <BreadcrumbItem>
-                    <BreadcrumbLink href="/notebooks" asChild>
+                    <BreadcrumbLink asChild>
                         <Link to="/notebooks">Notebooks</Link>
                     </BreadcrumbLink>
                 </BreadcrumbItem>
@@ -135,7 +135,7 @@ function NotebookBreadcrumb({ notebookId }: NotebookBreadcrumbProps) {
                 <BreadcrumbSeparator />
 
                 <BreadcrumbItem>
-                    <BreadcrumbLink href={`/notebooks/${notebookId}`} asChild>
+                    <BreadcrumbLink asChild>
                         <Link to={`/notebooks/${notebookId}`}>
                             <span className="font-semibold">
                                 {notebook?.name}
