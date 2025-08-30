@@ -38,7 +38,7 @@ function useNotebookMutations() {
 
         queryClient.setQueryData(["notebooks"], (oldNotebooks: Notebooks) =>
             oldNotebooks
-                ? oldNotebooks.map((notebook) =>
+                ? (oldNotebooks ?? []).map((notebook) =>
                       notebook.id === notebookId
                           ? notebookEditResponse.editedNotebook
                           : notebook
@@ -55,7 +55,7 @@ function useNotebookMutations() {
 
         queryClient.setQueryData(["notebooks"], (oldNotebooks: Notebooks) =>
             oldNotebooks
-                ? oldNotebooks.filter((notebook) => notebook.id !== notebookId)
+                ? (oldNotebooks ?? []).filter((notebook) => notebook.id !== notebookId)
                 : oldNotebooks
         );
     }
