@@ -43,7 +43,7 @@ function NotebookCard({
                 <NotebookIcon size={20} />
             </button>
 
-            <div className="flex flex-col flex-1 min-w-0 ml-3 mr-3">
+            <button className="flex flex-col flex-1 min-w-0 ml-3 mr-3">
                 <p className="font-semibold text-left break-words">
                     {notebookName}
                 </p>
@@ -53,7 +53,7 @@ function NotebookCard({
                         {noteCount} {getNoun()}
                     </p>
                 </div>
-            </div>
+            </button>
 
             <NotebookDropdownMenu notebookId={notebookId} />
         </div>
