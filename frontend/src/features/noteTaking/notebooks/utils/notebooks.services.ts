@@ -1,7 +1,7 @@
 import api from "@/app/api";
 import type { ApiErrorResponse } from "@/shared/types/api.types";
 import { isAxiosError } from "axios";
-
+import { NOTEBOOKS_BASE } from "@/app/api.constants";
 import type {
     NotebookFetchSuccess,
     CreateNotebookApiPayload,
@@ -11,8 +11,7 @@ import type {
     NotebookApiSuccess,
     NotebookRetrieveSuccess,
     GetNoteCountSuccess,
-} from "../notebooks/types/notebookApi.types";
-import { NOTEBOOKS_BASE } from "@/app/api.constants";
+} from "../types/notebookApi.types";
 
 async function fetchNotebooks(): Promise<
     NotebookFetchSuccess | ApiErrorResponse
