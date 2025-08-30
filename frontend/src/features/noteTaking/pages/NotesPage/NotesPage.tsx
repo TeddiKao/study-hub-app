@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
 import { NotepadText } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useNotesStore } from "../../stores/notes/notesStore.stores";
 import useNotesQuery from "../../hooks/query/useNotesQuery.hooks";
 import NoteDialog from "../../components/NoteDialog";
@@ -12,6 +12,12 @@ import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import NoteMenu from "./components/NoteMenu";
 import useNotebookIdEffect from "../../hooks/useNotebookIdEffect.hooks";
 import useNoteMutations from "../../hooks/mutations/useNoteMutations.hooks";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+} from "@/components/ui/breadcrumb";
 
 interface NoteCardProps {
     noteName: string;
@@ -60,8 +66,7 @@ function NoteCard({ noteName, noteId }: NoteCardProps) {
 
 function DeleteNoteAlert() {
     const { visible, showAlert, closeAlert } = useDeleteNoteAlertStore();
-    const { currentNoteId, clearCurrentNoteId } =
-        useNotesStore();
+    const { currentNoteId, clearCurrentNoteId } = useNotesStore();
     const { handleNoteDelete } = useNoteMutations();
 
     function onOpenChange(open: boolean) {
@@ -111,8 +116,7 @@ function NotesGrid() {
 
 function NotesPage() {
     const { notebookId } = useParams();
-    const { clearCurrentNotebookId, updateCurrentNotebookId } =
-        useNotesStore();
+    const { clearCurrentNotebookId, updateCurrentNotebookId } = useNotesStore();
     const { isLoading, error } = useNotesQuery();
     const { currentNoteId } = useNotesStore();
 
@@ -135,6 +139,28 @@ function NotesPage() {
             <DashboardLayout className="gap-4 pr-4">
                 <div className="flex flex-col gap-2">
                     <NotesPageHeader />
+
+                    <Breadcrumb>
+                        <BreadcrumbList>
+                            <BreadcrumbItem>
+                                <BreadcrumbLink href="/notebooks" asChild>
+                                    <Link to="/notebooks">Notebooks</Link>
+                                </BreadcrumbLink>
+                            </BreadcrumbItem>
+
+                            <BreadcrumbItem>
+                                <BreadcrumbLink
+                                    href={`/notebooks/${notebookId}`}
+                                    asChild
+                                >
+                                    <Link to={`/notebooks/${notebookId}`}>
+                                        <span className="font-semibold"></span>
+                                    </Link>
+                                </BreadcrumbLink>
+                            </BreadcrumbItem>
+                        </BreadcrumbList>
+                    </Breadcrumb>
+
                     <NotesGrid />
                 </div>
             </DashboardLayout>
