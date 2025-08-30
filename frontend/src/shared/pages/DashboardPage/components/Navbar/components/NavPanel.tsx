@@ -42,7 +42,7 @@ function NotebookEditDialog() {
     const { isFormVisible, updateFormVisibility } = useEditNotebookFormStore();
     const { activeItemId, enableActiveItemIdUpdate } = useActiveItemStore();
 
-    if (!activeItemId) return;
+    if (!activeItemId) return null;
 
     function onOpenChange(open: boolean) {
         if (!open) {
