@@ -4,7 +4,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import NotebookForm from "../../components/NotebookForm";
+import NotebookForm from "./NotebookForm";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 
 interface NotebookDialogProps {

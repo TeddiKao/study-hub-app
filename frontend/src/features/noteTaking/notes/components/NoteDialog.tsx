@@ -6,7 +6,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
-import NoteForm from "../../components/NoteForm";
+import NoteForm from "./NoteForm";
 import {
     useEditNoteDialogStore,
     useCreateNoteDialogStore,
