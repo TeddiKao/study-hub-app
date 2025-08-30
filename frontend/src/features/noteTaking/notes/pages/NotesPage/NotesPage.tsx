@@ -3,15 +3,15 @@ import AddIcon from "@/shared/components/icons/AddIcon";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
 import { NotepadText } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import { useNotesStore } from "../../stores/notes/notesStore.stores";
-import useNotesQuery from "../../hooks/query/useNotesQuery.hooks";
-import NoteDialog from "../../notes/components/NoteDialog";
-import { useCreateNoteDialogStore } from "../../stores/notes/noteDialog.stores";
-import { useDeleteNoteAlertStore } from "../../stores/notes/noteAlerts.stores";
+import { useNotesStore } from "../../../stores/notes/notesStore.stores";
+import useNotesQuery from "../../../hooks/query/useNotesQuery.hooks";
+import NoteDialog from "../../components/NoteDialog";
+import { useCreateNoteDialogStore } from "../../../stores/notes/noteDialog.stores";
+import { useDeleteNoteAlertStore } from "../../../stores/notes/noteAlerts.stores";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import NoteMenu from "./components/NoteMenu";
-import useNotebookIdEffect from "../../hooks/useNotebookIdEffect.hooks";
-import useNoteMutations from "../../hooks/mutations/useNoteMutations.hooks";
+import useNotebookIdEffect from "../../../hooks/useNotebookIdEffect.hooks";
+import useNoteMutations from "../../../hooks/mutations/useNoteMutations.hooks";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -19,7 +19,7 @@ import {
     BreadcrumbList,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import useNotebookInfoQuery from "../../hooks/query/useNotebookInfoQuery.hooks";
+import useNotebookInfoQuery from "../../../hooks/query/useNotebookInfoQuery.hooks";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 
 interface NoteCardProps {

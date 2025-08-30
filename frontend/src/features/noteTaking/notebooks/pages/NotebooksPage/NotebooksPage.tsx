@@ -1,10 +1,10 @@
 import { Dialog } from "@/components/ui/dialog";
-import { useCreateNotebookFormStore } from "../../stores/notebooks/createNotebookForm.stores";
-import NotebookDialog from "../../notebooks/components/NotebookDialog";
+import { useCreateNotebookFormStore } from "../../../stores/notebooks/createNotebookForm.stores";
+import NotebookDialog from "../../components/NotebookDialog";
 import CreateNotebookButton from "./components/CreateNotebookButton";
 import NotebookGrid from "./components/NotebookGrid";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
-import useNotebooksQuery from "../../hooks/query/useNotebooksQuery.hooks";
+import useNotebooksQuery from "../../../hooks/query/useNotebooksQuery.hooks";
 
 function NotebooksPage() {
     const { isFormVisible, updateFormVisibility } =
