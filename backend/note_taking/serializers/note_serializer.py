@@ -12,17 +12,17 @@ class NoteSerializer(ModelSerializer):
 
     def validate(self, data):
         note_name = data.get("name")
-        notebook_id = data.get("notebook_id")
+        notebook = data.get("notebook")
 
         if self.instance and self.partial:
             if note_name is None:
                 note_name = self.instance.name
             
-            if notebook_id is None:
-                notebook_id = self.instance.notebook.id
+            if notebook is None:
+                notebook = self.instance.notebook
 
-        if note_name and notebook_id:
-            notes = Note.objects.filter(notebook=notebook_id)
+        if note_name and notebook:
+            notes = Note.objects.filter(notebook=notebook)
 
             if self.instance:
                 notes = notes.exclude(id=self.instance.id)
