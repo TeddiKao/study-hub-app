@@ -52,11 +52,11 @@ function NoteMenuButton() {
     );
 }
 
-function NoteMenu({ noteId }: NoteMenuProps) {
+function NoteMenuContent({ noteId }: NoteMenuProps) {
+    const queryClient = useQueryClient();
     const { showDialog: showEditNoteDialog } = useEditNoteDialogStore();
     const { updateCurrentNoteId } = useNotesStore();
     const { showAlert: showDeleteNoteAlert } = useDeleteNoteAlertStore();
-    const queryClient = useQueryClient();
 
     function handleEdit() {
         setTimeout(() => {
@@ -76,20 +76,23 @@ function NoteMenu({ noteId }: NoteMenuProps) {
     }
 
     return (
+        <DropdownMenuContent side="left" align="start" alignOffset={-2}>
+            <DropdownMenuItem onClick={handleEdit}>
+                Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDelete} variant="destructive">
+                Delete
+            </DropdownMenuItem>
+        </DropdownMenuContent>
+    )
+}
+
+function NoteMenu({ noteId }: NoteMenuProps) {
+    return (
         <div className="hover:cursor-pointer hover:bg-gray-300 rounded-md w-6 h-6">
             <DropdownMenu>
                 <NoteMenuButton />
-                <DropdownMenuContent side="left" align="start" alignOffset={-2}>
-                    <DropdownMenuItem onClick={handleEdit}>
-                        Edit
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        onClick={handleDelete}
-                        variant="destructive"
-                    >
-                        Delete
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
+                <NoteMenuContent noteId={noteId} />
             </DropdownMenu>
         </div>
     );
