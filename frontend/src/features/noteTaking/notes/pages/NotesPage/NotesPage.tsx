@@ -4,7 +4,6 @@ import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
 import { NotepadText } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { useNotesStore } from "../../stores/notesStore.stores";
-import useNotesQuery from "../../../hooks/query/useNotesQuery.hooks";
 import NoteDialog from "../../components/NoteDialog";
 import { useCreateNoteDialogStore } from "../../stores/noteDialog.stores";
 import { useDeleteNoteAlertStore } from "../../stores/noteAlerts.stores";
@@ -21,6 +20,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import useNotebookInfoQuery from "../../../common/hooks/useNotebookInfoQuery.hooks";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
+import useNotesQuery from "../../hooks/useNotesQuery.hooks";
 
 interface NoteCardProps {
     noteName: string;
