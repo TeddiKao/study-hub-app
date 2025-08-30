@@ -2,7 +2,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, type FormEvent } from "react";
-import { useNotesStore } from "../stores/notes/notesStore.stores";
 import { useNoteFormStore } from "../stores/notes/noteForm.stores";
 import { useCreateNoteDialogStore, useEditNoteDialogStore } from "../stores/notes/noteDialog.stores";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";

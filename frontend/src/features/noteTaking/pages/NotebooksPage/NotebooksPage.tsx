@@ -1,28 +1,16 @@
-import Navbar from "@/shared/pages/DashboardPage/components/Navbar/Navbar";
-import { useQuery } from "@tanstack/react-query";
-import { useNotebooksStore } from "../../stores/notebooks/notebooks.stores";
-import type { Notebooks } from "../../types/notebooks/notebookStore.types";
 import { Dialog } from "@/components/ui/dialog";
 import { useCreateNotebookFormStore } from "../../stores/notebooks/createNotebookForm.stores";
 import NotebookDialog from "../../components/NotebookDialog";
 import CreateNotebookButton from "./components/CreateNotebookButton";
 import NotebookGrid from "./components/NotebookGrid";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
+import useNotebooksQuery from "../../hooks/query/useNotebooksQuery.hooks";
 
 function NotebooksPage() {
-	const { getNotebooks } = useNotebooksStore();
 	const { isFormVisible, updateFormVisibility } =
 		useCreateNotebookFormStore();
 
-	const { isLoading, error } = useQuery<Notebooks, Error>({
-		queryKey: ["notebooks"],
-		queryFn: () => getNotebooks(),
-		staleTime: 1000 * 60 * 5,
-
-		refetchOnMount: false,
-		refetchOnWindowFocus: true,
-		refetchOnReconnect: true,
-	});
+	const { isLoading, error } = useNotebooksQuery();
 
 	if (isLoading) {
 		return <div>Fetching notebooks ...</div>;
