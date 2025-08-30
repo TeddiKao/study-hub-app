@@ -26,6 +26,10 @@ function useNotebookMutations() {
                 ? [...oldNotebooks, notebookCreateResponse.createdNotebook]
                 : [notebookCreateResponse.createdNotebook]
         );
+
+        queryClient.invalidateQueries({
+            queryKey: ["notebooks"],
+        });
     }
 
     async function handleNotebookEdit(
@@ -49,6 +53,10 @@ function useNotebookMutations() {
                   )
                 : []
         );
+
+        queryClient.invalidateQueries({
+            queryKey: ["notebooks"],
+        });
     }
 
     async function handleNotebookDelete(notebookId: number) {
@@ -62,6 +70,10 @@ function useNotebookMutations() {
                 ? oldNotebooks.filter((notebook) => notebook.id !== notebookId)
                 : []
         );
+
+        queryClient.invalidateQueries({
+            queryKey: ["notebooks"],
+        });
     }
 
     return {
