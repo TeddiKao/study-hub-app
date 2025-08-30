@@ -8,7 +8,7 @@ import NotebookDialog from "@/features/noteTaking/notebooks/components/NotebookD
 import { useCreateNotebookFormStore } from "@/features/noteTaking/notebooks/stores/createNotebookForm.stores";
 import { useDeleteNotebookAlertStore } from "@/features/noteTaking/notebooks/stores/deleteNotebookAlert.stores";
 import { useEditNotebookFormStore } from "@/features/noteTaking/notebooks/stores/editNotebookForm.stores";
-import useNotebookMutations from "@/features/noteTaking/hooks/mutations/useNotebookMutations.hooks";
+import useNotebookMutations from "@/features/noteTaking/notebooks/hooks/useNotebookMutations.hooks";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import EditIcon from "@/shared/components/icons/EditIcon";
@@ -23,7 +23,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { type MouseEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import useNotebooksQuery from "@/features/noteTaking/hooks/query/useNotebooksQuery.hooks";
+import useNotebooksQuery from "@/features/noteTaking/notebooks/hooks/useNotebooksQuery.hooks";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 
 interface ItemProps {

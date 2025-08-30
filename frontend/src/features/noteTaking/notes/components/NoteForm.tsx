@@ -10,7 +10,7 @@ import {
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { useQuery } from "@tanstack/react-query";
 import { retrieveNote } from "../utils/notes.services";
-import useNoteMutations from "../../hooks/mutations/useNoteMutations.hooks";
+import useNoteMutations from "../hooks/useNoteMutations.hooks";
 
 interface NoteFormProps {
     mode: "create" | "edit";

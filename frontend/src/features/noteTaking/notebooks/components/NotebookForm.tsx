@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import useNotebookMutations from "../../hooks/mutations/useNotebookMutations.hooks";
+import useNotebookMutations from "../hooks/useNotebookMutations.hooks";
 
 interface NotebookFormCreateModeProps {
     mode: "create";

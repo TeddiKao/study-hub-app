@@ -10,8 +10,8 @@ import { useCreateNoteDialogStore } from "../../stores/noteDialog.stores";
 import { useDeleteNoteAlertStore } from "../../stores/noteAlerts.stores";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import NoteMenu from "./components/NoteMenu";
-import useNotebookIdEffect from "../../../hooks/useNotebookIdEffect.hooks";
-import useNoteMutations from "../../../hooks/mutations/useNoteMutations.hooks";
+import useNotebookIdEffect from "../../hooks/useNotebookIdEffect.hooks";
+import useNoteMutations from "../../hooks/useNoteMutations.hooks";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -19,7 +19,7 @@ import {
     BreadcrumbList,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import useNotebookInfoQuery from "../../../hooks/query/useNotebookInfoQuery.hooks";
+import useNotebookInfoQuery from "../../../common/hooks/useNotebookInfoQuery.hooks";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 
 interface NoteCardProps {
