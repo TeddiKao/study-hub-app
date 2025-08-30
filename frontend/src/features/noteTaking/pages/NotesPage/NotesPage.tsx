@@ -22,7 +22,7 @@ interface NoteTitleProps {
     noteName: string;
 }
 
-function NotesHeader() {
+function NotesPageHeader() {
     const { showDialog } = useCreateNoteDialogStore();
 
     return (
@@ -138,7 +138,7 @@ function NotesPage() {
         <>
             <DashboardLayout className="gap-4 pr-4">
                 <div className="flex flex-col gap-2">
-                    <NotesHeader />
+                    <NotesPageHeader />
                     <NotesGrid />
                 </div>
             </DashboardLayout>
