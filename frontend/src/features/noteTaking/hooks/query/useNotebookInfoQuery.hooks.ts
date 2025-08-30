@@ -4,7 +4,9 @@ import { isNullOrUndefined } from "@/shared/utils/types.utils";
 
 function useNotebookInfoQuery(notebookId: number | undefined) {
     const isQueryEnabled =
-        !isNullOrUndefined(notebookId) && !Number.isNaN(notebookId);
+        !isNullOrUndefined(notebookId) &&
+        !Number.isNaN(notebookId) &&
+        Number.isFinite(notebookId);
 
     return useQuery({
         queryKey: ["notebookInfo", notebookId],
