@@ -1,11 +1,12 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from ..models import Notebook, Note
 
 class NotebookSerializer(ModelSerializer):
 	owner = SerializerMethodField()
-	note_count = SerializerMethodField()
+	note_count = serializers.IntegerField(read_only=True)
 
 	def validate(self, data):
 		notebook_name = data.get("name")
@@ -35,9 +36,6 @@ class NotebookSerializer(ModelSerializer):
 			"username": obj.owner.username,
 			"email": obj.owner.email
 		}
-
-	def get_note_count(self, obj):
-		return obj.note_count
 
 	class Meta:
 		model = Notebook

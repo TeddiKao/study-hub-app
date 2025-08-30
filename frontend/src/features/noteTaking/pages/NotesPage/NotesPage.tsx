@@ -12,6 +12,7 @@ import { useDeleteNoteAlertStore } from "../../stores/notes/noteAlerts.stores";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import NoteMenu from "./components/NoteMenu";
 import useNotebookIdEffect from "../../hooks/useNotebookIdEffect.hooks";
+import useNoteMutations from "../../hooks/mutations/useNoteMutations.hooks";
 
 interface NoteCardProps {
     noteName: string;
@@ -60,8 +61,9 @@ function NoteCard({ noteName, noteId }: NoteCardProps) {
 
 function DeleteNoteAlert() {
     const { visible, showAlert, closeAlert } = useDeleteNoteAlertStore();
-    const { currentNoteId, handleNoteDelete, clearCurrentNoteId } =
+    const { currentNoteId, clearCurrentNoteId } =
         useNotesStore();
+    const { handleNoteDelete } = useNoteMutations();
 
     function onOpenChange(open: boolean) {
         if (open) {
@@ -97,11 +99,11 @@ function DeleteNoteAlert() {
 }
 
 function NotesGrid() {
-    const { notes } = useNotesStore();
+    const { data: notes } = useNotesQuery();
 
     return (
         <div className="flex flex-col gap-2">
-            {notes.map(({ name, id }) => (
+            {notes?.map(({ name, id }) => (
                 <NoteCard noteId={id} noteName={name} key={id} />
             ))}
         </div>
@@ -110,9 +112,9 @@ function NotesGrid() {
 
 function NotesPage() {
     const { notebookId } = useParams();
-    const { updateNotes, clearCurrentNotebookId, updateCurrentNotebookId } =
+    const { clearCurrentNotebookId, updateCurrentNotebookId } =
         useNotesStore();
-    const { data: fetchedNotes, isLoading, error } = useNotesQuery();
+    const { isLoading, error } = useNotesQuery();
     const { currentNoteId } = useNotesStore();
 
     useNotebookIdEffect({
@@ -120,11 +122,6 @@ function NotesPage() {
         updateCurrentNotebookId,
         clearCurrentNotebookId,
     });
-
-    useEffect(() => {
-        if (!fetchedNotes) return;
-        updateNotes(fetchedNotes);
-    }, [fetchedNotes, updateNotes]);
 
     if (isLoading) {
         return <div>Fetching notes</div>;
