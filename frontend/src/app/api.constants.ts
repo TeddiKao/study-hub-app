@@ -1,0 +1,5 @@
+const NOTE_TAKING_BASE = "note_taking";
+const NOTEBOOKS_BASE = `${NOTE_TAKING_BASE}/notebooks`
+const NOTES_BASE = `${NOTE_TAKING_BASE}/notes`
+
+export { NOTE_TAKING_BASE, NOTEBOOKS_BASE, NOTES_BASE };
