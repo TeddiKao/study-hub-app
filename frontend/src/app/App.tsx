@@ -11,33 +11,36 @@ import LogoutRoute from "@/features/auth/pages/LogoutRoute";
 import AuthRoute from "@/features/auth/components/routes/AuthRoute";
 import NotebooksPage from "@/features/noteTaking/pages/NotebooksPage/NotebooksPage";
 import useTokenRefreshInterval from "@/features/auth/hooks/useTokenRefreshInterval";
-import NotesPage from "@/features/noteTaking/pages/NotesPage";
+import NotesPage from "@/features/noteTaking/pages/NotesPage/NotesPage";
 
 export const queryClient = new QueryClient();
 
 function App() {
-	useTokenRefreshInterval();
+    useTokenRefreshInterval();
 
-	return (
-		<QueryClientProvider client={queryClient}>
-			<BrowserRouter>
-				<Routes>
-					<Route element={<AuthRoute />}>
-						<Route path="/login" element={<LoginPage />} />
-						<Route path="/signup" element={<SignupPage />} />
-					</Route>
+    return (
+        <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+                <Routes>
+                    <Route element={<AuthRoute />}>
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/signup" element={<SignupPage />} />
+                    </Route>
 
-					<Route element={<ProtectedRoute />}>
-						<Route path="/home" element={<DashboardPage />} />
-						<Route path="/notebooks" element={<NotebooksPage />} />
-						<Route path="/notebooks/:notebookId" element={<NotesPage />} />
-					</Route>
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="/home" element={<DashboardPage />} />
+                        <Route path="/notebooks" element={<NotebooksPage />} />
+                        <Route
+                            path="/notebooks/:notebookId"
+                            element={<NotesPage />}
+                        />
+                    </Route>
 
-					<Route path="/logout" element={<LogoutRoute />} />
-				</Routes>
-			</BrowserRouter>
-		</QueryClientProvider>
-	);
+                    <Route path="/logout" element={<LogoutRoute />} />
+                </Routes>
+            </BrowserRouter>
+        </QueryClientProvider>
+    );
 }
 
 export default App;
