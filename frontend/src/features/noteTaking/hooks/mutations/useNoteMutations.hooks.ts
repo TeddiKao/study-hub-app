@@ -24,19 +24,20 @@ function useNoteMutations() {
             ["notes", currentNotebookId],
             (oldNotes: Notes) => [...oldNotes, noteCreateResponse.createdNote]
         );
+
+        queryClient.invalidateQueries({
+            queryKey: ["notebooks"],
+        });
     }
 
     async function handleNoteEdit(noteId: number, newNoteData: RawNoteData) {
         if (isNullOrUndefined(currentNotebookId)) return;
 
-        const noteEditResponse = await editNote(
-            noteId,
-            {
-                name: newNoteData.name,
-                description: newNoteData.description,
-                notebookId: currentNotebookId!,
-            }
-        );
+        const noteEditResponse = await editNote(noteId, {
+            name: newNoteData.name,
+            description: newNoteData.description,
+            notebookId: currentNotebookId!,
+        });
 
         if (!noteEditResponse.success) {
             throw new Error(noteEditResponse.error);
@@ -49,6 +50,10 @@ function useNoteMutations() {
                     note.id === noteId ? noteEditResponse.editedNote : note
                 )
         );
+
+        queryClient.invalidateQueries({
+            queryKey: ["notebooks"],
+        });
     }
 
     async function handleNoteDelete(noteId: number) {
@@ -61,9 +66,12 @@ function useNoteMutations() {
 
         queryClient.setQueryData(
             ["notes", currentNotebookId],
-            (oldNotes: Notes) =>
-                oldNotes.filter((note) => note.id !== noteId)
+            (oldNotes: Notes) => oldNotes.filter((note) => note.id !== noteId)
         );
+
+        queryClient.invalidateQueries({
+            queryKey: ["notebooks"],
+        });
     }
 
     return {
