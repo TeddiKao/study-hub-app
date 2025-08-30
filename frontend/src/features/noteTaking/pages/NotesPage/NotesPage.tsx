@@ -22,6 +22,26 @@ interface NoteTitleProps {
     noteName: string;
 }
 
+interface NotesHeaderProps {
+    showCreateNoteDialog: () => void;
+}
+
+function NotesHeader({ showCreateNoteDialog }: NotesHeaderProps) {
+    return (
+        <div className="flex flex-row items-center justify-between mt-3">
+            <h1 className="text-3xl font-semibold">Notes</h1>
+                <Button
+                    onClick={showCreateNoteDialog}
+                    type="button"
+                className="hover:cursor-pointer"
+            >
+                <AddIcon />
+                <span className="-ml-0.5">New note</span>
+            </Button>
+        </div>
+    );
+}
+
 function NoteTitle({ noteName }: NoteTitleProps) {
     return (
         <div className="flex flex-row gap-1">
@@ -121,18 +141,7 @@ function NotesPage() {
         <>
             <DashboardLayout className="gap-4 pr-4">
                 <div className="flex flex-col gap-2">
-                    <div className="flex flex-row items-center justify-between mt-3">
-                        <h1 className="text-3xl font-semibold">Notes</h1>
-                        <Button
-                            onClick={showCreateNoteDialog}
-                            type="button"
-                            className="hover:cursor-pointer"
-                        >
-                            <AddIcon />
-                            <span className="-ml-0.5">New note</span>
-                        </Button>
-                    </div>
-
+                    <NotesHeader showCreateNoteDialog={showCreateNoteDialog} />
                     <NotesGrid />
                 </div>
             </DashboardLayout>
