@@ -1,34 +1,19 @@
 import { create } from "zustand";
-import { createNote, deleteNote, editNote, fetchNotes } from "../../utils/notes.services";
-import type { Notes } from "../../types/notes/notesStore.types";
-import type { NotePayload, RawNoteData } from "../../types/notes/notesApi.types";
-import { isNullOrUndefined } from "@/shared/utils/types.utils";
 
 interface NotesStore {
-	notes: Notes;
 	currentNotebookId: number | null;
     currentNoteId: number | null,
 
-	updateNotes: (newNotes: Notes) => void;
 	updateCurrentNotebookId: (newNotebookId: number) => void;
     clearCurrentNotebookId: () => void,
 
     updateCurrentNoteId: (newNoteId: number) => void,
     clearCurrentNoteId: () => void,
-
-	getNotes: () => Promise<void>;
-
-	handleNoteCreate: (createdNote: RawNoteData) => Promise<void>;
-	handleNoteEdit: (noteId: number, newNoteData: NotePayload) => Promise<void>;
-	handleNoteDelete: (noteId: number) => Promise<void>;
 }
 
-const useNotesStore = create<NotesStore>((set, get) => ({
-	notes: [],
+const useNotesStore = create<NotesStore>((set) => ({
 	currentNotebookId: null,
     currentNoteId: null,
-
-	updateNotes: (newNotes: Notes) => set({ notes: newNotes }),
 
 	updateCurrentNotebookId: (newNotebookId: number) =>
 		set({ currentNotebookId: newNotebookId }),
@@ -37,53 +22,6 @@ const useNotesStore = create<NotesStore>((set, get) => ({
     updateCurrentNoteId: (newNoteId: number) =>
         set({ currentNoteId: newNoteId }),
     clearCurrentNoteId: () => set({ currentNoteId: null }),
-
-	getNotes: async () => {
-        if (isNullOrUndefined(get().currentNotebookId)) return;
-
-        const notebookFetchResponse = await fetchNotes(get().currentNotebookId!)
-        if (!notebookFetchResponse.success) {
-            throw new Error(notebookFetchResponse.error)
-        }
-
-        get().updateNotes(notebookFetchResponse.notes);
-    },
-
-	handleNoteCreate: async (createdNote: RawNoteData) => {
-        if (isNullOrUndefined(get().currentNotebookId)) return;
-
-        const noteCreateResponse = await createNote(createdNote, get().currentNotebookId!);
-        if (!noteCreateResponse.success) {
-            throw new Error(noteCreateResponse.error);
-        };
-        
-        await get().getNotes();
-    },
-
-	handleNoteEdit: async (noteId: number, newNoteData: RawNoteData) => {
-        if (isNullOrUndefined(get().currentNotebookId)) return;
-
-        const noteEditResponse = await editNote(noteId, {
-            name: newNoteData.name,
-            description: newNoteData.description,
-            notebookId: get().currentNotebookId!,
-        });
-
-        if (!noteEditResponse.success) {
-            throw new Error(noteEditResponse.error);
-        }
-
-        await get().getNotes();
-    },
-
-	handleNoteDelete: async (noteId: number) => {
-        const noteDeleteResponse = await deleteNote(noteId);
-        if (!noteDeleteResponse.success) {
-            throw new Error(noteDeleteResponse.error);
-        }
-
-        await get().getNotes()
-    },
 }));
 
 export { useNotesStore }
