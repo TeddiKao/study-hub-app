@@ -27,7 +27,7 @@ function useNotebookMutations() {
                 : [notebookCreateResponse.createdNotebook]
         );
 
-        queryClient.invalidateQueries({
+        await queryClient.invalidateQueries({
             queryKey: ["notebooks"],
         });
     }
@@ -54,7 +54,7 @@ function useNotebookMutations() {
                 : []
         );
 
-        queryClient.invalidateQueries({
+        await queryClient.invalidateQueries({
             queryKey: ["notebooks"],
         });
     }
@@ -71,7 +71,7 @@ function useNotebookMutations() {
                 : []
         );
 
-        queryClient.invalidateQueries({
+        await queryClient.invalidateQueries({
             queryKey: ["notebooks"],
         });
     }
