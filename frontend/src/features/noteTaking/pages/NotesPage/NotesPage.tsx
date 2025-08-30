@@ -30,7 +30,6 @@ function NoteTitle({ noteName }: NoteTitleProps) {
     );
 }
 
-
 function NoteCard({ noteName, noteId }: NoteCardProps) {
     return (
         <div className="flex flex-row py-2 pl-2 justify-between items-center bg-white shadow-md rounded-md pr-1">
