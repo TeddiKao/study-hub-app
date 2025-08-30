@@ -22,7 +22,7 @@ function useNoteMutations() {
 
         queryClient.setQueryData(
             ["notes", currentNotebookId],
-            (oldNotes: Notes) => [...oldNotes, noteCreateResponse.createdNote]
+            (oldNotes: Notes) => oldNotes ? [...oldNotes, noteCreateResponse.createdNote] : [noteCreateResponse.createdNote]
         );
 
         queryClient.invalidateQueries({
@@ -66,7 +66,7 @@ function useNoteMutations() {
 
         queryClient.setQueryData(
             ["notes", currentNotebookId],
-            (oldNotes: Notes) => oldNotes.filter((note) => note.id !== noteId)
+            (oldNotes: Notes) => oldNotes ? oldNotes.filter((note) => note.id !== noteId) : oldNotes
         );
 
         queryClient.invalidateQueries({
