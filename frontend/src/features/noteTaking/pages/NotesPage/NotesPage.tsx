@@ -20,6 +20,7 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import useNotebookInfoQuery from "../../hooks/query/useNotebookInfoQuery.hooks";
+import { isNullOrUndefined } from "@/shared/utils/types.utils";
 
 interface NoteCardProps {
     noteName: string;
@@ -159,6 +160,12 @@ function NotesPage() {
         error: notebookError,
     } = useNotebookInfoQuery(Number(notebookId));
 
+    const numericNotebookid = Number(notebookId);
+    const isNotebookIdValid =
+        !isNullOrUndefined(numericNotebookid) &&
+        !Number.isNaN(numericNotebookid) &&
+        Number.isFinite(numericNotebookid);
+
     useNotebookIdEffect({
         notebookId,
         updateCurrentNotebookId,
@@ -178,7 +185,11 @@ function NotesPage() {
             <DashboardLayout className="gap-4 pr-4">
                 <div className="flex flex-col gap-2">
                     <NotesPageHeader />
-                    <NotebookBreadcrumb notebookId={Number(notebookId)} />
+                    
+                    {isNotebookIdValid && (
+                        <NotebookBreadcrumb notebookId={numericNotebookid} />
+                    )}
+
                     <NotesGrid />
                 </div>
             </DashboardLayout>
