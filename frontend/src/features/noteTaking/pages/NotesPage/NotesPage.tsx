@@ -5,19 +5,19 @@ import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
 import { NotepadText } from "lucide-react";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { useNotesStore } from "../stores/notes/notesStore.stores";
-import useNotesQuery from "../hooks/query/useNotesQuery.hooks";
-import NoteDialog from "../components/NoteDialog";
-import { useCreateNoteDialogStore } from "../stores/notes/noteDialog.stores";
+import { useNotesStore } from "../../stores/notes/notesStore.stores";
+import useNotesQuery from "../../hooks/query/useNotesQuery.hooks";
+import NoteDialog from "../../components/NoteDialog";
+import { useCreateNoteDialogStore } from "../../stores/notes/noteDialog.stores";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useEditNoteDialogStore } from "../stores/notes/noteDialog.stores";
+import { useEditNoteDialogStore } from "../../stores/notes/noteDialog.stores";
 import { useQueryClient } from "@tanstack/react-query";
-import { useDeleteNoteAlertStore } from "../stores/notes/noteAlerts.stores";
+import { useDeleteNoteAlertStore } from "../../stores/notes/noteAlerts.stores";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 
 interface NoteCardProps {
@@ -79,14 +79,12 @@ function NoteMenuContent({ noteId }: NoteMenuContentProps) {
 
     return (
         <DropdownMenuContent side="left" align="start" alignOffset={-2}>
-            <DropdownMenuItem onClick={handleEdit}>
-                Edit
-            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleEdit}>Edit</DropdownMenuItem>
             <DropdownMenuItem onClick={handleDelete} variant="destructive">
                 Delete
             </DropdownMenuItem>
         </DropdownMenuContent>
-    )
+    );
 }
 
 function NoteMenu({ noteId }: NoteMenuProps) {
