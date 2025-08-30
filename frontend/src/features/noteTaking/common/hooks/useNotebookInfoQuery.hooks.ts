@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { retrieveNotebook } from "../../utils/notebooks.services";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
+import { retrieveNotebook } from "../../notebooks/utils/notebooks.services";
 
 function useNotebookInfoQuery(notebookId: number | undefined) {
     const isQueryEnabled =
