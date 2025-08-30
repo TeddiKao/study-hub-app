@@ -17,7 +17,9 @@ import {
     BreadcrumbItem,
     BreadcrumbLink,
     BreadcrumbList,
+    BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import useNotebookInfoQuery from "../../hooks/query/useNotebookInfoQuery.hooks";
 
 interface NoteCardProps {
     noteName: string;
@@ -117,8 +119,14 @@ function NotesGrid() {
 function NotesPage() {
     const { notebookId } = useParams();
     const { clearCurrentNotebookId, updateCurrentNotebookId } = useNotesStore();
-    const { isLoading, error } = useNotesQuery();
+    const { isLoading: notesLoading, error: notesError } = useNotesQuery();
     const { currentNoteId } = useNotesStore();
+
+    const {
+        data: notebook,
+        isLoading: notebookLoading,
+        error: notebookError,
+    } = useNotebookInfoQuery(Number(notebookId));
 
     useNotebookIdEffect({
         notebookId,
@@ -126,11 +134,11 @@ function NotesPage() {
         clearCurrentNotebookId,
     });
 
-    if (isLoading) {
+    if (notesLoading || notebookLoading) {
         return <div>Fetching notes</div>;
     }
 
-    if (error) {
+    if (notesError || notebookError) {
         return <div>An error occurred while fetching notes</div>;
     }
 
@@ -148,13 +156,17 @@ function NotesPage() {
                                 </BreadcrumbLink>
                             </BreadcrumbItem>
 
+                            <BreadcrumbSeparator />
+
                             <BreadcrumbItem>
                                 <BreadcrumbLink
                                     href={`/notebooks/${notebookId}`}
                                     asChild
                                 >
                                     <Link to={`/notebooks/${notebookId}`}>
-                                        <span className="font-semibold"></span>
+                                        <span className="font-semibold">
+                                            {notebook?.name}
+                                        </span>
                                     </Link>
                                 </BreadcrumbLink>
                             </BreadcrumbItem>
