@@ -3,7 +3,11 @@ import type {
     CreateNotebookApiPayload,
     EditNotebookApiPayload,
 } from "../../types/notebooks/notebookApi.types";
-import { createNotebook, editNotebook, deleteNotebook } from "../../utils/notebooks.services";
+import {
+    createNotebook,
+    editNotebook,
+    deleteNotebook,
+} from "../../utils/notebooks.services";
 import type { Notebooks } from "../../types/notebooks/notebookStore.types";
 
 function useNotebookMutations() {
@@ -38,12 +42,12 @@ function useNotebookMutations() {
 
         queryClient.setQueryData(["notebooks"], (oldNotebooks: Notebooks) =>
             oldNotebooks
-                ? (oldNotebooks ?? []).map((notebook) =>
+                ? oldNotebooks.map((notebook) =>
                       notebook.id === notebookId
                           ? notebookEditResponse.editedNotebook
                           : notebook
                   )
-                : oldNotebooks
+                : []
         );
     }
 
@@ -55,8 +59,8 @@ function useNotebookMutations() {
 
         queryClient.setQueryData(["notebooks"], (oldNotebooks: Notebooks) =>
             oldNotebooks
-                ? (oldNotebooks ?? []).filter((notebook) => notebook.id !== notebookId)
-                : oldNotebooks
+                ? oldNotebooks.filter((notebook) => notebook.id !== notebookId)
+                : []
         );
     }
 
