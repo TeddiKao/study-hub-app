@@ -25,6 +25,19 @@ interface NoteCardProps {
     noteId: number;
 }
 
+interface NoteTitleProps {
+    noteName: string;
+}
+
+function NoteTitle({ noteName }: NoteTitleProps) {
+    return (
+        <div className="flex flex-row gap-1">
+            <NotepadText className="w-6 h-6" />
+            <p>{noteName}</p>
+        </div>
+    );
+}
+
 function NoteCard({ noteName, noteId }: NoteCardProps) {
     const { showDialog: showEditNoteDialog } = useEditNoteDialogStore();
     const { updateCurrentNoteId } = useNotesStore();
@@ -34,10 +47,7 @@ function NoteCard({ noteName, noteId }: NoteCardProps) {
 
     return (
         <div className="flex flex-row py-2 pl-2 justify-between items-center bg-white shadow-md rounded-md pr-1">
-            <div className="flex flex-row gap-1">
-                <NotepadText className="w-6 h-6" />
-                <p>{noteName}</p>
-            </div>
+            <NoteTitle noteName={noteName} />
 
             <div className="hover:cursor-pointer hover:bg-gray-300 rounded-md w-6 h-6">
                 <DropdownMenu>
@@ -135,11 +145,8 @@ function NotesGrid() {
 
 function NotesPage() {
     const { notebookId } = useParams();
-    const {
-        updateNotes,
-        clearCurrentNotebookId,
-        updateCurrentNotebookId,
-    } = useNotesStore();
+    const { updateNotes, clearCurrentNotebookId, updateCurrentNotebookId } =
+        useNotesStore();
 
     const { data: fetchedNotes, isLoading, error } = useNotesQuery();
     const { showDialog: showCreateNoteDialog } = useCreateNoteDialogStore();
