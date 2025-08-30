@@ -16,7 +16,6 @@ interface NoteFormProps {
 }
 
 function NoteForm({ mode, noteId }: NoteFormProps) {
-	const { currentNotebookId } = useNotesStore();
 	const { name, description, updateName, updateDescription, clearDetails } =
 		useNoteFormStore();
     const { handleNoteCreate, handleNoteEdit } = useNoteMutations();
