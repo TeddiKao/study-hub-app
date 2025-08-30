@@ -3,6 +3,7 @@ interface Notebook {
 	name: string;
 	description: string;
 	notebookColor: string;
+	noteCount: number;
 	owner: {
 		id: number;
 		email: string;
