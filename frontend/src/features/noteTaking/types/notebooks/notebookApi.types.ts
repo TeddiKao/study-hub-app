@@ -24,6 +24,10 @@ interface NotebookRetrieveSuccess extends NotebookApiSuccess {
 	retrievedNotebook: Notebook;
 }
 
+interface GetNoteCountSuccess extends NotebookApiSuccess {
+	noteCount: number;
+}
+
 interface CreateNotebookApiPayload {
 	name: string;
 	description: string;
@@ -38,6 +42,7 @@ export type {
 	NotebookApiSuccess,
 	NotebookEditSuccess,
 	NotebookRetrieveSuccess,
+	GetNoteCountSuccess,
 	CreateNotebookApiPayload,
 	EditNotebookApiPayload,
 };

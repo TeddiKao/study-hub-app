@@ -10,6 +10,7 @@ import type {
 	NotebookEditSuccess,
 	NotebookApiSuccess,
 	NotebookRetrieveSuccess,
+	GetNoteCountSuccess,
 } from "../types/notebooks/notebookApi.types";
 import { NOTEBOOKS_BASE } from "@/app/api.constants";
 
@@ -147,4 +148,28 @@ async function retrieveNotebook(notebookId: number): Promise<ApiErrorResponse | 
 	}
 }
 
-export { fetchNotebooks, createNotebook, editNotebook, deleteNotebook, retrieveNotebook };
+async function getNoteCount(notebookId: number): Promise<ApiErrorResponse | GetNoteCountSuccess> {
+    try {
+        const response = await api.get(`${NOTEBOOKS_BASE}/notebook/${notebookId}/note-count/`);
+
+        return {
+            success: true,
+            message: "Note count retrieved successfully",
+            noteCount: response.data,
+        };
+    } catch (error) {
+        if (!isAxiosError(error)) {
+            return {
+                success: false,
+                error: "Failed to retrieve note count",
+            };
+        }
+
+        return {
+            success: false,
+            error: error.response?.data.error ?? "Failed to retrieve note count",
+        };
+    }
+}
+
+export { fetchNotebooks, createNotebook, editNotebook, deleteNotebook, retrieveNotebook, getNoteCount };
