@@ -1,7 +1,6 @@
 import NotebookIcon from "@/shared/components/icons/NotebookIcon";
 import NotebookDropdownMenu from "./NotebookDropdownMenu";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 
 interface NotebookProps {
     notebookName: string;
@@ -35,7 +34,7 @@ function NotebookCard({
             aria-label={`Open notebook ${notebookName}`}
             className="flex flex-row py-3 pl-3 pr-2 bg-white rounded-2xl shadow-xl items-center hover:cursor-pointer"
         >
-            <Button
+            <button
                 type="button"
                 style={{ backgroundColor: notebookColor }}
                 onClick={handleNotebookCardClick}
@@ -43,9 +42,9 @@ function NotebookCard({
                 className="p-1 w-max h-max rounded-md bg-gray-300 hover:cursor-pointer"
             >
                 <NotebookIcon size={20} />
-            </Button>
+            </button>
 
-            <Button onClick={handleNotebookCardClick} type="button" className="flex flex-col flex-1 min-w-0 ml-3 mr-3 hover:cursor-pointer">
+            <button onClick={handleNotebookCardClick} type="button" className="flex flex-col flex-1 min-w-0 ml-3 mr-3 hover:cursor-pointer">
                 <p className="font-semibold text-left break-words">
                     {notebookName}
                 </p>
@@ -55,7 +54,7 @@ function NotebookCard({
                         {noteCount} {getNoun()}
                     </p>
                 </div>
-            </Button>
+            </button>
 
             <NotebookDropdownMenu notebookId={notebookId} />
         </div>
