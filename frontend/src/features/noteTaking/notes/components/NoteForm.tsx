@@ -102,7 +102,7 @@ function NoteForm({ mode, noteId }: NoteFormProps) {
 
         if (mode === "create") {
             await handleNoteCreation();
-        } else if (mode === "edit" && noteId) {
+        } else if (mode === "edit" && !isNullOrUndefined(noteId)) {
             await handleNoteEditing();
         }
     }
