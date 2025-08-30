@@ -22,17 +22,15 @@ interface NoteTitleProps {
     noteName: string;
 }
 
-interface NotesHeaderProps {
-    showCreateNoteDialog: () => void;
-}
+function NotesHeader() {
+    const { showDialog } = useCreateNoteDialogStore();
 
-function NotesHeader({ showCreateNoteDialog }: NotesHeaderProps) {
     return (
         <div className="flex flex-row items-center justify-between mt-3">
             <h1 className="text-3xl font-semibold">Notes</h1>
-                <Button
-                    onClick={showCreateNoteDialog}
-                    type="button"
+            <Button
+                onClick={showDialog}
+                type="button"
                 className="hover:cursor-pointer"
             >
                 <AddIcon />
@@ -141,7 +139,7 @@ function NotesPage() {
         <>
             <DashboardLayout className="gap-4 pr-4">
                 <div className="flex flex-col gap-2">
-                    <NotesHeader showCreateNoteDialog={showCreateNoteDialog} />
+                    <NotesHeader />
                     <NotesGrid />
                 </div>
             </DashboardLayout>
