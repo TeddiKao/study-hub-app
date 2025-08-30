@@ -38,57 +38,58 @@ function NoteTitle({ noteName }: NoteTitleProps) {
     );
 }
 
+interface NoteMenuProps {
+    onEdit: () => void;
+    onDelete: () => void;
+}
+
+function NoteMenu({ onEdit, onDelete }: NoteMenuProps) {
+    return (
+        <div className="hover:cursor-pointer hover:bg-gray-300 rounded-md w-6 h-6">
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <button type="button" className="w-6 h-6">
+                        <KebabMenuIcon className="w-6 h-6" />
+                    </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent side="left" align="start" alignOffset={-2}>
+                    <DropdownMenuItem onClick={onEdit}>Edit</DropdownMenuItem>
+                    <DropdownMenuItem onClick={onDelete} variant="destructive">
+                        Delete
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
+    );
+}
+
 function NoteCard({ noteName, noteId }: NoteCardProps) {
     const { showDialog: showEditNoteDialog } = useEditNoteDialogStore();
     const { updateCurrentNoteId } = useNotesStore();
     const { showAlert: showDeleteNoteAlert } = useDeleteNoteAlertStore();
-
     const queryClient = useQueryClient();
+
+    function handleEdit() {
+        setTimeout(() => {
+            queryClient.invalidateQueries({
+                queryKey: ["note", noteId],
+            });
+            updateCurrentNoteId(noteId);
+            showEditNoteDialog();
+        }, 0);
+    }
+
+    function handleDelete() {
+        setTimeout(() => {
+            updateCurrentNoteId(noteId);
+            showDeleteNoteAlert();
+        }, 0);
+    }
 
     return (
         <div className="flex flex-row py-2 pl-2 justify-between items-center bg-white shadow-md rounded-md pr-1">
             <NoteTitle noteName={noteName} />
-
-            <div className="hover:cursor-pointer hover:bg-gray-300 rounded-md w-6 h-6">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <button type="button" className="w-6 h-6">
-                            <KebabMenuIcon className="w-6 h-6" />
-                        </button>
-                    </DropdownMenuTrigger>
-
-                    <DropdownMenuContent
-                        side="left"
-                        align="start"
-                        alignOffset={-2}
-                    >
-                        <DropdownMenuItem
-                            onClick={() => {
-                                setTimeout(() => {
-                                    queryClient.invalidateQueries({
-                                        queryKey: ["note", noteId],
-                                    });
-                                    updateCurrentNoteId(noteId);
-                                    showEditNoteDialog();
-                                }, 0);
-                            }}
-                        >
-                            Edit
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            onClick={() => {
-                                setTimeout(() => {
-                                    updateCurrentNoteId(noteId);
-                                    showDeleteNoteAlert();
-                                }, 0);
-                            }}
-                            variant="destructive"
-                        >
-                            Delete
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
+            <NoteMenu onEdit={handleEdit} onDelete={handleDelete} />
         </div>
     );
 }
