@@ -155,7 +155,6 @@ function NotesPage() {
     const { currentNoteId } = useNotesStore();
 
     const {
-        data: notebook,
         isLoading: notebookLoading,
         error: notebookError,
     } = useNotebookInfoQuery(Number(notebookId));
