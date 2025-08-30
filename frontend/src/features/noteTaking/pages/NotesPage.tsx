@@ -83,6 +83,44 @@ function NoteCard({ noteName, noteId }: NoteCardProps) {
     );
 }
 
+function DeleteNoteAlert() {
+    const { visible, showAlert, closeAlert } = useDeleteNoteAlertStore();
+    const { currentNoteId, handleNoteDelete, clearCurrentNoteId } =
+        useNotesStore();
+
+    function onOpenChange(open: boolean) {
+        if (open) {
+            showAlert();
+        } else {
+            closeAlert();
+            clearCurrentNoteId();
+        }
+    }
+
+    async function dialogAction() {
+        try {
+            if (!currentNoteId) return;
+
+            await handleNoteDelete(currentNoteId);
+
+            closeAlert();
+            clearCurrentNoteId();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    return (
+        <DeleteItemDialog
+            isOpen={visible}
+            onOpenChange={onOpenChange}
+            dialogTitle="Delete note"
+            dialogDescription="Are you sure you want to delete this note?"
+            dialogAction={dialogAction}
+        />
+    );
+}
+
 function NotesPage() {
     const { notebookId } = useParams();
     const {
@@ -94,13 +132,7 @@ function NotesPage() {
 
     const { data: fetchedNotes, isLoading, error } = useNotesQuery();
     const { showDialog: showCreateNoteDialog } = useCreateNoteDialogStore();
-    const { currentNoteId, handleNoteDelete, clearCurrentNoteId } =
-        useNotesStore();
-    const {
-        visible: isDeleteNoteAlertVisible,
-        closeAlert: closeDeleteNoteAlert,
-        showAlert: showDeleteNoteAlert,
-    } = useDeleteNoteAlertStore();
+    const { currentNoteId } = useNotesStore();
 
     useEffect(() => {
         if (!fetchedNotes) return;
@@ -161,31 +193,7 @@ function NotesPage() {
             <NoteDialog mode="create" />
             <NoteDialog mode="edit" noteId={currentNoteId ?? undefined} />
 
-            <DeleteItemDialog
-                isOpen={isDeleteNoteAlertVisible}
-                onOpenChange={(open: boolean) => {
-                    if (open) {
-                        showDeleteNoteAlert();
-                    } else {
-                        closeDeleteNoteAlert();
-                        clearCurrentNoteId();
-                    }
-                }}
-                dialogTitle="Delete note"
-                dialogDescription="Are you sure you want to delete this note?"
-                dialogAction={async () => {
-                    try {
-                        if (!currentNoteId) return;
-
-                        await handleNoteDelete(currentNoteId);
-
-                        closeDeleteNoteAlert();
-                        clearCurrentNoteId();
-                    } catch (error) {
-                        console.error(error);
-                    }
-                }}
-            />
+            <DeleteNoteAlert />
         </>
     );
 }
