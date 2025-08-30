@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
 import { NotepadText } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useNotesStore } from "../../stores/notes/notesStore.stores";
 import useNotesQuery from "../../hooks/query/useNotesQuery.hooks";
 import NoteDialog from "../../components/NoteDialog";
@@ -12,6 +12,15 @@ import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import NoteMenu from "./components/NoteMenu";
 import useNotebookIdEffect from "../../hooks/useNotebookIdEffect.hooks";
 import useNoteMutations from "../../hooks/mutations/useNoteMutations.hooks";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import useNotebookInfoQuery from "../../hooks/query/useNotebookInfoQuery.hooks";
+import { isNullOrUndefined } from "@/shared/utils/types.utils";
 
 interface NoteCardProps {
     noteName: string;
@@ -20,6 +29,10 @@ interface NoteCardProps {
 
 interface NoteTitleProps {
     noteName: string;
+}
+
+interface NotebookBreadcrumbProps {
+    notebookId: number;
 }
 
 function NotesPageHeader() {
@@ -60,8 +73,7 @@ function NoteCard({ noteName, noteId }: NoteCardProps) {
 
 function DeleteNoteAlert() {
     const { visible, showAlert, closeAlert } = useDeleteNoteAlertStore();
-    const { currentNoteId, clearCurrentNoteId } =
-        useNotesStore();
+    const { currentNoteId, clearCurrentNoteId } = useNotesStore();
     const { handleNoteDelete } = useNoteMutations();
 
     function onOpenChange(open: boolean) {
@@ -109,12 +121,50 @@ function NotesGrid() {
     );
 }
 
+function NotebookBreadcrumb({ notebookId }: NotebookBreadcrumbProps) {
+    const { data: notebook } = useNotebookInfoQuery(notebookId);
+
+    return (
+        <Breadcrumb>
+            <BreadcrumbList>
+                <BreadcrumbItem>
+                    <BreadcrumbLink asChild>
+                        <Link to="/notebooks">Notebooks</Link>
+                    </BreadcrumbLink>
+                </BreadcrumbItem>
+
+                <BreadcrumbSeparator />
+
+                <BreadcrumbItem>
+                    <BreadcrumbLink asChild>
+                        <Link to={`/notebooks/${notebookId}`}>
+                            <span className="font-semibold">
+                                {notebook?.name}
+                            </span>
+                        </Link>
+                    </BreadcrumbLink>
+                </BreadcrumbItem>
+            </BreadcrumbList>
+        </Breadcrumb>
+    );
+}
+
 function NotesPage() {
     const { notebookId } = useParams();
-    const { clearCurrentNotebookId, updateCurrentNotebookId } =
-        useNotesStore();
-    const { isLoading, error } = useNotesQuery();
+    const { clearCurrentNotebookId, updateCurrentNotebookId } = useNotesStore();
+    const { isLoading: notesLoading, error: notesError } = useNotesQuery();
     const { currentNoteId } = useNotesStore();
+
+    const {
+        isLoading: notebookLoading,
+        error: notebookError,
+    } = useNotebookInfoQuery(Number(notebookId));
+
+    const numericNotebookid = Number(notebookId);
+    const isNotebookIdValid =
+        !isNullOrUndefined(numericNotebookid) &&
+        !Number.isNaN(numericNotebookid) &&
+        Number.isFinite(numericNotebookid);
 
     useNotebookIdEffect({
         notebookId,
@@ -122,11 +172,11 @@ function NotesPage() {
         clearCurrentNotebookId,
     });
 
-    if (isLoading) {
+    if (notesLoading || notebookLoading) {
         return <div>Fetching notes</div>;
     }
 
-    if (error) {
+    if (notesError || notebookError) {
         return <div>An error occurred while fetching notes</div>;
     }
 
@@ -135,6 +185,11 @@ function NotesPage() {
             <DashboardLayout className="gap-4 pr-4">
                 <div className="flex flex-col gap-2">
                     <NotesPageHeader />
+                    
+                    {isNotebookIdValid && (
+                        <NotebookBreadcrumb notebookId={numericNotebookid} />
+                    )}
+
                     <NotesGrid />
                 </div>
             </DashboardLayout>
