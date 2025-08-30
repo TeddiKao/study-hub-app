@@ -37,8 +37,7 @@ class NotebookSerializer(ModelSerializer):
 		}
 
 	def get_note_count(self, obj):
-		return Note.objects.filter(notebook=obj).count()
-
+		return obj.note_count
 
 	class Meta:
 		model = Notebook
