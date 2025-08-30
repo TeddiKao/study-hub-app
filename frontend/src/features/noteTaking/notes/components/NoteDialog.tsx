@@ -6,12 +6,12 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
-import NoteForm from "./NoteForm";
+import NoteForm from "../../components/NoteForm";
 import {
     useEditNoteDialogStore,
     useCreateNoteDialogStore,
-} from "../stores/notes/noteDialog.stores";
-import { useNotesStore } from "../stores/notes/notesStore.stores";
+} from "../../stores/notes/noteDialog.stores";
+import { useNotesStore } from "../../stores/notes/notesStore.stores";
 
 interface NoteDialogProps {
     mode: "create" | "edit";
@@ -71,7 +71,7 @@ function NoteDialog({ mode, noteId }: NoteDialogProps) {
                     closeDialog();
 
                     if (mode === "edit") {
-                        clearCurrentNoteId();   
+                        clearCurrentNoteId();
                     }
                 }
             }}
