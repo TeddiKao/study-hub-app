@@ -38,12 +38,12 @@ function NotebookCard({
                 type="button"
                 style={{ backgroundColor: notebookColor }}
                 onClick={handleNotebookCardClick}
-                className="p-1 w-max h-max rounded-md bg-gray-300"
+                className="p-1 w-max h-max rounded-md bg-gray-300 hover:cursor-pointer"
             >
                 <NotebookIcon size={20} />
             </button>
 
-            <button onClick={handleNotebookCardClick} className="flex flex-col flex-1 min-w-0 ml-3 mr-3">
+            <button onClick={handleNotebookCardClick} className="flex flex-col flex-1 min-w-0 ml-3 mr-3 hover:cursor-pointer">
                 <p className="font-semibold text-left break-words">
                     {notebookName}
                 </p>
