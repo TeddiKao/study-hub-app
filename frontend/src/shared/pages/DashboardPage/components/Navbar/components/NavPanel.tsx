@@ -4,7 +4,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import NotebookDialog from "@/features/noteTaking/components/NotebookDialog";
+import NotebookDialog from "@/features/noteTaking/notebooks/components/NotebookDialog";
 import { useCreateNotebookFormStore } from "@/features/noteTaking/stores/notebooks/createNotebookForm.stores";
 import { useDeleteNotebookAlertStore } from "@/features/noteTaking/stores/notebooks/deleteNotebookAlert.stores";
 import { useEditNotebookFormStore } from "@/features/noteTaking/stores/notebooks/editNotebookForm.stores";
@@ -311,32 +311,30 @@ function NavPanel() {
         useActiveItemStore();
 
     function getIsLoading() {
-		switch (expandedItem) {
-			case "notebooks":
-				return isNotebooksLoading;
+        switch (expandedItem) {
+            case "notebooks":
+                return isNotebooksLoading;
 
-			default:
-				return false;
-		}
-	}
+            default:
+                return false;
+        }
+    }
 
-	function getError() {
-		switch (expandedItem) {
-			case "notebooks":
-				return notebooksError;
+    function getError() {
+        switch (expandedItem) {
+            case "notebooks":
+                return notebooksError;
 
-			default:
-				return null;
-		}
-	}
+            default:
+                return null;
+        }
+    }
 
-    const {
-        isLoading: isNotebooksLoading,
-        error: notebooksError,
-    } = useNotebooksQuery();
+    const { isLoading: isNotebooksLoading, error: notebooksError } =
+        useNotebooksQuery();
 
-	const isLoading = getIsLoading();
-	const error = getError();
+    const isLoading = getIsLoading();
+    const error = getError();
 
     if (!expanded) return null;
     if (!expandedItem) return null;

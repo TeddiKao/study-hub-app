@@ -5,7 +5,7 @@ import { NotepadText } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { useNotesStore } from "../../stores/notes/notesStore.stores";
 import useNotesQuery from "../../hooks/query/useNotesQuery.hooks";
-import NoteDialog from "../../components/NoteDialog";
+import NoteDialog from "../../notes/components/NoteDialog";
 import { useCreateNoteDialogStore } from "../../stores/notes/noteDialog.stores";
 import { useDeleteNoteAlertStore } from "../../stores/notes/noteAlerts.stores";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
@@ -155,10 +155,8 @@ function NotesPage() {
     const { isLoading: notesLoading, error: notesError } = useNotesQuery();
     const { currentNoteId } = useNotesStore();
 
-    const {
-        isLoading: notebookLoading,
-        error: notebookError,
-    } = useNotebookInfoQuery(Number(notebookId));
+    const { isLoading: notebookLoading, error: notebookError } =
+        useNotebookInfoQuery(Number(notebookId));
 
     const numericNotebookid = Number(notebookId);
     const isNotebookIdValid =
@@ -185,7 +183,7 @@ function NotesPage() {
             <DashboardLayout className="gap-4 pr-4">
                 <div className="flex flex-col gap-2">
                     <NotesPageHeader />
-                    
+
                     {isNotebookIdValid && (
                         <NotebookBreadcrumb notebookId={numericNotebookid} />
                     )}
