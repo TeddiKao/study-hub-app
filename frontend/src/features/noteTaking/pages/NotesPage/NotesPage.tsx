@@ -30,6 +30,10 @@ interface NoteTitleProps {
     noteName: string;
 }
 
+interface NotebookBreadcrumbProps {
+    notebookId: number;
+}
+
 function NotesPageHeader() {
     const { showDialog } = useCreateNoteDialogStore();
 
@@ -116,6 +120,34 @@ function NotesGrid() {
     );
 }
 
+function NotebookBreadcrumb({ notebookId }: NotebookBreadcrumbProps) {
+    const { data: notebook } = useNotebookInfoQuery(notebookId);
+
+    return (
+        <Breadcrumb>
+            <BreadcrumbList>
+                <BreadcrumbItem>
+                    <BreadcrumbLink href="/notebooks" asChild>
+                        <Link to="/notebooks">Notebooks</Link>
+                    </BreadcrumbLink>
+                </BreadcrumbItem>
+
+                <BreadcrumbSeparator />
+
+                <BreadcrumbItem>
+                    <BreadcrumbLink href={`/notebooks/${notebookId}`} asChild>
+                        <Link to={`/notebooks/${notebookId}`}>
+                            <span className="font-semibold">
+                                {notebook?.name}
+                            </span>
+                        </Link>
+                    </BreadcrumbLink>
+                </BreadcrumbItem>
+            </BreadcrumbList>
+        </Breadcrumb>
+    );
+}
+
 function NotesPage() {
     const { notebookId } = useParams();
     const { clearCurrentNotebookId, updateCurrentNotebookId } = useNotesStore();
@@ -147,32 +179,7 @@ function NotesPage() {
             <DashboardLayout className="gap-4 pr-4">
                 <div className="flex flex-col gap-2">
                     <NotesPageHeader />
-
-                    <Breadcrumb>
-                        <BreadcrumbList>
-                            <BreadcrumbItem>
-                                <BreadcrumbLink href="/notebooks" asChild>
-                                    <Link to="/notebooks">Notebooks</Link>
-                                </BreadcrumbLink>
-                            </BreadcrumbItem>
-
-                            <BreadcrumbSeparator />
-
-                            <BreadcrumbItem>
-                                <BreadcrumbLink
-                                    href={`/notebooks/${notebookId}`}
-                                    asChild
-                                >
-                                    <Link to={`/notebooks/${notebookId}`}>
-                                        <span className="font-semibold">
-                                            {notebook?.name}
-                                        </span>
-                                    </Link>
-                                </BreadcrumbLink>
-                            </BreadcrumbItem>
-                        </BreadcrumbList>
-                    </Breadcrumb>
-
+                    <NotebookBreadcrumb notebookId={Number(notebookId)} />
                     <NotesGrid />
                 </div>
             </DashboardLayout>
