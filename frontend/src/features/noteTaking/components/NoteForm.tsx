@@ -8,6 +8,7 @@ import { useCreateNoteDialogStore, useEditNoteDialogStore } from "../stores/note
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { useQuery } from "@tanstack/react-query";
 import { retrieveNote } from "../utils/notes.services";
+import useNoteMutations from "../hooks/mutations/useNoteMutations.hooks";
 
 interface NoteFormProps {
 	mode: "create" | "edit";
@@ -15,9 +16,10 @@ interface NoteFormProps {
 }
 
 function NoteForm({ mode, noteId }: NoteFormProps) {
-	const { handleNoteCreate, handleNoteEdit, currentNotebookId } = useNotesStore();
+	const { currentNotebookId } = useNotesStore();
 	const { name, description, updateName, updateDescription, clearDetails } =
 		useNoteFormStore();
+    const { handleNoteCreate, handleNoteEdit } = useNoteMutations();
 
 	const { closeDialog: closeCreateNoteDialog } = useCreateNoteDialogStore();
 	const { closeDialog: closeEditNoteDialog } = useEditNoteDialogStore();
@@ -81,7 +83,6 @@ function NoteForm({ mode, noteId }: NoteFormProps) {
 			await handleNoteEdit(noteId!, {
 				name: name,
 				description: description,
-				notebookId: currentNotebookId!,
 			});
 
 			clearDetails();
