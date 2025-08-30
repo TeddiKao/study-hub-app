@@ -6,9 +6,9 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useEditNoteDialogStore } from "../../../stores/notes/noteDialog.stores";
-import { useDeleteNoteAlertStore } from "../../../stores/notes/noteAlerts.stores";
-import { useNotesStore } from "../../../stores/notes/notesStore.stores";
+import { useDeleteNoteAlertStore } from "@/features/noteTaking/stores/notes/noteAlerts.stores";
+import { useEditNoteDialogStore } from "@/features/noteTaking/stores/notes/noteDialog.stores";
+import { useNotesStore } from "@/features/noteTaking/stores/notes/notesStore.stores";
 
 interface NoteMenuProps {
     noteId: number;
