@@ -30,20 +30,25 @@ function NotebookCard({
     }
 
     return (
-        <button
+        <div
             aria-label={`Open notebook ${notebookName}`}
-            type="button"
-            onClick={handleNotebookCardClick}
             className="flex flex-row py-3 pl-3 pr-2 bg-white rounded-2xl shadow-xl items-center hover:cursor-pointer"
         >
-            <div
+            <button
+                type="button"
                 style={{ backgroundColor: notebookColor }}
-                className="p-1 w-max h-max rounded-md bg-gray-300"
+                onClick={handleNotebookCardClick}
+                aria-label={`Open notebook ${notebookName}`}
+                className="p-1 w-max h-max rounded-md hover:cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-500"
             >
                 <NotebookIcon size={20} />
-            </div>
+            </button>
 
-            <div className="flex flex-col flex-1 min-w-0 ml-3 mr-3">
+            <button
+                onClick={handleNotebookCardClick}
+                type="button"
+                className="flex flex-col flex-1 min-w-0 ml-3 mr-3 hover:cursor-pointer"
+            >
                 <p className="font-semibold text-left break-words">
                     {notebookName}
                 </p>
@@ -53,10 +58,10 @@ function NotebookCard({
                         {noteCount} {getNoun()}
                     </p>
                 </div>
-            </div>
+            </button>
 
             <NotebookDropdownMenu notebookId={notebookId} />
-        </button>
+        </div>
     );
 }
 
