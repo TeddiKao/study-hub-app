@@ -38,6 +38,7 @@ function NotebookCard({
                 type="button"
                 style={{ backgroundColor: notebookColor }}
                 onClick={handleNotebookCardClick}
+                aria-label={`Open notebook ${notebookName}`}
                 className="p-1 w-max h-max rounded-md bg-gray-300 hover:cursor-pointer"
             >
                 <NotebookIcon size={20} />
