@@ -121,10 +121,21 @@ function DeleteNoteAlert() {
     );
 }
 
+function NotesGrid() {
+    const { notes } = useNotesStore();
+
+    return (
+        <div className="flex flex-col gap-2">
+            {notes.map(({ name, id }) => (
+                <NoteCard noteId={id} noteName={name} key={id} />
+            ))}
+        </div>
+    );
+}
+
 function NotesPage() {
     const { notebookId } = useParams();
     const {
-        notes,
         updateNotes,
         clearCurrentNotebookId,
         updateCurrentNotebookId,
@@ -182,11 +193,7 @@ function NotesPage() {
                         </Button>
                     </div>
 
-                    <div className="flex flex-col gap-2">
-                        {notes.map(({ name, id }) => (
-                            <NoteCard noteId={id} noteName={name} key={id} />
-                        ))}
-                    </div>
+                    <NotesGrid />
                 </div>
             </DashboardLayout>
 
