@@ -113,7 +113,6 @@ function NotesPage() {
     const { updateNotes, clearCurrentNotebookId, updateCurrentNotebookId } =
         useNotesStore();
     const { data: fetchedNotes, isLoading, error } = useNotesQuery();
-    const { showDialog: showCreateNoteDialog } = useCreateNoteDialogStore();
     const { currentNoteId } = useNotesStore();
 
     useNotebookIdEffect({
