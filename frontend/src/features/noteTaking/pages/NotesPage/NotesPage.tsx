@@ -11,6 +11,7 @@ import { useCreateNoteDialogStore } from "../../stores/notes/noteDialog.stores";
 import { useDeleteNoteAlertStore } from "../../stores/notes/noteAlerts.stores";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import NoteMenu from "./components/NoteMenu";
+import useNotebookIdEffect from "../../hooks/useNotebookIdEffect.hooks";
 
 interface NoteCardProps {
     noteName: string;
@@ -93,34 +94,20 @@ function NotesPage() {
     const { notebookId } = useParams();
     const { updateNotes, clearCurrentNotebookId, updateCurrentNotebookId } =
         useNotesStore();
-
     const { data: fetchedNotes, isLoading, error } = useNotesQuery();
     const { showDialog: showCreateNoteDialog } = useCreateNoteDialogStore();
     const { currentNoteId } = useNotesStore();
 
+    useNotebookIdEffect({
+        notebookId,
+        updateCurrentNotebookId,
+        clearCurrentNotebookId,
+    });
+
     useEffect(() => {
         if (!fetchedNotes) return;
-
         updateNotes(fetchedNotes);
     }, [fetchedNotes, updateNotes]);
-
-    useEffect(() => {
-        if (notebookId === undefined) {
-            return;
-        }
-
-        const id = Number(notebookId);
-        if (Number.isNaN(id)) {
-            clearCurrentNotebookId();
-            return;
-        }
-
-        updateCurrentNotebookId(id);
-
-        return () => {
-            clearCurrentNotebookId();
-        };
-    }, [notebookId, updateCurrentNotebookId, clearCurrentNotebookId]);
 
     if (isLoading) {
         return <div>Fetching notes</div>;
