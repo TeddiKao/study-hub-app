@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import AddIcon from "@/shared/components/icons/AddIcon";
-import KebabMenuIcon from "@/shared/components/icons/KebabMenuIcon";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
 import { NotepadText } from "lucide-react";
 import { useParams } from "react-router-dom";
@@ -9,16 +8,9 @@ import { useNotesStore } from "../../stores/notes/notesStore.stores";
 import useNotesQuery from "../../hooks/query/useNotesQuery.hooks";
 import NoteDialog from "../../components/NoteDialog";
 import { useCreateNoteDialogStore } from "../../stores/notes/noteDialog.stores";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useEditNoteDialogStore } from "../../stores/notes/noteDialog.stores";
-import { useQueryClient } from "@tanstack/react-query";
 import { useDeleteNoteAlertStore } from "../../stores/notes/noteAlerts.stores";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
+import NoteMenu from "./components/NoteMenu";
 
 interface NoteCardProps {
     noteName: string;
@@ -29,12 +21,6 @@ interface NoteTitleProps {
     noteName: string;
 }
 
-interface NoteMenuProps {
-    noteId: number;
-}
-
-type NoteMenuContentProps = NoteMenuProps;
-
 function NoteTitle({ noteName }: NoteTitleProps) {
     return (
         <div className="flex flex-row gap-1">
@@ -44,59 +30,6 @@ function NoteTitle({ noteName }: NoteTitleProps) {
     );
 }
 
-function NoteMenuButton() {
-    return (
-        <DropdownMenuTrigger asChild>
-            <button type="button" className="w-6 h-6">
-                <KebabMenuIcon className="w-6 h-6" />
-            </button>
-        </DropdownMenuTrigger>
-    );
-}
-
-function NoteMenuContent({ noteId }: NoteMenuContentProps) {
-    const queryClient = useQueryClient();
-    const { showDialog: showEditNoteDialog } = useEditNoteDialogStore();
-    const { updateCurrentNoteId } = useNotesStore();
-    const { showAlert: showDeleteNoteAlert } = useDeleteNoteAlertStore();
-
-    function handleEdit() {
-        setTimeout(() => {
-            queryClient.invalidateQueries({
-                queryKey: ["note", noteId],
-            });
-            updateCurrentNoteId(noteId);
-            showEditNoteDialog();
-        }, 0);
-    }
-
-    function handleDelete() {
-        setTimeout(() => {
-            updateCurrentNoteId(noteId);
-            showDeleteNoteAlert();
-        }, 0);
-    }
-
-    return (
-        <DropdownMenuContent side="left" align="start" alignOffset={-2}>
-            <DropdownMenuItem onClick={handleEdit}>Edit</DropdownMenuItem>
-            <DropdownMenuItem onClick={handleDelete} variant="destructive">
-                Delete
-            </DropdownMenuItem>
-        </DropdownMenuContent>
-    );
-}
-
-function NoteMenu({ noteId }: NoteMenuProps) {
-    return (
-        <div className="hover:cursor-pointer hover:bg-gray-300 rounded-md w-6 h-6">
-            <DropdownMenu>
-                <NoteMenuButton />
-                <NoteMenuContent noteId={noteId} />
-            </DropdownMenu>
-        </div>
-    );
-}
 
 function NoteCard({ noteName, noteId }: NoteCardProps) {
     return (
