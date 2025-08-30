@@ -29,6 +29,10 @@ interface NoteTitleProps {
     noteName: string;
 }
 
+interface NoteMenuProps {
+    noteId: number;
+}
+
 function NoteTitle({ noteName }: NoteTitleProps) {
     return (
         <div className="flex flex-row gap-1">
@@ -38,32 +42,7 @@ function NoteTitle({ noteName }: NoteTitleProps) {
     );
 }
 
-interface NoteMenuProps {
-    onEdit: () => void;
-    onDelete: () => void;
-}
-
-function NoteMenu({ onEdit, onDelete }: NoteMenuProps) {
-    return (
-        <div className="hover:cursor-pointer hover:bg-gray-300 rounded-md w-6 h-6">
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <button type="button" className="w-6 h-6">
-                        <KebabMenuIcon className="w-6 h-6" />
-                    </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent side="left" align="start" alignOffset={-2}>
-                    <DropdownMenuItem onClick={onEdit}>Edit</DropdownMenuItem>
-                    <DropdownMenuItem onClick={onDelete} variant="destructive">
-                        Delete
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        </div>
-    );
-}
-
-function NoteCard({ noteName, noteId }: NoteCardProps) {
+function NoteMenu({ noteId }: NoteMenuProps) {
     const { showDialog: showEditNoteDialog } = useEditNoteDialogStore();
     const { updateCurrentNoteId } = useNotesStore();
     const { showAlert: showDeleteNoteAlert } = useDeleteNoteAlertStore();
@@ -87,9 +66,29 @@ function NoteCard({ noteName, noteId }: NoteCardProps) {
     }
 
     return (
+        <div className="hover:cursor-pointer hover:bg-gray-300 rounded-md w-6 h-6">
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <button type="button" className="w-6 h-6">
+                        <KebabMenuIcon className="w-6 h-6" />
+                    </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent side="left" align="start" alignOffset={-2}>
+                    <DropdownMenuItem onClick={handleEdit}>Edit</DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleDelete} variant="destructive">
+                        Delete
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
+    );
+}
+
+function NoteCard({ noteName, noteId }: NoteCardProps) {
+    return (
         <div className="flex flex-row py-2 pl-2 justify-between items-center bg-white shadow-md rounded-md pr-1">
             <NoteTitle noteName={noteName} />
-            <NoteMenu onEdit={handleEdit} onDelete={handleDelete} />
+            <NoteMenu noteId={noteId} />
         </div>
     );
 }
