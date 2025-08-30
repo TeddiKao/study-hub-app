@@ -42,6 +42,16 @@ function NoteTitle({ noteName }: NoteTitleProps) {
     );
 }
 
+function NoteMenuButton() {
+    return (
+        <DropdownMenuTrigger asChild>
+            <button type="button" className="w-6 h-6">
+                <KebabMenuIcon className="w-6 h-6" />
+            </button>
+        </DropdownMenuTrigger>
+    );
+}
+
 function NoteMenu({ noteId }: NoteMenuProps) {
     const { showDialog: showEditNoteDialog } = useEditNoteDialogStore();
     const { updateCurrentNoteId } = useNotesStore();
@@ -68,14 +78,15 @@ function NoteMenu({ noteId }: NoteMenuProps) {
     return (
         <div className="hover:cursor-pointer hover:bg-gray-300 rounded-md w-6 h-6">
             <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <button type="button" className="w-6 h-6">
-                        <KebabMenuIcon className="w-6 h-6" />
-                    </button>
-                </DropdownMenuTrigger>
+                <NoteMenuButton />
                 <DropdownMenuContent side="left" align="start" alignOffset={-2}>
-                    <DropdownMenuItem onClick={handleEdit}>Edit</DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleDelete} variant="destructive">
+                    <DropdownMenuItem onClick={handleEdit}>
+                        Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        onClick={handleDelete}
+                        variant="destructive"
+                    >
                         Delete
                     </DropdownMenuItem>
                 </DropdownMenuContent>
