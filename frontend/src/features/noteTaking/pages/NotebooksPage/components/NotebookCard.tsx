@@ -32,18 +32,18 @@ function NotebookCard({
     return (
         <div
             aria-label={`Open notebook ${notebookName}`}
-            onClick={handleNotebookCardClick}
             className="flex flex-row py-3 pl-3 pr-2 bg-white rounded-2xl shadow-xl items-center hover:cursor-pointer"
         >
             <button
                 type="button"
                 style={{ backgroundColor: notebookColor }}
+                onClick={handleNotebookCardClick}
                 className="p-1 w-max h-max rounded-md bg-gray-300"
             >
                 <NotebookIcon size={20} />
             </button>
 
-            <button className="flex flex-col flex-1 min-w-0 ml-3 mr-3">
+            <button onClick={handleNotebookCardClick} className="flex flex-col flex-1 min-w-0 ml-3 mr-3">
                 <p className="font-semibold text-left break-words">
                     {notebookName}
                 </p>
