@@ -7,15 +7,15 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useNotebooksStore } from "@/features/noteTaking/stores/notebooks/notebooks.stores";
+import useNotebookMutations from "@/features/noteTaking/hooks/mutations/useNotebookMutations.hooks";
 
 interface DeleteNotebookAlertDialog {
 	notebookId: number;
 }
 
 function DeleteNotebookAlertDialog({ notebookId }: DeleteNotebookAlertDialog) {
-	const { handleNotebookDelete } = useNotebooksStore();
-
+	const { handleNotebookDelete } = useNotebookMutations();
+	
 	return (
 		<AlertDialogContent>
 			<AlertDialogHeader>
