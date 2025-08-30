@@ -1,9 +1,9 @@
 import type { ApiSuccessResponse } from "@/shared/types/api.types";
-import type { Notebook } from "../notebooks/notebookStore.types";
+import type { Notebook } from "../../notebooks/types/notebookStore.types";
 
 interface RawNoteData {
-	name: string;
-	description: string;
+    name: string;
+    description: string;
 }
 
 interface NoteResponse extends RawNoteData {
@@ -16,29 +16,29 @@ interface NotePayload extends RawNoteData {
 }
 
 interface FetchNotesSuccess extends ApiSuccessResponse {
-	notes: NoteResponseList;
+    notes: NoteResponseList;
 }
 
 interface CreateNoteSuccess extends ApiSuccessResponse {
-	createdNote: NoteResponse;
+    createdNote: NoteResponse;
 }
 
 interface EditNoteSuccess extends ApiSuccessResponse {
-	editedNote: NoteResponse;
+    editedNote: NoteResponse;
 }
 
 interface RetrieveNoteSuccess extends ApiSuccessResponse {
-	retrievedNote: NoteResponse;
+    retrievedNote: NoteResponse;
 }
 
 type NoteResponseList = NoteResponse[];
 
 export type {
-	NoteResponse,
-	RawNoteData,
-	NotePayload,
-	FetchNotesSuccess,
-	CreateNoteSuccess,
-	EditNoteSuccess,
-	RetrieveNoteSuccess,
+    NoteResponse,
+    RawNoteData,
+    NotePayload,
+    FetchNotesSuccess,
+    CreateNoteSuccess,
+    EditNoteSuccess,
+    RetrieveNoteSuccess,
 };
