@@ -1,5 +1,5 @@
-import api from "@/app/api";
-import { NOTES_BASE } from "@/app/api.constants";
+import api from "@/app/api/api";
+import { NOTES_BASE } from "@/app/api/api.constants";
 import type {
     ApiErrorResponse,
     ApiSuccessResponse,

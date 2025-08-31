@@ -1,7 +1,7 @@
-import api from "@/app/api";
+import api from "@/app/api/api";
 import type { ApiErrorResponse } from "@/shared/types/api.types";
 import { isAxiosError } from "axios";
-import { NOTEBOOKS_BASE } from "@/app/api.constants";
+import { NOTEBOOKS_BASE } from "@/app/api/api.constants";
 import type {
     NotebookFetchSuccess,
     CreateNotebookApiPayload,
