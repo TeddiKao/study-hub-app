@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
 import { NotepadText } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useNotesStore } from "../../stores/notesStore.stores";
 import NoteDialog from "../../components/NoteDialog";
 import { useCreateNoteDialogStore } from "../../stores/noteDialog.stores";
@@ -29,6 +29,7 @@ interface NoteCardProps {
 
 interface NoteTitleProps {
     noteName: string;
+    noteId: number;
 }
 
 interface NotebookBreadcrumbProps {
@@ -53,19 +54,26 @@ function NotesPageHeader() {
     );
 }
 
-function NoteTitle({ noteName }: NoteTitleProps) {
+function NoteTitle({ noteName, noteId }: NoteTitleProps) {
+    const navigate = useNavigate();
+    const { currentNotebookId } = useNotesStore();
+    
+    function handleNoteCardClick() {
+        navigate(`/notebooks/${currentNotebookId}/${noteId}`);
+    }
+
     return (
-        <div className="flex flex-row gap-1">
+        <button className="flex flex-row gap-1" onClick={handleNoteCardClick}>
             <NotepadText className="w-6 h-6" />
             <p>{noteName}</p>
-        </div>
+        </button>
     );
 }
 
 function NoteCard({ noteName, noteId }: NoteCardProps) {
     return (
         <div className="flex flex-row py-2 pl-2 justify-between items-center bg-white shadow-md rounded-md pr-1">
-            <NoteTitle noteName={noteName} />
+            <NoteTitle noteName={noteName} noteId={noteId} />
             <NoteMenu noteId={noteId} />
         </div>
     );
