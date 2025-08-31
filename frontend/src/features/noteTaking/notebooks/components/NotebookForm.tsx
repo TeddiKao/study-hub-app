@@ -1,12 +1,12 @@
 import { useEffect, useRef, type FormEvent } from "react";
 import { useCreateNotebookFormStore } from "../stores/createNotebookForm.stores";
 import { useEditNotebookFormStore } from "../stores/editNotebookForm.stores";
-import { retrieveNotebook } from "../../utils/notebooks.services";
 import { useQuery } from "@tanstack/react-query";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import useNotebookMutations from "../hooks/useNotebookMutations.hooks";
+import { retrieveNotebook } from "../utils/notebooks.services";
 
 interface NotebookFormCreateModeProps {
     mode: "create";
