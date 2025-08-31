@@ -12,6 +12,7 @@ import AuthRoute from "@/features/auth/components/routes/AuthRoute";
 import NotebooksPage from "@/features/noteTaking/notebooks/pages/NotebooksPage/NotebooksPage";
 import useTokenRefreshInterval from "@/features/auth/hooks/useTokenRefreshInterval.hooks";
 import NotesPage from "@/features/noteTaking/notes/pages/NotesPage/NotesPage";
+import NotesEditorPage from "@/features/noteTaking/editor/pages/NotesEditorPage";
 
 export const queryClient = new QueryClient();
 
@@ -33,6 +34,10 @@ function App() {
                         <Route
                             path="/notebooks/:notebookId"
                             element={<NotesPage />}
+                        />
+                        <Route
+                            path="/notebooks/:notebookId/:noteId"
+                            element={<NotesEditorPage />}
                         />
                     </Route>
 
