@@ -4,11 +4,11 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import NotebookDialog from "@/features/noteTaking/components/NotebookDialog";
-import { useCreateNotebookFormStore } from "@/features/noteTaking/stores/notebooks/createNotebookForm.stores";
-import { useDeleteNotebookAlertStore } from "@/features/noteTaking/stores/notebooks/deleteNotebookAlert.stores";
-import { useEditNotebookFormStore } from "@/features/noteTaking/stores/notebooks/editNotebookForm.stores";
-import useNotebookMutations from "@/features/noteTaking/hooks/mutations/useNotebookMutations.hooks";
+import NotebookDialog from "@/features/noteTaking/notebooks/components/NotebookDialog";
+import { useCreateNotebookFormStore } from "@/features/noteTaking/notebooks/stores/createNotebookForm.stores";
+import { useDeleteNotebookAlertStore } from "@/features/noteTaking/notebooks/stores/deleteNotebookAlert.stores";
+import { useEditNotebookFormStore } from "@/features/noteTaking/notebooks/stores/editNotebookForm.stores";
+import useNotebookMutations from "@/features/noteTaking/notebooks/hooks/useNotebookMutations.hooks";
 import DeleteItemDialog from "@/shared/components/dialog/DeleteItemDialog";
 import AddIcon from "@/shared/components/icons/AddIcon";
 import EditIcon from "@/shared/components/icons/EditIcon";
@@ -23,7 +23,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { type MouseEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import useNotebooksQuery from "@/features/noteTaking/hooks/query/useNotebooksQuery.hooks";
+import useNotebooksQuery from "@/features/noteTaking/notebooks/hooks/useNotebooksQuery.hooks";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 
 interface ItemProps {
@@ -311,32 +311,30 @@ function NavPanel() {
         useActiveItemStore();
 
     function getIsLoading() {
-		switch (expandedItem) {
-			case "notebooks":
-				return isNotebooksLoading;
+        switch (expandedItem) {
+            case "notebooks":
+                return isNotebooksLoading;
 
-			default:
-				return false;
-		}
-	}
+            default:
+                return false;
+        }
+    }
 
-	function getError() {
-		switch (expandedItem) {
-			case "notebooks":
-				return notebooksError;
+    function getError() {
+        switch (expandedItem) {
+            case "notebooks":
+                return notebooksError;
 
-			default:
-				return null;
-		}
-	}
+            default:
+                return null;
+        }
+    }
 
-    const {
-        isLoading: isNotebooksLoading,
-        error: notebooksError,
-    } = useNotebooksQuery();
+    const { isLoading: isNotebooksLoading, error: notebooksError } =
+        useNotebooksQuery();
 
-	const isLoading = getIsLoading();
-	const error = getError();
+    const isLoading = getIsLoading();
+    const error = getError();
 
     if (!expanded) return null;
     if (!expandedItem) return null;

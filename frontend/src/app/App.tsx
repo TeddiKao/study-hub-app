@@ -9,9 +9,9 @@ import ProtectedRoute from "@/features/auth/components/routes/ProtectedRoute";
 import DashboardPage from "@/shared/pages/DashboardPage/DashboardPage";
 import LogoutRoute from "@/features/auth/pages/LogoutRoute";
 import AuthRoute from "@/features/auth/components/routes/AuthRoute";
-import NotebooksPage from "@/features/noteTaking/pages/NotebooksPage/NotebooksPage";
+import NotebooksPage from "@/features/noteTaking/notebooks/pages/NotebooksPage/NotebooksPage";
 import useTokenRefreshInterval from "@/features/auth/hooks/useTokenRefreshInterval";
-import NotesPage from "@/features/noteTaking/pages/NotesPage/NotesPage";
+import NotesPage from "@/features/noteTaking/notes/pages/NotesPage/NotesPage";
 
 export const queryClient = new QueryClient();
 
