@@ -1,37 +1,37 @@
-import api from "@/app/api";
+import api from "@/app/api/api";
 import type { ApiErrorResponse } from "@/shared/types/api.types";
 
 interface UserCredentialsEndpointSuccessResponse {
-	email: string;
-	username: string;
-	success: true;
+    email: string;
+    username: string;
+    success: true;
 }
 
 async function fetchUserCredentials(): Promise<
-	UserCredentialsEndpointSuccessResponse | ApiErrorResponse
+    UserCredentialsEndpointSuccessResponse | ApiErrorResponse
 > {
-	try {
-		const response = await api.post("/auth/get-credentials/");
-		const { email, username } = response.data ?? {}
+    try {
+        const response = await api.post("/auth/get-credentials/");
+        const { email, username } = response.data ?? {};
 
-		if (typeof email !== "string" || typeof username !== "string") {
-			return {
-				success: false,
-				error: "Invalid server response"
-			}
-		}
+        if (typeof email !== "string" || typeof username !== "string") {
+            return {
+                success: false,
+                error: "Invalid server response",
+            };
+        }
 
-		return {
-			email,
-			username,
-			success: true
-		};
-	} catch (error) {
-		return {
-			success: false,
-            error: "Failed to fetch credentials"
-		};
-	}
+        return {
+            email,
+            username,
+            success: true,
+        };
+    } catch (error) {
+        return {
+            success: false,
+            error: "Failed to fetch credentials",
+        };
+    }
 }
 
 export { fetchUserCredentials };
