@@ -1,7 +1,7 @@
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { useQuery } from "@tanstack/react-query";
-import { fetchNotes } from "../../notes/utils/notes.services";
-import { useNotesStore } from "../../notes/stores/notesStore.stores";
+import { useNotesStore } from "../stores/notesStore.stores";
+import { fetchNotes } from "../utils/notes.services";
 
 function useNotesQuery() {
     const { currentNotebookId } = useNotesStore();
