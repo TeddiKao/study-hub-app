@@ -3,12 +3,12 @@ import type {
     CreateNotebookApiPayload,
     EditNotebookApiPayload,
 } from "../types/notebookApi.types";
+import type { Notebooks } from "../types/notebookStore.types";
 import {
     createNotebook,
     editNotebook,
     deleteNotebook,
-} from "../../utils/notebooks.services";
-import type { Notebooks } from "../types/notebookStore.types";
+} from "../utils/notebooks.services";
 
 function useNotebookMutations() {
     const queryClient = useQueryClient();
