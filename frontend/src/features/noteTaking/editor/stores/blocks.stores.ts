@@ -8,7 +8,13 @@ interface BlocksStore {
 
 const useBlocksStore = create<BlocksStore>((set) => ({
     currentNoteId: null,
-    updateCurrentNoteId: (newNoteId: number) => set({ currentNoteId: newNoteId }),
+    updateCurrentNoteId: (newNoteId: number) => {
+        if (Number.isNaN(newNoteId) || !Number.isFinite(newNoteId)) {
+            return;
+        }
+
+        set({ currentNoteId: newNoteId });
+    },
     clearCurrentNoteId: () => set({ currentNoteId: null }),
 }));
 
