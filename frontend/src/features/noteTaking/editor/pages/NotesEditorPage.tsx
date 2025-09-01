@@ -45,9 +45,9 @@ function NotesEditorPage() {
     console.log(editor?.getJSON());
 
     return (
-        <DashboardLayout className="gap-4">
+        <DashboardLayout className="gap-16">
             <div className="flex flex-col grow-1">
-                <EditorContent className="notes-editor mt-2" editor={editor} />
+                <EditorContent className="notes-editor mt-16" editor={editor} />
             </div>
         </DashboardLayout>
     );
