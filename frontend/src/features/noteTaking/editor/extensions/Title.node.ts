@@ -2,6 +2,10 @@ import { Node } from "@tiptap/core";
 
 const Title = Node.create({
     name: "title",
+    content: "text*",
+    group: "block",
+    defining: true,
+
     addOptions() {
         return {
             HTMLAttributes: {
@@ -20,7 +24,7 @@ const Title = Node.create({
 
     renderHTML({ HTMLAttributes }) {
         console.log(HTMLAttributes);
-        return ["h1", { ...this.options.HTMLAttributes }, 0]
+        return ["h1", { ...this.options.HTMLAttributes, ...HTMLAttributes }, 0]
     }
 })
 
