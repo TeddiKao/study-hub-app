@@ -20,4 +20,4 @@ class BlockSerializer(ModelSerializer):
 
     class Meta:
         model = Block
-        fields = ["block_type", "block_content", "note", "note_id", "block_order"]
+        fields = ["id", "block_type", "block_content", "note", "note_id", "block_order"]
