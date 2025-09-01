@@ -4,7 +4,9 @@ const Title = Node.create({
     name: "title",
     addOptions() {
         return {
-            HTMLAttributes: {}      
+            HTMLAttributes: {
+                class: "text-4xl font-bold"
+            }      
         }
     },
 
