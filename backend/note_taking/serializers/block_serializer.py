@@ -3,7 +3,6 @@ from ..models import Block
 from ..models import Note
 from .note_serializer import NoteSerializer
 
-
 class BlockSerializer(ModelSerializer):
     note = NoteSerializer(read_only=True)
     note_id = PrimaryKeyRelatedField(
