@@ -5,12 +5,13 @@ import type {
     ApiSuccessResponse,
 } from "@/shared/types/api.types";
 import { isAxiosError } from "axios";
+import type { Note } from "../../notes/types/notesStore.types";
 
 interface Block {
     id: number;
     blockType: string;
     blockContent: string;
-    note: number;
+    note: Note;
     blockOrder: number;
 }
 
