@@ -36,6 +36,8 @@ class CreateBlockEndpoint(CreateAPIView):
         if note.notebook.owner.id != self.request.user.id:
             raise PermissionDenied("You do not have permission to create blocks in this note")
 
+        serializer.save()
+
 class EditBlockEndpoint(UpdateAPIView):
     serializer_class = BlockSerializer
     permission_classes = [IsAuthenticated]
@@ -48,6 +50,7 @@ class EditBlockEndpoint(UpdateAPIView):
         if block.note.notebook.owner.id != self.request.user.id:
             raise PermissionDenied("You do not have permission to edit blocks in this note")
 
+        serializer.save()
 
 class RetrieveBlockEndpoint(RetrieveAPIView):
     serializer_class = BlockSerializer
@@ -62,7 +65,3 @@ class DeleteBlockEndpoint(DestroyAPIView):
 
     def get_queryset(self):
         return Block.objects.filter(note__notebook__owner=self.request.user)
-
-    def perform_destroy(self, instance):
-        if instance.note.notebook.owner.id != self.request.user.id:
-            raise PermissionDenied("You do not have permission to delete blocks in this note")
