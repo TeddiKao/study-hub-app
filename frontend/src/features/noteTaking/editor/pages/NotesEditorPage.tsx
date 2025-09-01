@@ -42,8 +42,6 @@ function NotesEditorPage() {
         },
     });
 
-    console.log(editor?.getJSON());
-
     return (
         <DashboardLayout className="gap-16">
             <div className="flex flex-col grow-1">
