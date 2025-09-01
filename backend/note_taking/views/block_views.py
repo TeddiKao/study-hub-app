@@ -49,6 +49,13 @@ class EditBlockEndpoint(UpdateAPIView):
             raise PermissionDenied("You do not have permission to edit blocks in this note")
 
 
+class RetrieveBlockEndpoint(RetrieveAPIView):
+    serializer_class = BlockSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Block.objects.filter(note__notebook__owner=self.request.user)
+
 class DeleteBlockEndpoint(DestroyAPIView):
     serializer_class = BlockSerializer
     permission_classes = [IsAuthenticated]
