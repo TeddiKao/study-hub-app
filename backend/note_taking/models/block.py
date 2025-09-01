@@ -7,6 +7,7 @@ class Block(models.Model):
     block_order = models.PositiveIntegerField(null=False, blank=False)
 
     class Meta:
+        ordering = ["note", "block_order"]
         constraints = [
             models.UniqueConstraint(
                 fields=["note", "block_order"],
