@@ -1,12 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchBlocks } from "../services/blocks.services";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
+import { useBlocksStore } from "../stores/blocks.stores";
 
-function useBlocksQuery(noteId: number) {
+function useBlocksQuery() {
+    const { currentNoteId } = useBlocksStore();
+
+    const isQueryEnabled =
+        !isNullOrUndefined(currentNoteId) &&
+        !Number.isNaN(currentNoteId) &&
+        Number.isFinite(currentNoteId);
+
     return useQuery({
-        queryKey: ["blocks", noteId],
+        queryKey: ["blocks", currentNoteId],
         queryFn: async () => {
-            const blocksResponse = await fetchBlocks(noteId);
+            const blocksResponse = await fetchBlocks(currentNoteId!);
             if (!blocksResponse.success) {
                 throw new Error(blocksResponse.error);
             }
@@ -15,7 +23,7 @@ function useBlocksQuery(noteId: number) {
         },
 
         staleTime: 2 * 60 * 1000,
-        enabled: !isNullOrUndefined(noteId),
+        enabled: isQueryEnabled,
     });
 }
 
