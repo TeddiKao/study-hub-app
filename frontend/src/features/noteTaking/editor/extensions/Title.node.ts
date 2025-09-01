@@ -9,7 +9,7 @@ const Title = Node.create({
     addOptions() {
         return {
             HTMLAttributes: {
-                class: "text-4xl font-bold"
+                class: "title text-4xl font-bold"
             }      
         }
     },
