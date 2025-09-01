@@ -37,9 +37,17 @@ const Title = Node.create({
         }
     },
 
-    renderHTML({ HTMLAttributes }) {
-        console.log(HTMLAttributes);
-        return ["h1", { ...this.options.HTMLAttributes, ...HTMLAttributes }, 0]
+    renderHTML({ node, HTMLAttributes }) {
+        const attrs = {
+            ...this.options.HTMLAttributes,
+            ...HTMLAttributes
+        }
+
+        if (!node.textContent) {
+            attrs["data-placeholder"] = "Enter title";
+        }
+        
+        return ["h1", attrs, 0]
     }
 })
 
