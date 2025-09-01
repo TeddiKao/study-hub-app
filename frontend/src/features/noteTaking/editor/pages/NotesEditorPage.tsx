@@ -8,6 +8,7 @@ import Text from "@tiptap/extension-text";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
 import Heading from "@tiptap/extension-heading";
 import { Title } from "../extensions/Title.node";
+import { Placeholder } from "@tiptap/extensions";
 
 function NotesEditorPage() {
     const editor = useEditor({
@@ -20,22 +21,28 @@ function NotesEditorPage() {
             Italic,
             Underline,
             Heading.configure({ levels: [1, 2, 3] }),
+            Placeholder.configure({
+                placeholder: ({ node }) => {
+                    if (node.type.name === "title") {
+                        return "Enter title";
+                    }
+
+                    return "Enter content";
+                },
+            }),
         ],
         content: {
             type: "doc",
             content: [
                 {
                     type: "title",
-                    content: [
-                        {
-                            type: "text",
-                            text: "Hello World",
-                        },
-                    ],
+                    content: [],
                 },
             ],
         },
     });
+
+    console.log(editor?.getJSON());
 
     return (
         <DashboardLayout className="gap-4">
