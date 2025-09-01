@@ -72,7 +72,7 @@ function NoteTitle({ noteName, noteId }: NoteTitleProps) {
 
 function NoteCard({ noteName, noteId }: NoteCardProps) {
     return (
-        <div className="flex flex-row py-2 pl-2 justify-between items-center bg-white shadow-md rounded-md pr-1">
+        <div className="flex flex-row py-2 pl-2 justify-between items-center bg-gray-50 shadow-md rounded-md pr-1">
             <NoteTitle noteName={noteName} noteId={noteId} />
             <NoteMenu noteId={noteId} />
         </div>
