@@ -7,11 +7,13 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
 import Heading from "@tiptap/extension-heading";
+import { Title } from "../extensions/Title.node";
 
 function NotesEditorPage() {
     const editor = useEditor({
         extensions: [
             Document,
+            Title,
             Paragraph,
             Text,
             Bold,
@@ -23,10 +25,7 @@ function NotesEditorPage() {
             type: "doc",
             content: [
                 {
-                    type: "heading",
-                    attrs: {
-                        level: 1,
-                    },
+                    type: "title",
                     content: [
                         {
                             type: "text",

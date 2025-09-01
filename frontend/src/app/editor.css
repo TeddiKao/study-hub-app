@@ -1,34 +1,31 @@
 @layer base {
     .notes-editor h1 {
-        font-size: 1.5rem;
-        font-weight: bold;
+        @apply text-3xl font-bold;
     }
 
     .notes-editor h2 {
-        font-size: 1.25rem;
-        font-weight: bold;
+        @apply text-2xl font-bold;
     }
 
     .notes-editor h3 {
-        font-size: 1rem;
-        font-weight: bold;
+        @apply text-xl font-bold;
     }
 
     .notes-editor p {
-        font-size: 0.875rem;
+        @apply text-base;
     }
 
     .notes-editor em,
     .notes-editor i {
-        font-style: italic;
+        @apply italic;
     }
 
     .notes-editor strong,
     .notes-editor b {
-        font-weight: bold;
+        @apply font-bold;
     }
 
     .notes-editor u {
-        text-decoration: underline;
+        @apply underline;
     }
 }
