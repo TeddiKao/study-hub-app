@@ -36,9 +36,7 @@ interface EditBlockSuccess extends ApiSuccessResponse {
     block: Block;
 }
 
-interface DeleteBlockSuccess extends ApiSuccessResponse {
-    message: string;
-}
+type DeleteBlockSuccess = ApiSuccessResponse;
 
 async function fetchBlocks(
     noteId: number
@@ -128,7 +126,10 @@ async function retrieveBlock(
     }
 }
 
-async function editBlock(blockId: number, blockData: RawBlockData) {
+async function editBlock(
+    blockId: number,
+    blockData: RawBlockData
+): Promise<EditBlockSuccess | ApiErrorResponse> {
     try {
         const response = await api.put(
             `${BLOCKS_BASE}/block/${blockId}/edit/`,
@@ -155,7 +156,9 @@ async function editBlock(blockId: number, blockData: RawBlockData) {
     }
 }
 
-async function deleteBlock(blockId: number) {
+async function deleteBlock(
+    blockId: number
+): Promise<DeleteBlockSuccess | ApiErrorResponse> {
     try {
         await api.delete(`${BLOCKS_BASE}/block/${blockId}/delete/`);
 
