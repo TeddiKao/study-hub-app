@@ -14,15 +14,13 @@ const Title = Node.create({
         return [
             {
                 tag: "h1",
-                getAttrs: (node) => ({
-                    class: node.getAttribute("class"),
-                })
             }
         ]
     },
 
     renderHTML({ HTMLAttributes }) {
-        return ["h1", HTMLAttributes, 0]
+        console.log(HTMLAttributes);
+        return ["h1", { ...this.options.HTMLAttributes }, 0]
     }
 })
 
