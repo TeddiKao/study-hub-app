@@ -28,4 +28,8 @@
     .notes-editor u {
         @apply underline;
     }
+
+    h1.title.is-editor-empty:first-child::before {
+        @apply text-gray-500 float-left h-0 pointer-events-none content-[attr(data-placeholder)];
+    }
 }
