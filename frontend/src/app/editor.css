@@ -29,7 +29,7 @@
         @apply underline;
     }
 
-    h1.title.is-editor-empty:first-child::before {
+    h1.title.is-editor-empty::before {
         @apply text-gray-500 float-left h-0 pointer-events-none content-[attr(data-placeholder)];
     }
 }
