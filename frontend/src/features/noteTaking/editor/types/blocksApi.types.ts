@@ -1,5 +1,5 @@
 import type { ApiSuccessResponse } from "@/shared/types/api.types";
-import type { Block } from "./blockSchema.types";
+import type { Block, TiptapSerializedBlocks } from "./blockSchema.types";
 
 interface RawBlockData {
     blockType: string;
@@ -8,7 +8,7 @@ interface RawBlockData {
 }
 
 interface FetchBlocksSuccess extends ApiSuccessResponse {
-    blocks: Block[];
+    blocks: TiptapSerializedBlocks;
 }
 
 interface CreateBlockSuccess extends ApiSuccessResponse {
