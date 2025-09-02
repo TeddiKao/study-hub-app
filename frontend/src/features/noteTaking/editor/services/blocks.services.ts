@@ -2,42 +2,16 @@ import api from "@/app/api/api";
 import { BLOCKS_BASE } from "@/app/api/api.constants";
 import type {
     ApiErrorResponse,
-    ApiSuccessResponse,
 } from "@/shared/types/api.types";
 import { isAxiosError } from "axios";
-import type { Note } from "../../notes/types/notesStore.types";
-
-interface Block {
-    id: number;
-    blockType: string;
-    blockContent: string;
-    note: Note;
-    blockOrder: number;
-}
-
-interface RawBlockData {
-    blockType: string;
-    blockContent: string;
-    blockOrder: number;
-}
-
-interface FetchBlocksSuccess extends ApiSuccessResponse {
-    blocks: Block[];
-}
-
-interface CreateBlockSuccess extends ApiSuccessResponse {
-    createdBlock: Block;
-}
-
-interface RetrieveBlockSuccess extends ApiSuccessResponse {
-    block: Block;
-}
-
-interface EditBlockSuccess extends ApiSuccessResponse {
-    block: Block;
-}
-
-type DeleteBlockSuccess = ApiSuccessResponse;
+import type {
+    CreateBlockSuccess,
+    DeleteBlockSuccess,
+    EditBlockSuccess,
+    FetchBlocksSuccess,
+    RawBlockData,
+    RetrieveBlockSuccess,
+} from "../types/blocksApi.types";
 
 async function fetchBlocks(
     noteId: number
