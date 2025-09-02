@@ -2,12 +2,12 @@ from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView, 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError, PermissionDenied
 
-from ..serializers import BlockSerializer
+from ..serializers import BlockSerializer, BlockTiptapSerializer
 from ..models import Block
 
 class FetchBlocksEndpoint(ListAPIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = BlockSerializer
+    serializer_class = BlockTiptapSerializer
 
     def get_queryset(self):
         raw = self.request.query_params.get("note_id")
