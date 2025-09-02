@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useBlocksStore } from "../stores/blocks.stores";
 import type { RawBlockData } from "../types/blocksApi.types";
-import { createBlock } from "../services/blocks.services";
+import { createBlock, deleteBlock, editBlock } from "../services/blocks.services";
 import type { Blocks } from "../types/blockSchema.types";
 
 function useBlockMutations() {
@@ -27,16 +27,42 @@ function useBlockMutations() {
         });
     }
 
-    async function handleBlockUpdate() {
+    async function handleBlockUpdate(blockId: number, blockData: RawBlockData) {
         if (!currentNoteId) {
             return;
         }
+
+        const editBlockResponse = await editBlock(blockId, blockData);
+        if (!editBlockResponse.success) {
+            throw new Error(editBlockResponse.error);
+        }
+
+        queryClient.setQueryData(["blocks", currentNoteId], (oldBlocks: Blocks) =>
+            oldBlocks ? oldBlocks.map((block) => (block.id === blockId ? editBlockResponse.block : block)) : (oldBlocks ?? [])
+        );
+
+        await queryClient.invalidateQueries({
+            queryKey: ["blocks", currentNoteId],
+        });
     }
 
-    async function handleBlockDelete() {
+    async function handleBlockDelete(blockId: number) {
         if (!currentNoteId) {
             return;
         }
+
+        const deleteBlockResponse = await deleteBlock(blockId);
+        if (!deleteBlockResponse.success) {
+            throw new Error(deleteBlockResponse.error);
+        }
+
+        queryClient.setQueryData(["blocks", currentNoteId], (oldBlocks: Blocks) =>
+            oldBlocks ? oldBlocks.filter((block) => block.id !== blockId) : (oldBlocks ?? [])
+        );
+
+        await queryClient.invalidateQueries({
+            queryKey: ["blocks", currentNoteId],
+        });
     }
 
     return {
