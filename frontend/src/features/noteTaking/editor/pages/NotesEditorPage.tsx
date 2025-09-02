@@ -53,14 +53,12 @@ function NotesEditorPage() {
             clearCurrentNoteId();
         };
     }, [noteId]);
-
+    
     useEffect(() => {
         if (blocks) {
             editor?.commands.setContent({
-                doc: {
-                    type: "doc",
-                    content: blocks,
-                },
+                type: "doc",
+                content: blocks,
             });
         }
     }, [blocks]);
