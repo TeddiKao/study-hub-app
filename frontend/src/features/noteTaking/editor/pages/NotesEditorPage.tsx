@@ -52,7 +52,7 @@ function NotesEditorPage() {
         return () => {
             clearCurrentNoteId();
         };
-    }, [noteId]);
+    }, [noteId, updateCurrentNoteId, clearCurrentNoteId]);
 
     useEffect(() => {
         if (!blocks) return;
