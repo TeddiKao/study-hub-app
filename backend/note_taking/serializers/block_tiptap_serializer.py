@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Block
+from ..models import Block, Note
 from .note_serializer import NoteSerializer
 
 class BlockTiptapSerializer(serializers.ModelSerializer):
