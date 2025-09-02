@@ -17,7 +17,7 @@ const Title = Node.create({
     parseHTML() {
         return [
             {
-                tag: "h1",
+                tag: "h1.title",
             }
         ]
     },
