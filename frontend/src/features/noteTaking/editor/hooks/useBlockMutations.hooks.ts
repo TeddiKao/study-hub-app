@@ -3,17 +3,18 @@ import { useBlocksStore } from "../stores/blocks.stores";
 import type { RawBlockData } from "../types/blocksApi.types";
 import { createBlock, deleteBlock, editBlock } from "../services/blocks.services";
 import type { Blocks } from "../types/blockSchema.types";
+import { isNullOrUndefined } from "@/shared/utils/types.utils";
 
 function useBlockMutations() {
     const queryClient = useQueryClient();
     const { currentNoteId } = useBlocksStore();
 
     async function handleBlockCreate(blockData: RawBlockData) {
-        if (!currentNoteId) {
+        if (isNullOrUndefined(currentNoteId)) {
             return;
         }
 
-        const createBlockResponse = await createBlock(currentNoteId, blockData);
+        const createBlockResponse = await createBlock(currentNoteId!, blockData);
         if (!createBlockResponse.success) {
             throw new Error(createBlockResponse.error);
         }
