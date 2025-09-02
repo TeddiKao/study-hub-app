@@ -23,10 +23,13 @@ interface EditBlockSuccess extends ApiSuccessResponse {
     block: Block;
 }
 
+type DeleteBlockSuccess = ApiSuccessResponse;
+
 export type {
     RawBlockData,
     FetchBlocksSuccess,
     CreateBlockSuccess,
     RetrieveBlockSuccess,
     EditBlockSuccess,
+    DeleteBlockSuccess,
 };
