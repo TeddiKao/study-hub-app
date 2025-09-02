@@ -1,6 +1,7 @@
 from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError, PermissionDenied
+from django.db import transaction
 
 from ..serializers import NoteSerializer
 from ..models import Note, Block
@@ -35,12 +36,12 @@ class CreateNoteEndpoint(CreateAPIView):
         if notebook.owner.id != self.request.user.id:
             raise PermissionDenied("You do not have permission to create notes in this notebook")
         
-        note = serializer.save()
-
-        Block.objects.bulk_create([
-            Block(note=note, type="title", content=[], position=0),
-            Block(note=note, type="text", content=[], position=1),
-        ])
+        with transaction.atomic():
+            note = serializer.save()
+            Block.objects.bulk_create([
+                Block(note=note, type="title", content=[], position=0),
+                Block(note=note, type="text", content=[], position=1),
+            ])
 
 
 class EditNoteEndpoint(UpdateAPIView):
