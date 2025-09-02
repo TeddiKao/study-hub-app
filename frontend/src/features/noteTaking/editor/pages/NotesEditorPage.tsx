@@ -54,6 +54,12 @@ function NotesEditorPage() {
         };
     }, [noteId]);
 
+    useEffect(() => {
+        if (blocks) {
+            editor?.commands.setContent(blocks);
+        }
+    }, [blocks]);
+
     return (
         <DashboardLayout className="gap-16">
             <div className="flex flex-col grow-1">
