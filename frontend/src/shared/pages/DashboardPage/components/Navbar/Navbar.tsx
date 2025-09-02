@@ -4,7 +4,7 @@ import NavPanel from "./components/NavPanel";
 function Navbar() {
     return (
         <nav className="flex flex-row shrink-0 h-full" aria-label="Dashboard navigation bar">
-            <div className="flex flex-col shrink-0 overflow-y-auto bg-white">
+            <div className="flex flex-col shrink-0 overflow-y-auto bg-gray-50">
                 <NavIcons />
             </div>
 

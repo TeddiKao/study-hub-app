@@ -1,0 +1,35 @@
+@layer base {
+    .notes-editor h1 {
+        @apply text-3xl font-bold;
+    }
+
+    .notes-editor h2 {
+        @apply text-2xl font-bold;
+    }
+
+    .notes-editor h3 {
+        @apply text-xl font-bold;
+    }
+
+    .notes-editor p {
+        @apply text-base;
+    }
+
+    .notes-editor em,
+    .notes-editor i {
+        @apply italic;
+    }
+
+    .notes-editor strong,
+    .notes-editor b {
+        @apply font-bold;
+    }
+
+    .notes-editor u {
+        @apply underline;
+    }
+
+    h1.title.is-editor-empty:first-child::before {
+        @apply text-gray-500 float-left h-0 pointer-events-none content-[attr(data-placeholder)];
+    }
+}

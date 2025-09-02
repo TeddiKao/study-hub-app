@@ -130,7 +130,7 @@ function NotebookPanelTrigger() {
 
 function NavIcons() {
 	return (
-		<div className="flex flex-col items-center w-max p-2 bg-white">
+		<div className="flex flex-col items-center w-max p-2 bg-gray-50">
 			<Popover>
 				<UserPopoverTrigger />
 				<UserPopoverContent />
