@@ -28,10 +28,6 @@ function useBlockMutations() {
     }
 
     async function handleBlockUpdate(blockId: number, blockData: RawBlockData) {
-        if (!currentNoteId) {
-            return;
-        }
-
         const editBlockResponse = await editBlock(blockId, blockData);
         if (!editBlockResponse.success) {
             throw new Error(editBlockResponse.error);
@@ -47,10 +43,6 @@ function useBlockMutations() {
     }
 
     async function handleBlockDelete(blockId: number) {
-        if (!currentNoteId) {
-            return;
-        }
-
         const deleteBlockResponse = await deleteBlock(blockId);
         if (!deleteBlockResponse.success) {
             throw new Error(deleteBlockResponse.error);
