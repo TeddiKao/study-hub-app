@@ -56,7 +56,12 @@ function NotesEditorPage() {
 
     useEffect(() => {
         if (blocks) {
-            editor?.commands.setContent(blocks);
+            editor?.commands.setContent({
+                doc: {
+                    type: "doc",
+                    content: blocks,
+                },
+            });
         }
     }, [blocks]);
 
