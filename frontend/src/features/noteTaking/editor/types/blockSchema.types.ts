@@ -10,7 +10,7 @@ interface Block {
 
 interface TiptapSerializedBlock {
     type: string;
-    content: string;
+    content: Record<string, unknown>[];
     attrs: {
         id: number;
         position: number;
