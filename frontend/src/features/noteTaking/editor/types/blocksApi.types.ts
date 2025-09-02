@@ -1,3 +1,6 @@
+import type { ApiSuccessResponse } from "@/shared/types/api.types";
+import type { Block } from "./blockSchema.types";
+
 interface RawBlockData {
     blockType: string;
     blockContent: string;
