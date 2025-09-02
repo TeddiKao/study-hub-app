@@ -60,6 +60,14 @@ function NotesEditorPage() {
         }
     }, [blocks]);
 
+    if (isLoading) {
+        return <div>Fetching blocks ...</div>
+    }
+
+    if (error) {
+        return <div>An error occurred while fetching blocks</div>
+    }
+
     return (
         <DashboardLayout className="gap-16">
             <div className="flex flex-col grow-1">
