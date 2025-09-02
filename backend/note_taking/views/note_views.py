@@ -37,8 +37,10 @@ class CreateNoteEndpoint(CreateAPIView):
         
         note = serializer.save()
 
-        Block.objects.create(note=note, type="title", content=[], position=0)
-        Block.objects.create(note=note, type="text", content=[], position=1)
+        Block.objects.bulk_create([
+            Block(note=note, type="title", content=[], position=0),
+            Block(note=note, type="text", content=[], position=1),
+        ])
 
 
 class EditNoteEndpoint(UpdateAPIView):
