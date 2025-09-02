@@ -57,12 +57,13 @@ function NotesEditorPage() {
     useEffect(() => {
         if (!blocks) return;
         if (!editor) return;
+        if (!editor.isEmpty) return;
 
         editor.commands.setContent({
             type: "doc",
             content: blocks,
         });
-    }, [blocks, editor]);
+    }, [blocks]);
 
     if (isLoading) {
         return <div>Fetching blocks ...</div>
