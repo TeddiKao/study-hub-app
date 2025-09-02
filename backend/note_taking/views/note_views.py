@@ -39,7 +39,10 @@ class CreateNoteEndpoint(CreateAPIView):
         with transaction.atomic():
             note = serializer.save()
             Block.objects.bulk_create([
-                Block(note=note, type="title", content=[], position=0),
+                Block(note=note, type="title", content=[{
+                    "type": "text",
+                    "text": note.name
+                }], position=0),
                 Block(note=note, type="paragraph", content=[], position=1),
             ])
 
