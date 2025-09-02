@@ -25,6 +25,8 @@ function NotesEditorPage() {
                 placeholder: ({ node }) => {
                     if (node.type.name === "title") {
                         return "Enter title";
+                    } else if (node.type.name === "paragraph") {
+                        return "Enter some text";
                     }
 
                     return "Enter content";
