@@ -53,15 +53,16 @@ function NotesEditorPage() {
             clearCurrentNoteId();
         };
     }, [noteId]);
-    
+
     useEffect(() => {
-        if (blocks) {
-            editor?.commands.setContent({
-                type: "doc",
-                content: blocks,
-            });
-        }
-    }, [blocks]);
+        if (!blocks) return;
+        if (!editor) return;
+
+        editor.commands.setContent({
+            type: "doc",
+            content: blocks,
+        });
+    }, [blocks, editor]);
 
     if (isLoading) {
         return <div>Fetching blocks ...</div>
