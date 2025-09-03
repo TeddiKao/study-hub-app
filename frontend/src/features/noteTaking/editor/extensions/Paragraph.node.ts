@@ -1,10 +1,12 @@
 import Paragraph from "@tiptap/extension-paragraph";
 
 const NoteEditorParagraph = Paragraph.extend({
-    name: "paragraphWithAttrs",
+    name: "noteEditorParagraph",
 
     addAttributes() {
+        // @ts-ignore
         const baseAttrs = this.parent?.();
+        
         return {
             ...baseAttrs,
             
