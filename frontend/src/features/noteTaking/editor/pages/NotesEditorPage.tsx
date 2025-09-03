@@ -3,7 +3,6 @@ import Bold from "@tiptap/extension-bold";
 import Italic from "@tiptap/extension-italic";
 import Underline from "@tiptap/extension-underline";
 import Document from "@tiptap/extension-document";
-import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
 import Heading from "@tiptap/extension-heading";
@@ -11,20 +10,23 @@ import { Title } from "../extensions/Title.node";
 import { Placeholder } from "@tiptap/extensions";
 import { useParams } from "react-router-dom";
 import useBlocksQuery from "../hooks/useBlocksQuery.hooks";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useBlocksStore } from "../stores/blocks.stores";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
+import { NoteEditorParagraph } from "../extensions/Paragraph.node";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
     const { data: blocks, isLoading, error } = useBlocksQuery();
     const { updateCurrentNoteId, clearCurrentNoteId } = useBlocksStore();
 
+    const hasMountedRef = useRef(false);
+
     const editor = useEditor({
         extensions: [
             Document,
             Title,
-            Paragraph,
+            NoteEditorParagraph,
             Text,
             Bold,
             Italic,
@@ -59,25 +61,29 @@ function NotesEditorPage() {
         if (!editor) return;
         if (!editor.isEmpty) return;
 
+        console.log(blocks);
+
         editor.commands.setContent({
             type: "doc",
             content: blocks,
         });
+
+        console.log(editor.getJSON());
     }, [blocks]);
 
     useEffect(() => {
-        editor?.on("focus", () => {
-            console.log("Focused!")
-        })
-
-        return () => {
-            editor?.off("focus")
-        }
-    }, [editor]);
-
-    useEffect(() => {
         editor?.on("selectionUpdate", () => {
-            console.log("Selection updated!")
+            if (!hasMountedRef.current) {
+                hasMountedRef.current = true;
+                return;
+            }
+
+            const { state } = editor;
+            const { $from } = state.selection;
+
+            const selectedNode = $from.parent;
+
+            console.log(editor.getJSON());
         })
 
         return () => {
