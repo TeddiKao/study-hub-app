@@ -2,6 +2,11 @@ from rest_framework import serializers
 from ..models import Block, Note
 from .note_serializer import NoteSerializer
 
+class BlockAttributesSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    position = serializers.IntegerField()
+    note = NoteSerializer(read_only=True)
+
 class BlockTiptapSerializer(serializers.ModelSerializer):
     note = NoteSerializer(read_only=True)
     note_id = serializers.PrimaryKeyRelatedField(
@@ -10,21 +15,7 @@ class BlockTiptapSerializer(serializers.ModelSerializer):
         write_only=True,
     )
 
-    def to_representation(self, instance):
-        note_data = NoteSerializer(instance.note, context=self.context).data
-
-        serialized_data = {
-            "type": instance.type,
-            "content": instance.content
-        }
-
-        serialized_data["attrs"] = {
-            "id": instance.id,
-            "position": instance.position,
-            "note": note_data
-        }
-
-        return serialized_data
+    attrs = BlockAttributesSerializer(source="*")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -35,4 +26,4 @@ class BlockTiptapSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Block
-        fields = ["id", "type", "content", "note", "position", "note_id"]
+        fields = ["type", "content", "attrs", "note_id"]
