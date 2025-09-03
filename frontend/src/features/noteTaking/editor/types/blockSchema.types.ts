@@ -8,6 +8,17 @@ interface Block {
     blockOrder: number;
 }
 
-type Blocks = Block[];
+interface TiptapSerializedBlock {
+    type: string;
+    content: Record<string, unknown>[];
+    attrs: {
+        id: number;
+        position: number;
+        note: Note;
+    };
+}
 
-export type { Block, Blocks };
+type Blocks = Block[];
+type TiptapSerializedBlocks = TiptapSerializedBlock[];
+
+export type { Block, Blocks, TiptapSerializedBlock, TiptapSerializedBlocks };

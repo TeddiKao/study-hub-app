@@ -9,8 +9,17 @@ import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
 import Heading from "@tiptap/extension-heading";
 import { Title } from "../extensions/Title.node";
 import { Placeholder } from "@tiptap/extensions";
+import { useParams } from "react-router-dom";
+import useBlocksQuery from "../hooks/useBlocksQuery.hooks";
+import { useEffect } from "react";
+import { useBlocksStore } from "../stores/blocks.stores";
+import { isNullOrUndefined } from "@/shared/utils/types.utils";
 
 function NotesEditorPage() {
+    const { noteId } = useParams();
+    const { data: blocks, isLoading, error } = useBlocksQuery();
+    const { updateCurrentNoteId, clearCurrentNoteId } = useBlocksStore();
+
     const editor = useEditor({
         extensions: [
             Document,
@@ -33,16 +42,36 @@ function NotesEditorPage() {
                 },
             }),
         ],
-        content: {
-            type: "doc",
-            content: [
-                {
-                    type: "title",
-                    content: [],
-                },
-            ],
-        },
     });
+
+    useEffect(() => {
+        if (!isNullOrUndefined(noteId)) {
+            updateCurrentNoteId(Number(noteId));
+        }
+
+        return () => {
+            clearCurrentNoteId();
+        };
+    }, [noteId, updateCurrentNoteId, clearCurrentNoteId]);
+
+    useEffect(() => {
+        if (!blocks) return;
+        if (!editor) return;
+        if (!editor.isEmpty) return;
+
+        editor.commands.setContent({
+            type: "doc",
+            content: blocks,
+        });
+    }, [blocks]);
+
+    if (isLoading) {
+        return <div>Fetching blocks ...</div>
+    }
+
+    if (error) {
+        return <div>An error occurred while fetching blocks</div>
+    }
 
     return (
         <DashboardLayout className="gap-16">
