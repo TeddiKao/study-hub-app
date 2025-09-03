@@ -3,7 +3,7 @@
         h1 {
             @apply text-3xl font-bold;
         }
-
+        
         h2 {
             @apply text-2xl font-bold;
         }
@@ -36,6 +36,10 @@
 
         p.is-empty::before {
             @apply text-gray-500 float-left h-0 pointer-events-none content-[attr(data-placeholder)];
+        }
+
+        .ProseMirror:focus {
+            @apply outline-none;
         }
     }
 }
