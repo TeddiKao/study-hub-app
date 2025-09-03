@@ -65,6 +65,26 @@ function NotesEditorPage() {
         });
     }, [blocks]);
 
+    useEffect(() => {
+        editor?.on("focus", () => {
+            console.log("Focused!")
+        })
+
+        return () => {
+            editor?.off("focus")
+        }
+    }, [editor]);
+
+    useEffect(() => {
+        editor?.on("selectionUpdate", () => {
+            console.log("Selection updated!")
+        })
+
+        return () => {
+            editor?.off("selectionUpdate")
+        }
+    }, [editor]);
+
     if (isLoading) {
         return <div>Fetching blocks ...</div>
     }
