@@ -10,7 +10,7 @@ function useEffectAfterMount(callback: () => void, deps: any[]) {
         }
 
         callback();
-    }, [...deps]);
+    }, deps);
 }
 
 
