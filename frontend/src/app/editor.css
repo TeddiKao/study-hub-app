@@ -5,7 +5,7 @@
         }
 
         h1.title {
-            @apply mb-3
+            @apply mb-3;
         }
         
         h2 {
