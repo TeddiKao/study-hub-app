@@ -108,7 +108,11 @@ async function editBlock(
     try {
         const response = await api.put(
             `${BLOCKS_BASE}/block/${blockId}/edit/`,
-            blockData
+            {
+                type: blockData.blockType,
+                content: blockData.blockContent,
+                position: blockData.blockOrder,
+            }
         );
 
         return {
@@ -117,6 +121,8 @@ async function editBlock(
             block: response.data,
         };
     } catch (error) {
+        console.error(error);
+
         if (!isAxiosError(error)) {
             return {
                 success: false,
