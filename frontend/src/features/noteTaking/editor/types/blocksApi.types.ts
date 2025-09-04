@@ -1,9 +1,10 @@
 import type { ApiSuccessResponse } from "@/shared/types/api.types";
 import type { Block, TiptapSerializedBlocks } from "./blockSchema.types";
+import type { JSONContent } from "@tiptap/react";
 
 interface RawBlockData {
     blockType: string;
-    blockContent: string;
+    blockContent: JSONContent;
     blockOrder: number;
 }
 
