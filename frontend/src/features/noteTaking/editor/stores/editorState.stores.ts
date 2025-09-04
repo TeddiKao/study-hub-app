@@ -13,6 +13,10 @@ interface EditorStateStore {
     selectedBlockContent: JSONContent | null;
     updateSelectedBlockContent: (blockContent: JSONContent) => void;
     clearSelectedBlockContent: () => void;
+
+    selectedBlockOrder: number | null;
+    updateSelectedBlockOrder: (blockOrder: number) => void;
+    clearSelectedBlockOrder: () => void;
 }
 
 const useEditorStateStore = create<EditorStateStore>((set) => ({
@@ -36,6 +40,15 @@ const useEditorStateStore = create<EditorStateStore>((set) => ({
         set({ selectedBlockContent: blockContent });
     },
     clearSelectedBlockContent: () => set({ selectedBlockContent: null }),
+
+    selectedBlockOrder: null,
+    updateSelectedBlockOrder: (blockOrder) => {
+        if (Number.isNaN(blockOrder)) return;
+        if (!Number.isFinite(blockOrder)) return;
+
+        set({ selectedBlockOrder: blockOrder });
+    },
+    clearSelectedBlockOrder: () => set({ selectedBlockOrder: null }),
 }));
 
 export { useEditorStateStore };
