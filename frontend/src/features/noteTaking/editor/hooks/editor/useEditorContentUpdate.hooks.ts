@@ -13,6 +13,7 @@ function useEditorContentUpdate(editor: Editor) {
             if (!selectedBlockType) return;
 
             const selectedNode = getSelectedNode(editor);
+            if (!selectedNode) return;
 
             updateSelectedBlockContent(selectedNode.toJSON().content);
         };
