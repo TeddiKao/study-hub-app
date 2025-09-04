@@ -102,6 +102,7 @@ async function retrieveBlock(
 }
 
 async function editBlock(
+    noteId: number,
     blockId: number,
     blockData: RawBlockData
 ): Promise<EditBlockSuccess | ApiErrorResponse> {
@@ -112,6 +113,7 @@ async function editBlock(
                 type: blockData.blockType,
                 content: blockData.blockContent,
                 position: blockData.blockOrder,
+                noteId: noteId
             }
         );
 
