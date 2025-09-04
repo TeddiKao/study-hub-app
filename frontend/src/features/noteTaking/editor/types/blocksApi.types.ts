@@ -4,7 +4,7 @@ import type { JSONContent } from "@tiptap/react";
 
 interface RawBlockData {
     blockType: string;
-    blockContent: JSONContent;
+    blockContent: JSONContent[];
     blockOrder: number;
 }
 

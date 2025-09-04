@@ -10,8 +10,8 @@ interface EditorStateStore {
     updateSelectedBlockType: (blockType: string) => void;
     clearSelectedBlockType: () => void;
 
-    selectedBlockContent: JSONContent | null;
-    updateSelectedBlockContent: (blockContent: JSONContent) => void;
+    selectedBlockContent: JSONContent[] | null;
+    updateSelectedBlockContent: (blockContent: JSONContent[]) => void;
     clearSelectedBlockContent: () => void;
 
     selectedBlockOrder: number | null;
