@@ -10,6 +10,7 @@ import useBlockMutations from "../hooks/useBlockMutations.hooks";
 import useNotesEditor from "../hooks/useNotesEditor.hooks";
 import { getSelectedNode } from "../utils/nodes.utils";
 import useEditorSelectionUpdate from "../hooks/useEditorSelectionUpdate.hooks";
+import useEditorContentUpdate from "../hooks/useEditorContentUpdate.hooks";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
@@ -51,26 +52,7 @@ function NotesEditorPage() {
     }, [blocks]);
 
     useEditorSelectionUpdate(editor);
-
-    useEffect(() => {
-        editor?.on("update", async () => {
-            if (!selectedBlockId) return;
-            if (!selectedBlockType) return;
-
-            const selectedNode = getSelectedNode(editor);
-
-            updateSelectedBlockContent(selectedNode.toJSON().content);
-        });
-
-        return () => {
-            editor?.off("update");
-        };
-    }, [
-        editor,
-        selectedBlockId,
-        selectedBlockType,
-        updateSelectedBlockContent,
-    ]);
+    useEditorContentUpdate(editor);
 
     if (isLoading) {
         return <div>Fetching blocks ...</div>;
