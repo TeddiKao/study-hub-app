@@ -1,7 +1,7 @@
 import Paragraph from "@tiptap/extension-paragraph";
 
 const NoteEditorParagraph = Paragraph.extend({
-    name: "noteEditorParagraph",
+    name: "note_editor_paragraph",
 
     addAttributes() {
         // @ts-ignore

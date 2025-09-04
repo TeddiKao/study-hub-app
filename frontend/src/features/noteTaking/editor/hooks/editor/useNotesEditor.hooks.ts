@@ -24,7 +24,7 @@ function useNotesEditor() {
                 placeholder: ({ node }) => {
                     if (node.type.name === "title") {
                         return "Enter title";
-                    } else if (node.type.name === "noteEditorParagraph") {
+                    } else if (node.type.name === "note_editor_paragraph") {
                         return "Enter some text";
                     }
 
