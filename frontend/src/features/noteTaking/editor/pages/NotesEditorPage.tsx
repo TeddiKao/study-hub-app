@@ -85,6 +85,16 @@ function NotesEditorPage() {
         };
     }, [editor, updateSelectedBlockId, updateSelectedBlockType]);
 
+    useEffect(() => {
+        editor?.on("update", async () => {
+            console.log("Update!")
+        })
+
+        return () => {
+            editor?.off("update");
+        }
+    }, [editor]);
+
     if (isLoading) {
         return <div>Fetching blocks ...</div>;
     }
