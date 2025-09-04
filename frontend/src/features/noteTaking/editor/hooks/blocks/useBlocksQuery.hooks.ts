@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchBlocks } from "../services/blocks.services";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
-import { useBlocksStore } from "../stores/blocks.stores";
+import { useQuery } from "@tanstack/react-query";
+import { fetchBlocks } from "../../services/blocks.services";
+import { useBlocksStore } from "../../stores/blocks.stores";
 
 function useBlocksQuery() {
     const { currentNoteId } = useBlocksStore();

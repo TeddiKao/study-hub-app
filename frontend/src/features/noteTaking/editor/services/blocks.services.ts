@@ -102,13 +102,19 @@ async function retrieveBlock(
 }
 
 async function editBlock(
+    noteId: number,
     blockId: number,
     blockData: RawBlockData
 ): Promise<EditBlockSuccess | ApiErrorResponse> {
     try {
         const response = await api.put(
             `${BLOCKS_BASE}/block/${blockId}/edit/`,
-            blockData
+            {
+                type: blockData.blockType,
+                content: blockData.blockContent,
+                position: blockData.blockOrder,
+                noteId: noteId
+            }
         );
 
         return {
@@ -117,6 +123,8 @@ async function editBlock(
             block: response.data,
         };
     } catch (error) {
+        console.error(error);
+
         if (!isAxiosError(error)) {
             return {
                 success: false,

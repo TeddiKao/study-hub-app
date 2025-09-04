@@ -1,9 +1,9 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useBlocksStore } from "../stores/blocks.stores";
-import type { RawBlockData } from "../types/blocksApi.types";
-import { createBlock, deleteBlock, editBlock } from "../services/blocks.services";
-import type { Blocks } from "../types/blockSchema.types";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
+import { useQueryClient } from "@tanstack/react-query";
+import { createBlock, editBlock, deleteBlock } from "../../services/blocks.services";
+import { useBlocksStore } from "../../stores/blocks.stores";
+import type { RawBlockData } from "../../types/blocksApi.types";
+import type { Blocks } from "../../types/blockSchema.types";
 
 function useBlockMutations() {
     const queryClient = useQueryClient();
@@ -33,7 +33,7 @@ function useBlockMutations() {
             return;
         }
         
-        const editBlockResponse = await editBlock(blockId, blockData);
+        const editBlockResponse = await editBlock(currentNoteId!, blockId, blockData);
         if (!editBlockResponse.success) {
             throw new Error(editBlockResponse.error);
         }

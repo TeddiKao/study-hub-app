@@ -43,7 +43,7 @@ class CreateNoteEndpoint(CreateAPIView):
                     "type": "text",
                     "text": note.name
                 }], position=0),
-                Block(note=note, type="paragraph", content=[], position=1),
+                Block(note=note, type="note_editor_paragraph", content=[], position=1),
             ])
 
 

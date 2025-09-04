@@ -2,6 +2,8 @@ from rest_framework import serializers
 from ..models import Block, Note
 from .note_serializer import NoteSerializer
 
+from humps import camelize
+
 class BlockTiptapSerializer(serializers.ModelSerializer):
     note = NoteSerializer(read_only=True)
     note_id = serializers.PrimaryKeyRelatedField(
@@ -24,7 +26,9 @@ class BlockTiptapSerializer(serializers.ModelSerializer):
             "note": note_data
         }
 
-        return serialized_data
+        camelized_data = camelize(serialized_data)
+
+        return camelized_data
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
