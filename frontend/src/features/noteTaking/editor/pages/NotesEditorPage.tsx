@@ -9,6 +9,7 @@ import { useEditorStateStore } from "../stores/editorState.stores";
 import useBlockMutations from "../hooks/useBlockMutations.hooks";
 import useNotesEditor from "../hooks/useNotesEditor.hooks";
 import { getSelectedNode } from "../utils/nodes.utils";
+import useEditorSelectionUpdate from "../hooks/useEditorSelectionUpdate.hooks";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
@@ -49,51 +50,7 @@ function NotesEditorPage() {
         });
     }, [blocks]);
 
-    useEffect(() => {
-        editor?.on("selectionUpdate", async () => {
-            const shouldUpdatetoDB =
-                !isNullOrUndefined(selectedBlockId) &&
-                !isNullOrUndefined(selectedBlockContent) &&
-                !isNullOrUndefined(selectedBlockType) &&
-                !isNullOrUndefined(selectedBlockOrder);
-
-            const currentlySelectedNode = getSelectedNode(editor);
-            const hasFocusMoved =
-                currentlySelectedNode.attrs.id !== selectedBlockId;
-
-            if (shouldUpdatetoDB && hasFocusMoved) {
-                const prevSelectedNodeId = selectedBlockId;
-                const prevSelectedBlockContent = selectedBlockContent;
-                const prevSelectedBlockType = selectedBlockType;
-                const prevSelectedBlockOrder = selectedBlockOrder;
-
-                await handleBlockUpdate(prevSelectedNodeId!, {
-                    blockType: prevSelectedBlockType!,
-                    blockContent: prevSelectedBlockContent!,
-                    blockOrder: prevSelectedBlockOrder!,
-                });
-
-                console.log("Block updated!");
-            }
-
-            updateSelectedBlockId(currentlySelectedNode.attrs.id);
-            updateSelectedBlockType(currentlySelectedNode.type.name);
-            updateSelectedBlockOrder(currentlySelectedNode.attrs.position);
-        });
-
-        return () => {
-            editor?.off("selectionUpdate");
-        };
-    }, [
-        editor,
-        updateSelectedBlockId,
-        updateSelectedBlockType,
-        updateSelectedBlockOrder,
-        selectedBlockId,
-        selectedBlockContent,
-        selectedBlockType,
-        selectedBlockOrder,
-    ]);
+    useEditorSelectionUpdate(editor);
 
     useEffect(() => {
         editor?.on("update", async () => {
