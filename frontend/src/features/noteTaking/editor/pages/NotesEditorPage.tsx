@@ -14,11 +14,15 @@ import { useEffect } from "react";
 import { useBlocksStore } from "../stores/blocks.stores";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { NoteEditorParagraph } from "../extensions/Paragraph.node";
+import { useEditorStateStore } from "../stores/editorState.stores";
+import useBlockMutations from "../hooks/useBlockMutations.hooks";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
     const { data: blocks, isLoading, error } = useBlocksQuery();
     const { updateCurrentNoteId, clearCurrentNoteId } = useBlocksStore();
+    const { selectedBlockId, updateSelectedBlockId, updateSelectedBlockType } = useEditorStateStore();
+    const { handleBlockUpdate } = useBlockMutations();
 
     const editor = useEditor({
         extensions: [
@@ -66,19 +70,20 @@ function NotesEditorPage() {
     }, [blocks]);
 
     useEffect(() => {
-        editor?.on("selectionUpdate", () => {
+        editor?.on("selectionUpdate", async () => {
             const { state } = editor;
             const { $from } = state.selection;
 
             const selectedNode = $from.parent;
 
-            console.log(selectedNode.type.name);
+            updateSelectedBlockId(selectedNode.attrs.id);
+            updateSelectedBlockType(selectedNode.type.name);
         });
 
         return () => {
             editor?.off("selectionUpdate");
         };
-    }, [editor]);
+    }, [editor, updateSelectedBlockId, updateSelectedBlockType]);
 
     if (isLoading) {
         return <div>Fetching blocks ...</div>;
