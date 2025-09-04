@@ -26,6 +26,8 @@ function useEditorSelectionUpdate(editor: Editor) {
                 !isNullOrUndefined(selectedBlockOrder);
 
             const currentlySelectedNode = getSelectedNode(editor);
+            if (!currentlySelectedNode) return;
+
             const hasFocusMoved =
                 currentlySelectedNode.attrs.id !== selectedBlockId;
 
