@@ -80,26 +80,30 @@ function NotesEditorPage() {
 
     useEffect(() => {
         editor?.on("selectionUpdate", async () => {
-            if (!selectedBlockId) return;
-            if (!selectedBlockContent) return;
-            if (!selectedBlockType) return;
-            if (!selectedBlockOrder) return;
+            const shouldUpdatetoDB =
+                !isNullOrUndefined(selectedBlockId) &&
+                !isNullOrUndefined(selectedBlockContent) &&
+                !isNullOrUndefined(selectedBlockType) &&
+                !isNullOrUndefined(selectedBlockOrder);
 
             const { state } = editor;
             const { $from } = state.selection;
-
-            const prevSelectedNodeId = selectedBlockId;
-            const prevSelectedBlockContent = selectedBlockContent;
-            const prevSelectedBlockType = selectedBlockType;
-            const prevSelectedBlockOrder = selectedBlockOrder;
-
             const currentlySelectedNode = $from.parent;
 
-            await handleBlockUpdate(prevSelectedNodeId!, {
-                blockType: prevSelectedBlockType!,
-                blockContent: prevSelectedBlockContent,
-                blockOrder: prevSelectedBlockOrder,
-            })
+            if (shouldUpdatetoDB) {
+                const prevSelectedNodeId = selectedBlockId;
+                const prevSelectedBlockContent = selectedBlockContent;
+                const prevSelectedBlockType = selectedBlockType;
+                const prevSelectedBlockOrder = selectedBlockOrder;
+
+                await handleBlockUpdate(prevSelectedNodeId!, {
+                    blockType: prevSelectedBlockType!,
+                    blockContent: prevSelectedBlockContent!,
+                    blockOrder: prevSelectedBlockOrder!,
+                });
+
+                console.log("Block updated!");
+            }
 
             updateSelectedBlockId(currentlySelectedNode.attrs.id);
             updateSelectedBlockType(currentlySelectedNode.type.name);
