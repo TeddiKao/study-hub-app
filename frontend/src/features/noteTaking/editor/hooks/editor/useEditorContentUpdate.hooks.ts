@@ -8,17 +8,19 @@ function useEditorContentUpdate(editor: Editor) {
         useEditorStateStore();
 
     useEffect(() => {
-        editor?.on("update", async () => {
+        const handler = async () => {
             if (!selectedBlockId) return;
             if (!selectedBlockType) return;
 
             const selectedNode = getSelectedNode(editor);
 
             updateSelectedBlockContent(selectedNode.toJSON().content);
-        });
+        };
+
+        editor?.on("update", handler);
 
         return () => {
-            editor?.off("update");
+            editor?.off("update", handler);
         };
     }, [
         editor,
