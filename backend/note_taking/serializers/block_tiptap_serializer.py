@@ -3,7 +3,6 @@ from ..models import Block, Note
 from .note_serializer import NoteSerializer
 
 from humps import camelize
-from core.utils import camelize_dict_values
 
 class BlockTiptapSerializer(serializers.ModelSerializer):
     note = NoteSerializer(read_only=True)
@@ -27,8 +26,7 @@ class BlockTiptapSerializer(serializers.ModelSerializer):
             "note": note_data
         }
 
-        camelized_keys = camelize(serialized_data)
-        camelized_data = camelize_dict_values(camelized_keys)
+        camelized_data = camelize(serialized_data)
 
         return camelized_data
 
