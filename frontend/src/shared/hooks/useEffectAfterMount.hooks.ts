@@ -1,17 +1,21 @@
-import { useEffect, useRef } from "react";
+import {
+    useEffect,
+    useRef,
+    type DependencyList,
+    type EffectCallback,
+} from "react";
 
-function useEffectAfterMount(callback: () => void, deps: any[]) {
+function useEffectAfterMount(callback: EffectCallback, deps: DependencyList) {
     const hasMountedRef = useRef(false);
-    
+
     useEffect(() => {
         if (!hasMountedRef.current) {
             hasMountedRef.current = true;
             return;
         }
 
-        callback();
+        return callback();
     }, deps);
 }
-
 
 export default useEffectAfterMount;
