@@ -10,7 +10,7 @@ import { Title } from "../extensions/Title.node";
 import { Placeholder } from "@tiptap/extensions";
 import { useParams } from "react-router-dom";
 import useBlocksQuery from "../hooks/useBlocksQuery.hooks";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useBlocksStore } from "../stores/blocks.stores";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { NoteEditorParagraph } from "../extensions/Paragraph.node";
@@ -19,8 +19,6 @@ function NotesEditorPage() {
     const { noteId } = useParams();
     const { data: blocks, isLoading, error } = useBlocksQuery();
     const { updateCurrentNoteId, clearCurrentNoteId } = useBlocksStore();
-
-    const hasMountedRef = useRef(false);
 
     const editor = useEditor({
         extensions: [
@@ -61,42 +59,33 @@ function NotesEditorPage() {
         if (!editor) return;
         if (!editor.isEmpty) return;
 
-        console.log(blocks);
-
         editor.commands.setContent({
             type: "doc",
             content: blocks,
         });
-
-        console.log(editor.getJSON());
     }, [blocks]);
 
     useEffect(() => {
         editor?.on("selectionUpdate", () => {
-            if (!hasMountedRef.current) {
-                hasMountedRef.current = true;
-                return;
-            }
-
             const { state } = editor;
             const { $from } = state.selection;
 
             const selectedNode = $from.parent;
 
-            console.log(editor.getJSON());
-        })
+            console.log(selectedNode.type.name);
+        });
 
         return () => {
-            editor?.off("selectionUpdate")
-        }
+            editor?.off("selectionUpdate");
+        };
     }, [editor]);
 
     if (isLoading) {
-        return <div>Fetching blocks ...</div>
+        return <div>Fetching blocks ...</div>;
     }
 
     if (error) {
-        return <div>An error occurred while fetching blocks</div>
+        return <div>An error occurred while fetching blocks</div>;
     }
 
     return (
