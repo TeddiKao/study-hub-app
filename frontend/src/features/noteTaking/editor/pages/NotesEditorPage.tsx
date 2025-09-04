@@ -89,7 +89,8 @@ function NotesEditorPage() {
             const { state } = editor;
             const { $from } = state.selection;
             const currentlySelectedNode = $from.parent;
-            const hasFocusMoved = currentlySelectedNode.attrs.id !== selectedBlockId;
+            const hasFocusMoved =
+                currentlySelectedNode.attrs.id !== selectedBlockId;
 
             if (shouldUpdatetoDB && hasFocusMoved) {
                 const prevSelectedNodeId = selectedBlockId;
