@@ -1,13 +1,13 @@
 import { EditorContent } from "@tiptap/react";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
 import { useParams } from "react-router-dom";
-import useBlocksQuery from "../hooks/useBlocksQuery.hooks";
 import { useEffect } from "react";
 import { useBlocksStore } from "../stores/blocks.stores";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
-import useNotesEditor from "../hooks/useNotesEditor.hooks";
-import useEditorSelectionUpdate from "../hooks/useEditorSelectionUpdate.hooks";
-import useEditorContentUpdate from "../hooks/useEditorContentUpdate.hooks";
+import useNotesEditor from "../hooks/editor/useNotesEditor.hooks";
+import useEditorSelectionUpdate from "../hooks/editor/useEditorSelectionUpdate.hooks";
+import useEditorContentUpdate from "../hooks/editor/useEditorContentUpdate.hooks";
+import useBlocksQuery from "../hooks/blocks/useBlocksQuery.hooks";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
