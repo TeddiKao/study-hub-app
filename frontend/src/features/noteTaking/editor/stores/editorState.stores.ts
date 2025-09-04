@@ -4,6 +4,10 @@ interface EditorStateStore {
     selectedBlockId: number | null;
     updateSelectedBlockId: (blockId: number) => void;
     clearSelectedBlockId: () => void;
+
+    selectedBlockType: string | null;
+    updateSelectedBlockType: (blockType: string) => void;
+    clearSelectedBlockType: () => void;
 }
 
 const useEditorStateStore = create<EditorStateStore>((set) => ({
@@ -15,6 +19,12 @@ const useEditorStateStore = create<EditorStateStore>((set) => ({
         set({ selectedBlockId: blockId });
     },
     clearSelectedBlockId: () => set({ selectedBlockId: null }),
+
+    selectedBlockType: null,
+    updateSelectedBlockType: (blockType) => {
+        set({ selectedBlockType: blockType });
+    },
+    clearSelectedBlockType: () => set({ selectedBlockType: null }),
 }));
 
 export { useEditorStateStore };
