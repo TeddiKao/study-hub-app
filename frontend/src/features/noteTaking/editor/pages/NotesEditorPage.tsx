@@ -8,7 +8,6 @@ import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { useEditorStateStore } from "../stores/editorState.stores";
 import useBlockMutations from "../hooks/useBlockMutations.hooks";
 import useNotesEditor from "../hooks/useNotesEditor.hooks";
-import { getSelectedNode } from "../utils/nodes.utils";
 import useEditorSelectionUpdate from "../hooks/useEditorSelectionUpdate.hooks";
 import useEditorContentUpdate from "../hooks/useEditorContentUpdate.hooks";
 
@@ -16,17 +15,6 @@ function NotesEditorPage() {
     const { noteId } = useParams();
     const { data: blocks, isLoading, error } = useBlocksQuery();
     const { updateCurrentNoteId, clearCurrentNoteId } = useBlocksStore();
-    const {
-        selectedBlockId,
-        selectedBlockType,
-        selectedBlockContent,
-        selectedBlockOrder,
-        updateSelectedBlockId,
-        updateSelectedBlockType,
-        updateSelectedBlockContent,
-        updateSelectedBlockOrder,
-    } = useEditorStateStore();
-    const { handleBlockUpdate } = useBlockMutations();
 
     const editor = useNotesEditor();
 
