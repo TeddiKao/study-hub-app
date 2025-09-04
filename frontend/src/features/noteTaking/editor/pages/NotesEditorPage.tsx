@@ -8,6 +8,7 @@ import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { useEditorStateStore } from "../stores/editorState.stores";
 import useBlockMutations from "../hooks/useBlockMutations.hooks";
 import useNotesEditor from "../hooks/useNotesEditor.hooks";
+import { getSelectedNode } from "../utils/nodes.utils";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
@@ -56,9 +57,7 @@ function NotesEditorPage() {
                 !isNullOrUndefined(selectedBlockType) &&
                 !isNullOrUndefined(selectedBlockOrder);
 
-            const { state } = editor;
-            const { $from } = state.selection;
-            const currentlySelectedNode = $from.parent;
+            const currentlySelectedNode = getSelectedNode(editor);
             const hasFocusMoved =
                 currentlySelectedNode.attrs.id !== selectedBlockId;
 
@@ -101,10 +100,7 @@ function NotesEditorPage() {
             if (!selectedBlockId) return;
             if (!selectedBlockType) return;
 
-            const { state } = editor;
-            const { $from } = state.selection;
-
-            const selectedNode = $from.parent;
+            const selectedNode = getSelectedNode(editor);
 
             updateSelectedBlockContent(selectedNode.toJSON().content);
         });
