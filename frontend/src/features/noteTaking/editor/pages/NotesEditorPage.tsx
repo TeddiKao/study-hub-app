@@ -21,7 +21,8 @@ function NotesEditorPage() {
     const { noteId } = useParams();
     const { data: blocks, isLoading, error } = useBlocksQuery();
     const { updateCurrentNoteId, clearCurrentNoteId } = useBlocksStore();
-    const { selectedBlockId, updateSelectedBlockId, updateSelectedBlockType } = useEditorStateStore();
+    const { selectedBlockId, selectedBlockType, updateSelectedBlockId, updateSelectedBlockType, updateSelectedBlockContent } =
+        useEditorStateStore();
     const { handleBlockUpdate } = useBlockMutations();
 
     const editor = useEditor({
@@ -87,13 +88,21 @@ function NotesEditorPage() {
 
     useEffect(() => {
         editor?.on("update", async () => {
-            console.log("Update!")
-        })
+            if (!selectedBlockId) return;
+            if (!selectedBlockType) return;
+
+            const { state } = editor;
+            const { $from } = state.selection;
+
+            const selectedNode = $from.parent;
+
+            updateSelectedBlockContent(selectedNode.toJSON());
+        });
 
         return () => {
             editor?.off("update");
-        }
-    }, [editor]);
+        };
+    }, [editor, selectedBlockId, selectedBlockType, updateSelectedBlockContent]);
 
     if (isLoading) {
         return <div>Fetching blocks ...</div>;
