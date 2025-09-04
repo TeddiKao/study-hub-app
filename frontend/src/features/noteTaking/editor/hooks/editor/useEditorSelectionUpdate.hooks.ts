@@ -42,8 +42,6 @@ function useEditorSelectionUpdate(editor: Editor) {
                     blockContent: prevSelectedBlockContent!,
                     blockOrder: prevSelectedBlockOrder!,
                 });
-
-                console.log("Block updated!");
             }
 
             updateSelectedBlockId(currentlySelectedNode.attrs.id);
