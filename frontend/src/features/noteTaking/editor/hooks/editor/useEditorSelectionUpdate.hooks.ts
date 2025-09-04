@@ -1,9 +1,9 @@
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { useEffect } from "react";
-import { getSelectedNode } from "../utils/nodes.utils";
+import { getSelectedNode } from "../../utils/nodes.utils";
 import type { Editor } from "@tiptap/react";
-import { useEditorStateStore } from "../stores/editorState.stores";
-import useBlockMutations from "./useBlockMutations.hooks";
+import { useEditorStateStore } from "../../stores/editorState.stores";
+import useBlockMutations from "../useBlockMutations.hooks";
 
 function useEditorSelectionUpdate(editor: Editor) {
     const {

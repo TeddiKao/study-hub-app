@@ -1,7 +1,7 @@
 import { Document } from "@tiptap/extension-document";
 import { useEditor } from "@tiptap/react";
-import { Title } from "../extensions/Title.node";
-import { NoteEditorParagraph } from "../extensions/Paragraph.node";
+import { Title } from "../../extensions/Title.node";
+import { NoteEditorParagraph } from "../../extensions/Paragraph.node";
 import { Bold } from "@tiptap/extension-bold";
 import { Italic } from "@tiptap/extension-italic";
 import { Underline } from "@tiptap/extension-underline";
@@ -32,7 +32,7 @@ function useNotesEditor() {
                 },
             }),
         ],
-    })
+    });
 }
 
 export default useNotesEditor;

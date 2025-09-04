@@ -1,14 +1,11 @@
 import { Editor } from "@tiptap/react";
 import { useEffect } from "react";
-import { getSelectedNode } from "../utils/nodes.utils";
-import { useEditorStateStore } from "../stores/editorState.stores";
+import { getSelectedNode } from "../../utils/nodes.utils";
+import { useEditorStateStore } from "../../stores/editorState.stores";
 
 function useEditorContentUpdate(editor: Editor) {
-    const {
-        selectedBlockId,
-        selectedBlockType,
-        updateSelectedBlockContent,
-    } = useEditorStateStore();
+    const { selectedBlockId, selectedBlockType, updateSelectedBlockContent } =
+        useEditorStateStore();
 
     useEffect(() => {
         editor?.on("update", async () => {
