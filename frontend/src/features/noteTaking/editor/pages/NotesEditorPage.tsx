@@ -5,8 +5,6 @@ import useBlocksQuery from "../hooks/useBlocksQuery.hooks";
 import { useEffect } from "react";
 import { useBlocksStore } from "../stores/blocks.stores";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
-import { useEditorStateStore } from "../stores/editorState.stores";
-import useBlockMutations from "../hooks/useBlockMutations.hooks";
 import useNotesEditor from "../hooks/useNotesEditor.hooks";
 import useEditorSelectionUpdate from "../hooks/useEditorSelectionUpdate.hooks";
 import useEditorContentUpdate from "../hooks/useEditorContentUpdate.hooks";
