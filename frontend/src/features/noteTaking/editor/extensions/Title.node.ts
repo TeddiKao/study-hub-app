@@ -17,18 +17,21 @@ const Title = Node.create({
     addAttributes() {
         return {
             id: {
-                type: "number",
                 default: null,
+                renderHTML: () => ({}),
+                parseHTML: () => null,
             },
 
             position: {
-                type: "number",
                 default: null,
+                renderHTML: () => ({}),
+                parseHTML: () => null,
             },
             
             note: {
-                type: "object",
                 default: null,
+                renderHTML: () => ({}),
+                parseHTML: () => null,
             },
         };
     },
