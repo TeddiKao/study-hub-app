@@ -33,7 +33,7 @@ function useBlockMutations() {
             return;
         }
         
-        const editBlockResponse = await editBlock(blockId, blockData);
+        const editBlockResponse = await editBlock(currentNoteId!, blockId, blockData);
         if (!editBlockResponse.success) {
             throw new Error(editBlockResponse.error);
         }
