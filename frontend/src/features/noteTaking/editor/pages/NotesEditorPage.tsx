@@ -136,7 +136,7 @@ function NotesEditorPage() {
 
             const selectedNode = $from.parent;
 
-            updateSelectedBlockContent(selectedNode.toJSON());
+            updateSelectedBlockContent(selectedNode.toJSON().content);
         });
 
         return () => {
