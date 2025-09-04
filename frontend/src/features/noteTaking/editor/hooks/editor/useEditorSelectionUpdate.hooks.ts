@@ -18,7 +18,7 @@ function useEditorSelectionUpdate(editor: Editor) {
     const { handleBlockUpdate } = useBlockMutations();
 
     useEffect(() => {
-        editor?.on("selectionUpdate", async () => {
+        const handler = async () => {
             const shouldUpdatetoDB =
                 !isNullOrUndefined(selectedBlockId) &&
                 !isNullOrUndefined(selectedBlockContent) &&
@@ -49,10 +49,12 @@ function useEditorSelectionUpdate(editor: Editor) {
             updateSelectedBlockId(currentlySelectedNode.attrs.id);
             updateSelectedBlockType(currentlySelectedNode.type.name);
             updateSelectedBlockOrder(currentlySelectedNode.attrs.position);
-        });
+        };
+
+        editor?.on("selectionUpdate", handler);
 
         return () => {
-            editor?.off("selectionUpdate");
+            editor?.off("selectionUpdate", handler);
         };
     }, [
         editor,
