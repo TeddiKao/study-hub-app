@@ -1,3 +1,4 @@
+import type { JSONContent } from "@tiptap/react";
 import { create } from "zustand";
 
 interface EditorStateStore {
@@ -8,6 +9,10 @@ interface EditorStateStore {
     selectedBlockType: string | null;
     updateSelectedBlockType: (blockType: string) => void;
     clearSelectedBlockType: () => void;
+
+    selectedBlockContent: JSONContent | null;
+    updateSelectedBlockContent: (blockContent: JSONContent) => void;
+    clearSelectedBlockContent: () => void;
 }
 
 const useEditorStateStore = create<EditorStateStore>((set) => ({
@@ -25,6 +30,12 @@ const useEditorStateStore = create<EditorStateStore>((set) => ({
         set({ selectedBlockType: blockType });
     },
     clearSelectedBlockType: () => set({ selectedBlockType: null }),
+
+    selectedBlockContent: null,
+    updateSelectedBlockContent: (blockContent) => {
+        set({ selectedBlockContent: blockContent });
+    },
+    clearSelectedBlockContent: () => set({ selectedBlockContent: null }),
 }));
 
 export { useEditorStateStore };
