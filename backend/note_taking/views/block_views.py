@@ -1,6 +1,8 @@
 from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError, PermissionDenied
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from ..serializers import BlockSerializer, BlockTiptapSerializer
 from ..models import Block
@@ -51,6 +53,28 @@ class EditBlockEndpoint(UpdateAPIView):
             raise PermissionDenied("You do not have permission to edit blocks in this note")
 
         serializer.save()
+
+class UpdateAllBlocksEndpoint(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        blocks = request.data.get("blocks")
+        if blocks is None:
+            raise ValidationError({ "blocks": "This field is required" })
+        
+        for block in blocks:
+            block_id = block.get("id")
+            block_content = block.get("content")
+            block_type = block.get("type")
+            block_order = block.get("order")
+
+            block = Block.objects.get(id=block_id)
+            block.content = block_content
+            block.type = block_type
+            block.order = block_order
+            block.save()
+
+        return Response({ "message": "Blocks updated successfully" })
 
 class RetrieveBlockEndpoint(RetrieveAPIView):
     serializer_class = BlockSerializer
