@@ -2,7 +2,7 @@ import json
 
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-class BeaconAuthMiddleware(JWTAuthentication):
+class BeaconJWTAuthentication(JWTAuthentication):
     def authenticate(self, request: Request) -> Optional[tuple[AuthUser, Token]]:
         auth = super().authenticate(request)
 
