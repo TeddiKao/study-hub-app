@@ -1,6 +1,9 @@
 function sendBeacon(url: string, data: any) {
     try {
-        const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
+        const blob = new Blob([JSON.stringify(data)], {
+            type: "application/json",
+        });
+
         navigator.sendBeacon(url, blob);
 
         return true;
@@ -9,4 +12,4 @@ function sendBeacon(url: string, data: any) {
     }
 }
 
-export { sendBeacon }
+export { sendBeacon };
