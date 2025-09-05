@@ -18,7 +18,7 @@ class BlockListSerializer(ListSerializer):
             block_mapping[block.id] = block
 
         for item in validated_data:
-            block_id = item.get("block_id")
+            block_id = item.pop("block_id")
             if block_id and block_id in block_mapping:
                 block = block_mapping[block_id]
 
