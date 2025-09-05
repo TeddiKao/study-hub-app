@@ -1,6 +1,6 @@
 import { EditorContent } from "@tiptap/react";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
-import { useParams } from "react-router-dom";
+import { useBlocker, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useBlocksStore } from "../stores/blocks.stores";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
@@ -17,13 +17,16 @@ import { BACKEND_BASE, BLOCKS_BASE } from "@/app/api/api.constants";
 function NotesEditorPage() {
     const { noteId } = useParams();
     const { data: blocks, isLoading, error } = useBlocksQuery();
-    const { updateCurrentNoteId, clearCurrentNoteId } = useBlocksStore();
+    const { updateCurrentNoteId, clearCurrentNoteId, currentNoteId } =
+        useBlocksStore();
+    const { handleBlocksBulkUpdate } = useBlockMutations();
 
     const editor = useNotesEditor();
 
     useEffect(() => {
         if (!isNullOrUndefined(noteId)) {
             updateCurrentNoteId(Number(noteId));
+            console.log("Note ID updated!")
         }
 
         return () => {
@@ -50,9 +53,9 @@ function NotesEditorPage() {
             const formattedBlocks = parseSerializedBlocks(
                 editor.getJSON().content as TiptapSerializedBlocks
             );
-            
+
             sendBeacon(`${BACKEND_BASE}/${BLOCKS_BASE}/bulk-update/`, {
-                blocks: formattedBlocks
+                blocks: formattedBlocks,
             });
         };
 
@@ -68,15 +71,14 @@ function NotesEditorPage() {
             if (!editor) return;
             if (editor.isEmpty) return;
 
-            const formattedBlocks = parseSerializedBlocks(
-                editor.getJSON().content as TiptapSerializedBlocks
+            handleBlocksBulkUpdate(
+                parseSerializedBlocks(
+                    editor.getJSON().content as TiptapSerializedBlocks
+                ),
+                Number(noteId),
             );
-            
-            sendBeacon(`${BACKEND_BASE}/${BLOCKS_BASE}/bulk-update/`, {
-                blocks: formattedBlocks
-            });
         }
-    }, []);
+    }, [editor, handleBlocksBulkUpdate]);
 
     useEditorSelectionUpdate(editor);
     useEditorContentUpdate(editor);

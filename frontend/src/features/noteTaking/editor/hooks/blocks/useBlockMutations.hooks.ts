@@ -2,7 +2,7 @@ import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { createBlock, editBlock, deleteBlock, bulkUpdateBlocks } from "../../services/blocks.services";
 import { useBlocksStore } from "../../stores/blocks.stores";
-import type { RawBlockData } from "../../types/blocksApi.types";
+import type { BulkBlockUpdateRequest, RawBlockData } from "../../types/blocksApi.types";
 import type { Blocks } from "../../types/blockSchema.types";
 
 function useBlockMutations() {
@@ -47,22 +47,23 @@ function useBlockMutations() {
         });
     }
 
-    async function handleBlocksBulkUpdate(blocks: Blocks) {
-        if (isNullOrUndefined(currentNoteId)) {
+    async function handleBlocksBulkUpdate(blocks: BulkBlockUpdateRequest, noteId?: number) {
+        if (isNullOrUndefined(noteId ?? currentNoteId)) {
             return;
         }
 
-        const bulkUpdateBlocksResponse = await bulkUpdateBlocks(currentNoteId!, blocks);
+        const bulkUpdateBlocksResponse = await bulkUpdateBlocks((noteId ?? currentNoteId)!, blocks);
+        
         if (!bulkUpdateBlocksResponse.success) {
             throw new Error(bulkUpdateBlocksResponse.error);
         }
 
-        queryClient.setQueryData(["blocks", currentNoteId], (oldBlocks: Blocks) =>
+        queryClient.setQueryData(["blocks", noteId ?? currentNoteId], (oldBlocks: Blocks) =>
             oldBlocks ? blocks : (oldBlocks ?? [])
         );
 
         await queryClient.invalidateQueries({
-            queryKey: ["blocks", currentNoteId],
+            queryKey: ["blocks", noteId ?? currentNoteId],
         });
     }
 

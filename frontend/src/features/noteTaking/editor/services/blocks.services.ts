@@ -5,6 +5,7 @@ import type {
 } from "@/shared/types/api.types";
 import { isAxiosError } from "axios";
 import type {
+    BulkBlockUpdateRequest,
     BulkUpdateBlocksSuccess,
     CreateBlockSuccess,
     DeleteBlockSuccess,
@@ -143,11 +144,10 @@ async function editBlock(
 
 async function bulkUpdateBlocks(
     noteId: number,
-    blocks: Blocks
+    blocks: BulkBlockUpdateRequest
 ): Promise<ApiErrorResponse | BulkUpdateBlocksSuccess> {
     try {
         const response = await api.post(`${BLOCKS_BASE}/bulk-update/`, {
-            noteId: noteId,
             blocks: blocks,
         });
 
