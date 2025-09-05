@@ -1,3 +1,4 @@
+import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import type { BlockUpdateRequest } from "../types/blocksApi.types";
 import type {
     TiptapSerializedBlock,
@@ -5,15 +6,27 @@ import type {
 } from "../types/blockSchema.types";
 
 function parseSerializedBlock(block: TiptapSerializedBlock): BlockUpdateRequest {
-    if (!block.attrs.id) {
+    if (!block.attrs) {
+        throw new Error("Block attrs is missing");
+    }
+    
+    if (isNullOrUndefined(block.attrs.id)) {
         throw new Error("Block ID is missing");
     }
 
-    if (!block.attrs.position) {
+    if (Number.isNaN(block.attrs.id) || !Number.isFinite(block.attrs.id)) {
+        throw new Error("Block ID is not a number");
+    }
+
+    if (isNullOrUndefined(block.attrs.position)) {
         throw new Error("Block position is missing");
     }
 
-    if (!block.attrs.note?.id) {
+    if (Number.isNaN(block.attrs.position) || !Number.isFinite(block.attrs.position)) {
+        throw new Error("Block position is not a number");
+    }
+
+    if (isNullOrUndefined(block.attrs.note?.id)) {
         throw new Error("Block note is missing");
     }
     
