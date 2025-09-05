@@ -1,18 +1,24 @@
 import type { Editor, EditorEvents } from "@tiptap/react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 function useEditorEventListener(
     editor: Editor,
     eventName: keyof EditorEvents,
     callback: Parameters<Editor['on']>[1]
 ) {
+    const callbackRef = useRef(callback);
+
     useEffect(() => {
-        editor.on(eventName, callback);
+        callbackRef.current = callback;
+    })
+
+    useEffect(() => {
+        editor.on(eventName, callbackRef.current);
 
         return () => {
-            editor.off(eventName, callback);
+            editor.off(eventName, callbackRef.current);
         };
-    }, [editor, eventName, callback]);
+    }, [editor, eventName]);
 }
 
 export default useEditorEventListener;
