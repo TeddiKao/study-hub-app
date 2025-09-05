@@ -25,6 +25,7 @@ interface EditBlockSuccess extends ApiSuccessResponse {
 }
 
 type DeleteBlockSuccess = ApiSuccessResponse;
+type BulkUpdateBlocksSuccess = ApiSuccessResponse;
 
 export type {
     RawBlockData,
@@ -33,4 +34,5 @@ export type {
     RetrieveBlockSuccess,
     EditBlockSuccess,
     DeleteBlockSuccess,
+    BulkUpdateBlocksSuccess,
 };
