@@ -1,9 +1,9 @@
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
-import { useEffect } from "react";
 import { getSelectedNode } from "../../utils/nodes.utils";
 import type { Editor } from "@tiptap/react";
 import { useEditorStateStore } from "../../stores/editorState.stores";
 import useBlockMutations from "../blocks/useBlockMutations.hooks";
+import useEditorEventListener from "./useEditorEventListener.hooks";
 
 function useEditorSelectionUpdate(editor: Editor) {
     const {
@@ -17,53 +17,42 @@ function useEditorSelectionUpdate(editor: Editor) {
     } = useEditorStateStore();
     const { handleBlockUpdate } = useBlockMutations();
 
-    useEffect(() => {
-        const handler = async () => {
-            const shouldUpdatetoDB =
-                !isNullOrUndefined(selectedBlockId) &&
-                !isNullOrUndefined(selectedBlockContent) &&
-                !isNullOrUndefined(selectedBlockType) &&
-                !isNullOrUndefined(selectedBlockOrder);
+    const handler = async () => {
+        const shouldUpdatetoDB =
+            !isNullOrUndefined(selectedBlockId) &&
+            !isNullOrUndefined(selectedBlockContent) &&
+            !isNullOrUndefined(selectedBlockType) &&
+            !isNullOrUndefined(selectedBlockOrder);
 
-            const currentlySelectedNode = getSelectedNode(editor);
-            if (!currentlySelectedNode) return;
+        const currentlySelectedNode = getSelectedNode(editor);
+        if (!currentlySelectedNode) return;
 
-            const hasFocusMoved =
-                currentlySelectedNode.attrs.id !== selectedBlockId;
+        const { id, position } = currentlySelectedNode.attrs ?? {}
+        if (isNullOrUndefined(id)) return;
+        if (isNullOrUndefined(position)) return;
 
-            if (shouldUpdatetoDB && hasFocusMoved) {
-                const prevSelectedNodeId = selectedBlockId;
-                const prevSelectedBlockContent = selectedBlockContent;
-                const prevSelectedBlockType = selectedBlockType;
-                const prevSelectedBlockOrder = selectedBlockOrder;
+        const hasFocusMoved =
+            id !== selectedBlockId;
 
-                await handleBlockUpdate(prevSelectedNodeId!, {
-                    blockType: prevSelectedBlockType!,
-                    blockContent: prevSelectedBlockContent!,
-                    blockOrder: prevSelectedBlockOrder!,
-                });
-            }
+        if (shouldUpdatetoDB && hasFocusMoved) {
+            const prevSelectedNodeId = selectedBlockId;
+            const prevSelectedBlockContent = selectedBlockContent;
+            const prevSelectedBlockType = selectedBlockType;
+            const prevSelectedBlockOrder = selectedBlockOrder;
 
-            updateSelectedBlockId(currentlySelectedNode.attrs.id);
-            updateSelectedBlockType(currentlySelectedNode.type.name);
-            updateSelectedBlockOrder(currentlySelectedNode.attrs.position);
-        };
+            await handleBlockUpdate(prevSelectedNodeId!, {
+                blockType: prevSelectedBlockType!,
+                blockContent: prevSelectedBlockContent!,
+                blockOrder: prevSelectedBlockOrder!,
+            });
+        }
 
-        editor?.on("selectionUpdate", handler);
+        updateSelectedBlockId(id);
+        updateSelectedBlockType(currentlySelectedNode.type.name);
+        updateSelectedBlockOrder(position);
+    };
 
-        return () => {
-            editor?.off("selectionUpdate", handler);
-        };
-    }, [
-        editor,
-        updateSelectedBlockId,
-        updateSelectedBlockType,
-        updateSelectedBlockOrder,
-        selectedBlockId,
-        selectedBlockContent,
-        selectedBlockType,
-        selectedBlockOrder,
-    ]);
+    useEditorEventListener(editor, "selectionUpdate", handler);
 }
 
 export default useEditorSelectionUpdate;
