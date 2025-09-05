@@ -51,7 +51,9 @@ function NotesEditorPage() {
                 editor.getJSON().content as TiptapSerializedBlocks
             );
             
-            sendBeacon(`${BACKEND_BASE}/${BLOCKS_BASE}/bulk-update/`, formattedBlocks);
+            sendBeacon(`${BACKEND_BASE}/${BLOCKS_BASE}/bulk-update/`, {
+                blocks: formattedBlocks
+            });
         };
 
         window.addEventListener("beforeunload", onBeforeUnload);
