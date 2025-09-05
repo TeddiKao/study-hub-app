@@ -7,6 +7,7 @@ from rest_framework import status
 
 from ..serializers import BlockSerializer, BlockTiptapSerializer
 from ..models import Block
+from authentication.beacon_auth import BeaconJWTAuthentication
 
 class FetchBlocksEndpoint(ListAPIView):
     permission_classes = [IsAuthenticated]
@@ -57,6 +58,7 @@ class EditBlockEndpoint(UpdateAPIView):
 
 class BulkUpdateBlocksEndpoint(APIView):
     permission_classes = [IsAuthenticated]
+    authentication_classes = [BeaconJWTAuthentication]
     
     def post(self, request, *args, **kwargs):
         blocks_data = request.data.get("blocks")
