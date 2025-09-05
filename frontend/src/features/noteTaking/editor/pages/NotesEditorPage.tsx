@@ -63,6 +63,21 @@ function NotesEditorPage() {
         };
     }, [editor]);
 
+    useEffect(() => {
+        return () => {
+            if (!editor) return;
+            if (editor.isEmpty) return;
+
+            const formattedBlocks = parseSerializedBlocks(
+                editor.getJSON().content as TiptapSerializedBlocks
+            );
+            
+            sendBeacon(`${BACKEND_BASE}/${BLOCKS_BASE}/bulk-update/`, {
+                blocks: formattedBlocks
+            });
+        }
+    }, []);
+
     useEditorSelectionUpdate(editor);
     useEditorContentUpdate(editor);
 
