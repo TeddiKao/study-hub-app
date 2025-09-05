@@ -1,16 +1,17 @@
+import type { JSONContent } from "@tiptap/react";
 import type { Note } from "../../notes/types/notesStore.types";
 
 interface Block {
     id: number;
     blockType: string;
-    blockContent: string;
+    blockContent: JSONContent[];
     note: Note;
     blockOrder: number;
 }
 
 interface TiptapSerializedBlock {
     type: string;
-    content: Record<string, unknown>[];
+    content: JSONContent[];
     attrs: {
         id: number;
         position: number;
