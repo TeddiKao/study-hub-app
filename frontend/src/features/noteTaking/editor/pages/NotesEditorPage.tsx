@@ -11,12 +11,13 @@ import useBlocksQuery from "../hooks/blocks/useBlocksQuery.hooks";
 import { parseSerializedBlocks } from "../utils/blocks.utils";
 import type { TiptapSerializedBlocks } from "../types/blockSchema.types";
 import useBlockMutations from "../hooks/blocks/useBlockMutations.hooks";
+import { sendBeacon } from "@/shared/utils/api.utils";
+import { BACKEND_BASE, BLOCKS_BASE } from "@/app/api/api.constants";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
     const { data: blocks, isLoading, error } = useBlocksQuery();
     const { updateCurrentNoteId, clearCurrentNoteId } = useBlocksStore();
-    const { handleBlocksBulkUpdate } = useBlockMutations();
 
     const editor = useNotesEditor();
 
@@ -50,7 +51,7 @@ function NotesEditorPage() {
                 editor.getJSON().content as TiptapSerializedBlocks
             );
             
-            handleBlocksBulkUpdate(formattedBlocks);
+            sendBeacon(`${BACKEND_BASE}/${BLOCKS_BASE}/bulk-update/`, formattedBlocks);
         };
 
         window.addEventListener("beforeunload", onBeforeUnload);
