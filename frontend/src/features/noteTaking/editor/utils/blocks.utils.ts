@@ -1,10 +1,10 @@
+import type { BlockUpdateRequest } from "../types/blocksApi.types";
 import type {
-    Block,
     TiptapSerializedBlock,
     TiptapSerializedBlocks,
 } from "../types/blockSchema.types";
 
-function parseSerializedBlock(block: TiptapSerializedBlock): Block {
+function parseSerializedBlock(block: TiptapSerializedBlock): BlockUpdateRequest {
     const {
         type,
         content,
@@ -16,7 +16,7 @@ function parseSerializedBlock(block: TiptapSerializedBlock): Block {
         type: type,
         content: content,
         position: position,
-        note: note,
+        noteId: note.id,
     }
 }
 
