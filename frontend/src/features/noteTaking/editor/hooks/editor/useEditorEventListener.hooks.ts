@@ -13,10 +13,14 @@ function useEditorEventListener(
     })
 
     useEffect(() => {
-        editor.on(eventName, callbackRef.current);
+        function onEditorEvent() {
+            callbackRef.current();
+        }
+
+        editor.on(eventName, onEditorEvent);
 
         return () => {
-            editor.off(eventName, callbackRef.current);
+            editor.off(eventName, onEditorEvent);
         };
     }, [editor, eventName]);
 }
