@@ -55,7 +55,9 @@ class EditBlockEndpoint(UpdateAPIView):
 
         serializer.save()
 
-class BlockBulkUpdateEndpoint(APIView):
+class BulkUpdateBlocksEndpoint(APIView):
+    permission_classes = [IsAuthenticated]
+    
     def post(self, request, *args, **kwargs):
         blocks_data = request.data.get("blocks")
         if blocks_data is None:
