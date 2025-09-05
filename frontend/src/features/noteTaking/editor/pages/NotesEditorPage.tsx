@@ -8,11 +8,15 @@ import useNotesEditor from "../hooks/editor/useNotesEditor.hooks";
 import useEditorSelectionUpdate from "../hooks/editor/useEditorSelectionUpdate.hooks";
 import useEditorContentUpdate from "../hooks/editor/useEditorContentUpdate.hooks";
 import useBlocksQuery from "../hooks/blocks/useBlocksQuery.hooks";
+import { parseSerializedBlocks } from "../utils/blocks.utils";
+import type { TiptapSerializedBlocks } from "../types/blockSchema.types";
+import useBlockMutations from "../hooks/blocks/useBlockMutations.hooks";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
     const { data: blocks, isLoading, error } = useBlocksQuery();
     const { updateCurrentNoteId, clearCurrentNoteId } = useBlocksStore();
+    const { handleBlocksBulkUpdate } = useBlockMutations();
 
     const editor = useNotesEditor();
 
@@ -36,6 +40,25 @@ function NotesEditorPage() {
             content: blocks,
         });
     }, [blocks]);
+
+    useEffect(() => {
+        const onBeforeUnload = async () => {
+            if (!editor) return;
+            if (editor.isEmpty) return;
+
+            const formattedBlocks = parseSerializedBlocks(
+                editor.getJSON().content as TiptapSerializedBlocks
+            );
+            
+            handleBlocksBulkUpdate(formattedBlocks);
+        };
+
+        window.addEventListener("beforeunload", onBeforeUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", onBeforeUnload);
+        };
+    }, [editor]);
 
     useEditorSelectionUpdate(editor);
     useEditorContentUpdate(editor);
