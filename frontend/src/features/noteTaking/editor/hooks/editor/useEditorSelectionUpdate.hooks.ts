@@ -27,8 +27,12 @@ function useEditorSelectionUpdate(editor: Editor) {
         const currentlySelectedNode = getSelectedNode(editor);
         if (!currentlySelectedNode) return;
 
+        const { id, position } = currentlySelectedNode.attrs ?? {}
+        if (isNullOrUndefined(id)) return;
+        if (isNullOrUndefined(position)) return;
+
         const hasFocusMoved =
-            currentlySelectedNode.attrs.id !== selectedBlockId;
+            id !== selectedBlockId;
 
         if (shouldUpdatetoDB && hasFocusMoved) {
             const prevSelectedNodeId = selectedBlockId;
@@ -43,9 +47,9 @@ function useEditorSelectionUpdate(editor: Editor) {
             });
         }
 
-        updateSelectedBlockId(currentlySelectedNode.attrs.id);
+        updateSelectedBlockId(id);
         updateSelectedBlockType(currentlySelectedNode.type.name);
-        updateSelectedBlockOrder(currentlySelectedNode.attrs.position);
+        updateSelectedBlockOrder(position);
     };
 
     useEditorEventListener(editor, "selectionUpdate", handler);
