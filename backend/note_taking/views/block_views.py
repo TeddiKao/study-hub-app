@@ -69,7 +69,7 @@ class BulkUpdateBlocksEndpoint(APIView):
         for block_data in blocks_data:
             note_ids.append(block_data["note_id"])
 
-        blocks_queryset = Block.objects.filter(note_id__in=note_ids)
+        blocks_queryset = list(Block.objects.filter(note_id__in=note_ids))
 
         serializer = BlockSerializer(
             instance=blocks_queryset,
@@ -77,7 +77,6 @@ class BulkUpdateBlocksEndpoint(APIView):
             many=True,
             context={"request": request}
         )
-
         serializer.is_valid(raise_exception=True)
         serializer.save()
 

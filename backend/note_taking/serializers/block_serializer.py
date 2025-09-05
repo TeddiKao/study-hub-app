@@ -8,7 +8,6 @@ class BlockSerializer(ModelSerializer):
     note = NoteSerializer(read_only=True)
     note_id = PrimaryKeyRelatedField(
         queryset=Note.objects.none(),
-        source="note",
         write_only=True,
     )
 
