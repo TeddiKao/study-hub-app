@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError, PermissionDenied
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 
 from ..serializers import BlockSerializer, BlockTiptapSerializer
 from ..models import Block
@@ -54,27 +55,25 @@ class EditBlockEndpoint(UpdateAPIView):
 
         serializer.save()
 
-class UpdateAllBlocksEndpoint(APIView):
-    permission_classes = [IsAuthenticated]
-    
-    def post(self, request):
-        blocks = request.data.get("blocks")
-        if blocks is None:
+class BlockBulkUpdateEndpoint(APIView):
+    def post(self, request, *args, **kwargs):
+        blocks_data = request.data.get("blocks")
+        if blocks_data is None:
             raise ValidationError({ "blocks": "This field is required" })
-        
-        for block in blocks:
-            block_id = block.get("id")
-            block_content = block.get("content")
-            block_type = block.get("type")
-            block_order = block.get("order")
 
-            block = Block.objects.get(id=block_id)
-            block.content = block_content
-            block.type = block_type
-            block.order = block_order
-            block.save()
+        serializer = BlockSerializer(data=blocks_data, many=True)
+        serializer.is_valid(raise_exception=True)
 
-        return Response({ "message": "Blocks updated successfully" })
+        for block_data in serializer.validated_data:
+            block_id = request.data.get("id")
+            block_obj = Block.objects.get(id=block_id)
+            
+            for attr, value in block_data.items():
+                setattr(block_obj, attr, value)
+            
+            block_obj.save()
+
+        return Response({ "message": "Blocks updated successfully" }, status=status.HTTP_200_OK)
 
 class RetrieveBlockEndpoint(RetrieveAPIView):
     serializer_class = BlockSerializer
