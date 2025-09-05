@@ -4,6 +4,7 @@ import { getSelectedNode } from "../../utils/nodes.utils";
 import type { Editor } from "@tiptap/react";
 import { useEditorStateStore } from "../../stores/editorState.stores";
 import useBlockMutations from "../blocks/useBlockMutations.hooks";
+import useEditorEventListener from "./useEditorEventListener.hooks";
 
 function useEditorSelectionUpdate(editor: Editor) {
     const {
@@ -49,11 +50,7 @@ function useEditorSelectionUpdate(editor: Editor) {
             updateSelectedBlockOrder(currentlySelectedNode.attrs.position);
         };
 
-        editor?.on("selectionUpdate", handler);
-
-        return () => {
-            editor?.off("selectionUpdate", handler);
-        };
+        useEditorEventListener(editor, "selectionUpdate", handler);
     }, [
         editor,
         updateSelectedBlockId,

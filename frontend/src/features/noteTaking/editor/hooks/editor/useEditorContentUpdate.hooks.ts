@@ -2,6 +2,7 @@ import { Editor } from "@tiptap/react";
 import { useEffect } from "react";
 import { getSelectedNode } from "../../utils/nodes.utils";
 import { useEditorStateStore } from "../../stores/editorState.stores";
+import useEditorEventListener from "./useEditorEventListener.hooks";
 
 function useEditorContentUpdate(editor: Editor) {
     const { selectedBlockId, selectedBlockType, updateSelectedBlockContent } =
@@ -18,11 +19,7 @@ function useEditorContentUpdate(editor: Editor) {
             updateSelectedBlockContent(selectedNode.toJSON().content);
         };
 
-        editor?.on("update", handler);
-
-        return () => {
-            editor?.off("update", handler);
-        };
+        useEditorEventListener(editor, "update", handler);
     }, [
         editor,
         selectedBlockId,
