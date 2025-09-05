@@ -41,9 +41,9 @@ function useEditorSelectionUpdate(editor: Editor) {
             const prevSelectedBlockOrder = selectedBlockOrder;
 
             await handleBlockUpdate(prevSelectedNodeId!, {
-                blockType: prevSelectedBlockType!,
-                blockContent: prevSelectedBlockContent!,
-                blockOrder: prevSelectedBlockOrder!,
+                type: prevSelectedBlockType!,
+                content: prevSelectedBlockContent!,
+                position: prevSelectedBlockOrder!,
             });
         }
 
