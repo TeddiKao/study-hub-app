@@ -5,6 +5,7 @@ import type {
 } from "@/shared/types/api.types";
 import { isAxiosError } from "axios";
 import type {
+    BulkUpdateBlocksSuccess,
     CreateBlockSuccess,
     DeleteBlockSuccess,
     EditBlockSuccess,
@@ -12,6 +13,7 @@ import type {
     RawBlockData,
     RetrieveBlockSuccess,
 } from "../types/blocksApi.types";
+import type { Blocks } from "../types/blockSchema.types";
 
 async function fetchBlocks(
     noteId: number
@@ -139,6 +141,35 @@ async function editBlock(
     }
 }
 
+async function bulkUpdateBlocks(
+    noteId: number,
+    blocks: Blocks
+): Promise<ApiErrorResponse | BulkUpdateBlocksSuccess> {
+    try {
+        const response = await api.post(`${BLOCKS_BASE}/bulk-update/`, {
+            noteId: noteId,
+            blocks: blocks,
+        });
+
+        return {
+            success: true,
+            message: response.data.message,
+        };
+    } catch (error) {
+        if (!isAxiosError(error)) {
+            return {
+                success: false,
+                error: "Failed to update blocks",
+            };
+        }
+
+        return {
+            success: false,
+            error: error.response?.data?.error ?? "Failed to update blocks",
+        };
+    }
+}
+
 async function deleteBlock(
     blockId: number
 ): Promise<DeleteBlockSuccess | ApiErrorResponse> {
@@ -164,4 +195,4 @@ async function deleteBlock(
     }
 }
 
-export { fetchBlocks, createBlock, retrieveBlock, editBlock, deleteBlock };
+export { fetchBlocks, createBlock, retrieveBlock, editBlock, deleteBlock, bulkUpdateBlocks };
