@@ -10,6 +10,7 @@ interface RawBlockData {
 
 interface BlockUpdateRequest {
     id: number;
+    blockId: number;
     type: string;
     content: JSONContent[];
     position: number;

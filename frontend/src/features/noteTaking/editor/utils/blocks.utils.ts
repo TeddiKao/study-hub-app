@@ -13,6 +13,7 @@ function parseSerializedBlock(block: TiptapSerializedBlock): BlockUpdateRequest 
 
     return {
         id: id,
+        blockId: id,
         type: type,
         content: content,
         position: position,
