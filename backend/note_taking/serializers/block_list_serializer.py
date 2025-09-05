@@ -22,10 +22,10 @@ class BlockListSerializer(ListSerializer):
             if block_id and block_id in block_mapping:
                 block = block_mapping[block_id]
 
-                block.type = item["type"]
-                block.content = item["content"]
-                block.position = item["position"]
-                block.note_id = item["note_id"]
+                block.type = item.get("type")
+                block.content = item.get("content", [])
+                block.position = item.get("position")
+                block.note_id = item.get("note_id")
                 
                 block.save()
             elif not block_id:
