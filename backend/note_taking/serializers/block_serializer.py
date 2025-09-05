@@ -21,3 +21,4 @@ class BlockSerializer(ModelSerializer):
     class Meta:
         model = Block
         fields = ["id", "type", "content", "note", "note_id", "position"]
+        list_serializer_class = BlockListSerializer
