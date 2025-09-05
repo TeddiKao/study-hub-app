@@ -1,6 +1,6 @@
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { useQueryClient } from "@tanstack/react-query";
-import { createBlock, editBlock, deleteBlock } from "../../services/blocks.services";
+import { createBlock, editBlock, deleteBlock, bulkUpdateBlocks } from "../../services/blocks.services";
 import { useBlocksStore } from "../../stores/blocks.stores";
 import type { RawBlockData } from "../../types/blocksApi.types";
 import type { Blocks } from "../../types/blockSchema.types";
@@ -47,6 +47,25 @@ function useBlockMutations() {
         });
     }
 
+    async function handleBlocksBulkUpdate(blocks: Blocks) {
+        if (isNullOrUndefined(currentNoteId)) {
+            return;
+        }
+
+        const bulkUpdateBlocksResponse = await bulkUpdateBlocks(currentNoteId!, blocks);
+        if (!bulkUpdateBlocksResponse.success) {
+            throw new Error(bulkUpdateBlocksResponse.error);
+        }
+
+        queryClient.setQueryData(["blocks", currentNoteId], (oldBlocks: Blocks) =>
+            oldBlocks ? blocks : (oldBlocks ?? [])
+        );
+
+        await queryClient.invalidateQueries({
+            queryKey: ["blocks", currentNoteId],
+        });
+    }
+
     async function handleBlockDelete(blockId: number) {
         if (isNullOrUndefined(currentNoteId)) {
             return;
@@ -69,6 +88,7 @@ function useBlockMutations() {
     return {
         handleBlockCreate,
         handleBlockUpdate,
+        handleBlocksBulkUpdate,
         handleBlockDelete,
     };
 }
