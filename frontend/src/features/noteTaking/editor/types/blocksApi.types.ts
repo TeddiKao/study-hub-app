@@ -8,6 +8,13 @@ interface RawBlockData {
     blockOrder: number;
 }
 
+interface BlockUpdateRequest {
+    type: string;
+    content: JSONContent[];
+    position: number;
+    noteId: number;
+}
+
 interface FetchBlocksSuccess extends ApiSuccessResponse {
     blocks: TiptapSerializedBlocks;
 }
@@ -26,6 +33,7 @@ interface EditBlockSuccess extends ApiSuccessResponse {
 
 type DeleteBlockSuccess = ApiSuccessResponse;
 type BulkUpdateBlocksSuccess = ApiSuccessResponse;
+type BulkBlockUpdateRequest = BlockUpdateRequest[];
 
 export type {
     RawBlockData,
@@ -35,4 +43,6 @@ export type {
     EditBlockSuccess,
     DeleteBlockSuccess,
     BulkUpdateBlocksSuccess,
+    BlockUpdateRequest,
+    BulkBlockUpdateRequest,
 };
