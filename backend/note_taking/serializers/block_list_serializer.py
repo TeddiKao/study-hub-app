@@ -25,5 +25,7 @@ class BlockListSerializer(ListSerializer):
                     setattr(block, attr, value)
                 
                 block.save()
+            elif not block_id:
+                Block.objects.create(**item)
         
         return instance
