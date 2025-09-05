@@ -14,7 +14,6 @@ import type {
     RawBlockData,
     RetrieveBlockSuccess,
 } from "../types/blocksApi.types";
-import type { Blocks } from "../types/blockSchema.types";
 
 async function fetchBlocks(
     noteId: number
@@ -52,9 +51,9 @@ async function createBlock(
 ): Promise<CreateBlockSuccess | ApiErrorResponse> {
     try {
         const response = await api.post(`${BLOCKS_BASE}/create/`, {
-            blockType: blockData.blockType,
-            blockContent: blockData.blockContent,
-            blockOrder: blockData.blockOrder,
+            type: blockData.type,
+            content: blockData.content,
+            position: blockData.position,
             noteId: noteId,
         });
 
@@ -113,9 +112,9 @@ async function editBlock(
         const response = await api.put(
             `${BLOCKS_BASE}/block/${blockId}/edit/`,
             {
-                type: blockData.blockType,
-                content: blockData.blockContent,
-                position: blockData.blockOrder,
+                type: blockData.type,
+                content: blockData.content,
+                position: blockData.position,
                 noteId: noteId
             }
         );

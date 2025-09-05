@@ -3,9 +3,9 @@ import type { Block, TiptapSerializedBlocks } from "./blockSchema.types";
 import type { JSONContent } from "@tiptap/react";
 
 interface RawBlockData {
-    blockType: string;
-    blockContent: JSONContent[];
-    blockOrder: number;
+    type: string;
+    content: JSONContent[];
+    position: number;
 }
 
 interface BlockUpdateRequest {
