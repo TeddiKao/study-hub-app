@@ -14,7 +14,10 @@ function useEditorContentUpdate(editor: Editor) {
         const selectedNode = getSelectedNode(editor);
         if (!selectedNode) return;
 
-        updateSelectedBlockContent(selectedNode.toJSON().content);
+        const json = selectedNode.toJSON?.();
+        const content = Array.isArray(json?.content) ? json?.content : [];
+
+        updateSelectedBlockContent(content);
     };
 
     useEditorEventListener(editor, "update", handler);
