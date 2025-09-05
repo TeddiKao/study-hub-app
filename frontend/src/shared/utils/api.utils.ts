@@ -1,6 +1,15 @@
+import { useAuthTokensStore } from "@/features/auth/stores/authTokens.stores";
+
 function sendBeacon(url: string, data: any) {
+    const accessToken = useAuthTokensStore.getState().accessToken;
+
+    const blobData = {
+        ...data,
+        token: accessToken,
+    }
+
     try {
-        const blob = new Blob([JSON.stringify(data)], {
+        const blob = new Blob([JSON.stringify(blobData)], {
             type: "application/json",
         });
 
@@ -8,6 +17,7 @@ function sendBeacon(url: string, data: any) {
 
         return true;
     } catch (error) {
+        console.error(error);
         return false;
     }
 }
