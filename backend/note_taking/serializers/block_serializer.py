@@ -2,6 +2,7 @@ from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField
 from ..models import Block
 from ..models import Note
 from .note_serializer import NoteSerializer
+from .block_list_serializer import BlockListSerializer
 
 class BlockSerializer(ModelSerializer):
     note = NoteSerializer(read_only=True)
