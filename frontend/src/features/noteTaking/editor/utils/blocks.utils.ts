@@ -5,6 +5,18 @@ import type {
 } from "../types/blockSchema.types";
 
 function parseSerializedBlock(block: TiptapSerializedBlock): BlockUpdateRequest {
+    if (!block.attrs.id) {
+        throw new Error("Block ID is missing");
+    }
+
+    if (!block.attrs.position) {
+        throw new Error("Block position is missing");
+    }
+
+    if (!block.attrs.note?.id) {
+        throw new Error("Block note is missing");
+    }
+    
     const {
         type,
         content,
