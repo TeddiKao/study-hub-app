@@ -3,10 +3,10 @@ import type { Note } from "../../notes/types/notesStore.types";
 
 interface Block {
     id: number;
-    blockType: string;
-    blockContent: JSONContent[];
+    type: string;
+    content: JSONContent[];
     note: Note;
-    blockOrder: number;
+    position: number;
 }
 
 interface TiptapSerializedBlock {
