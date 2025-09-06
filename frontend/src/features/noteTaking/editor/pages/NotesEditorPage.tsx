@@ -18,7 +18,8 @@ import useLatest from "@/shared/hooks/useLatest.hooks";
 function NotesEditorPage() {
     const { noteId } = useParams();
     const { data: blocks, isLoading, error } = useBlocksQuery();
-    const { updateCurrentNoteId, clearCurrentNoteId } = useBlocksStore();
+    const { updateCurrentNoteId, clearCurrentNoteId } =
+        useBlocksStore();
     const { handleBlocksBulkUpdate } = useBlockMutations();
 
     const blocksBulkUpdateCallbackRef = useLatest(handleBlocksBulkUpdate);
@@ -77,10 +78,12 @@ function NotesEditorPage() {
             if (!editor) return;
             if (editor.isEmpty) return;
 
+            const serializedBlocks = parseSerializedBlocks(
+                editor.getJSON().content as TiptapSerializedBlocks
+            );
+
             blocksBulkUpdateCallbackRef.current(
-                parseSerializedBlocks(
-                    editor.getJSON().content as TiptapSerializedBlocks
-                ),
+                serializedBlocks,
                 Number(noteIdRef.current)
             );
         };
