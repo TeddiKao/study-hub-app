@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from ..serializers import BlockSerializer, BlockTiptapSerializer
+from ..serializers import BlockSerializer, BlockTiptapSerializer, BulkBlockSerializer
 from ..models import Block, Note
 from authentication.beacon_auth import BeaconJWTAuthentication
 
@@ -71,7 +71,7 @@ class BulkUpdateBlocksEndpoint(APIView):
 
         blocks_queryset = list(Block.objects.filter(note_id__in=note_ids))
 
-        serializer = BlockSerializer(
+        serializer = BulkBlockSerializer(
             instance=blocks_queryset,
             data=blocks_data,
             many=True,
