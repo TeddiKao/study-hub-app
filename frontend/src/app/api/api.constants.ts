@@ -1,4 +1,4 @@
-const BACKEND_BASE = "http://localhost:8000";
+const BACKEND_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
 
 const NOTE_TAKING_BASE = "note_taking";
 const NOTEBOOKS_BASE = `${NOTE_TAKING_BASE}/notebooks`;
