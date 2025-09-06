@@ -1,9 +1,20 @@
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { useQueryClient } from "@tanstack/react-query";
-import { createBlock, editBlock, deleteBlock, bulkUpdateBlocks } from "../../services/blocks.services";
+import {
+    createBlock,
+    editBlock,
+    deleteBlock,
+    bulkUpdateBlocks,
+} from "../../services/blocks.services";
 import { useBlocksStore } from "../../stores/blocks.stores";
-import type { BulkBlockUpdateRequest, RawBlockData } from "../../types/blocksApi.types";
-import type { Blocks } from "../../types/blockSchema.types";
+import type {
+    BulkBlockUpdateRequest,
+    RawBlockData,
+} from "../../types/blocksApi.types";
+import type {
+    Blocks,
+    TiptapSerializedBlocks,
+} from "../../types/blockSchema.types";
 
 function useBlockMutations() {
     const queryClient = useQueryClient();
@@ -14,13 +25,20 @@ function useBlockMutations() {
             return;
         }
 
-        const createBlockResponse = await createBlock(currentNoteId!, blockData);
+        const createBlockResponse = await createBlock(
+            currentNoteId!,
+            blockData
+        );
         if (!createBlockResponse.success) {
             throw new Error(createBlockResponse.error);
         }
 
-        queryClient.setQueryData(["blocks", currentNoteId], (oldBlocks: Blocks) =>
-            oldBlocks ? [...oldBlocks, createBlockResponse.createdBlock] : [createBlockResponse.createdBlock]
+        queryClient.setQueryData(
+            ["blocks", currentNoteId],
+            (oldBlocks: Blocks) =>
+                oldBlocks
+                    ? [...oldBlocks, createBlockResponse.createdBlock]
+                    : [createBlockResponse.createdBlock]
         );
 
         await queryClient.invalidateQueries({
@@ -32,14 +50,24 @@ function useBlockMutations() {
         if (isNullOrUndefined(currentNoteId)) {
             return;
         }
-        
-        const editBlockResponse = await editBlock(currentNoteId!, blockId, blockData);
+
+        const editBlockResponse = await editBlock(
+            currentNoteId!,
+            blockId,
+            blockData
+        );
         if (!editBlockResponse.success) {
             throw new Error(editBlockResponse.error);
         }
 
-        queryClient.setQueryData(["blocks", currentNoteId], (oldBlocks: Blocks) =>
-            oldBlocks ? oldBlocks.map((block) => (block.id === blockId ? editBlockResponse.block : block)) : (oldBlocks ?? [])
+        queryClient.setQueryData(
+            ["blocks", currentNoteId],
+            (oldBlocks: Blocks) =>
+                oldBlocks
+                    ? oldBlocks.map((block) =>
+                          block.id === blockId ? editBlockResponse.block : block
+                      )
+                    : oldBlocks ?? []
         );
 
         await queryClient.invalidateQueries({
@@ -47,18 +75,41 @@ function useBlockMutations() {
         });
     }
 
-    async function handleBlocksBulkUpdate(blocks: BulkBlockUpdateRequest, noteId?: number) {
+    async function handleBlocksBulkUpdate(
+        blocks: BulkBlockUpdateRequest,
+        noteId?: number
+    ) {
         const noteIdUsed = noteId ?? currentNoteId;
-        
+
         if (isNullOrUndefined(noteIdUsed)) {
             return;
         }
 
         const bulkUpdateBlocksResponse = await bulkUpdateBlocks(blocks);
-        
+
         if (!bulkUpdateBlocksResponse.success) {
             throw new Error(bulkUpdateBlocksResponse.error);
         }
+
+        queryClient.setQueryData(
+            ["blocks", noteIdUsed],
+            (oldBlocks: TiptapSerializedBlocks) => {
+                const updatedBlocks = bulkUpdateBlocksResponse.updatedBlocks;
+                const updatedIds = updatedBlocks.map((block) => block.attrs.id);
+
+                return oldBlocks
+                    ? oldBlocks.map((block) =>
+                          updatedIds.includes(block.attrs.id)
+                              ? updatedBlocks.find(
+                                    (updatedBlockId) =>
+                                        updatedBlockId.attrs.id ===
+                                        block.attrs.id
+                                )
+                              : block
+                      )
+                    : oldBlocks ?? [];
+            }
+        );
 
         await queryClient.invalidateQueries({
             queryKey: ["blocks", noteIdUsed],
@@ -69,14 +120,18 @@ function useBlockMutations() {
         if (isNullOrUndefined(currentNoteId)) {
             return;
         }
-        
+
         const deleteBlockResponse = await deleteBlock(blockId);
         if (!deleteBlockResponse.success) {
             throw new Error(deleteBlockResponse.error);
         }
 
-        queryClient.setQueryData(["blocks", currentNoteId], (oldBlocks: Blocks) =>
-            oldBlocks ? oldBlocks.filter((block) => block.id !== blockId) : (oldBlocks ?? [])
+        queryClient.setQueryData(
+            ["blocks", currentNoteId],
+            (oldBlocks: Blocks) =>
+                oldBlocks
+                    ? oldBlocks.filter((block) => block.id !== blockId)
+                    : oldBlocks ?? []
         );
 
         await queryClient.invalidateQueries({
