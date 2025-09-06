@@ -17,6 +17,7 @@ class BlockListSerializer(ListSerializer):
         for block in instance:
             block_mapping[block.id] = block
 
+        updated_blocks = []
         for item in validated_data:
             block_id = item.pop("block_id")
             if block_id and block_id in block_mapping:
@@ -28,7 +29,11 @@ class BlockListSerializer(ListSerializer):
                 block.note_id = item.get("note_id")
                 
                 block.save()
+
+                updated_blocks.append(block)
             elif not block_id:
-                Block.objects.create(**item)
+                block = Block.objects.create(**item)
+
+                updated_blocks.append(block)
         
-        return instance
+        return updated_blocks
