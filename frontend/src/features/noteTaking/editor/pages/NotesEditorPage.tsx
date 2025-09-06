@@ -73,6 +73,9 @@ function NotesEditorPage() {
     useEffect(() => {
         return () => {
             if (!isNullOrUndefined(noteId)) return;
+            if (Number.isNaN(Number(noteId))) return;
+            if (!Number.isFinite(Number(noteId))) return;
+
             if (!editor) return;
             if (editor.isEmpty) return;
 
@@ -83,7 +86,7 @@ function NotesEditorPage() {
                 Number(noteId)
             );
         };
-    }, [editor]);
+    }, [editor, noteId]);
 
     useEditorSelectionUpdate(editor);
     useEditorContentUpdate(editor);
