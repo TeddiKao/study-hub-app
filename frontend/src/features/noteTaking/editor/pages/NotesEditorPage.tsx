@@ -26,11 +26,8 @@ function NotesEditorPage() {
     const editor = useNotesEditor();
 
     useEffect(() => {
-        console.log("Effect running");
-
         if (!isNullOrUndefined(noteId)) {
             updateCurrentNoteId(Number(noteId));
-            console.log("Note ID updated!");
         }
 
         return () => {
@@ -47,7 +44,7 @@ function NotesEditorPage() {
             type: "doc",
             content: blocks,
         });
-    }, [blocks]);
+    }, [blocks, editor]);
 
     useEffect(() => {
         const onBeforeUnload = () => {
