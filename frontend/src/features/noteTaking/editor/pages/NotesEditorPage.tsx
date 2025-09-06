@@ -1,6 +1,6 @@
 import { EditorContent } from "@tiptap/react";
 import DashboardLayout from "@/shared/components/wrappers/DashboardLayout";
-import { useBlocker, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useBlocksStore } from "../stores/blocks.stores";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
