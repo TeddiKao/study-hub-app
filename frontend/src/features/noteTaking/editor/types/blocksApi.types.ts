@@ -34,7 +34,7 @@ interface EditBlockSuccess extends ApiSuccessResponse {
 }
 
 interface BulkUpdateBlocksSuccess extends ApiSuccessResponse {
-    updatedBlocks: Block[];
+    updatedBlocks: TiptapSerializedBlocks[];
 }
 
 type DeleteBlockSuccess = ApiSuccessResponse;
