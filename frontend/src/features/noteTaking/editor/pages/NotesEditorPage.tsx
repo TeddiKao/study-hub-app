@@ -46,7 +46,7 @@ function NotesEditorPage() {
     }, [blocks]);
 
     useEffect(() => {
-        const onBeforeUnload = async () => {
+        const onBeforeUnload = () => {
             if (!editor) return;
             if (editor.isEmpty) return;
 
