@@ -25,6 +25,8 @@ async function fetchBlocks(
             },
         });
 
+        console.log(response.data)
+
         return {
             success: true,
             message: "Successfully fetched blocks",
@@ -148,10 +150,11 @@ async function bulkUpdateBlocks(
         const response = await api.post(`${BLOCKS_BASE}/bulk-update/`, {
             blocks: blocks,
         });
-
+        
         return {
             success: true,
             message: response.data.message,
+            updatedBlocks: response.data.updatedBlocks,
         };
     } catch (error) {
         if (!isAxiosError(error)) {
