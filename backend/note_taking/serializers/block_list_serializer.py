@@ -20,13 +20,14 @@ class BlockListSerializer(ListSerializer):
         updated_blocks = []
         for item in validated_data:
             block_id = item.pop("block_id")
+
             if block_id and block_id in block_mapping:
                 block = block_mapping[block_id]
 
                 block.type = item.get("type")
                 block.content = item.get("content", [])
                 block.position = item.get("position")
-                block.note_id = item.get("note_id")
+                block.note_id = item.get("note_id").id
                 
                 block.save()
 
