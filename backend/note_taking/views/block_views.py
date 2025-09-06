@@ -79,8 +79,12 @@ class BulkUpdateBlocksEndpoint(APIView):
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        serialized_updated_blocks = serializer.data
 
-        return Response({ "message": "Blocks updated successfully" }, status=status.HTTP_200_OK)
+        return Response({ 
+            "message": "Blocks updated successfully", 
+            "updated_blocks": serialized_updated_blocks 
+        }, status=status.HTTP_200_OK)
 
 class RetrieveBlockEndpoint(RetrieveAPIView):
     serializer_class = BlockSerializer
