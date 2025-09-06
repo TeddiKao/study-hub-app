@@ -33,8 +33,11 @@ interface EditBlockSuccess extends ApiSuccessResponse {
     block: Block;
 }
 
+interface BulkUpdateBlocksSuccess extends ApiSuccessResponse {
+    updatedBlocks: Block[];
+}
+
 type DeleteBlockSuccess = ApiSuccessResponse;
-type BulkUpdateBlocksSuccess = ApiSuccessResponse;
 type BulkBlockUpdateRequest = BlockUpdateRequest[];
 
 export type {
