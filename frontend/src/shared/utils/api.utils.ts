@@ -1,7 +1,7 @@
 import { useAuthTokensStore } from "@/features/auth/stores/authTokens.stores";
 import { isNullOrUndefined } from "./types.utils";
 
-function sendBeacon(url: string, data: any) {
+function sendBeacon(url: string, data: Record<string, unknown>) {
     const accessToken = useAuthTokensStore.getState().accessToken;
 
     const blobData = {
