@@ -70,7 +70,7 @@ function NotesEditorPage() {
 
     useEffect(() => {
         return () => {
-            if (!isNullOrUndefined(noteIdRef.current)) return;
+            if (isNullOrUndefined(noteIdRef.current)) return;
             if (Number.isNaN(Number(noteIdRef.current))) return;
             if (!Number.isFinite(Number(noteIdRef.current))) return;
 
