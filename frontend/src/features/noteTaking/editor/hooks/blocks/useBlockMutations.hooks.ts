@@ -48,7 +48,9 @@ function useBlockMutations() {
     }
 
     async function handleBlocksBulkUpdate(blocks: BulkBlockUpdateRequest, noteId?: number) {
-        if (isNullOrUndefined(noteId ?? currentNoteId)) {
+        const noteIdUsed = noteId ?? currentNoteId;
+        
+        if (isNullOrUndefined(noteIdUsed)) {
             return;
         }
 
@@ -58,12 +60,8 @@ function useBlockMutations() {
             throw new Error(bulkUpdateBlocksResponse.error);
         }
 
-        queryClient.setQueryData(["blocks", noteId ?? currentNoteId], (oldBlocks: Blocks) =>
-            oldBlocks ? blocks : (oldBlocks ?? [])
-        );
-
         await queryClient.invalidateQueries({
-            queryKey: ["blocks", noteId ?? currentNoteId],
+            queryKey: ["blocks", noteIdUsed],
         });
     }
 
