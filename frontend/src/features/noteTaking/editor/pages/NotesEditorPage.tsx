@@ -13,20 +13,24 @@ import type { TiptapSerializedBlocks } from "../types/blockSchema.types";
 import useBlockMutations from "../hooks/blocks/useBlockMutations.hooks";
 import { sendBeacon } from "@/shared/utils/api.utils";
 import { BACKEND_BASE, BLOCKS_BASE } from "@/app/api/api.constants";
+import useLatest from "@/shared/hooks/useLatest.hooks";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
     const { data: blocks, isLoading, error } = useBlocksQuery();
-    const { updateCurrentNoteId, clearCurrentNoteId, currentNoteId } =
-        useBlocksStore();
+    const { updateCurrentNoteId, clearCurrentNoteId } = useBlocksStore();
     const { handleBlocksBulkUpdate } = useBlockMutations();
+
+    const blocksBulkUpdateCallbackRef = useLatest(handleBlocksBulkUpdate);
 
     const editor = useNotesEditor();
 
     useEffect(() => {
+        console.log("Effect running");
+
         if (!isNullOrUndefined(noteId)) {
             updateCurrentNoteId(Number(noteId));
-            console.log("Note ID updated!")
+            console.log("Note ID updated!");
         }
 
         return () => {
@@ -68,17 +72,18 @@ function NotesEditorPage() {
 
     useEffect(() => {
         return () => {
+            if (!isNullOrUndefined(noteId)) return;
             if (!editor) return;
             if (editor.isEmpty) return;
 
-            handleBlocksBulkUpdate(
+            blocksBulkUpdateCallbackRef.current(
                 parseSerializedBlocks(
                     editor.getJSON().content as TiptapSerializedBlocks
                 ),
-                Number(noteId),
+                Number(noteId)
             );
-        }
-    }, [editor, handleBlocksBulkUpdate]);
+        };
+    }, [editor]);
 
     useEditorSelectionUpdate(editor);
     useEditorContentUpdate(editor);
