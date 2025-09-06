@@ -3,50 +3,50 @@ import { create } from "zustand";
 
 interface EditorStateStore {
     selectedBlockId: number | null;
-    updateSelectedBlockId: (blockId: number) => void;
+    updateSelectedBlockId: (id: number) => void;
     clearSelectedBlockId: () => void;
 
     selectedBlockType: string | null;
-    updateSelectedBlockType: (blockType: string) => void;
+    updateSelectedBlockType: (type: string) => void;
     clearSelectedBlockType: () => void;
 
     selectedBlockContent: JSONContent[] | null;
-    updateSelectedBlockContent: (blockContent: JSONContent[]) => void;
+    updateSelectedBlockContent: (content: JSONContent[]) => void;
     clearSelectedBlockContent: () => void;
 
     selectedBlockPosition: number | null;
-    updateSelectedBlockPosition: (blockPosition: number) => void;
+    updateSelectedBlockPosition: (position: number) => void;
     clearSelectedBlockPosition: () => void;
 }
 
 const useEditorStateStore = create<EditorStateStore>((set) => ({
     selectedBlockId: null,
-    updateSelectedBlockId: (blockId) => {
-        if (Number.isNaN(blockId)) return;
-        if (!Number.isFinite(blockId)) return;
+    updateSelectedBlockId: (id) => {
+        if (Number.isNaN(id)) return;
+        if (!Number.isFinite(id)) return;
 
-        set({ selectedBlockId: blockId });
+        set({ selectedBlockId: id });
     },
     clearSelectedBlockId: () => set({ selectedBlockId: null }),
 
     selectedBlockType: null,
-    updateSelectedBlockType: (blockType) => {
-        set({ selectedBlockType: blockType });
+    updateSelectedBlockType: (type) => {
+        set({ selectedBlockType: type });
     },
     clearSelectedBlockType: () => set({ selectedBlockType: null }),
 
     selectedBlockContent: null,
-    updateSelectedBlockContent: (blockContent) => {
-        set({ selectedBlockContent: blockContent });
+    updateSelectedBlockContent: (content) => {
+        set({ selectedBlockContent: content });
     },
     clearSelectedBlockContent: () => set({ selectedBlockContent: null }),
 
     selectedBlockPosition: null,
-    updateSelectedBlockPosition: (blockPosition) => {
-        if (Number.isNaN(blockPosition)) return;
-        if (!Number.isFinite(blockPosition)) return;
+    updateSelectedBlockPosition: (position) => {
+        if (Number.isNaN(position)) return;
+        if (!Number.isFinite(position)) return;
 
-        set({ selectedBlockPosition: blockPosition });
+        set({ selectedBlockPosition: position });
     },
     clearSelectedBlockPosition: () => set({ selectedBlockPosition: null }),
 }));
