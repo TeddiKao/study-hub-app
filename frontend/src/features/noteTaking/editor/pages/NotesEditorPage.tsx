@@ -67,7 +67,7 @@ function NotesEditorPage() {
         return () => {
             window.removeEventListener("beforeunload", onBeforeUnload);
         };
-    }, [editor]);
+    }, [editor, noteId]);
 
     useEffect(() => {
         return () => {
