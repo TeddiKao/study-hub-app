@@ -142,7 +142,6 @@ async function editBlock(
 }
 
 async function bulkUpdateBlocks(
-    noteId: number,
     blocks: BulkBlockUpdateRequest
 ): Promise<ApiErrorResponse | BulkUpdateBlocksSuccess> {
     try {

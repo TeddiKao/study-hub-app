@@ -52,7 +52,7 @@ function useBlockMutations() {
             return;
         }
 
-        const bulkUpdateBlocksResponse = await bulkUpdateBlocks((noteId ?? currentNoteId)!, blocks);
+        const bulkUpdateBlocksResponse = await bulkUpdateBlocks(blocks);
         
         if (!bulkUpdateBlocksResponse.success) {
             throw new Error(bulkUpdateBlocksResponse.error);
