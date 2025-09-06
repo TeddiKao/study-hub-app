@@ -22,6 +22,7 @@ function NotesEditorPage() {
     const { handleBlocksBulkUpdate } = useBlockMutations();
 
     const blocksBulkUpdateCallbackRef = useLatest(handleBlocksBulkUpdate);
+    const noteIdRef = useLatest(noteId);
 
     const editor = useNotesEditor();
 
@@ -69,9 +70,9 @@ function NotesEditorPage() {
 
     useEffect(() => {
         return () => {
-            if (!isNullOrUndefined(noteId)) return;
-            if (Number.isNaN(Number(noteId))) return;
-            if (!Number.isFinite(Number(noteId))) return;
+            if (!isNullOrUndefined(noteIdRef.current)) return;
+            if (Number.isNaN(Number(noteIdRef.current))) return;
+            if (!Number.isFinite(Number(noteIdRef.current))) return;
 
             if (!editor) return;
             if (editor.isEmpty) return;
@@ -80,10 +81,10 @@ function NotesEditorPage() {
                 parseSerializedBlocks(
                     editor.getJSON().content as TiptapSerializedBlocks
                 ),
-                Number(noteId)
+                Number(noteIdRef.current)
             );
         };
-    }, [editor, noteId]);
+    }, [editor]);
 
     useEditorSelectionUpdate(editor);
     useEditorContentUpdate(editor);
