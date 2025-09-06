@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from ..serializers import BlockSerializer, BlockTiptapSerializer, BulkBlockSerializer
-from ..models import Block, Note
+from ..models import Block
 from authentication.beacon_auth import BeaconJWTAuthentication
 
 class FetchBlocksEndpoint(ListAPIView):
@@ -77,13 +77,19 @@ class BulkUpdateBlocksEndpoint(APIView):
             many=True,
             context={"request": request}
         )
+
         serializer.is_valid(raise_exception=True)
-        serializer.save()
-        serialized_updated_blocks = serializer.data
+        blocks = serializer.save()
+
+        tiptap_serialized_blocks = BlockTiptapSerializer(
+            instance=blocks,
+            many=True,
+            context={"request": request}
+        ).data
 
         return Response({ 
             "message": "Blocks updated successfully", 
-            "updated_blocks": serialized_updated_blocks 
+            "updated_blocks": tiptap_serialized_blocks 
         }, status=status.HTTP_200_OK)
 
 class RetrieveBlockEndpoint(RetrieveAPIView):
