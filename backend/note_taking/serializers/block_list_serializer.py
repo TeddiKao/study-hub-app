@@ -29,7 +29,13 @@ class BlockListSerializer(ListSerializer):
                     block.type = item.get("type")
                     block.content = item.get("content", [])
                     block.position = item.get("position")
-                    block.note_id = item.get("note_id").id
+
+                    note_id = item.get("note_id")
+                    if note_id:
+                        if hasattr(note_id, "id"):
+                            block.note_id = note_id.id
+                        else:
+                            block.note_id = note_id
                     
                     try:
                         block.save()
