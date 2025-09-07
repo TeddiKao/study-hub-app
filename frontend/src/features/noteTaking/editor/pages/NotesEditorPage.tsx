@@ -8,20 +8,15 @@ import useNotesEditor from "../hooks/editor/useNotesEditor.hooks";
 import useEditorSelectionUpdate from "../hooks/editor/useEditorSelectionUpdate.hooks";
 import useEditorContentUpdate from "../hooks/editor/useEditorContentUpdate.hooks";
 import useBlocksQuery from "../hooks/blocks/useBlocksQuery.hooks";
-import { parseSerializedBlocks } from "../utils/blocks.utils";
-import type { TiptapSerializedBlocks } from "../types/blockSchema.types";
-import useBlockMutations from "../hooks/blocks/useBlockMutations.hooks";
 import useLatest from "@/shared/hooks/useLatest.hooks";
 import useWindowUnloadSave from "../hooks/editor/useWindowUnloadSave.hooks";
+import useSaveOnNavigate from "../hooks/editor/useSaveOnNavigate.hooks";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
     const { data: blocks, isLoading, error } = useBlocksQuery();
     const { updateCurrentNoteId, clearCurrentNoteId } =
         useBlocksStore();
-    const { handleBlocksBulkUpdate } = useBlockMutations();
-
-    const blocksBulkUpdateCallbackRef = useLatest(handleBlocksBulkUpdate);
     const noteIdRef = useLatest(noteId);
 
     const editor = useNotesEditor();
@@ -48,26 +43,7 @@ function NotesEditorPage() {
     }, [blocks, editor]);
 
     useWindowUnloadSave(editor, Number(noteIdRef.current));
-
-    useEffect(() => {
-        return () => {
-            if (isNullOrUndefined(noteIdRef.current)) return;
-            if (Number.isNaN(Number(noteIdRef.current))) return;
-            if (!Number.isFinite(Number(noteIdRef.current))) return;
-
-            if (!editor) return;
-            if (editor.isEmpty) return;
-
-            const serializedBlocks = parseSerializedBlocks(
-                editor.getJSON().content as TiptapSerializedBlocks
-            );
-
-            blocksBulkUpdateCallbackRef.current(
-                serializedBlocks,
-                Number(noteIdRef.current)
-            );
-        };
-    }, [editor]);
+    useSaveOnNavigate(editor, Number(noteIdRef.current));
 
     useEditorSelectionUpdate(editor);
     useEditorContentUpdate(editor);
