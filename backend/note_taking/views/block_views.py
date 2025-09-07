@@ -76,13 +76,31 @@ class BulkUpdateBlocksEndpoint(APIView):
             }, status=status.HTTP_200_OK)
 
         block_ids = []
-        for item in blocks_data:
+        seen_block_ids = set()
+
+        for index, item in enumerate(blocks_data):
             try:
-                block_ids.append(int(item["id"]))
-            except (KeyError, ValueError, TypeError):
+                block_id = int(item["id"])
+            except (KeyError, TypeError, ValueError) as err:
                 raise ValidationError({
-                    "blocks": "All block IDs must be integers"
+                    "blocks": {
+                        index: {
+                            "id": "Must be an integer"
+                        }
+                    }
                 })
+
+            if block_id in seen_block_ids:
+                raise ValidationError({
+                    "blocks": {
+                        index: {
+                            "id": f"Duplicate block ID {block_id}"
+                        }
+                    }
+                })
+
+            seen_block_ids.add(block_id)
+            block_ids.append(block_id)
 
         with transaction.atomic():
             blocks_queryset = list(
