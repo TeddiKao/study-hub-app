@@ -28,7 +28,7 @@ function useSaveOnNavigate(editor: Editor, noteId: number) {
                 id
             );
         };
-    }, [editor]);
+    }, [editor, noteId]);
 }
 
 export default useSaveOnNavigate;
