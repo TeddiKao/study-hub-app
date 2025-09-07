@@ -20,11 +20,15 @@ function useNotesEditor() {
         if (editor.isEmpty) return;
 
         const createdParagraphs: RawBlockData[] = [];
-        const topLevelNodes = editor.state.doc.content;
 
         let currentNodePosition = 0;
 
-        topLevelNodes.forEach((node) => {
+        editor.state.doc.descendants((node, pos) => {
+            if (!node.type.isBlock) {
+                currentNodePosition++;
+                return;
+            }
+
             if (node.type.name === "note_editor_paragraph") {
                 const id = node.attrs.id;
 
@@ -34,15 +38,25 @@ function useNotesEditor() {
                         content: node.content.toJSON() ?? [],
                         position: currentNodePosition,
                         noteId: node.attrs.note.id,
-                    })
+                    });
+
+                    editor.commands.command(({ tr: transaction }) => {
+                        transaction.setNodeMarkup(pos, node.type, {
+                            ...node.attrs,
+                            position: currentNodePosition,
+                        });
+
+                        return true;
+                    });
                 }
-            } 
+            }
 
             currentNodePosition++;
-        })
+        });
 
         if (createdParagraphs.length > 0) {
             await handleBlockBulkCreate(createdParagraphs);
+            console.log(editor.getJSON());
         }
     }
 
