@@ -93,6 +93,8 @@ async function bulkCreateBlocks(
             createdBlocks: response.data,
         }               
     } catch (error) {
+        console.error(error);
+
         if (!isAxiosError(error)) {
             return {
                 success: false,
