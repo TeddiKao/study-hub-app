@@ -78,7 +78,10 @@ class BulkUpdateBlocksEndpoint(APIView):
                     "blocks": "All block IDs must be integers"
                 })
 
-        blocks_queryset = list(Block.objects.filter(note_id__in=note_ids))
+        blocks_queryset = list(Block.objects.filter(
+            id__in=block_ids,
+            note__notebook__owner=self.request.user
+        ))
 
         serializer = BulkBlockSerializer(
             instance=blocks_queryset,
