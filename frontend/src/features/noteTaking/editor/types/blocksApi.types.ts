@@ -3,9 +3,18 @@ import type { Block, TiptapSerializedBlocks } from "./blockSchema.types";
 import type { JSONContent } from "@tiptap/react";
 
 interface RawBlockData {
-    blockType: string;
-    blockContent: JSONContent[];
-    blockOrder: number;
+    type: string;
+    content: JSONContent[];
+    position: number;
+}
+
+interface BlockUpdateRequest {
+    id: number;
+    blockId: number;
+    type: string;
+    content: JSONContent[];
+    position: number;
+    noteId: number;
 }
 
 interface FetchBlocksSuccess extends ApiSuccessResponse {
@@ -24,7 +33,12 @@ interface EditBlockSuccess extends ApiSuccessResponse {
     block: Block;
 }
 
+interface BulkUpdateBlocksSuccess extends ApiSuccessResponse {
+    updatedBlocks: TiptapSerializedBlocks;
+}
+
 type DeleteBlockSuccess = ApiSuccessResponse;
+type BulkBlockUpdateRequest = BlockUpdateRequest[];
 
 export type {
     RawBlockData,
@@ -33,4 +47,7 @@ export type {
     RetrieveBlockSuccess,
     EditBlockSuccess,
     DeleteBlockSuccess,
+    BulkUpdateBlocksSuccess,
+    BlockUpdateRequest,
+    BulkBlockUpdateRequest,
 };

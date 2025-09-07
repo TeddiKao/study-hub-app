@@ -5,6 +5,8 @@ import type {
 } from "@/shared/types/api.types";
 import { isAxiosError } from "axios";
 import type {
+    BulkBlockUpdateRequest,
+    BulkUpdateBlocksSuccess,
     CreateBlockSuccess,
     DeleteBlockSuccess,
     EditBlockSuccess,
@@ -22,6 +24,8 @@ async function fetchBlocks(
                 noteId: noteId,
             },
         });
+
+        console.log(response.data)
 
         return {
             success: true,
@@ -49,9 +53,9 @@ async function createBlock(
 ): Promise<CreateBlockSuccess | ApiErrorResponse> {
     try {
         const response = await api.post(`${BLOCKS_BASE}/create/`, {
-            blockType: blockData.blockType,
-            blockContent: blockData.blockContent,
-            blockOrder: blockData.blockOrder,
+            type: blockData.type,
+            content: blockData.content,
+            position: blockData.position,
             noteId: noteId,
         });
 
@@ -110,9 +114,9 @@ async function editBlock(
         const response = await api.put(
             `${BLOCKS_BASE}/block/${blockId}/edit/`,
             {
-                type: blockData.blockType,
-                content: blockData.blockContent,
-                position: blockData.blockOrder,
+                type: blockData.type,
+                content: blockData.content,
+                position: blockData.position,
                 noteId: noteId
             }
         );
@@ -135,6 +139,34 @@ async function editBlock(
         return {
             success: false,
             error: error.response?.data?.error ?? "Failed to edit block",
+        };
+    }
+}
+
+async function bulkUpdateBlocks(
+    blocks: BulkBlockUpdateRequest
+): Promise<ApiErrorResponse | BulkUpdateBlocksSuccess> {
+    try {
+        const response = await api.post(`${BLOCKS_BASE}/bulk-update/`, {
+            blocks: blocks,
+        });
+        
+        return {
+            success: true,
+            message: response.data.message,
+            updatedBlocks: response.data.updatedBlocks,
+        };
+    } catch (error) {
+        if (!isAxiosError(error)) {
+            return {
+                success: false,
+                error: "Failed to update blocks",
+            };
+        }
+
+        return {
+            success: false,
+            error: error.response?.data?.error ?? "Failed to update blocks",
         };
     }
 }
@@ -164,4 +196,4 @@ async function deleteBlock(
     }
 }
 
-export { fetchBlocks, createBlock, retrieveBlock, editBlock, deleteBlock };
+export { fetchBlocks, createBlock, retrieveBlock, editBlock, deleteBlock, bulkUpdateBlocks };
