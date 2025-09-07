@@ -36,9 +36,9 @@ function useNotesEditor() {
                         noteId: node.attrs.note.id,
                     })
                 }
-
-                currentNodePosition++;
             } 
+
+            currentNodePosition++;
         })
 
         if (createdParagraphs.length > 0) {
