@@ -69,9 +69,21 @@ class BulkUpdateBlocksEndpoint(APIView):
         if blocks_data is None:
             raise ValidationError({ "blocks": "This field is required" })
 
+        block_ids = []
+        for item in blocks_data:
+            try:
+                block_ids.append(int(item["id"]))
+            except (KeyError, ValueError, TypeError):
+                raise ValidationError({
+                    "blocks": "All block IDs must be integers"
+                })
+
         note_ids = []
         for block_data in blocks_data:
-            note_ids.append(block_data["note_id"])
+            try:
+                note_ids.append(int(block_data["note_id"]))
+            except (ValueError, TypeError):
+                raise ValidationError({ "blocks": "All note IDs must be integers" })
 
         blocks_queryset = list(Block.objects.filter(note_id__in=note_ids))
 
