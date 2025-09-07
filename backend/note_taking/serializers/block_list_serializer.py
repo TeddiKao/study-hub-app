@@ -1,4 +1,5 @@
 from rest_framework.serializers import ListSerializer
+from rest_framework.exceptions import ValidationError
 
 from ..models import Block
 
@@ -29,11 +30,17 @@ class BlockListSerializer(ListSerializer):
                 block.position = item.get("position")
                 block.note_id = item.get("note_id").id
                 
-                block.save()
+                try:
+                    block.save()
+                except Exception as e:
+                    raise ValidationError(f"Failed to update block {block_id}: {str(e)}")
 
                 updated_blocks.append(block)
             elif not block_id:
-                block = Block.objects.create(**item)
+                try:
+                    block = Block.objects.create(**item)
+                except Exception as e:
+                    raise ValidationError(f"Failed to create block: {str(e)}")
 
                 updated_blocks.append(block)
         
