@@ -33,7 +33,7 @@ function useNotesEditor() {
                         type: "note_editor_paragraph",
                         content: node.content.toJSON() ?? [],
                         position: currentNodePosition,
-                        noteId: editor.state.doc.attrs.noteId,
+                        noteId: node.attrs.note.id,
                     })
                 }
 
