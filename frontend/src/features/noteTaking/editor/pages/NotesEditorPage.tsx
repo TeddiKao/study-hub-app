@@ -11,13 +11,15 @@ import useBlocksQuery from "../hooks/blocks/useBlocksQuery.hooks";
 import useLatest from "@/shared/hooks/useLatest.hooks";
 import useWindowUnloadSave from "../hooks/editor/useWindowUnloadSave.hooks";
 import useSaveOnNavigate from "../hooks/editor/useSaveOnNavigate.hooks";
-import { getNodePositionById, getNodePositionByIndex } from "../utils/nodes.utils";
+import {
+    getNodePositionById,
+    getNodePositionByIndex,
+} from "../utils/nodes.utils";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
     const { data: blocks, isLoading, error } = useBlocksQuery();
-    const { updateCurrentNoteId, clearCurrentNoteId } =
-        useBlocksStore();
+    const { updateCurrentNoteId, clearCurrentNoteId } = useBlocksStore();
     const noteIdRef = useLatest(noteId);
 
     const editor = useNotesEditor();
@@ -50,36 +52,42 @@ function NotesEditorPage() {
         console.log(blocks);
 
         blocks.forEach((block) => {
-            if (isNullOrUndefined(block.attrs.id)) {
-                const position = getNodePositionByIndex(editor, block.attrs.position);
-                if (isNullOrUndefined(position)) return;
-                
+            console.log("Looping through block", block);
+
+            const position = getNodePositionById(editor, block.attrs.id);
+            if (isNullOrUndefined(position)) {
+                const positionByIndex = getNodePositionByIndex(
+                    editor,
+                    block.attrs.position
+                );
+                if (isNullOrUndefined(positionByIndex)) return;
+
                 const nodeType = editor.schema.nodes[block.type];
-                if (!nodeType) return;
+                if (!nodeType) {
+                    console.warn("Node type not found");
+                    return;
+                }
 
                 editor.commands.command(({ tr: transaction }) => {
-                    console.log(editor.state.doc.nodeAt(position!)?.toJSON())
-                    
-                    transaction.setNodeMarkup(position!, nodeType, block.attrs);
+                    console.log(editor.state.doc.nodeAt(positionByIndex!)?.toJSON());
+
+                    transaction.setNodeMarkup(positionByIndex!, nodeType, block.attrs);
                     return true;
-                })
+                });
 
                 return;
             }
-
-            const position = getNodePositionById(editor, block.attrs.id);
-            if (isNullOrUndefined(position)) return;
 
             const nodeType = editor.schema.nodes[block.type];
             if (!nodeType) return;
 
             editor.commands.command(({ tr: transaction }) => {
-                console.log(editor.state.doc.nodeAt(position!)?.toJSON())
-                
                 transaction.setNodeMarkup(position!, nodeType, block.attrs);
                 return true;
-            })
-        })
+            });
+        });
+
+        console.log(editor.getJSON().content);
     }, [blocks, editor]);
 
     useWindowUnloadSave(editor, Number(noteIdRef.current));
