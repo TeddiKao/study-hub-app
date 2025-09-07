@@ -11,18 +11,18 @@ const NoteEditorParagraph = Paragraph.extend({
             ...baseAttrs,
             
             id: {
-                type: "number",
                 default: null,
+                keepOnSplit: false,
             },
 
             position: {
-                type: "number",
                 default: null,
+                keepOnSplit: false,
             },
 
             note: {
-                type: "object",
                 default: null,
+                keepOnSplit: true,
             },
         };
     },
