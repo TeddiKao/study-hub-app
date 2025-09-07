@@ -1,3 +1,4 @@
+from django.db import transaction
 from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError, PermissionDenied
@@ -81,8 +82,9 @@ class BulkUpdateBlocksEndpoint(APIView):
             context={"request": request}
         )
 
-        serializer.is_valid(raise_exception=True)
-        blocks = serializer.save()
+        with transaction.atomic():
+            serializer.is_valid(raise_exception=True)
+            blocks = serializer.save()
 
         tiptap_serialized_blocks = BlockTiptapSerializer(
             instance=blocks,
