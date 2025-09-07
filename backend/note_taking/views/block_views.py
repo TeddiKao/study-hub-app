@@ -69,6 +69,12 @@ class BulkUpdateBlocksEndpoint(APIView):
         if not isinstance(blocks_data, list):
             raise ValidationError({ "blocks": "This field must be a list" })
 
+        if len(blocks_data) == 0:
+            return Response({
+                "message": "No blocks to update",
+                "updated_blocks": []
+            }, status=status.HTTP_200_OK)
+
         block_ids = []
         for item in blocks_data:
             try:
