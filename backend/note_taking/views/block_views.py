@@ -1,3 +1,4 @@
+from django.db import transaction
 from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError, PermissionDenied
@@ -65,21 +66,79 @@ class BulkUpdateBlocksEndpoint(APIView):
         if blocks_data is None:
             raise ValidationError({ "blocks": "This field is required" })
 
-        note_ids = []
-        for block_data in blocks_data:
-            note_ids.append(block_data["note_id"])
+        if not isinstance(blocks_data, list):
+            raise ValidationError({ "blocks": "This field must be a list" })
 
-        blocks_queryset = list(Block.objects.filter(note_id__in=note_ids))
+        if len(blocks_data) == 0:
+            return Response({
+                "message": "No blocks to update",
+                "updated_blocks": []
+            }, status=status.HTTP_200_OK)
 
-        serializer = BulkBlockSerializer(
-            instance=blocks_queryset,
-            data=blocks_data,
-            many=True,
-            context={"request": request}
-        )
+        block_ids = []
+        seen_block_ids = set()
 
-        serializer.is_valid(raise_exception=True)
-        blocks = serializer.save()
+        for index, item in enumerate(blocks_data):
+            try:
+                block_id = int(item["id"])
+            except (KeyError, TypeError, ValueError) as err:
+                raise ValidationError({
+                    "blocks": {
+                        index: {
+                            "id": "Must be an integer"
+                        }
+                    }
+                })
+
+            if block_id in seen_block_ids:
+                raise ValidationError({
+                    "blocks": {
+                        index: {
+                            "id": f"Duplicate block ID {block_id}"
+                        }
+                    }
+                })
+
+            seen_block_ids.add(block_id)
+            block_ids.append(block_id)
+
+        with transaction.atomic():
+            blocks_queryset = list(
+                Block.objects.select_for_update().filter(
+                    id__in=block_ids,
+                    note__notebook__owner=self.request.user
+                )
+            )
+
+            instances_by_id = {}
+            for block in blocks_queryset:
+                instances_by_id[block.id] = block
+
+            instances = []
+            missing_ids: list[int] = []
+            for id in block_ids:
+                block = instances_by_id.get(id)
+                if block:
+                    instances.append(block)
+                else:
+                    missing_ids.append(id)
+
+            if missing_ids:
+                errors = []
+                for id in missing_ids:
+                    errors.append({"id": id, "error": "not found or forbidden"})
+
+                raise PermissionDenied(detail={"blocks": errors})
+
+            serializer = BulkBlockSerializer(
+                instance=instances,
+                data=blocks_data,
+                many=True,
+                context={"request": request}
+            )
+
+            serializer.is_valid(raise_exception=True)
+            blocks = serializer.save()
 
         tiptap_serialized_blocks = BlockTiptapSerializer(
             instance=blocks,
