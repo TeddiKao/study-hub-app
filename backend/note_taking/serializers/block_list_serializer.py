@@ -32,16 +32,14 @@ class BlockListSerializer(ListSerializer):
                 
                 try:
                     block.save()
+                    updated_blocks.append(block)
                 except Exception as e:
                     raise ValidationError(f"Failed to update block {block_id}: {str(e)}")
-
-                updated_blocks.append(block)
             elif not block_id:
                 try:
-                    block = Block.objects.create(**item)
+                    created_block = Block.objects.create(**item)
+                    updated_blocks.append(created_block)
                 except Exception as e:
                     raise ValidationError(f"Failed to create block: {str(e)}")
-
-                updated_blocks.append(block)
         
         return updated_blocks
