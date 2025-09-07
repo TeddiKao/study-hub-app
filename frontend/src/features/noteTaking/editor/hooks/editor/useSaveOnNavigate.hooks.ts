@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import { Editor } from "@tiptap/react";
 import { parseSerializedBlocks } from "../../utils/blocks.utils";
 import type { TiptapSerializedBlocks } from "../../types/blockSchema.types";
-import useBlockMutations from "../../hooks/blocks/useBlockMutations.hooks";
+import useBlockMutations from "../blocks/useBlockMutations.hooks";
 import useLatest from "@/shared/hooks/useLatest.hooks";
 
-function useNavigateSave(editor: Editor, noteId: number) {
+function useSaveOnNavigate(editor: Editor, noteId: number) {
     const { handleBlocksBulkUpdate } = useBlockMutations();
     const blocksBulkUpdateCallbackRef = useLatest(handleBlocksBulkUpdate);
 
@@ -31,4 +31,4 @@ function useNavigateSave(editor: Editor, noteId: number) {
     }, [editor]);
 }
 
-export default useNavigateSave;
+export default useSaveOnNavigate;
