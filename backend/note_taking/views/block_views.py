@@ -79,10 +79,12 @@ class BulkUpdateBlocksEndpoint(APIView):
                 })
 
         with transaction.atomic():
-            blocks_queryset = list(Block.objects.filter(
-                id__in=block_ids,
-                note__notebook__owner=self.request.user
-            ))
+            blocks_queryset = list(
+                Block.objects.select_for_update().filter(
+                    id__in=block_ids,
+                    note__notebook__owner=self.request.user
+                )
+            )
 
             instances_by_id = {}
             for block in blocks_queryset:
