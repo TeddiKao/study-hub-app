@@ -11,10 +11,7 @@ import useBlocksQuery from "../hooks/blocks/useBlocksQuery.hooks";
 import useLatest from "@/shared/hooks/useLatest.hooks";
 import useWindowUnloadSave from "../hooks/editor/useWindowUnloadSave.hooks";
 import useSaveOnNavigate from "../hooks/editor/useSaveOnNavigate.hooks";
-import {
-    getNodePositionById,
-    getNodePositionByIndex,
-} from "../utils/nodes.utils";
+import useEditorAttributeUpdate from "../hooks/editor/useEditorAttributeUpdate.hooks";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
@@ -45,39 +42,7 @@ function NotesEditorPage() {
         });
     }, [blocks, editor]);
 
-    useEffect(() => {
-        if (!blocks) return;
-        if (!editor) return;
-
-        blocks.forEach((block) => {
-            const position = getNodePositionById(editor, block.attrs.id);
-            if (isNullOrUndefined(position)) {
-                const positionByIndex = getNodePositionByIndex(
-                    editor,
-                    block.attrs.position
-                );
-                if (isNullOrUndefined(positionByIndex)) return;
-
-                const nodeType = editor.schema.nodes[block.type];
-                if (!nodeType) return;
-
-                editor.commands.command(({ tr: transaction }) => {
-                    transaction.setNodeMarkup(positionByIndex!, nodeType, block.attrs);
-                    return true;
-                });
-
-                return;
-            }
-
-            const nodeType = editor.schema.nodes[block.type];
-            if (!nodeType) return;
-
-            editor.commands.command(({ tr: transaction }) => {
-                transaction.setNodeMarkup(position!, nodeType, block.attrs);
-                return true;
-            });
-        });
-    }, [blocks, editor]);
+    useEditorAttributeUpdate(editor);
 
     useWindowUnloadSave(editor, Number(noteIdRef.current));
     useSaveOnNavigate(editor, Number(noteIdRef.current));
