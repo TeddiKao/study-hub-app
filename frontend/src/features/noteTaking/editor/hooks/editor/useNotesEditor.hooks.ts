@@ -25,7 +25,6 @@ function useNotesEditor() {
 
         editor.state.doc.descendants((node, pos) => {
             if (!node.type.isBlock) {
-                currentNodePosition++;
                 return;
             }
 
@@ -55,6 +54,7 @@ function useNotesEditor() {
         });
 
         if (createdParagraphs.length > 0) {
+            console.log("Creating!")
             await handleBlockBulkCreate(createdParagraphs);
             console.log(editor.getJSON());
         }
@@ -83,7 +83,7 @@ function useNotesEditor() {
             }),
         ],
         onUpdate: async (args) => {
-            handleOnUpdate(args);
+            await handleOnUpdate(args);
         },
     });
 }
