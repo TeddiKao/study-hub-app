@@ -22,4 +22,19 @@ function getNodePositionById(editor: Editor, id: number) {
     return position;
 }
 
-export { getSelectedNode, getNodePositionById };
+function getNodePositionByIndex(editor: Editor, index: number) {
+    const { doc } = editor.state;
+
+    let position = null;
+
+    doc.descendants((node, pos) => {
+        if (node.attrs.position === index) {
+            position = pos;
+            return false;
+        }
+    })
+
+    return position;
+}
+
+export { getSelectedNode, getNodePositionById, getNodePositionByIndex };
