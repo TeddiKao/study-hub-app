@@ -10,29 +10,39 @@ import { Placeholder } from "@tiptap/extensions";
 import { Text } from "@tiptap/extension-text";
 import type { RawBlockData } from "../../types/blocksApi.types";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
+import useBlockMutations from "../blocks/useBlockMutations.hooks";
 
 function useNotesEditor() {
-    function handleOnUpdate({ editor }: EditorEvents["update"]) {
+    const { handleBlockBulkCreate } = useBlockMutations();
+
+    async function handleOnUpdate({ editor }: EditorEvents["update"]) {
         if (!editor) return;
         if (editor.isEmpty) return;
 
         const createdParagraphs: RawBlockData[] = [];
+        const topLevelNodes = editor.state.doc.content;
 
-        editor.state.doc.descendants((node, pos) => {
+        let currentNodePosition = 0;
+
+        topLevelNodes.forEach((node) => {
             if (node.type.name === "note_editor_paragraph") {
                 const id = node.attrs.id;
 
                 if (isNullOrUndefined(id)) {
                     createdParagraphs.push({
                         type: "note_editor_paragraph",
-                        content: node.content.toJSON(),
-                        position: pos,
+                        content: node.content.toJSON() ?? [],
+                        position: currentNodePosition,
                     })
                 }
-            }
-        });
 
-        console.log(createdParagraphs);
+                currentNodePosition++;
+            } 
+        })
+
+        if (createdParagraphs.length > 0) {
+            await handleBlockBulkCreate(createdParagraphs);
+        }
     }
 
     return useEditor({
@@ -57,7 +67,9 @@ function useNotesEditor() {
                 },
             }),
         ],
-        onUpdate: handleOnUpdate,
+        onUpdate: async (args) => {
+            handleOnUpdate(args);
+        },
     });
 }
 
