@@ -62,6 +62,9 @@ class BulkUpdateBlocksEndpoint(APIView):
     
     def post(self, request, *args, **kwargs):
         blocks_data = request.data.get("blocks")
+        if not isinstance(blocks_data, list):
+            raise ValidationError({ "blocks": "This field must be a list" })
+
         if blocks_data is None:
             raise ValidationError({ "blocks": "This field is required" })
 
