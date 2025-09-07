@@ -1,6 +1,6 @@
 from .notebook_views import CreateNotebookEndpoint, EditNotebookEndpoint, DeleteNotebookEndpoint, FetchNotebooksEndpoint, RetrieveNotebookEndpoint
 from .note_views import FetchNotesEndpoint, CreateNoteEndpoint, DeleteNoteEndpoint, EditNoteEndpoint, RetrieveNoteEndpoint
-from .block_views import FetchBlocksEndpoint, CreateBlockEndpoint, EditBlockEndpoint, DeleteBlockEndpoint, RetrieveBlockEndpoint, BulkUpdateBlocksEndpoint
+from .block_views import FetchBlocksEndpoint, CreateBlockEndpoint, EditBlockEndpoint, DeleteBlockEndpoint, RetrieveBlockEndpoint, BulkUpdateBlocksEndpoint, BulkCreateBlocksEndpoint
 
 __all__ = [
     "CreateNotebookEndpoint", 
@@ -18,5 +18,6 @@ __all__ = [
     "RetrieveBlockEndpoint", 
     "EditBlockEndpoint", 
     "DeleteBlockEndpoint",
-    "BulkUpdateBlocksEndpoint"
+    "BulkUpdateBlocksEndpoint",
+    "BulkCreateBlocksEndpoint"
 ]
