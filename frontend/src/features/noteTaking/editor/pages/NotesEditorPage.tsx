@@ -49,11 +49,7 @@ function NotesEditorPage() {
         if (!blocks) return;
         if (!editor) return;
 
-        console.log(blocks);
-
         blocks.forEach((block) => {
-            console.log("Looping through block", block);
-
             const position = getNodePositionById(editor, block.attrs.id);
             if (isNullOrUndefined(position)) {
                 const positionByIndex = getNodePositionByIndex(
@@ -63,14 +59,9 @@ function NotesEditorPage() {
                 if (isNullOrUndefined(positionByIndex)) return;
 
                 const nodeType = editor.schema.nodes[block.type];
-                if (!nodeType) {
-                    console.warn("Node type not found");
-                    return;
-                }
+                if (!nodeType) return;
 
                 editor.commands.command(({ tr: transaction }) => {
-                    console.log(editor.state.doc.nodeAt(positionByIndex!)?.toJSON());
-
                     transaction.setNodeMarkup(positionByIndex!, nodeType, block.attrs);
                     return true;
                 });
@@ -86,8 +77,6 @@ function NotesEditorPage() {
                 return true;
             });
         });
-
-        console.log(editor.getJSON().content);
     }, [blocks, editor]);
 
     useWindowUnloadSave(editor, Number(noteIdRef.current));
