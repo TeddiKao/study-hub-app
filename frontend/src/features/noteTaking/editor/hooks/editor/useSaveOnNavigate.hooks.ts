@@ -1,4 +1,3 @@
-import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import { useEffect } from "react";
 import { Editor } from "@tiptap/react";
 import { parseSerializedBlocks } from "../../utils/blocks.utils";
@@ -14,9 +13,8 @@ function useSaveOnNavigate(editor: Editor, noteId: number) {
 
     useEffect(() => {
         return () => {
-            if (isNullOrUndefined(noteIdRef.current)) return;
-            if (Number.isNaN(noteIdRef.current)) return;
-            if (!Number.isFinite(noteIdRef.current)) return;
+            const id = Number(noteIdRef.current);
+            if (!Number.isFinite(id)) return;
 
             if (!editor) return;
             if (editor.isEmpty) return;
@@ -27,7 +25,7 @@ function useSaveOnNavigate(editor: Editor, noteId: number) {
 
             blocksBulkUpdateCallbackRef.current(
                 serializedBlocks,
-                noteIdRef.current
+                id
             );
         };
     }, [editor]);
