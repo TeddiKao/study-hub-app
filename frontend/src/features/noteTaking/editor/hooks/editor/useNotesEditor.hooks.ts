@@ -11,9 +11,11 @@ import { Text } from "@tiptap/extension-text";
 import type { RawBlockData } from "../../types/blocksApi.types";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import useBlockMutations from "../blocks/useBlockMutations.hooks";
+import { useRef } from "react";
 
 function useNotesEditor() {
     const { handleBlockBulkCreate } = useBlockMutations();
+    const processedNodesRef = useRef(new Set<number>());
 
     async function handleOnUpdate({ editor }: EditorEvents["update"]) {
         if (!editor) return;
@@ -32,6 +34,12 @@ function useNotesEditor() {
                 const id = node.attrs.id;
 
                 if (isNullOrUndefined(id)) {
+                    if (processedNodesRef.current.has(pos)) {
+                        return;
+                    }
+
+                    processedNodesRef.current.add(pos);
+
                     createdParagraphs.push({
                         type: "note_editor_paragraph",
                         content: node.content.toJSON() ?? [],
@@ -54,9 +62,8 @@ function useNotesEditor() {
         });
 
         if (createdParagraphs.length > 0) {
-            console.log("Creating!")
             await handleBlockBulkCreate(createdParagraphs);
-            console.log(editor.getJSON());
+            processedNodesRef.current.clear();
         }
     }
 
