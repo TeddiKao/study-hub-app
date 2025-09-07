@@ -11,6 +11,7 @@ import useBlocksQuery from "../hooks/blocks/useBlocksQuery.hooks";
 import useLatest from "@/shared/hooks/useLatest.hooks";
 import useWindowUnloadSave from "../hooks/editor/useWindowUnloadSave.hooks";
 import useSaveOnNavigate from "../hooks/editor/useSaveOnNavigate.hooks";
+import { getNodePositionById, getNodePositionByIndex } from "../utils/nodes.utils";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
@@ -40,6 +41,45 @@ function NotesEditorPage() {
             type: "doc",
             content: blocks,
         });
+    }, [blocks, editor]);
+
+    useEffect(() => {
+        if (!blocks) return;
+        if (!editor) return;
+
+        console.log(blocks);
+
+        blocks.forEach((block) => {
+            if (isNullOrUndefined(block.attrs.id)) {
+                const position = getNodePositionByIndex(editor, block.attrs.position);
+                if (isNullOrUndefined(position)) return;
+                
+                const nodeType = editor.schema.nodes[block.type];
+                if (!nodeType) return;
+
+                editor.commands.command(({ tr: transaction }) => {
+                    console.log(editor.state.doc.nodeAt(position!)?.toJSON())
+                    
+                    transaction.setNodeMarkup(position!, nodeType, block.attrs);
+                    return true;
+                })
+
+                return;
+            }
+
+            const position = getNodePositionById(editor, block.attrs.id);
+            if (isNullOrUndefined(position)) return;
+
+            const nodeType = editor.schema.nodes[block.type];
+            if (!nodeType) return;
+
+            editor.commands.command(({ tr: transaction }) => {
+                console.log(editor.state.doc.nodeAt(position!)?.toJSON())
+                
+                transaction.setNodeMarkup(position!, nodeType, block.attrs);
+                return true;
+            })
+        })
     }, [blocks, editor]);
 
     useWindowUnloadSave(editor, Number(noteIdRef.current));
