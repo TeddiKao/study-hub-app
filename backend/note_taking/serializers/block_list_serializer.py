@@ -43,5 +43,5 @@ class BlockListSerializer(ListSerializer):
                         updated_blocks.append(created_block)
                     except Exception as e:
                         raise ValidationError(f"Failed to create block: {str(e)}")
-            
-            return updated_blocks
+
+            return instance
