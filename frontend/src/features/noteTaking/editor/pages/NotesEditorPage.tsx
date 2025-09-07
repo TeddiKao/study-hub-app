@@ -11,9 +11,8 @@ import useBlocksQuery from "../hooks/blocks/useBlocksQuery.hooks";
 import { parseSerializedBlocks } from "../utils/blocks.utils";
 import type { TiptapSerializedBlocks } from "../types/blockSchema.types";
 import useBlockMutations from "../hooks/blocks/useBlockMutations.hooks";
-import { sendBeacon } from "@/shared/utils/api.utils";
-import { BACKEND_BASE, BLOCKS_BASE } from "@/app/api/api.constants";
 import useLatest from "@/shared/hooks/useLatest.hooks";
+import useWindowUnloadSave from "../hooks/editor/useWindowUnloadSave.hooks";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
@@ -48,26 +47,7 @@ function NotesEditorPage() {
         });
     }, [blocks, editor]);
 
-    useEffect(() => {
-        const onBeforeUnload = () => {
-            if (!editor) return;
-            if (editor.isEmpty) return;
-
-            const formattedBlocks = parseSerializedBlocks(
-                editor.getJSON().content as TiptapSerializedBlocks
-            );
-
-            sendBeacon(`${BACKEND_BASE}/${BLOCKS_BASE}/bulk-update/`, {
-                blocks: formattedBlocks,
-            });
-        };
-
-        window.addEventListener("beforeunload", onBeforeUnload);
-
-        return () => {
-            window.removeEventListener("beforeunload", onBeforeUnload);
-        };
-    }, [editor, noteId]);
+    useWindowUnloadSave(editor, Number(noteIdRef.current));
 
     useEffect(() => {
         return () => {
