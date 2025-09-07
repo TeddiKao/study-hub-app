@@ -83,8 +83,21 @@ class BulkUpdateBlocksEndpoint(APIView):
             note__notebook__owner=self.request.user
         ))
 
+        instances_by_id = {}
+        for block in blocks_queryset:
+            instances_by_id[block.id] = block
+
+        instances = []
+        for id in block_ids:
+            try:
+                instances.append(instances_by_id[id])
+            except KeyError:
+                raise PermissionDenied(
+                    "One or more blocks do not exist, or you may lack access to them"
+                )
+
         serializer = BulkBlockSerializer(
-            instance=blocks_queryset,
+            instance=instances,
             data=blocks_data,
             many=True,
             context={"request": request}
