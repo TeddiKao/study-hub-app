@@ -10,6 +10,8 @@ function useWindowUnloadSave(editor: Editor | null, noteId: number) {
         const onBeforeUnload = () => {
             if (!editor) return;
             if (editor.isEmpty) return;
+            if (Number.isNaN(noteId)) return;
+            if (!Number.isFinite(noteId)) return;
 
             const formattedBlocks = parseSerializedBlocks(
                 editor.getJSON().content as TiptapSerializedBlocks
