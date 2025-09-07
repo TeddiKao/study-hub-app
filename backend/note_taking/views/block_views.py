@@ -91,13 +91,20 @@ class BulkUpdateBlocksEndpoint(APIView):
                 instances_by_id[block.id] = block
 
             instances = []
+            missing_ids: list[int] = []
             for id in block_ids:
-                try:
-                    instances.append(instances_by_id[id])
-                except KeyError:
-                    raise PermissionDenied(
-                        "One or more blocks do not exist, or you may lack access to them"
-                    )
+                block = instances_by_id.get(id)
+                if block:
+                    instances.append(block)
+                else:
+                    missing_ids.append(id)
+
+            if missing_ids:
+                errors = []
+                for id in missing_ids:
+                    errors.append({"id": id, "error": "not found or forbidden"})
+
+                raise PermissionDenied(detail={"blocks": errors})
 
             serializer = BulkBlockSerializer(
                 instance=instances,
