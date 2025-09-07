@@ -37,8 +37,13 @@ interface BulkUpdateBlocksSuccess extends ApiSuccessResponse {
     updatedBlocks: TiptapSerializedBlocks;
 }
 
+interface BulkCreateBlocksSuccess extends ApiSuccessResponse {
+    createdBlocks: TiptapSerializedBlocks;
+}
+
 type DeleteBlockSuccess = ApiSuccessResponse;
 type BulkBlockUpdateRequest = BlockUpdateRequest[];
+type BulkBlockCreateRequest = RawBlockData[];
 
 export type {
     RawBlockData,
@@ -50,4 +55,6 @@ export type {
     BulkUpdateBlocksSuccess,
     BlockUpdateRequest,
     BulkBlockUpdateRequest,
+    BulkBlockCreateRequest,
+    BulkCreateBlocksSuccess,
 };
