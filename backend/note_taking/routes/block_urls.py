@@ -2,6 +2,7 @@ from django.urls import path
 from ..views import (
     FetchBlocksEndpoint,
     BulkUpdateBlocksEndpoint,
+    BulkCreateBlocksEndpoint,
     CreateBlockEndpoint,
     RetrieveBlockEndpoint,
     EditBlockEndpoint,
@@ -10,6 +11,7 @@ from ..views import (
 
 urlpatterns = [
     path("", FetchBlocksEndpoint.as_view(), name="fetch_blocks"),
+    path("bulk-create/", BulkCreateBlocksEndpoint.as_view(), name="bulk_create_blocks"),
     path("bulk-update/", BulkUpdateBlocksEndpoint.as_view(), name="bulk_update_blocks"),
     path("block/create/", CreateBlockEndpoint.as_view(), name="create_block"),
     path("block/<int:pk>/", RetrieveBlockEndpoint.as_view(), name="retrieve_block"),
