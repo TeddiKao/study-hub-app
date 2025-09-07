@@ -8,13 +8,15 @@ import useLatest from "@/shared/hooks/useLatest.hooks";
 
 function useSaveOnNavigate(editor: Editor, noteId: number) {
     const { handleBlocksBulkUpdate } = useBlockMutations();
+
     const blocksBulkUpdateCallbackRef = useLatest(handleBlocksBulkUpdate);
+    const noteIdRef = useLatest(noteId);
 
     useEffect(() => {
         return () => {
-            if (isNullOrUndefined(noteId)) return;
-            if (Number.isNaN(noteId)) return;
-            if (!Number.isFinite(noteId)) return;
+            if (isNullOrUndefined(noteIdRef.current)) return;
+            if (Number.isNaN(noteIdRef.current)) return;
+            if (!Number.isFinite(noteIdRef.current)) return;
 
             if (!editor) return;
             if (editor.isEmpty) return;
@@ -25,7 +27,7 @@ function useSaveOnNavigate(editor: Editor, noteId: number) {
 
             blocksBulkUpdateCallbackRef.current(
                 serializedBlocks,
-                noteId
+                noteIdRef.current
             );
         };
     }, [editor]);
