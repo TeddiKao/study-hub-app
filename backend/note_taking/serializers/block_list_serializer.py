@@ -20,7 +20,6 @@ class BlockListSerializer(ListSerializer):
             for block in instance:
                 block_mapping[block.id] = block
 
-            updated_blocks = []
             for item in validated_data:
                 block_id = item.pop("block_id", None)
 
@@ -34,13 +33,11 @@ class BlockListSerializer(ListSerializer):
                     
                     try:
                         block.save()
-                        updated_blocks.append(block)
                     except Exception as e:
                         raise ValidationError(f"Failed to update block {block_id}: {str(e)}")
                 elif not block_id:
                     try:
-                        created_block = Block.objects.create(**item)
-                        updated_blocks.append(created_block)
+                        Block.objects.create(**item)
                     except Exception as e:
                         raise ValidationError(f"Failed to create block: {str(e)}")
 
