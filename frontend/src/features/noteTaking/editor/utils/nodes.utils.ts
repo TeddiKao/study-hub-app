@@ -7,7 +7,7 @@ function getSelectedNode(editor: Editor) {
     return $from.parent;
 }
 
-function getNodePositionById(editor: Editor, id: number) {
+function getNodePositionById(editor: Editor, id: string | number) {
     const { doc } = editor.state;
 
     let position = null;
