@@ -10,16 +10,12 @@ def normalize_ids(ids: Iterable[Hashable]) -> list[int]:
             id = int(raw)
         except (ValueError, TypeError):
             raise ValidationError({
-                "ids": {
-                    index: "Must be an integer"
-                }
+                "ids": [f"Index {index}: Must be an integer"]
             })
 
         if id in seen_ids:
             raise ValidationError({
-                "ids": {
-                    index: "Duplicate ID"
-                }
+                "ids": [f"Index {index}: Duplicate ID"]
             })
 
         seen_ids.add(id)
