@@ -11,15 +11,17 @@ class BlockListSerializer(ListSerializer):
         blocks = []
         with transaction.atomic():
             greatest_position = Block.objects.aggregate(max_position=Max("position")).get("max_position")
+            temp_id_mapping = {}
 
             for item in validated_data:
                 item["note"] = item.pop("note_id", None)
-                item["temp_block_id"] = item.pop("temp_block_id", None)
+                temp_block_id = item.pop("temp_block_id", None)
 
                 if not item.get("id"):
                     item["position"] = greatest_position + 1
                     try:
-                        blocks.append(Block.objects.create(**item))
+                        created_block = blocks.append(Block.objects.create(**item))
+                        temp_id_mapping[created_block.id] = temp_block_id
                     except Exception as e:
                         raise ValidationError(f"Failed to create block: {str(e)}")
 
