@@ -12,11 +12,18 @@ import useLatest from "@/shared/hooks/useLatest.hooks";
 import useWindowUnloadSave from "../hooks/editor/useWindowUnloadSave.hooks";
 import useSaveOnNavigate from "../hooks/editor/useSaveOnNavigate.hooks";
 import useEditorAttributeUpdate from "../hooks/editor/useEditorAttributeUpdate.hooks";
+import { useEditorStateStore } from "../stores/editorState.stores";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
     const { data: blocks, isLoading, error } = useBlocksQuery();
     const { updateCurrentNoteId, clearCurrentNoteId } = useBlocksStore();
+    const {
+        clearSelectedBlockId,
+        clearSelectedBlockContent,
+        clearSelectedBlockType,
+        clearSelectedBlockPosition,
+    } = useEditorStateStore();
     const noteIdRef = useLatest(noteId);
 
     const editor = useNotesEditor();
@@ -30,6 +37,20 @@ function NotesEditorPage() {
             clearCurrentNoteId();
         };
     }, [noteId, updateCurrentNoteId, clearCurrentNoteId]);
+
+    useEffect(() => {
+        return () => {
+            clearSelectedBlockId();
+            clearSelectedBlockContent();
+            clearSelectedBlockType();
+            clearSelectedBlockPosition();
+        };
+    }, [
+        clearSelectedBlockId,
+        clearSelectedBlockContent,
+        clearSelectedBlockType,
+        clearSelectedBlockPosition,
+    ]);
 
     useEffect(() => {
         if (!blocks) return;
