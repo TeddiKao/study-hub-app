@@ -19,7 +19,7 @@ function getDeletedNodeIds(oldDoc: ProseMirrorNode, newDoc: ProseMirrorNode) {
             return newNodeId === oldNodeId;
         })
 
-        if (!isNullOrUndefined(newNode)) {
+        if (isNullOrUndefined(newNode) && !isNullOrUndefined(oldNodeId)) {
             deletedNodeIds.add(oldNodeId);
         }
     });
