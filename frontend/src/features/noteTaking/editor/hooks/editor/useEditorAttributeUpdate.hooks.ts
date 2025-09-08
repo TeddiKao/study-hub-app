@@ -13,15 +13,15 @@ function useEditorAttributeUpdate(editor: Editor) {
 
         blocks.forEach((block) => {
             const position = getNodePositionById(editor, block.attrs.id);
+            const nodeType = editor.schema.nodes[block.type];
+            if (!nodeType) return;
+
             if (isNullOrUndefined(position)) {
                 const positionByIndex = getNodePositionByIndex(
                     editor,
                     block.attrs.position
                 );
                 if (isNullOrUndefined(positionByIndex)) return;
-
-                const nodeType = editor.schema.nodes[block.type];
-                if (!nodeType) return;
 
                 editor.commands.command(({ tr: transaction }) => {
                     transaction.setNodeMarkup(
@@ -34,9 +34,6 @@ function useEditorAttributeUpdate(editor: Editor) {
 
                 return;
             }
-
-            const nodeType = editor.schema.nodes[block.type];
-            if (!nodeType) return;
 
             editor.commands.command(({ tr: transaction }) => {
                 transaction.setNodeMarkup(position!, nodeType, block.attrs);
