@@ -182,6 +182,18 @@ class BulkUpdateBlocksEndpoint(APIView):
             "updated_blocks": tiptap_serialized_blocks 
         }, status=status.HTTP_200_OK)
 
+class BulkDeleteBlocksEndpoint(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [BeaconJWTAuthentication]
+    
+    def delete(self, request, *args, **kwargs):
+        block_ids = request.data.get("block_ids")
+        if block_ids is None:
+            raise ValidationError({ "block_ids": "This field is required" })
+
+        if not isinstance(block_ids, list):
+            raise ValidationError({ "block_ids": "This field must be a list" })
+
 class RetrieveBlockEndpoint(RetrieveAPIView):
     serializer_class = BlockSerializer
     permission_classes = [IsAuthenticated]
