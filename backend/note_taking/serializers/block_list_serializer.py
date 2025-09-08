@@ -27,6 +27,7 @@ class BlockListSerializer(ListSerializer):
                     except Exception as e:
                         raise ValidationError(f"Failed to create block: {str(e)}")
 
+            self.child.context["temp_id_mapping"] = temp_id_mapping
             return blocks
 
     def update(self, instance, validated_data):
