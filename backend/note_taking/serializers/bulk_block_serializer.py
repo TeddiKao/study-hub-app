@@ -16,6 +16,7 @@ class BulkBlockSerializer(ModelSerializer):
         queryset=Note.objects.none(),
         write_only=True,
     )
+    position = serializers.IntegerField(required=False, read_only=False)
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -37,6 +38,11 @@ class BulkBlockSerializer(ModelSerializer):
     class Meta:
         model = Block
         fields = ["id", "block_id", "type", "content", "note", "note_id", "position", "temp_block_id"]
-        read_only_fields = ["id", "position"]
+        read_only_fields = ["id"]
         list_serializer_class = BlockListSerializer
+        extra_kwargs = {
+            "position": {
+                "required": False
+            }
+        }
     
