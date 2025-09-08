@@ -5,9 +5,11 @@ import {
     editBlock,
     deleteBlock,
     bulkUpdateBlocks,
+    bulkCreateBlocks,
 } from "../../services/blocks.services";
 import { useBlocksStore } from "../../stores/blocks.stores";
 import type {
+    BulkBlockCreateRequest,
     BulkBlockUpdateRequest,
     RawBlockData,
 } from "../../types/blocksApi.types";
@@ -73,6 +75,25 @@ function useBlockMutations() {
         await queryClient.invalidateQueries({
             queryKey: ["blocks", currentNoteId],
         });
+    }
+
+    async function handleBlockBulkCreate(blocks: BulkBlockCreateRequest) {
+        if (isNullOrUndefined(currentNoteId)) {
+            return;
+        }
+
+        const bulkCreateBlocksResponse = await bulkCreateBlocks(blocks);
+        if (!bulkCreateBlocksResponse.success) {
+            throw new Error(bulkCreateBlocksResponse.error);
+        }
+
+        queryClient.setQueryData(
+            ["blocks", currentNoteId],
+            (oldBlocks: TiptapSerializedBlocks) =>
+                oldBlocks
+                    ? [...oldBlocks, ...bulkCreateBlocksResponse.createdBlocks]
+                    : bulkCreateBlocksResponse.createdBlocks
+        );
     }
 
     async function handleBlocksBulkUpdate(
@@ -144,6 +165,7 @@ function useBlockMutations() {
         handleBlockUpdate,
         handleBlocksBulkUpdate,
         handleBlockDelete,
+        handleBlockBulkCreate,
     };
 }
 

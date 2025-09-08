@@ -1,11 +1,11 @@
 import api from "@/app/api/api";
 import { BLOCKS_BASE } from "@/app/api/api.constants";
-import type {
-    ApiErrorResponse,
-} from "@/shared/types/api.types";
+import type { ApiErrorResponse } from "@/shared/types/api.types";
 import { isAxiosError } from "axios";
 import type {
+    BulkBlockCreateRequest,
     BulkBlockUpdateRequest,
+    BulkCreateBlocksSuccess,
     BulkUpdateBlocksSuccess,
     CreateBlockSuccess,
     DeleteBlockSuccess,
@@ -25,7 +25,7 @@ async function fetchBlocks(
             },
         });
 
-        console.log(response.data)
+        console.log(response.data);
 
         return {
             success: true,
@@ -79,6 +79,36 @@ async function createBlock(
     }
 }
 
+async function bulkCreateBlocks(
+    blocks: BulkBlockCreateRequest
+): Promise<BulkCreateBlocksSuccess | ApiErrorResponse> {
+    try {
+        const response = await api.post(`${BLOCKS_BASE}/bulk-create/`, {
+            blocks: blocks,
+        });
+
+        return {
+            success: true,
+            message: "Successfully created blocks",
+            createdBlocks: response.data.createdBlocks,
+        }               
+    } catch (error) {
+        console.error(error);
+
+        if (!isAxiosError(error)) {
+            return {
+                success: false,
+                error: "Failed to create blocks",
+            };
+        }
+
+        return {
+            success: false,
+            error: error.response?.data?.error ?? "Failed to create blocks",
+        };
+    }
+}
+
 async function retrieveBlock(
     blockId: number
 ): Promise<RetrieveBlockSuccess | ApiErrorResponse> {
@@ -117,7 +147,7 @@ async function editBlock(
                 type: blockData.type,
                 content: blockData.content,
                 position: blockData.position,
-                noteId: noteId
+                noteId: noteId,
             }
         );
 
@@ -150,7 +180,7 @@ async function bulkUpdateBlocks(
         const response = await api.post(`${BLOCKS_BASE}/bulk-update/`, {
             blocks: blocks,
         });
-        
+
         return {
             success: true,
             message: response.data.message,
@@ -196,4 +226,12 @@ async function deleteBlock(
     }
 }
 
-export { fetchBlocks, createBlock, retrieveBlock, editBlock, deleteBlock, bulkUpdateBlocks };
+export {
+    fetchBlocks,
+    createBlock,
+    retrieveBlock,
+    editBlock,
+    deleteBlock,
+    bulkUpdateBlocks,
+    bulkCreateBlocks,
+};

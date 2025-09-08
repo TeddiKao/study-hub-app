@@ -11,12 +11,12 @@ import useBlocksQuery from "../hooks/blocks/useBlocksQuery.hooks";
 import useLatest from "@/shared/hooks/useLatest.hooks";
 import useWindowUnloadSave from "../hooks/editor/useWindowUnloadSave.hooks";
 import useSaveOnNavigate from "../hooks/editor/useSaveOnNavigate.hooks";
+import useEditorAttributeUpdate from "../hooks/editor/useEditorAttributeUpdate.hooks";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
     const { data: blocks, isLoading, error } = useBlocksQuery();
-    const { updateCurrentNoteId, clearCurrentNoteId } =
-        useBlocksStore();
+    const { updateCurrentNoteId, clearCurrentNoteId } = useBlocksStore();
     const noteIdRef = useLatest(noteId);
 
     const editor = useNotesEditor();
@@ -41,6 +41,8 @@ function NotesEditorPage() {
             content: blocks,
         });
     }, [blocks, editor]);
+
+    useEditorAttributeUpdate(editor);
 
     useWindowUnloadSave(editor, Number(noteIdRef.current));
     useSaveOnNavigate(editor, Number(noteIdRef.current));

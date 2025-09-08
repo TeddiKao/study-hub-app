@@ -57,6 +57,37 @@ class EditBlockEndpoint(UpdateAPIView):
 
         serializer.save()
 
+class BulkCreateBlocksEndpoint(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        blocks_data = request.data.get("blocks")
+        if blocks_data is None:
+            raise ValidationError({ "blocks": "This field is required" })
+
+        if not isinstance(blocks_data, list):
+            raise ValidationError({ "blocks": "This field must be a list" })
+
+        serializer = BulkBlockSerializer(
+            data=blocks_data,
+            many=True,
+            context={"request": request}
+        )
+
+        serializer.is_valid(raise_exception=True)
+        created_blocks = serializer.save()
+
+        tiptap_serialized_blocks = BlockTiptapSerializer(
+            instance=created_blocks,
+            many=True,
+            context={"request": request}
+        ).data
+
+        return Response({
+            "message": "Blocks created successfully",
+            "created_blocks": tiptap_serialized_blocks
+        }, status=status.HTTP_201_CREATED)
+
 class BulkUpdateBlocksEndpoint(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [BeaconJWTAuthentication]
