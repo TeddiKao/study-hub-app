@@ -43,6 +43,8 @@ interface BulkCreateBlocksSuccess extends ApiSuccessResponse {
 }
 
 type DeleteBlockSuccess = ApiSuccessResponse;
+type BulkDeleteBlocksSuccess = ApiSuccessResponse;
+
 type BulkBlockUpdateRequest = BlockUpdateRequest[];
 type BulkBlockCreateRequest = RawBlockData[];
 type BulkBlockDeleteRequest = number[];
@@ -60,4 +62,5 @@ export type {
     BulkBlockCreateRequest,
     BulkBlockDeleteRequest,
     BulkCreateBlocksSuccess,
+    BulkDeleteBlocksSuccess,
 };
