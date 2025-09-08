@@ -12,33 +12,22 @@ import type { RawBlockData } from "../../types/blocksApi.types";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import useBlockMutations from "../blocks/useBlockMutations.hooks";
 import { useRef } from "react";
-import type { Block } from "../../types/blockSchema.types";
-import { getSelectedNode } from "../../utils/nodes.utils";
+import { getDeletedNodeIds } from "../../utils/editor.utils";
 
 function useNotesEditor() {
     const { handleBlockBulkCreate } = useBlockMutations();
     const processedNodesRef = useRef(new Set<number>());
 
-    async function handleBlockDeletion({ editor }: EditorEvents["update"]) {
+    async function handleBlockDeletion({ editor, transaction }: EditorEvents["update"]) {
         if (!editor) return;
         if (editor.isEmpty) return;
 
-        const deletedParagraphIds: Block["id"][] = [];
-        const selectedNode = getSelectedNode(editor);
+        const oldDoc = transaction.before;
+        const newDoc = transaction.doc;
 
-        editor.state.doc.forEach((node) => {
-            if (node.content.size === 0) {
-                const { id } = node.attrs;
+        const deletedNodeIds = getDeletedNodeIds(oldDoc, newDoc);
 
-                if (isNullOrUndefined(id)) return;
-
-                if (selectedNode?.attrs.id === id) return;
-
-                deletedParagraphIds.push(id);
-            }
-        })
-
-        console.log(deletedParagraphIds);
+        console.log(deletedNodeIds);
     }
 
     async function handleBlockCreation({ editor }: EditorEvents["update"]) {
