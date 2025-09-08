@@ -17,7 +17,7 @@ function useNotesEditor() {
     const { handleBlockBulkCreate } = useBlockMutations();
     const processedNodesRef = useRef(new Set<number>());
 
-    async function handleOnUpdate({ editor }: EditorEvents["update"]) {
+    async function handleBlockCreation({ editor }: EditorEvents["update"]) {
         if (!editor) return;
         if (editor.isEmpty) return;
 
@@ -90,7 +90,7 @@ function useNotesEditor() {
             }),
         ],
         onUpdate: async (args) => {
-            await handleOnUpdate(args);
+            await handleBlockCreation(args);
         },
     });
 }
