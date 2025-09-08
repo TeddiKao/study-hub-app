@@ -1,7 +1,7 @@
-from typing import Any
+from typing import Hashable, Iterable
 from django.core.exceptions import ValidationError
 
-def normalize_ids(ids: list[Any]) -> list[int]:
+def normalize_ids(ids: Iterable[Hashable]) -> list[int]:
     normalized_ids = []
     seen_ids = set()
 
