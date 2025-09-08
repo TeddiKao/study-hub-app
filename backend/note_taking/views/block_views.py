@@ -194,6 +194,9 @@ class BulkDeleteBlocksEndpoint(APIView):
         if not isinstance(block_ids, list):
             raise ValidationError({ "block_ids": "This field must be a list" })
 
+        if not are_items_unique(block_ids):
+            raise ValidationError({ "block_ids": "Duplicate block IDs" })
+
         with transaction.atomic():
             blocks_queryset = list(
                 Block.objects.select_for_update().filter(
