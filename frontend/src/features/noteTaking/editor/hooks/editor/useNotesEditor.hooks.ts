@@ -13,6 +13,7 @@ import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import useBlockMutations from "../blocks/useBlockMutations.hooks";
 import { useRef } from "react";
 import type { Block } from "../../types/blockSchema.types";
+import { getSelectedNode } from "../../utils/nodes.utils";
 
 function useNotesEditor() {
     const { handleBlockBulkCreate } = useBlockMutations();
@@ -23,12 +24,15 @@ function useNotesEditor() {
         if (editor.isEmpty) return;
 
         const deletedParagraphIds: Block["id"][] = [];
+        const selectedNode = getSelectedNode(editor);
 
         editor.state.doc.forEach((node) => {
             if (node.content.size === 0) {
                 const { id } = node.attrs;
 
                 if (isNullOrUndefined(id)) return;
+
+                if (selectedNode?.attrs.id === id) return;
 
                 deletedParagraphIds.push(id);
             }
