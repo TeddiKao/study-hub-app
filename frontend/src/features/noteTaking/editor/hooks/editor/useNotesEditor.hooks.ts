@@ -15,7 +15,7 @@ import { useRef } from "react";
 import { getDeletedNodeIds } from "../../utils/editor.utils";
 
 function useNotesEditor() {
-    const { handleBlockBulkCreate } = useBlockMutations();
+    const { handleBlockBulkCreate, handleBlocksBulkDelete } = useBlockMutations();
     const processedNodesRef = useRef(new Set<number>());
 
     async function handleBlockDeletion({ editor, transaction }: EditorEvents["update"]) {
@@ -27,7 +27,9 @@ function useNotesEditor() {
 
         const deletedNodeIds = getDeletedNodeIds(oldDoc, newDoc);
 
-        console.log(deletedNodeIds);
+        if (deletedNodeIds.size > 0) {
+            await handleBlocksBulkDelete([...deletedNodeIds]);
+        }
     }
 
     async function handleBlockCreation({ editor }: EditorEvents["update"]) {
