@@ -30,7 +30,7 @@ function useNotesEditor() {
                 return;
             }
 
-            if (node.type.name === "note_editor_paragraph") {
+            if (node.type.name === NoteEditorParagraph.name) {
                 const id = node.attrs.id;
 
                 if (isNullOrUndefined(id)) {
@@ -41,7 +41,7 @@ function useNotesEditor() {
                     processedNodesRef.current.add(pos);
 
                     createdParagraphs.push({
-                        type: "note_editor_paragraph",
+                        type: NoteEditorParagraph.name,
                         content: node.content.toJSON() ?? [],
                         position: currentNodePosition,
                         noteId: node.attrs.note.id,
