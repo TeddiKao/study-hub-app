@@ -7,6 +7,7 @@ import type {
     BulkBlockDeleteRequest,
     BulkBlockUpdateRequest,
     BulkCreateBlocksSuccess,
+    BulkDeleteBlocksSuccess,
     BulkUpdateBlocksSuccess,
     CreateBlockSuccess,
     DeleteBlockSuccess,
@@ -92,7 +93,7 @@ async function bulkCreateBlocks(
             success: true,
             message: "Successfully created blocks",
             createdBlocks: response.data.createdBlocks,
-        }               
+        };
     } catch (error) {
         console.error(error);
 
@@ -227,7 +228,9 @@ async function deleteBlock(
     }
 }
 
-async function bulkDeleteBlocks(blocks: BulkBlockDeleteRequest) {
+async function bulkDeleteBlocks(
+    blocks: BulkBlockDeleteRequest
+): Promise<BulkDeleteBlocksSuccess | ApiErrorResponse> {
     try {
         await api.delete(`${BLOCKS_BASE}/bulk-delete/`, {
             data: {
@@ -238,7 +241,7 @@ async function bulkDeleteBlocks(blocks: BulkBlockDeleteRequest) {
         return {
             success: true,
             message: "Blocks deleted successfully",
-        }
+        };
     } catch (error) {
         if (!isAxiosError(error)) {
             return {
