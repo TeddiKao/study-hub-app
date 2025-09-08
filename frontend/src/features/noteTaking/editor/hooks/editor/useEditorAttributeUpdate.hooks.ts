@@ -38,7 +38,7 @@ function useEditorAttributeUpdate(editor: Editor) {
             }
 
             editor.commands.command(({ tr: transaction }) => {
-                transaction.setNodeMarkup(position!, nodeType, block.attrs);
+                transaction.setNodeMarkup(nodePosition!, nodeType, block.attrs);
                 return true;
             });
         });
