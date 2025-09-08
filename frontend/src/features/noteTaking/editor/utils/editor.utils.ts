@@ -15,6 +15,8 @@ function getDeletedNodeIds(oldDoc: ProseMirrorNode, newDoc: ProseMirrorNode) {
         const oldNodeAttrs = oldNode.attrs;
         const { id: oldNodeId } = oldNodeAttrs ?? {};
 
+        if (typeof oldNodeId !== "number") return;
+
         const newNode = newDocContent.find((node: JSONContent) => {
             const newNodeAttrs = node.attrs;
             const { id: newNodeId } = newNodeAttrs ?? {};
