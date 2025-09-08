@@ -25,7 +25,7 @@ class BulkBlockSerializer(ModelSerializer):
         if temp_id_mapping:
             data["temp_block_id"] = temp_id_mapping.get(data["id"])
 
-        return camelize(data)
+        return data
 
 
     def __init__(self, *args, **kwargs):
