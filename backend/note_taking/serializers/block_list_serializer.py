@@ -27,13 +27,7 @@ class BlockListSerializer(ListSerializer):
                     except Exception as e:
                         raise ValidationError(f"Failed to create block: {str(e)}")
 
-            serialized_blocks = self.child.to_representation(blocks)
-            for block in serialized_blocks:
-                temp_block_id = temp_id_mapping.get(block["id"])
-                if temp_block_id:
-                    block["temp_block_id"] = temp_block_id
-
-        return serialized_blocks
+            return blocks
 
     def update(self, instance, validated_data):
         with transaction.atomic():
