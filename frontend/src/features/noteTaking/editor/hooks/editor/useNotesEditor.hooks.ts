@@ -8,7 +8,7 @@ import { Underline } from "@tiptap/extension-underline";
 import { Heading } from "@tiptap/extension-heading";
 import { Placeholder } from "@tiptap/extensions";
 import { Text } from "@tiptap/extension-text";
-import type { RawBlockData } from "../../types/blocksApi.types";
+import type { BulkBlockCreateRequest } from "../../types/blocksApi.types";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import useBlockMutations from "../blocks/useBlockMutations.hooks";
 import { useRef } from "react";
@@ -35,7 +35,7 @@ function useNotesEditor() {
         if (!editor) return;
         if (editor.isEmpty) return;
 
-        const createdParagraphs: RawBlockData[] = [];
+        const createdParagraphs: BulkBlockCreateRequest[] = [];
 
         let currentNodePosition = 0;
 
@@ -59,6 +59,7 @@ function useNotesEditor() {
                         content: node.content.toJSON() ?? [],
                         position: currentNodePosition,
                         noteId: node.attrs?.note?.id,
+                        tempBlockId: crypto.randomUUID(),
                     });
 
                     editor.commands.command(({ tr: transaction }) => {
