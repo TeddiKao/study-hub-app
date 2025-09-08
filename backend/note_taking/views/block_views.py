@@ -199,8 +199,10 @@ class BulkDeleteBlocksEndpoint(APIView):
                 "message": "No blocks to delete"
             }, status=status.HTTP_200_OK)
 
-        if not are_items_unique(block_ids):
-            raise ValidationError({ "block_ids": "Duplicate block IDs" })
+        try:
+            block_ids = normalize_ids(block_ids)
+        except ValidationError as err:
+            raise ValidationError({ "block_ids": err })
 
         with transaction.atomic():
             blocks_queryset = Block.objects.select_for_update().filter(
