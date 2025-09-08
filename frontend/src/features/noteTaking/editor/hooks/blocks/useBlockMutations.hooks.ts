@@ -170,13 +170,16 @@ function useBlockMutations() {
         const deleteBlockResponse = await bulkDeleteBlocks(blockIds);
         if (!deleteBlockResponse.success) {
             throw new Error(deleteBlockResponse.error);
-        };
+        }
 
-        queryClient.setQueryData(["blocks", currentNoteId], (oldBlocks: Blocks) => {
-            return oldBlocks
-                ? oldBlocks.filter((block) => !blockIds.includes(block.id))
-                : oldBlocks ?? [];
-        })
+        queryClient.setQueryData(
+            ["blocks", currentNoteId],
+            (oldBlocks: TiptapSerializedBlocks) => {
+                return oldBlocks
+                    ? oldBlocks.filter((block) => !blockIds.includes(block.attrs.id))
+                    : oldBlocks ?? [];
+            }
+        );
 
         await queryClient.invalidateQueries({
             queryKey: ["blocks", currentNoteId],

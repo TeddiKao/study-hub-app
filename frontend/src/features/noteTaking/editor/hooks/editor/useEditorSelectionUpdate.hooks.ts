@@ -40,11 +40,13 @@ function useEditorSelectionUpdate(editor: Editor) {
             const prevSelectedBlockType = selectedBlockType;
             const prevSelectedBlockPosition = selectedBlockPosition;
 
-            await handleBlockUpdate(prevSelectedNodeId!, {
-                type: prevSelectedBlockType!,
-                content: prevSelectedBlockContent!,
-                position: prevSelectedBlockPosition!,
-            });
+            if ((prevSelectedBlockContent?.length ?? 0) > 0) {
+                await handleBlockUpdate(prevSelectedNodeId!, {
+                    type: prevSelectedBlockType!,
+                    content: prevSelectedBlockContent!,
+                    position: prevSelectedBlockPosition!,
+                });
+            }
         }
 
         updateSelectedBlockId(id);
