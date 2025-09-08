@@ -194,6 +194,20 @@ class BulkDeleteBlocksEndpoint(APIView):
         if not isinstance(block_ids, list):
             raise ValidationError({ "block_ids": "This field must be a list" })
 
+        with transaction.atomic():
+            blocks_queryset = list(
+                Block.objects.select_for_update().filter(
+                    id__in=block_ids,
+                    note__notebook__owner=self.request.user
+                )
+            )
+
+            blocks_queryset.delete()
+
+        return Response({
+            "message": "Blocks deleted successfully"
+        }, status=status.HTTP_200_OK)
+
 class RetrieveBlockEndpoint(RetrieveAPIView):
     serializer_class = BlockSerializer
     permission_classes = [IsAuthenticated]
