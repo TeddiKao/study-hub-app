@@ -24,7 +24,7 @@ class PlainTiptapSerializer(Serializer):
             "id": instance.get("id"),
             "position": instance.get("position"),
             "note": instance.get("note"),
-            "temp_id": instance.get("temp_block_id")
+            "temp_block_id": instance.get("temp_block_id")
         }
 
         return serialized_data
