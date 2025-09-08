@@ -25,6 +25,6 @@ class BulkBlockSerializer(ModelSerializer):
     class Meta:
         model = Block
         fields = ["id", "block_id", "type", "content", "note", "note_id", "position", "temp_block_id"]
-        read_only_fields = ["id"]
+        read_only_fields = ["id", "position"]
         list_serializer_class = BlockListSerializer
     
