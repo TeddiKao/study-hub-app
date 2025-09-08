@@ -6,25 +6,25 @@ function getDeletedNodeIds(oldDoc: ProseMirrorNode, newDoc: ProseMirrorNode) {
     const oldDocContent = oldDoc.toJSON().content;
     const newDocContent = newDoc.toJSON().content;
 
+    console.log(oldDocContent);
+    console.log(newDocContent);
+
     const deletedNodeIds: Set<number> = new Set();
 
     oldDocContent.forEach((oldNode: JSONContent) => {
         const oldNodeAttrs = oldNode.attrs;
-        const { id: oldNodeId, tempBlockId: oldTempBlockId } =
-            oldNodeAttrs ?? {};
+        const { id: oldNodeId } = oldNodeAttrs ?? {};
 
         const newNode = newDocContent.find((node: JSONContent) => {
             const newNodeAttrs = node.attrs;
-            const { id: newNodeId, tempBlockId: newTempBlockId } =
-                newNodeAttrs ?? {};
+            const { id: newNodeId } = newNodeAttrs ?? {};
 
-            return newNodeId === oldNodeId || newTempBlockId === oldTempBlockId;
+            return newNodeId === oldNodeId;
         });
 
         if (
             isNullOrUndefined(newNode) &&
-            (!isNullOrUndefined(oldNodeId) ||
-            !isNullOrUndefined(oldTempBlockId))
+            !isNullOrUndefined(oldNodeId)
         ) {
             deletedNodeIds.add(oldNodeId);
         }
