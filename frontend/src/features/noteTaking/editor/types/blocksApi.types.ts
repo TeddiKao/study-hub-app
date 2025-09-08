@@ -50,7 +50,6 @@ type BulkBlockUpdateRequest = BlockUpdateRequest[];
 interface BulkBlockCreateRequest {
     type: RawBlockData["type"];
     content: RawBlockData["content"];
-    position: RawBlockData["position"];
     noteId: RawBlockData["noteId"];
     tempBlockId: string;
 }
