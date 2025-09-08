@@ -21,7 +21,7 @@ function useEditorAttributeUpdate(editor: Editor) {
             if (isNullOrUndefined(nodePosition)) {
                 const positionByIndex = getNodePositionByIndex(
                     editor,
-                    block.attrs.position
+                    position
                 );
                 if (isNullOrUndefined(positionByIndex)) return;
 
