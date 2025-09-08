@@ -6,7 +6,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from ..serializers import BlockSerializer, BlockTiptapSerializer, BulkBlockSerializer
+from ..serializers import (
+    BlockSerializer,
+    BlockTiptapSerializer,
+    BulkBlockSerializer,
+    PlainTiptapSerializer
+)
+
 from ..models import Block
 
 from core.utils import normalize_ids
@@ -70,17 +76,19 @@ class BulkCreateBlocksEndpoint(APIView):
         if not isinstance(blocks_data, list):
             raise ValidationError({ "blocks": "This field must be a list" })
 
-        serializer = BulkBlockSerializer(
+        created_blocks = BulkBlockSerializer(
             data=blocks_data,
             many=True,
             context={"request": request}
         )
 
-        serializer.is_valid(raise_exception=True)
-        created_blocks = serializer.save()
+        created_blocks.is_valid(raise_exception=True)
+        created_blocks.save()
 
-        tiptap_serialized_blocks = BlockTiptapSerializer(
-            instance=created_blocks,
+        print(created_blocks.data)
+
+        tiptap_serialized_blocks = PlainTiptapSerializer(
+            instance=created_blocks.data,
             many=True,
             context={"request": request}
         ).data
