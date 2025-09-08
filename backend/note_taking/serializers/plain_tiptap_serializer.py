@@ -10,7 +10,6 @@ class PlainTiptapSerializer(Serializer):
     position = serializers.IntegerField()
     note = serializers.PrimaryKeyRelatedField(
         queryset=Note.objects.none(),
-        source="note",
         write_only=True,
     )
 
