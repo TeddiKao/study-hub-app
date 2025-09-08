@@ -194,6 +194,11 @@ class BulkDeleteBlocksEndpoint(APIView):
         if not isinstance(block_ids, list):
             raise ValidationError({ "block_ids": "This field must be a list" })
 
+        if len(block_ids) == 0:
+            return Response({
+                "message": "No blocks to delete"
+            }, status=status.HTTP_200_OK)
+
         if not are_items_unique(block_ids):
             raise ValidationError({ "block_ids": "Duplicate block IDs" })
 
