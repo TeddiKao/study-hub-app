@@ -20,7 +20,6 @@ function useNotesEditor() {
 
     async function handleBlockDeletion({ editor, transaction }: EditorEvents["update"]) {
         if (!editor) return;
-        if (editor.isEmpty) return;
 
         const oldDoc = transaction.before;
         const newDoc = transaction.doc;
