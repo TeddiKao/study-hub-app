@@ -229,12 +229,12 @@ async function deleteBlock(
 }
 
 async function bulkDeleteBlocks(
-    blocks: BulkBlockDeleteRequest
+    blockIds: BulkBlockDeleteRequest
 ): Promise<BulkDeleteBlocksSuccess | ApiErrorResponse> {
     try {
         await api.delete(`${BLOCKS_BASE}/bulk-delete/`, {
             data: {
-                blocks: blocks,
+                blockIds: blockIds,
             },
         });
 
