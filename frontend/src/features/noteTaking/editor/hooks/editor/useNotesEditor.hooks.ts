@@ -37,8 +37,6 @@ function useNotesEditor() {
 
         const createdParagraphs: BulkBlockCreateRequest[] = [];
 
-        let currentNodePosition = 0;
-
         editor.state.doc.descendants((node, pos) => {
             if (!node.type.isBlock) {
                 return;
@@ -54,25 +52,25 @@ function useNotesEditor() {
 
                     processedNodesRef.current.add(pos);
 
+                    const tempBlockId = crypto.randomUUID();
+
                     createdParagraphs.push({
                         type: NoteEditorParagraph.name,
                         content: node.content.toJSON() ?? [],
                         noteId: node.attrs?.note?.id,
-                        tempBlockId: crypto.randomUUID(),
+                        tempBlockId: tempBlockId,
                     });
 
                     editor.commands.command(({ tr: transaction }) => {
                         transaction.setNodeMarkup(pos, node.type, {
                             ...node.attrs,
-                            position: currentNodePosition,
+                            id: tempBlockId,
                         });
 
                         return true;
                     });
                 }
             }
-
-            currentNodePosition++;
         });
 
         if (createdParagraphs.length > 0) {
