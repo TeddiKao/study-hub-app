@@ -14,7 +14,8 @@ function useEditorAttributeUpdate(editor: Editor) {
         blocks.forEach((block) => {
             const { id, tempBlockId } = block.attrs ?? {};
 
-            const nodePosition = getNodePositionById(editor, (id ?? tempBlockId));
+            const nodePosition = getNodePositionById(editor, (tempBlockId ?? id));
+
             const nodeType = editor.schema.nodes[block.type];
             if (!nodeType) return;
 
