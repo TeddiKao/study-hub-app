@@ -4,8 +4,10 @@ import type { ApiErrorResponse } from "@/shared/types/api.types";
 import { isAxiosError } from "axios";
 import type {
     BulkBlockCreateRequest,
+    BulkBlockDeleteRequest,
     BulkBlockUpdateRequest,
     BulkCreateBlocksSuccess,
+    BulkDeleteBlocksSuccess,
     BulkUpdateBlocksSuccess,
     CreateBlockSuccess,
     DeleteBlockSuccess,
@@ -91,7 +93,7 @@ async function bulkCreateBlocks(
             success: true,
             message: "Successfully created blocks",
             createdBlocks: response.data.createdBlocks,
-        }               
+        };
     } catch (error) {
         console.error(error);
 
@@ -226,6 +228,35 @@ async function deleteBlock(
     }
 }
 
+async function bulkDeleteBlocks(
+    blockIds: BulkBlockDeleteRequest
+): Promise<BulkDeleteBlocksSuccess | ApiErrorResponse> {
+    try {
+        await api.delete(`${BLOCKS_BASE}/bulk-delete/`, {
+            data: {
+                blockIds: blockIds,
+            },
+        });
+
+        return {
+            success: true,
+            message: "Blocks deleted successfully",
+        };
+    } catch (error) {
+        if (!isAxiosError(error)) {
+            return {
+                success: false,
+                error: "Failed to delete blocks",
+            };
+        }
+
+        return {
+            success: false,
+            error: error.response?.data?.error ?? "Failed to delete blocks",
+        };
+    }
+}
+
 export {
     fetchBlocks,
     createBlock,
@@ -234,4 +265,5 @@ export {
     deleteBlock,
     bulkUpdateBlocks,
     bulkCreateBlocks,
+    bulkDeleteBlocks,
 };

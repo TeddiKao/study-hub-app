@@ -8,6 +8,8 @@ from rest_framework import status
 
 from ..serializers import BlockSerializer, BlockTiptapSerializer, BulkBlockSerializer
 from ..models import Block
+
+from core.utils import normalize_ids
 from authentication.beacon_auth import BeaconJWTAuthentication
 
 class FetchBlocksEndpoint(ListAPIView):
@@ -90,7 +92,6 @@ class BulkCreateBlocksEndpoint(APIView):
 
 class BulkUpdateBlocksEndpoint(APIView):
     permission_classes = [IsAuthenticated]
-    authentication_classes = [BeaconJWTAuthentication]
     
     def post(self, request, *args, **kwargs):
         blocks_data = request.data.get("blocks")
@@ -180,6 +181,39 @@ class BulkUpdateBlocksEndpoint(APIView):
         return Response({ 
             "message": "Blocks updated successfully", 
             "updated_blocks": tiptap_serialized_blocks 
+        }, status=status.HTTP_200_OK)
+
+class BulkDeleteBlocksEndpoint(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def delete(self, request, *args, **kwargs):
+        block_ids = request.data.get("block_ids")
+        if block_ids is None:
+            raise ValidationError({ "block_ids": "This field is required" })
+
+        if not isinstance(block_ids, list):
+            raise ValidationError({ "block_ids": "This field must be a list" })
+
+        if len(block_ids) == 0:
+            return Response({
+                "message": "No blocks to delete"
+            }, status=status.HTTP_200_OK)
+
+        try:
+            block_ids = normalize_ids(block_ids)
+        except ValidationError as err:
+            raise ValidationError({ "block_ids": err })
+
+        with transaction.atomic():
+            blocks_queryset = Block.objects.select_for_update().filter(
+                id__in=block_ids,
+                note__notebook__owner=self.request.user
+            )
+
+            blocks_queryset.delete()
+
+        return Response({
+            "message": "Blocks deleted successfully"
         }, status=status.HTTP_200_OK)
 
 class RetrieveBlockEndpoint(RetrieveAPIView):

@@ -12,12 +12,26 @@ import type { RawBlockData } from "../../types/blocksApi.types";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import useBlockMutations from "../blocks/useBlockMutations.hooks";
 import { useRef } from "react";
+import { getDeletedNodeIds } from "../../utils/editor.utils";
 
 function useNotesEditor() {
-    const { handleBlockBulkCreate } = useBlockMutations();
+    const { handleBlockBulkCreate, handleBlocksBulkDelete } = useBlockMutations();
     const processedNodesRef = useRef(new Set<number>());
 
-    async function handleOnUpdate({ editor }: EditorEvents["update"]) {
+    async function handleBlockDeletion({ editor, transaction }: EditorEvents["update"]) {
+        if (!editor) return;
+
+        const oldDoc = transaction.before;
+        const newDoc = transaction.doc;
+
+        const deletedNodeIds = getDeletedNodeIds(oldDoc, newDoc);
+
+        if (deletedNodeIds.size > 0) {
+            await handleBlocksBulkDelete([...deletedNodeIds]);
+        }
+    }
+
+    async function handleBlockCreation({ editor }: EditorEvents["update"]) {
         if (!editor) return;
         if (editor.isEmpty) return;
 
@@ -90,7 +104,8 @@ function useNotesEditor() {
             }),
         ],
         onUpdate: async (args) => {
-            await handleOnUpdate(args);
+            await handleBlockCreation(args);
+            await handleBlockDeletion(args);
         },
     });
 }
