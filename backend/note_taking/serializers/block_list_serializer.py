@@ -14,6 +14,8 @@ class BlockListSerializer(ListSerializer):
 
             for item in validated_data:
                 item["note"] = item.pop("note_id", None)
+                item["temp_block_id"] = item.pop("temp_block_id", None)
+
                 if not item.get("id"):
                     item["position"] = greatest_position + 1
                     try:
