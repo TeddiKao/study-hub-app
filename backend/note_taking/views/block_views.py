@@ -205,11 +205,9 @@ class BulkDeleteBlocksEndpoint(APIView):
             raise ValidationError({ "block_ids": "Duplicate block IDs" })
 
         with transaction.atomic():
-            blocks_queryset = list(
-                Block.objects.select_for_update().filter(
-                    id__in=block_ids,
-                    note__notebook__owner=self.request.user
-                )
+            blocks_queryset = Block.objects.select_for_update().filter(
+                id__in=block_ids,
+                note__notebook__owner=self.request.user
             )
 
             blocks_queryset.delete()
