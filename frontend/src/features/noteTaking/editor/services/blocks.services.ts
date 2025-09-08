@@ -27,8 +27,6 @@ async function fetchBlocks(
             },
         });
 
-        console.log(response.data);
-
         return {
             success: true,
             message: "Successfully fetched blocks",
