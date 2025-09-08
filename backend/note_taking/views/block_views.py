@@ -92,6 +92,7 @@ class BulkCreateBlocksEndpoint(APIView):
 
 class BulkUpdateBlocksEndpoint(APIView):
     permission_classes = [IsAuthenticated]
+    authentication_classes = [BeaconJWTAuthentication]
     
     def post(self, request, *args, **kwargs):
         blocks_data = request.data.get("blocks")
