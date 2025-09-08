@@ -12,6 +12,7 @@ class PlainTiptapSerializer(Serializer):
         queryset=Note.objects.none(),
         write_only=True,
     )
+    temp_block_id = serializers.UUIDField()
 
     def to_representation(self, instance):
         serialized_data = {
@@ -23,6 +24,7 @@ class PlainTiptapSerializer(Serializer):
             "id": instance.get("id"),
             "position": instance.get("position"),
             "note": instance.get("note"),
+            "temp_id": instance.get("temp_block_id")
         }
 
         return serialized_data
