@@ -7,10 +7,11 @@ from ..models import Block
 class BlockListSerializer(ListSerializer):
     def create(self, validated_data):
         blocks = []
-        for item in validated_data:
-            item["note"] = item.pop("note_id", None)
-            if not item.get("id"):
-                blocks.append(Block.objects.create(**item))
+        with transaction.atomic():
+            for item in validated_data:
+                item["note"] = item.pop("note_id", None)
+                if not item.get("id"):
+                    blocks.append(Block.objects.create(**item))
 
         return blocks
 
