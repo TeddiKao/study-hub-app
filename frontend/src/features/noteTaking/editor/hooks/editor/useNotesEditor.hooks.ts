@@ -57,7 +57,6 @@ function useNotesEditor() {
                     createdParagraphs.push({
                         type: NoteEditorParagraph.name,
                         content: node.content.toJSON() ?? [],
-                        position: currentNodePosition,
                         noteId: node.attrs?.note?.id,
                         tempBlockId: crypto.randomUUID(),
                     });
