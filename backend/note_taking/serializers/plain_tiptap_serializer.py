@@ -1,6 +1,8 @@
 from rest_framework.serializers import Serializer
 from rest_framework import serializers
 
+from ..models import Note
+
 class PlainTiptapSerializer(Serializer):
     id = serializers.IntegerField()
     type = serializers.CharField()
