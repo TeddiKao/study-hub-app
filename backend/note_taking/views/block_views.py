@@ -8,6 +8,8 @@ from rest_framework import status
 
 from ..serializers import BlockSerializer, BlockTiptapSerializer, BulkBlockSerializer
 from ..models import Block
+
+from core.utils import are_items_unique
 from authentication.beacon_auth import BeaconJWTAuthentication
 
 class FetchBlocksEndpoint(ListAPIView):
