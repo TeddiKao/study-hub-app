@@ -12,11 +12,13 @@ function useEditorAttributeUpdate(editor: Editor) {
         if (!editor) return;
 
         blocks.forEach((block) => {
-            const position = getNodePositionById(editor, block.attrs.id);
+            const { id, position } = block.attrs ?? {};
+
+            const nodePosition = getNodePositionById(editor, id);
             const nodeType = editor.schema.nodes[block.type];
             if (!nodeType) return;
 
-            if (isNullOrUndefined(position)) {
+            if (isNullOrUndefined(nodePosition)) {
                 const positionByIndex = getNodePositionByIndex(
                     editor,
                     block.attrs.position
