@@ -1,6 +1,8 @@
 from rest_framework.serializers import ListSerializer
 from rest_framework.exceptions import ValidationError
+
 from django.db import transaction
+from django.db.models import Max
 
 from ..models import Block
 
@@ -8,9 +10,12 @@ class BlockListSerializer(ListSerializer):
     def create(self, validated_data):
         blocks = []
         with transaction.atomic():
+            greatest_position = Block.objects.aggregate(max_position=Max("position")).get("max_position")
+
             for item in validated_data:
                 item["note"] = item.pop("note_id", None)
                 if not item.get("id"):
+                    item["position"] = greatest_position + 1
                     try:
                         blocks.append(Block.objects.create(**item))
                     except Exception as e:
