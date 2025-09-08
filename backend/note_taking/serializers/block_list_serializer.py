@@ -11,7 +11,10 @@ class BlockListSerializer(ListSerializer):
             for item in validated_data:
                 item["note"] = item.pop("note_id", None)
                 if not item.get("id"):
-                    blocks.append(Block.objects.create(**item))
+                    try:
+                        blocks.append(Block.objects.create(**item))
+                    except Exception as e:
+                        raise ValidationError(f"Failed to create block: {str(e)}")
 
         return blocks
 
