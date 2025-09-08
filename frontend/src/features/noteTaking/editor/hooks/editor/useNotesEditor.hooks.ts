@@ -44,7 +44,7 @@ function useNotesEditor() {
                         type: NoteEditorParagraph.name,
                         content: node.content.toJSON() ?? [],
                         position: currentNodePosition,
-                        noteId: node.attrs.note.id,
+                        noteId: node.attrs?.note?.id,
                     });
 
                     editor.commands.command(({ tr: transaction }) => {
