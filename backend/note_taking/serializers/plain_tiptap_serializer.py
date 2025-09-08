@@ -15,14 +15,14 @@ class PlainTiptapSerializer(Serializer):
 
     def to_representation(self, instance):
         serialized_data = {
-            "id": instance.get("id"),
+            "type": instance.get("type"),
             "content": instance.get("content"),
         }
 
         serialized_data["attrs"] = {
-            "type": instance.get("type"),
+            "id": instance.get("id"),
             "position": instance.get("position"),
-            "note": instance.get("note")
+            "note": instance.get("note"),
         }
 
         return serialized_data
