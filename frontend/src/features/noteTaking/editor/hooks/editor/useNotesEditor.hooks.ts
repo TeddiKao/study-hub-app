@@ -12,10 +12,30 @@ import type { RawBlockData } from "../../types/blocksApi.types";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import useBlockMutations from "../blocks/useBlockMutations.hooks";
 import { useRef } from "react";
+import type { Block } from "../../types/blockSchema.types";
 
 function useNotesEditor() {
     const { handleBlockBulkCreate } = useBlockMutations();
     const processedNodesRef = useRef(new Set<number>());
+
+    async function handleBlockDeletion({ editor }: EditorEvents["update"]) {
+        if (!editor) return;
+        if (editor.isEmpty) return;
+
+        const deletedParagraphIds: Block["id"][] = [];
+
+        editor.state.doc.forEach((node) => {
+            if (node.content.size === 0) {
+                const { id } = node.attrs;
+
+                if (isNullOrUndefined(id)) return;
+
+                deletedParagraphIds.push(id);
+            }
+        })
+
+        console.log(deletedParagraphIds);
+    }
 
     async function handleBlockCreation({ editor }: EditorEvents["update"]) {
         if (!editor) return;
@@ -91,6 +111,7 @@ function useNotesEditor() {
         ],
         onUpdate: async (args) => {
             await handleBlockCreation(args);
+            await handleBlockDeletion(args);
         },
     });
 }
