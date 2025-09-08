@@ -20,7 +20,9 @@ class BlockListSerializer(ListSerializer):
                 if not item.get("id"):
                     item["position"] = greatest_position + 1
                     try:
-                        created_block = blocks.append(Block.objects.create(**item))
+                        created_block = Block.objects.create(**item)
+                        
+                        blocks.append(created_block)
                         temp_id_mapping[created_block.id] = temp_block_id
                     except Exception as e:
                         raise ValidationError(f"Failed to create block: {str(e)}")
