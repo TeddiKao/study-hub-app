@@ -3,7 +3,11 @@ import type { Editor } from "@tiptap/react"
 import { Button } from "@/components/ui/button"
 import { Bold, Italic, Underline } from "lucide-react"
 
-function EditorBubbleMenu(editor: Editor) {
+interface EditorBubbleMenuProps {
+    editor: Editor
+}
+
+function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
     return (
         <BubbleMenu editor={editor} options={{
             placement: "bottom",
