@@ -47,6 +47,8 @@ const useEditorStateStore = create<EditorStateStore>((set) => ({
 
     selectedBlockOriginalContent: null,
     updateSelectedBlockOriginalContent: (content) => {
+        if (!Array.isArray(content)) return;
+        
         set({ selectedBlockOriginalContent: content });
     },
     clearSelectedBlockOriginalContent: () => set({ selectedBlockOriginalContent: null }),
