@@ -56,7 +56,12 @@ class BlockListSerializer(ListSerializer):
                         if item_type == "title":
                             item_content = item.get("content", [])
                             if item_content:
-                                if not is_empty_string(item_content[0]["text"]):
+                                try:
+                                    title_text = item_content[0].get("text")
+                                except (IndexError, KeyError, AttributeError):
+                                    title_text = None
+
+                                if title_text and not is_empty_string(title_text):
                                     block.content = item_content
                         else:
                             block.content = item.get("content", [])
