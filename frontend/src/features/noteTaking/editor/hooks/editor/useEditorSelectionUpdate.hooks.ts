@@ -1,5 +1,6 @@
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import {
+    getNodeFromDocPosition,
     getNodePositionById,
     getSelectedNode,
     updateNodeContent,
@@ -20,7 +21,8 @@ function useEditorSelectionUpdate(editor: Editor) {
         selectedBlockPosition,
         updateSelectedBlockPosition,
         selectedBlockOriginalContent,
-        updateSelectedBlockContent
+        updateSelectedBlockContent,
+        updateSelectedBlockOriginalContent
     } = useEditorStateStore();
     const { handleBlockUpdate } = useBlockMutations();
 
@@ -34,7 +36,9 @@ function useEditorSelectionUpdate(editor: Editor) {
         const currentlySelectedNode = getSelectedNode(editor);
         if (!currentlySelectedNode) return;
 
-        if (currentlySelectedNode.type.name === Title.name) {
+        if (selectedBlockType === Title.name) {
+            console.log("Title node selected");
+
             if (isNullOrUndefined(selectedBlockOriginalContent)) return;
 
             if (currentlySelectedNode.content.size === 0) {
@@ -44,9 +48,12 @@ function useEditorSelectionUpdate(editor: Editor) {
                 const nodePos = getNodePositionById(editor, id);
                 if (isNullOrUndefined(nodePos)) return;
 
+                const node = getNodeFromDocPosition(editor, nodePos!);
+                if (isNullOrUndefined(node)) return;
+
                 updateNodeContent(
                     editor,
-                    currentlySelectedNode,
+                    node!,
                     selectedBlockOriginalContent!
                 );
 
@@ -78,6 +85,7 @@ function useEditorSelectionUpdate(editor: Editor) {
         updateSelectedBlockId(id);
         updateSelectedBlockType(currentlySelectedNode.type.name);
         updateSelectedBlockPosition(position);
+        updateSelectedBlockOriginalContent(currentlySelectedNode.content.toJSON() ?? []);
     };
 
     useEditorEventListener(editor, "selectionUpdate", handler);
