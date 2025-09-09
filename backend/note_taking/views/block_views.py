@@ -69,12 +69,15 @@ class EditBlockEndpoint(UpdateAPIView):
         
         title_content = serializer.validated_data.get("content")
         if not title_content:
-            return Response({ "message": "Title cannot be empty" }, status=status.HTTP_400_BAD_REQUEST)
+            return
 
-        if is_empty_string(title_content[0]["text"]):
-            return Response({ "message": "Title cannot be empty" }, status=status.HTTP_400_BAD_REQUEST)
-        
-        block.content = title_content
+        try:
+            title_text = title_content[0].get("text")
+        except (IndexError, KeyError, AttributeError):
+            title_text = None
+
+        if title_text and not is_empty_string(title_text):
+            block.content = title_content
 
         serializer.save()
 
