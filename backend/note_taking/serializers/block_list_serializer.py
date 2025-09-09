@@ -50,7 +50,7 @@ class BlockListSerializer(ListSerializer):
                     if item_type == "title":
                         item_content = item.get("content")
                         if item_content:
-                            if item_content.strip() != "":
+                            if item_content["text"].strip() != "":
                                 block.content = item_content
 
                     note_id = item.get("note_id")
