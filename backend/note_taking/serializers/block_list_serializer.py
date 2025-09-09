@@ -17,7 +17,7 @@ class BlockListSerializer(ListSerializer):
                 temp_block_id = item.pop("temp_block_id", None)
 
                 if not item.get("id"):
-                    greatest_position = Block.objects.filter(note=item["note"]).aggregate(max_position=Max("position")).get("max_position") or 0
+                    greatest_position = Block.objects.filter(note=item["note"]).aggregate(max_position=Max("position")).get("max_position") or -1
                     item["position"] = greatest_position + 1
                     try:
                         created_block = Block.objects.create(**item)
