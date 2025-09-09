@@ -4,6 +4,7 @@ import { Bold, Italic, Underline } from "lucide-react";
 import { toggleMark } from "../utils/marks.utils";
 import clsx from "clsx";
 import type { MarkName } from "../types/editor.types";
+import type { ComponentType } from "react";
 
 interface EditorBubbleMenuProps {
     editor: Editor | null;
@@ -18,38 +19,16 @@ interface MarkButtonProps {
 function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
     if (!editor) return null;
 
+    const IconMarkMapping: Record<MarkName, ComponentType<{ size?: number, strokeWidth?: number, className?: string }>> = {
+        bold: Bold,
+        italic: Italic,
+        underline: Underline,
+    };
+
     function getMarkIcon() {
-        switch (markName) {
-            case "bold":
-                return (
-                    <Bold
-                        size={20}
-                        strokeWidth={isActive ? 2 : 1.5}
-                        className="stroke-gray-500"
-                    />
-                );
+        const Icon = IconMarkMapping[markName];
 
-            case "italic":
-                return (
-                    <Italic
-                        size={20}
-                        strokeWidth={isActive ? 2 : 1.5}
-                        className="stroke-gray-500"
-                    />
-                );
-
-            case "underline":
-                return (
-                    <Underline
-                        size={20}
-                        strokeWidth={isActive ? 2 : 1.5}
-                        className="stroke-gray-500"
-                    />
-                );
-
-            default:
-                return null;
-        }
+        return <Icon size={20} strokeWidth={isActive ? 2 : 1.5} />;
     }
 
     const activeClasses = isActive
