@@ -20,19 +20,19 @@ function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
                     type="button"
                     className="hover:cursor-pointer hover:bg-gray-300 bg-white border-none outline-none p-1 rounded-md"
                 >
-                    <Bold strokeWidth={1.5} />
+                    <Bold size={20} strokeWidth={1.5} />
                 </button>
                 <button
                     type="button"
                     className="hover:cursor-pointer hover:bg-gray-300 bg-white border-none outline-none p-1 rounded-md"
                 >
-                    <Italic strokeWidth={1.5} />
+                    <Italic size={20} strokeWidth={1.5} />
                 </button>
                 <button
                     type="button"
                     className="hover:cursor-pointer hover:bg-gray-300 bg-white border-none outline-none p-1 rounded-md"
                 >
-                    <Underline strokeWidth={1.5} />
+                    <Underline size={20} strokeWidth={1.5} />
                 </button>
             </div>
         </BubbleMenu>
