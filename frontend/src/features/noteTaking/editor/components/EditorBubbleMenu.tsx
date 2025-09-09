@@ -141,17 +141,17 @@ function HeadingButtons({ editor }: HeadingButtonsProps) {
         <div className="flex flex-row gap-1">
             <HeadingButton
                 editor={editor}
-                isActive={editor.isActive("heading", { level: 1 })}
+                isActive={editor.isActive("note_editor_heading", { level: 1 })}
                 level={1}
             />
             <HeadingButton
                 editor={editor}
-                isActive={editor.isActive("heading", { level: 2 })}
+                isActive={editor.isActive("note_editor_heading", { level: 2 })}
                 level={2}
             />
             <HeadingButton
                 editor={editor}
-                isActive={editor.isActive("heading", { level: 3 })}
+                isActive={editor.isActive("note_editor_heading", { level: 3 })}
                 level={3}
             />
         </div>
