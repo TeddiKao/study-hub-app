@@ -48,7 +48,10 @@ class BlockListSerializer(ListSerializer):
 
                     item_type = item.get("type")
                     if item_type == "title":
-                        block.content = item.get("content", block.content)
+                        item_content = item.get("content")
+                        if item_content:
+                            if item_content.strip() != "":
+                                block.content = item_content
 
                     note_id = item.get("note_id")
                     if note_id:
