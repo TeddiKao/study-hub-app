@@ -14,15 +14,15 @@ function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
             offset: 8
         }}>
             <div className="flex flex-row">
-                <Button type="button" className="hover:cursor-pointer">
+                <button type="button" className="hover:cursor-pointer">
                     <Bold />
-                </Button>
-                <Button type="button" className="hover:cursor-pointer">
+                </button>
+                <button type="button" className="hover:cursor-pointer">
                     <Italic />
-                </Button>
-                <Button type="button" className="hover:cursor-pointer">
+                </button>
+                <button type="button" className="hover:cursor-pointer">
                     <Underline />
-                </Button>
+                </button>
             </div>
         </BubbleMenu>
     )
