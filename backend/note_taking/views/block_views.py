@@ -15,7 +15,7 @@ from ..serializers import (
 
 from ..models import Block
 
-from core.utils import normalize_ids, normalize_whitespace
+from core.utils import normalize_ids, is_empty_string
 from authentication.beacon_auth import BeaconJWTAuthentication
 
 class FetchBlocksEndpoint(ListAPIView):
@@ -71,7 +71,7 @@ class EditBlockEndpoint(UpdateAPIView):
         if not title_content:
             return Response({ "message": "Title cannot be empty" }, status=status.HTTP_400_BAD_REQUEST)
 
-        if normalize_whitespace(title_content[0]["text"]) == "":
+        if is_empty_string(title_content[0]["text"]):
             return Response({ "message": "Title cannot be empty" }, status=status.HTTP_400_BAD_REQUEST)
         
         block.content = title_content
