@@ -4,6 +4,8 @@ from rest_framework.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import Max
 
+from core.utils import normalize_whitespace
+
 from ..models import Block
 
 class BlockListSerializer(ListSerializer):
@@ -50,7 +52,7 @@ class BlockListSerializer(ListSerializer):
                     if item_type == "title":
                         item_content = item.get("content")
                         if item_content:
-                            if item_content[0]["text"].strip() != "":
+                            if normalize_whitespace(item_content[0]["text"]) != "":
                                 block.content = item_content
 
                     note_id = item.get("note_id")
