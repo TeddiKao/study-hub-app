@@ -1,24 +1,30 @@
 from typing import Hashable, Iterable
-from django.core.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError
 
 def normalize_ids(ids: Iterable[Hashable]) -> list[int]:
     normalized_ids = []
     seen_ids = set()
+    errors = []
 
     for index, raw in enumerate(ids):
         try:
             id = int(raw)
         except (ValueError, TypeError):
-            raise ValidationError({
-                "ids": [f"Index {index}: Must be an integer"]
+            errors.append({
+                f"Index {index}: Must be an integer"
             })
 
         if id in seen_ids:
-            raise ValidationError({
-                "ids": [f"Index {index}: Duplicate ID"]
+            errors.append({
+                f"Index {index}: Duplicate ID"
             })
 
         seen_ids.add(id)
         normalized_ids.append(id)
+
+    if errors:
+        raise ValidationError({
+            "ids": errors
+        })
 
     return normalized_ids
