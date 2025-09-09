@@ -42,16 +42,8 @@ function useEditorSelectionUpdate(editor: Editor) {
 
         const hasFocusMoved = id !== selectedBlockId;
 
-        console.log("hasFocusMoved", hasFocusMoved);
-
         if (selectedBlockType === Title.name && hasFocusMoved) {
-            console.log("Title node selected");
             if (isNullOrUndefined(selectedBlockOriginalContent)) return;
-
-            console.log(
-                "selectedBlockOriginalContent",
-                selectedBlockOriginalContent
-            );
 
             if ((selectedBlockContent?.length ?? 0) === 0) {
                 if (isNullOrUndefined(selectedBlockId)) return;
