@@ -3,10 +3,12 @@ import type { Editor } from "@tiptap/react";
 import { Bold, Italic, Underline } from "lucide-react";
 
 interface EditorBubbleMenuProps {
-    editor: Editor;
+    editor: Editor | null;
 }
 
 function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
+    if (!editor) return null;
+
     return (
         <BubbleMenu
             editor={editor}
