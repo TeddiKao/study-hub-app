@@ -63,6 +63,14 @@ class EditBlockEndpoint(UpdateAPIView):
         if block.note.notebook.owner.id != self.request.user.id:
             raise PermissionDenied("You do not have permission to edit blocks in this note")
 
+        if block.type == "title":
+            item_content = serializer.validated_data.get("content")
+            if item_content:
+                if item_content["text"].strip() != "":
+                    block.content = item_content
+                else:
+                    return Response({ "message": "Title cannot be empty" }, status=status.HTTP_400_BAD_REQUEST)
+
         serializer.save()
 
 class BulkCreateBlocksEndpoint(APIView):
