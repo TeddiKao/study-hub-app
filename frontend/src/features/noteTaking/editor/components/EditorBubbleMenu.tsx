@@ -19,7 +19,14 @@ interface MarkButtonProps {
 function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
     if (!editor) return null;
 
-    const IconMarkMapping: Record<MarkName, ComponentType<{ size?: number, strokeWidth?: number, className?: string }>> = {
+    const IconMarkMapping: Record<
+        MarkName,
+        ComponentType<{
+            size?: number;
+            strokeWidth?: number;
+            className?: string;
+        }>
+    > = {
         bold: Bold,
         italic: Italic,
         underline: Underline,
@@ -51,6 +58,23 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
     );
 }
 
+function MarkButtons({ editor }: EditorBubbleMenuProps) {
+    if (!editor) return null;
+
+    return (
+        <div className="flex flex-row gap-1">
+            {["bold", "italic", "underline"].map((markName) => (
+                <MarkButton
+                    key={markName}
+                    editor={editor}
+                    markName={markName as MarkName}
+                    isActive={editor.isActive(markName)}
+                />
+            ))}
+        </div>
+    );
+}
+
 function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
     if (!editor) return null;
 
@@ -63,14 +87,7 @@ function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
             }}
         >
             <div className="flex flex-row p-1 gap-1 bg-white shadow-md rounded-md">
-                {["bold", "italic", "underline"].map((markName) => (
-                    <MarkButton
-                        key={markName}
-                        editor={editor}
-                        markName={markName as MarkName}
-                        isActive={editor.isActive(markName)}
-                    />
-                ))}
+                <MarkButtons editor={editor} />
             </div>
         </BubbleMenu>
     );
