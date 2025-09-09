@@ -46,11 +46,10 @@ function useEditorSelectionUpdate(editor: Editor) {
             if (isNullOrUndefined(selectedBlockOriginalContent)) return;
 
             const blockText = selectedBlockContent?.[0]?.text;
-            if (isNullOrUndefined(blockText)) return;
 
             if (
                 (selectedBlockContent?.length ?? 0) === 0 ||
-                blockText!.trim() === ""
+                blockText?.trim() === ""
             ) {
                 if (isNullOrUndefined(selectedBlockId)) return;
 
