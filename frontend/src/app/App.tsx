@@ -5,6 +5,8 @@ import LoginPage from "@/features/auth/pages/LoginPage";
 import SignupPage from "@/features/auth/pages/SignupPage";
 
 import "./global.css";
+import "prosemirror-view/style/prosemirror.css";
+
 import ProtectedRoute from "@/features/auth/components/routes/ProtectedRoute";
 import DashboardPage from "@/shared/pages/DashboardPage/DashboardPage";
 import LogoutRoute from "@/features/auth/pages/LogoutRoute";
