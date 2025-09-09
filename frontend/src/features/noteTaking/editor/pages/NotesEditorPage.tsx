@@ -83,7 +83,7 @@ function NotesEditorPage() {
     }
 
     return (
-        <DashboardLayout className="gap-16">
+        <DashboardLayout className="gap-16 pr-16">
             <div className="flex flex-col grow-1">
                 <EditorContent className="notes-editor mt-16" editor={editor} />
             </div>
