@@ -28,3 +28,12 @@ def normalize_ids(ids: Iterable[Hashable]) -> list[int]:
         })
 
     return normalized_ids
+
+def normalize_whitespace(text: str) -> str:
+    if not text:
+        return ""
+
+    text = text.replace("\xa0", " ")
+    text = " ".join(text.split())
+
+    return text
