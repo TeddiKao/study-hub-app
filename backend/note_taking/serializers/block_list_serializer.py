@@ -4,6 +4,8 @@ from rest_framework.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import Max
 
+from core.utils import is_empty_string
+
 from ..models import Block
 
 class BlockListSerializer(ListSerializer):
@@ -42,9 +44,27 @@ class BlockListSerializer(ListSerializer):
                 if block_id and block_id in block_mapping:
                     block = block_mapping[block_id]
 
-                    block.type = item.get("type")
-                    block.content = item.get("content", [])
-                    block.position = item.get("position")
+                    if "type" in item:
+                        block.type = item.get("type")
+
+                    if "position" in item:
+                        block.position = item.get("position")
+
+                    if "content" in item:
+                        item_type = item.get("type", block.type)
+
+                        if item_type == "title":
+                            item_content = item.get("content", [])
+                            if item_content:
+                                try:
+                                    title_text = item_content[0].get("text")
+                                except (IndexError, KeyError, AttributeError):
+                                    title_text = None
+
+                                if title_text and not is_empty_string(title_text):
+                                    block.content = item_content
+                        else:
+                            block.content = item.get("content", [])
 
                     note_id = item.get("note_id")
                     if note_id:

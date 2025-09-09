@@ -15,7 +15,7 @@ from ..serializers import (
 
 from ..models import Block
 
-from core.utils import normalize_ids
+from core.utils import normalize_ids, is_empty_string
 from authentication.beacon_auth import BeaconJWTAuthentication
 
 class FetchBlocksEndpoint(ListAPIView):
@@ -62,6 +62,22 @@ class EditBlockEndpoint(UpdateAPIView):
         block = serializer.instance
         if block.note.notebook.owner.id != self.request.user.id:
             raise PermissionDenied("You do not have permission to edit blocks in this note")
+
+        if block.type != "title":
+            serializer.save()
+            return
+        
+        title_content = serializer.validated_data.get("content")
+        if not title_content:
+            return
+
+        try:
+            title_text = title_content[0].get("text")
+        except (IndexError, KeyError, AttributeError):
+            title_text = None
+
+        if title_text and not is_empty_string(title_text):
+            block.content = title_content
 
         serializer.save()
 

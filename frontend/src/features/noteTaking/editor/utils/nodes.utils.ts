@@ -1,4 +1,6 @@
-import type { Editor } from "@tiptap/react";
+import { isNullOrUndefined } from "@/shared/utils/types.utils";
+import type { Editor, JSONContent } from "@tiptap/react";
+import { Fragment, Node as ProseMirrorNode } from "prosemirror-model";
 
 function getSelectedNode(editor: Editor) {
     const { state } = editor;
@@ -17,9 +19,41 @@ function getNodePositionById(editor: Editor, id: string | number) {
             position = pos;
             return false;
         }
-    })
+    });
 
     return position;
 }
 
-export { getSelectedNode, getNodePositionById };
+function updateNodeContent(
+    editor: Editor,
+    node: ProseMirrorNode,
+    content: JSONContent[]
+) {
+    const { id } = node.attrs ?? {};
+    if (isNullOrUndefined(id)) return;
+
+    const nodePos = getNodePositionById(editor, id);
+    if (isNullOrUndefined(nodePos)) return;
+
+    const children = content.map((childJson) =>
+        ProseMirrorNode.fromJSON(editor.schema, childJson)
+    );
+
+    const fragment = Fragment.fromArray(children);
+    const updatedNode = node.type.create(node.attrs, fragment);
+
+    editor.view.dispatch(
+        editor.state.tr.replaceWith(
+            nodePos!,
+            nodePos! + node.nodeSize,
+            updatedNode
+        )
+    );
+}
+
+function getNodeFromDocPosition(editor: Editor, position: number) {
+    const { doc } = editor.state;
+    return doc.nodeAt(position);
+}
+
+export { getSelectedNode, getNodePositionById, updateNodeContent, getNodeFromDocPosition };

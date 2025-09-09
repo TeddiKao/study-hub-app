@@ -1,9 +1,15 @@
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
-import { getSelectedNode } from "../../utils/nodes.utils";
+import {
+    getNodeFromDocPosition,
+    getNodePositionById,
+    getSelectedNode,
+    updateNodeContent,
+} from "../../utils/nodes.utils";
 import type { Editor } from "@tiptap/react";
 import { useEditorStateStore } from "../../stores/editorState.stores";
 import useBlockMutations from "../blocks/useBlockMutations.hooks";
 import useEditorEventListener from "./useEditorEventListener.hooks";
+import { Title } from "../../extensions/Title.node";
 
 function useEditorSelectionUpdate(editor: Editor) {
     const {
@@ -14,6 +20,9 @@ function useEditorSelectionUpdate(editor: Editor) {
         updateSelectedBlockType,
         selectedBlockPosition,
         updateSelectedBlockPosition,
+        selectedBlockOriginalContent,
+        updateSelectedBlockContent,
+        updateSelectedBlockOriginalContent,
     } = useEditorStateStore();
     const { handleBlockUpdate } = useBlockMutations();
 
@@ -27,12 +36,34 @@ function useEditorSelectionUpdate(editor: Editor) {
         const currentlySelectedNode = getSelectedNode(editor);
         if (!currentlySelectedNode) return;
 
-        const { id, position } = currentlySelectedNode.attrs ?? {}
+        const { id, position } = currentlySelectedNode.attrs ?? {};
         if (isNullOrUndefined(id)) return;
         if (isNullOrUndefined(position)) return;
 
-        const hasFocusMoved =
-            id !== selectedBlockId;
+        const hasFocusMoved = id !== selectedBlockId;
+
+        if (selectedBlockType === Title.name && hasFocusMoved) {
+            if (isNullOrUndefined(selectedBlockOriginalContent)) return;
+
+            const blockText = selectedBlockContent?.[0]?.text;
+
+            if (
+                (selectedBlockContent?.length ?? 0) === 0 ||
+                blockText?.trim() === ""
+            ) {
+                if (isNullOrUndefined(selectedBlockId)) return;
+
+                const nodePos = getNodePositionById(editor, selectedBlockId!);
+                if (isNullOrUndefined(nodePos)) return;
+
+                const node = getNodeFromDocPosition(editor, nodePos!);
+                if (isNullOrUndefined(node)) return;
+
+                updateNodeContent(editor, node!, selectedBlockOriginalContent!);
+
+                updateSelectedBlockContent(selectedBlockOriginalContent!);
+            }
+        }
 
         if (shouldUpdatetoDB && hasFocusMoved) {
             const prevSelectedNodeId = selectedBlockId;
@@ -52,6 +83,12 @@ function useEditorSelectionUpdate(editor: Editor) {
         updateSelectedBlockId(id);
         updateSelectedBlockType(currentlySelectedNode.type.name);
         updateSelectedBlockPosition(position);
+
+        if (hasFocusMoved) {
+            updateSelectedBlockOriginalContent(
+                currentlySelectedNode.content.toJSON() ?? []
+            );
+        }
     };
 
     useEditorEventListener(editor, "selectionUpdate", handler);
