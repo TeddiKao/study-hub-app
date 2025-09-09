@@ -14,6 +14,7 @@ interface TiptapSerializedBlock {
     content: JSONContent[];
     attrs: {
         id: number;
+        tempBlockId?: string;
         position: number;
         note: Note;
     };

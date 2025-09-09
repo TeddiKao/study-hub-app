@@ -8,7 +8,7 @@ import { Underline } from "@tiptap/extension-underline";
 import { Heading } from "@tiptap/extension-heading";
 import { Placeholder } from "@tiptap/extensions";
 import { Text } from "@tiptap/extension-text";
-import type { RawBlockData } from "../../types/blocksApi.types";
+import type { BulkBlockCreateRequest } from "../../types/blocksApi.types";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import useBlockMutations from "../blocks/useBlockMutations.hooks";
 import { useRef } from "react";
@@ -35,9 +35,7 @@ function useNotesEditor() {
         if (!editor) return;
         if (editor.isEmpty) return;
 
-        const createdParagraphs: RawBlockData[] = [];
-
-        let currentNodePosition = 0;
+        const createdParagraphs: BulkBlockCreateRequest[] = [];
 
         editor.state.doc.descendants((node, pos) => {
             if (!node.type.isBlock) {
@@ -54,25 +52,25 @@ function useNotesEditor() {
 
                     processedNodesRef.current.add(pos);
 
+                    const tempBlockId = crypto.randomUUID();
+
                     createdParagraphs.push({
                         type: NoteEditorParagraph.name,
                         content: node.content.toJSON() ?? [],
-                        position: currentNodePosition,
                         noteId: node.attrs?.note?.id,
+                        tempBlockId: tempBlockId,
                     });
 
                     editor.commands.command(({ tr: transaction }) => {
                         transaction.setNodeMarkup(pos, node.type, {
                             ...node.attrs,
-                            position: currentNodePosition,
+                            id: tempBlockId,
                         });
 
                         return true;
                     });
                 }
             }
-
-            currentNodePosition++;
         });
 
         if (createdParagraphs.length > 0) {

@@ -4,6 +4,7 @@ from .block_serializer import BlockSerializer
 from .block_tiptap_serializer import BlockTiptapSerializer
 from .block_list_serializer import BlockListSerializer
 from .bulk_block_serializer import BulkBlockSerializer
+from .plain_tiptap_serializer import PlainTiptapSerializer
 
 __all__ = [
     "NotebookSerializer",
@@ -11,5 +12,6 @@ __all__ = [
     "BlockSerializer",
     "BlockTiptapSerializer",
     "BlockListSerializer",
-    "BulkBlockSerializer"
+    "BulkBlockSerializer",
+    "PlainTiptapSerializer"
 ]
