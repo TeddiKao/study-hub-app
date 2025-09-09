@@ -37,7 +37,7 @@ class BulkBlockSerializer(ModelSerializer):
 
     class Meta:
         model = Block
-        fields = ["id", "block_id", "type", "content", "note", "note_id", "position", "temp_block_id"]
+        fields = ["id", "block_id", "type", "content", "note", "note_id", "position", "temp_block_id", "additional_attributes"]
         read_only_fields = ["id"]
         list_serializer_class = BlockListSerializer
         extra_kwargs = {

@@ -39,4 +39,4 @@ class BlockTiptapSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Block
-        fields = ["id", "type", "content", "note", "position", "note_id"]
+        fields = ["id", "type", "content", "note", "position", "note_id", "additional_attributes"]
