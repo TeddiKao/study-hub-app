@@ -39,7 +39,8 @@ function useEditorSelectionUpdate(editor: Editor) {
         const currentlySelectedNode = getSelectedNode(editor);
         if (!currentlySelectedNode) return;
 
-        const { id, position } = currentlySelectedNode.attrs ?? {};
+        const { id, position, note, ...additionalAttributes } =
+            currentlySelectedNode.attrs ?? {};
         if (isNullOrUndefined(id)) return;
         if (isNullOrUndefined(position)) return;
 
@@ -81,7 +82,8 @@ function useEditorSelectionUpdate(editor: Editor) {
                     type: prevSelectedBlockType!,
                     content: prevSelectedBlockContent!,
                     position: prevSelectedBlockPosition!,
-                    additionalAttributes: prevSelectedBlockAdditionalAttributes!,
+                    additionalAttributes:
+                        prevSelectedBlockAdditionalAttributes!,
                 });
             }
         }
@@ -89,6 +91,7 @@ function useEditorSelectionUpdate(editor: Editor) {
         updateSelectedBlockId(id);
         updateSelectedBlockType(currentlySelectedNode.type.name);
         updateSelectedBlockPosition(position);
+        updateSelectedBlockAdditionalAttributes(additionalAttributes);
 
         if (hasFocusMoved) {
             updateSelectedBlockOriginalContent(
