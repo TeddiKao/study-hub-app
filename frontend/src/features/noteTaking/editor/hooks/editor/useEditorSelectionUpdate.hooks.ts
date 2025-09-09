@@ -46,7 +46,6 @@ function useEditorSelectionUpdate(editor: Editor) {
             if (isNullOrUndefined(selectedBlockOriginalContent)) return;
 
             const blockText = selectedBlockContent?.[0]?.text;
-            console.log(blockText?.trim() === "");
 
             if (
                 (selectedBlockContent?.length ?? 0) === 0 ||
