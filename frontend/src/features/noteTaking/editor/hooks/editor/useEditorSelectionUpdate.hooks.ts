@@ -45,7 +45,10 @@ function useEditorSelectionUpdate(editor: Editor) {
         if (selectedBlockType === Title.name && hasFocusMoved) {
             if (isNullOrUndefined(selectedBlockOriginalContent)) return;
 
-            if ((selectedBlockContent?.length ?? 0) === 0) {
+            const blockText = selectedBlockContent?.[0]?.text;
+            console.log(blockText?.trim() === "")
+
+            if ((selectedBlockContent?.length ?? 0) === 0 || blockText?.trim() === "") {
                 if (isNullOrUndefined(selectedBlockId)) return;
 
                 const nodePos = getNodePositionById(editor, selectedBlockId!);
