@@ -62,7 +62,7 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
     }
 
     function getIconColorClass() {
-        return isActive ? "fill-white" : "fill-gray-500";
+        return isActive ? "stroke-white" : "stroke-gray-500";
     }
 
     function handleMarkButtonClick() {
@@ -118,7 +118,7 @@ function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
                     markName="italic"
                     isActive={editor.isActive("italic")}
                 />
-                
+
                 <MarkButton
                     editor={editor}
                     markName="underline"
