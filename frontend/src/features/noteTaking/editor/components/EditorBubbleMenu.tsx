@@ -103,23 +103,14 @@ function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
             }}
         >
             <div className="flex flex-row p-1 gap-1 bg-white shadow-md rounded-md">
-                <MarkButton
-                    editor={editor}
-                    markName="bold"
-                    isActive={editor.isActive("bold")}
-                />
-
-                <MarkButton
-                    editor={editor}
-                    markName="italic"
-                    isActive={editor.isActive("italic")}
-                />
-
-                <MarkButton
-                    editor={editor}
-                    markName="underline"
-                    isActive={editor.isActive("underline")}
-                />
+                {["bold", "italic", "underline"].map((markName) => (
+                    <MarkButton
+                        key={markName}
+                        editor={editor}
+                        markName={markName}
+                        isActive={editor.isActive(markName)}
+                    />
+                ))}
             </div>
         </BubbleMenu>
     );
