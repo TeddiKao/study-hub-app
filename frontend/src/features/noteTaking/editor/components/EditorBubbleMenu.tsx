@@ -41,9 +41,25 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
         return isActive ? "fill-white" : "fill-gray-500";
     }
 
+    function handleMarkButtonClick() {
+        switch (markName) {
+            case "bold":
+                toggleBold(editor!);
+                break;
+
+            case "italic":
+                toggleItalic(editor!);
+                break;
+
+            case "underline":
+                toggleUnderline(editor!);
+                break;
+        }
+    }
+
     return (
         <button
-            onClick={() => toggleBold(editor)}
+            onClick={handleMarkButtonClick}
             type="button"
             className={clsx("border-none outline-none p-1 rounded-md", getActiveClass())}
         >
