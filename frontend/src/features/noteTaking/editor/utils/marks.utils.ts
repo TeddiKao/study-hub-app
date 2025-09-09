@@ -1,15 +1,15 @@
 import type { Editor } from "@tiptap/react";
 
-function bold(editor: Editor) {
+function toggleBold(editor: Editor) {
     editor.chain().focus().toggleBold().run();
 }
 
-function italic(editor: Editor) {
+function toggleItalic(editor: Editor) {
     editor.chain().focus().toggleItalic().run();
 }
 
-function underline(editor: Editor) {
+function toggleUnderline(editor: Editor) {
     editor.chain().focus().toggleUnderline().run();
 }
 
-export { bold, italic, underline };
+export { toggleBold, toggleItalic, toggleUnderline };
