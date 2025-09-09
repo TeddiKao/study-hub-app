@@ -40,11 +40,10 @@ const NoteEditorHeading = Heading.extend({
     },
 
     parseHTML() {
-        return [
-            {
-                tag: "h1",
-            },
-        ];
+        return [1, 2, 3, 4, 5, 6].map((level) => ({
+            tag: `h${level}`,
+            getAttrs: () => ({ level })
+        }))
     },
 
     renderHTML({ HTMLAttributes }: { HTMLAttributes: Record<string, unknown> }) {
@@ -53,7 +52,9 @@ const NoteEditorHeading = Heading.extend({
             ...HTMLAttributes,
         };
 
-        return ["h1", attrs, 0];
+        const tag = `h${this.options.HTMLAttributes.level}`;
+
+        return [tag, attrs, 0];
     },
 })
 
