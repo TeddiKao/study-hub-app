@@ -87,7 +87,7 @@ function NotesEditorPage() {
         <DashboardLayout className="gap-16 pr-16">
             <div className="flex flex-col grow-1">
                 <EditorContent className="notes-editor mt-16" editor={editor} />
-                <EditorBubbleMenu editor={editor} />
+                {editor && <EditorBubbleMenu editor={editor} />}
             </div>
         </DashboardLayout>
     );
