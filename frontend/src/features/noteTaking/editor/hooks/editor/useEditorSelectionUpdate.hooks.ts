@@ -46,9 +46,12 @@ function useEditorSelectionUpdate(editor: Editor) {
             if (isNullOrUndefined(selectedBlockOriginalContent)) return;
 
             const blockText = selectedBlockContent?.[0]?.text;
-            console.log(blockText?.trim() === "")
+            console.log(blockText?.trim() === "");
 
-            if ((selectedBlockContent?.length ?? 0) === 0 || blockText?.trim() === "") {
+            if (
+                (selectedBlockContent?.length ?? 0) === 0 ||
+                blockText?.trim() === ""
+            ) {
                 if (isNullOrUndefined(selectedBlockId)) return;
 
                 const nodePos = getNodePositionById(editor, selectedBlockId!);
@@ -81,7 +84,7 @@ function useEditorSelectionUpdate(editor: Editor) {
         updateSelectedBlockId(id);
         updateSelectedBlockType(currentlySelectedNode.type.name);
         updateSelectedBlockPosition(position);
-        
+
         if (hasFocusMoved) {
             updateSelectedBlockOriginalContent(
                 currentlySelectedNode.content.toJSON() ?? []
