@@ -51,4 +51,10 @@ function updateNodeContent(
     );
 }
 
-export { getSelectedNode, getNodePositionById, updateNodeContent };
+function convertJSONToNodes(editor: Editor, jsonContent: JSONContent[]) {
+    return jsonContent.map((childJson) =>
+        ProseMirrorNode.fromJSON(editor.schema, childJson)
+    );
+}
+
+export { getSelectedNode, getNodePositionById, updateNodeContent, convertJSONToNodes };
