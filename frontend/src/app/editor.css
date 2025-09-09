@@ -17,7 +17,7 @@
         }
 
         p {
-            @apply text-base;
+            @apply text-base mb-3;
         }
 
         em,
