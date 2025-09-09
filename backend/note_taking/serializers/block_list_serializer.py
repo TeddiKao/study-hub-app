@@ -65,6 +65,8 @@ class BlockListSerializer(ListSerializer):
                                     block.content = item_content
                         else:
                             block.content = item.get("content", [])
+                    else:
+                        block.content = []
 
                     note_id = item.get("note_id")
                     if note_id:
