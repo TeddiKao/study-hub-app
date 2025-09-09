@@ -18,19 +18,19 @@ function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
             <div className="flex flex-row px-2 py-1 gap-1 bg-white shadow-md rounded-md">
                 <button
                     type="button"
-                    className="hover:cursor-pointer hover:bg-gray-300 bg-white border-none outline-none p-1"
+                    className="hover:cursor-pointer hover:bg-gray-300 bg-white border-none outline-none p-1 rounded-md"
                 >
                     <Bold strokeWidth={1.5} />
                 </button>
                 <button
                     type="button"
-                    className="hover:cursor-pointer hover:bg-gray-300 bg-white border-none outline-none p-1"
+                    className="hover:cursor-pointer hover:bg-gray-300 bg-white border-none outline-none p-1 rounded-md"
                 >
                     <Italic strokeWidth={1.5} />
                 </button>
                 <button
                     type="button"
-                    className="hover:cursor-pointer hover:bg-gray-300 bg-white border-none outline-none p-1"
+                    className="hover:cursor-pointer hover:bg-gray-300 bg-white border-none outline-none p-1 rounded-md"
                 >
                     <Underline strokeWidth={1.5} />
                 </button>
