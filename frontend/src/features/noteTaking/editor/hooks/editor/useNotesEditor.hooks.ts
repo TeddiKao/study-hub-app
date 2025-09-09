@@ -5,7 +5,6 @@ import { NoteEditorParagraph } from "../../extensions/Paragraph.node";
 import { Bold } from "@tiptap/extension-bold";
 import { Italic } from "@tiptap/extension-italic";
 import { Underline } from "@tiptap/extension-underline";
-import { Heading } from "@tiptap/extension-heading";
 import { Placeholder } from "@tiptap/extensions";
 import { Text } from "@tiptap/extension-text";
 import type { BulkBlockCreateRequest } from "../../types/blocksApi.types";
@@ -13,6 +12,7 @@ import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import useBlockMutations from "../blocks/useBlockMutations.hooks";
 import { useRef } from "react";
 import { getDeletedNodeIds } from "../../utils/editor.utils";
+import { NoteEditorHeading } from "../../extensions/Heading.node";
 
 function useNotesEditor() {
     const { handleBlockBulkCreate, handleBlocksBulkDelete } = useBlockMutations();
@@ -88,7 +88,7 @@ function useNotesEditor() {
             Bold,
             Italic,
             Underline,
-            Heading.configure({ levels: [1, 2, 3] }),
+            NoteEditorHeading.configure({ levels: [1, 2, 3] }),
             Placeholder.configure({
                 placeholder: ({ node }) => {
                     if (node.type.name === "title") {
