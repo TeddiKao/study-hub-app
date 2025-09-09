@@ -1,6 +1,13 @@
 import { BubbleMenu } from "@tiptap/react/menus";
 import type { Editor } from "@tiptap/react";
-import { Bold, Italic, Underline } from "lucide-react";
+import {
+    Bold,
+    Heading1,
+    Heading2,
+    Heading3,
+    Italic,
+    Underline,
+} from "lucide-react";
 import { toggleMark } from "../utils/marks.utils";
 import clsx from "clsx";
 import type { MarkName } from "../types/editor.types";
@@ -88,6 +95,28 @@ function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
         >
             <div className="flex flex-row p-1 gap-1 bg-white shadow-md rounded-md">
                 <MarkButtons editor={editor} />
+                <div className="flex flex-row gap-1">
+                    <button
+                        className="p-1.5 rounded-md hover:cursor-pointer hover:bg-gray-300"
+                        type="button"
+                    >
+                        <Heading1 size={20} strokeWidth={1.5} />
+                    </button>
+
+                    <button
+                        className="p-1.5 rounded-md hover:cursor-pointer hover:bg-gray-300"
+                        type="button"
+                    >
+                        <Heading2 size={20} strokeWidth={1.5} />
+                    </button>
+
+                    <button
+                        className="p-1.5 rounded-md hover:cursor-pointer hover:bg-gray-300"
+                        type="button"
+                    >
+                        <Heading3 size={20} strokeWidth={1.5} />
+                    </button>
+                </div>
             </div>
         </BubbleMenu>
     );
