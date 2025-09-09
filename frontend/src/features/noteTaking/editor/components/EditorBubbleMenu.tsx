@@ -81,6 +81,8 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
         <button
             onClick={handleMarkButtonClick}
             type="button"
+            aria-label={`Toggle ${markName}`}
+            aria-pressed={isActive}
             className={clsx(
                 "border-none outline-none p-1.5 rounded-md hover:cursor-pointer",
                 getActiveClass()
