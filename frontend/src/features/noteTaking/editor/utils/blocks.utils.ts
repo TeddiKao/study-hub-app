@@ -60,7 +60,7 @@ function toggleHeading(editor: Editor, level: number) {
     editor
         .chain()
         .focus()
-        .toggleNode("note_editor_paragraph", "note_editor_heading", { level })
+        .toggleNode("note_editor_heading", "note_editor_paragraph", { level })
         .run();
 }
 
