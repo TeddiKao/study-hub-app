@@ -67,7 +67,7 @@ function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
                     <MarkButton
                         key={markName}
                         editor={editor}
-                        markName={markName}
+                        markName={markName as MarkName}
                         isActive={editor.isActive(markName)}
                     />
                 ))}
