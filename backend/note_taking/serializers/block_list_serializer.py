@@ -13,14 +13,24 @@ class BlockListSerializer(ListSerializer):
         blocks = []
         with transaction.atomic():
             temp_id_mapping = {}
+            next_position_by_note = {}
 
             for item in validated_data:
                 item["note"] = item.pop("note_id", None)
                 temp_block_id = item.pop("temp_block_id", None)
 
                 if not item.get("id"):
-                    greatest_position = Block.objects.filter(note=item["note"]).aggregate(max_position=Max("position")).get("max_position") or -1
-                    item["position"] = greatest_position + 1
+                    note_obj = item.get("note")
+                    if note_obj not in next_position_by_note:
+                        max_position = Block.objects.filter(note=item["note"]).aggregate(max_position=Max("position")).get("max_position")
+                        if max_position is None:
+                            max_position = -1
+                        
+                        next_position_by_note[note_obj] = max_position + 1
+                    
+                    item["position"] = next_position_by_note[note_obj]
+                    next_position_by_note[note_obj] += 1
+
                     try:
                         created_block = Block.objects.create(**item)
                         
@@ -65,6 +75,8 @@ class BlockListSerializer(ListSerializer):
                                     block.content = item_content
                         else:
                             block.content = item.get("content", [])
+                    else:
+                        block.content = []
 
                     note_id = item.get("note_id")
                     if note_id:

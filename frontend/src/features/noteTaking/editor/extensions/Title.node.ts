@@ -20,18 +20,21 @@ const Title = Node.create({
                 default: null,
                 renderHTML: () => ({}),
                 parseHTML: () => null,
+                keepOnSplit: false,
             },
 
             position: {
                 default: null,
                 renderHTML: () => ({}),
                 parseHTML: () => null,
+                keepOnSplit: false,
             },
             
             note: {
                 default: null,
                 renderHTML: () => ({}),
                 parseHTML: () => null,
+                keepOnSplit: true,
             },
         };
     },
