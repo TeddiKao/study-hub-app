@@ -1,12 +1,9 @@
 import { BubbleMenu } from "@tiptap/react/menus";
 import type { Editor } from "@tiptap/react";
 import { Bold, Italic, Underline } from "lucide-react";
-import {
-    toggleBold,
-    toggleItalic,
-    toggleUnderline,
-} from "../utils/marks.utils";
+import { toggleMark } from "../utils/marks.utils";
 import clsx from "clsx";
+import type { MarkName } from "../types/editor.types";
 
 interface EditorBubbleMenuProps {
     editor: Editor | null;
@@ -14,7 +11,7 @@ interface EditorBubbleMenuProps {
 
 interface MarkButtonProps {
     editor: Editor | null;
-    markName: string;
+    markName: MarkName;
     isActive: boolean;
 }
 
@@ -59,25 +56,9 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
         ? "bg-gray-300 hover:bg-gray-400"
         : "bg-white hover:bg-gray-300";
 
-    function handleMarkButtonClick() {
-        switch (markName) {
-            case "bold":
-                toggleBold(editor!);
-                break;
-
-            case "italic":
-                toggleItalic(editor!);
-                break;
-
-            case "underline":
-                toggleUnderline(editor!);
-                break;
-        }
-    }
-
     return (
         <button
-            onClick={handleMarkButtonClick}
+            onClick={() => toggleMark(editor, markName)}
             type="button"
             aria-label={`Toggle ${markName}`}
             aria-pressed={isActive}

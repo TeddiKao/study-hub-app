@@ -1,8 +1,7 @@
 import type { Editor } from "@tiptap/react";
+import type { MarkName } from "../types/editor.types";
 
-type MarkNames = "bold" | "italic" | "underline";
-
-function toggleMark(editor: Editor, markName: MarkNames) {
+function toggleMark(editor: Editor, markName: MarkName) {
     switch (markName) {
         case "bold":
             editor.chain().focus().toggleBold().run();
