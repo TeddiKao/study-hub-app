@@ -15,7 +15,7 @@ from ..serializers import (
 
 from ..models import Block
 
-from core.utils import normalize_ids
+from core.utils import normalize_ids, normalize_whitespace
 from authentication.beacon_auth import BeaconJWTAuthentication
 
 class FetchBlocksEndpoint(ListAPIView):
@@ -63,13 +63,18 @@ class EditBlockEndpoint(UpdateAPIView):
         if block.note.notebook.owner.id != self.request.user.id:
             raise PermissionDenied("You do not have permission to edit blocks in this note")
 
-        if block.type == "title":
-            title_content = block.content
-            if title_content:
-                if title_content[0]["text"].strip() != "":
-                    block.content = title_content
-                else:
-                    return Response({ "message": "Title cannot be empty" }, status=status.HTTP_400_BAD_REQUEST)
+        if block.type != "title":
+            serializer.save()
+            return
+        
+        title_content = serializer.validated_data.get("content")
+        if not title_content:
+            return Response({ "message": "Title cannot be empty" }, status=status.HTTP_400_BAD_REQUEST)
+
+        if normalize_whitespace(title_content[0]["text"]) == "":
+            return Response({ "message": "Title cannot be empty" }, status=status.HTTP_400_BAD_REQUEST)
+        
+        block.content = title_content
 
         serializer.save()
 
