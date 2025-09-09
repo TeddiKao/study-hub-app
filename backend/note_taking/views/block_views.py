@@ -85,8 +85,6 @@ class BulkCreateBlocksEndpoint(APIView):
         created_blocks.is_valid(raise_exception=True)
         created_blocks.save()
 
-        print(created_blocks.data)
-
         tiptap_serialized_blocks = PlainTiptapSerializer(
             instance=created_blocks.data,
             many=True,
