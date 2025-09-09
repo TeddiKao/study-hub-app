@@ -50,7 +50,7 @@ function useEditorSelectionUpdate(editor: Editor) {
 
             if (
                 (selectedBlockContent?.length ?? 0) === 0 ||
-                blockText?.trim() === ""
+                blockText!.trim() === ""
             ) {
                 if (isNullOrUndefined(selectedBlockId)) return;
 
