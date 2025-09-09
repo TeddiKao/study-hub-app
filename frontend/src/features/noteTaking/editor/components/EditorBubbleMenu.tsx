@@ -1,7 +1,11 @@
 import { BubbleMenu } from "@tiptap/react/menus";
 import type { Editor } from "@tiptap/react";
 import { Bold, Italic, Underline } from "lucide-react";
-import { toggleBold, toggleItalic, toggleUnderline } from "../utils/marks.utils";
+import {
+    toggleBold,
+    toggleItalic,
+    toggleUnderline,
+} from "../utils/marks.utils";
 import clsx from "clsx";
 
 interface EditorBubbleMenuProps {
@@ -20,13 +24,31 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
     function getMarkIcon() {
         switch (markName) {
             case "bold":
-                return <Bold size={20} strokeWidth={1.5} className={getIconColorClass()} />;
+                return (
+                    <Bold
+                        size={20}
+                        strokeWidth={1.5}
+                        className={getIconColorClass()}
+                    />
+                );
 
             case "italic":
-                return <Italic size={20} strokeWidth={1.5} className={getIconColorClass()} />;
+                return (
+                    <Italic
+                        size={20}
+                        strokeWidth={1.5}
+                        className={getIconColorClass()}
+                    />
+                );
 
             case "underline":
-                return <Underline size={20} strokeWidth={1.5} className={getIconColorClass()} />;
+                return (
+                    <Underline
+                        size={20}
+                        strokeWidth={1.5}
+                        className={getIconColorClass()}
+                    />
+                );
 
             default:
                 return null;
@@ -34,7 +56,9 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
     }
 
     function getActiveClass() {
-        return isActive ? "bg-sky-500 hover:bg-sky-700" : "bg-white hover:bg-gray-300";
+        return isActive
+            ? "bg-sky-500 hover:bg-sky-700"
+            : "bg-white hover:bg-gray-300";
     }
 
     function getIconColorClass() {
@@ -61,7 +85,10 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
         <button
             onClick={handleMarkButtonClick}
             type="button"
-            className={clsx("border-none outline-none p-1 rounded-md", getActiveClass())}
+            className={clsx(
+                "border-none outline-none p-1 rounded-md",
+                getActiveClass()
+            )}
         >
             {getMarkIcon()}
         </button>
@@ -80,27 +107,23 @@ function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
             }}
         >
             <div className="flex flex-row p-1 bg-white shadow-md rounded-md">
-                <button
-                    onClick={() => toggleBold(editor)}
-                    type="button"
-                    className="hover:cursor-pointer hover:bg-gray-300 bg-white border-none outline-none p-1 rounded-md"
-                >
-                    <Bold size={20} strokeWidth={1.5} />
-                </button>
-                <button
-                    onClick={() => toggleItalic(editor)}
-                    type="button"
-                    className="hover:cursor-pointer hover:bg-gray-300 bg-white border-none outline-none p-1 rounded-md"
-                >
-                    <Italic size={20} strokeWidth={1.5} />
-                </button>
-                <button
-                    onClick={() => toggleUnderline(editor)}
-                    type="button"
-                    className="hover:cursor-pointer hover:bg-gray-300 bg-white border-none outline-none p-1 rounded-md"
-                >
-                    <Underline size={20} strokeWidth={1.5} />
-                </button>
+                <MarkButton
+                    editor={editor}
+                    markName="bold"
+                    isActive={editor.isActive("bold")}
+                />
+
+                <MarkButton
+                    editor={editor}
+                    markName="italic"
+                    isActive={editor.isActive("italic")}
+                />
+                
+                <MarkButton
+                    editor={editor}
+                    markName="underline"
+                    isActive={editor.isActive("underline")}
+                />
             </div>
         </BubbleMenu>
     );
