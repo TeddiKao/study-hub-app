@@ -6,9 +6,6 @@ function getDeletedNodeIds(oldDoc: ProseMirrorNode, newDoc: ProseMirrorNode) {
     const oldDocContent = oldDoc.toJSON().content;
     const newDocContent = newDoc.toJSON().content;
 
-    console.log(oldDocContent);
-    console.log(newDocContent);
-
     const deletedNodeIds: Set<number> = new Set();
 
     oldDocContent.forEach((oldNode: JSONContent) => {
