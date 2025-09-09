@@ -4,6 +4,8 @@ import type {
     TiptapSerializedBlock,
     TiptapSerializedBlocks,
 } from "../types/blockSchema.types";
+import type { Editor} from "@tiptap/react";
+import type { Level } from "@tiptap/extension-heading";
 
 function parseSerializedBlock(block: TiptapSerializedBlock): BlockUpdateRequest {
     if (!block.attrs) {
@@ -52,4 +54,8 @@ function parseSerializedBlocks(
     return tiptapSerializedBlocks.map((block) => parseSerializedBlock(block));
 }
 
-export { parseSerializedBlocks }
+function toggleHeading(editor: Editor, level: number) {
+    editor.chain().focus().toggleHeading({ level: level as Level }).run();
+}
+
+export { parseSerializedBlocks, toggleHeading }
