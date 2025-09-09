@@ -24,6 +24,8 @@ interface MarkButtonProps {
     isActive: boolean;
 }
 
+type HeadingButtonsProps = EditorBubbleMenuProps;
+
 function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
     if (!editor) return null;
 
@@ -83,6 +85,41 @@ function MarkButtons({ editor }: EditorBubbleMenuProps) {
     );
 }
 
+function HeadingButtons({ editor }: HeadingButtonsProps) {
+    if (!editor) return null;
+
+    return (
+        <div className="flex flex-row gap-1">
+            <button
+                onClick={() => {
+                    toggleHeading(editor, 1);
+                    console.log(editor.getJSON());
+                }}
+                className="p-1.5 rounded-md hover:cursor-pointer hover:bg-gray-300"
+                type="button"
+            >
+                <Heading1 size={20} strokeWidth={1.5} />
+            </button>
+
+            <button
+                onClick={() => toggleHeading(editor, 2)}
+                className="p-1.5 rounded-md hover:cursor-pointer hover:bg-gray-300"
+                type="button"
+            >
+                <Heading2 size={20} strokeWidth={1.5} />
+            </button>
+
+            <button
+                onClick={() => toggleHeading(editor, 3)}
+                className="p-1.5 rounded-md hover:cursor-pointer hover:bg-gray-300"
+                type="button"
+            >
+                <Heading3 size={20} strokeWidth={1.5} />
+            </button>
+        </div>
+    );
+}
+
 function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
     if (!editor) return null;
 
@@ -96,31 +133,7 @@ function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
         >
             <div className="flex flex-row p-1 gap-1 bg-white shadow-md rounded-md">
                 <MarkButtons editor={editor} />
-                <div className="flex flex-row gap-1">
-                    <button
-                        onClick={() => toggleHeading(editor, 1)}
-                        className="p-1.5 rounded-md hover:cursor-pointer hover:bg-gray-300"
-                        type="button"
-                    >
-                        <Heading1 size={20} strokeWidth={1.5} />
-                    </button>
-
-                    <button
-                        onClick={() => toggleHeading(editor, 2)}
-                        className="p-1.5 rounded-md hover:cursor-pointer hover:bg-gray-300"
-                        type="button"
-                    >
-                        <Heading2 size={20} strokeWidth={1.5} />
-                    </button>
-
-                    <button
-                        onClick={() => toggleHeading(editor, 3)}
-                        className="p-1.5 rounded-md hover:cursor-pointer hover:bg-gray-300"
-                        type="button"
-                    >
-                        <Heading3 size={20} strokeWidth={1.5} />
-                    </button>
-                </div>
+                <HeadingButtons editor={editor} />
             </div>
         </BubbleMenu>
     );
