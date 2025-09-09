@@ -28,7 +28,7 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
                     <Bold
                         size={20}
                         strokeWidth={isActive ? 2 : 1.5}
-                        className={getIconColorClass()}
+                        className="stroke-gray-500"
                     />
                 );
 
@@ -37,7 +37,7 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
                     <Italic
                         size={20}
                         strokeWidth={isActive ? 2 : 1.5}
-                        className={getIconColorClass()}
+                        className="stroke-gray-500"
                     />
                 );
 
@@ -46,7 +46,7 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
                     <Underline
                         size={20}
                         strokeWidth={isActive ? 2 : 1.5}
-                        className={getIconColorClass()}
+                        className="stroke-gray-500"
                     />
                 );
 
@@ -57,12 +57,8 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
 
     function getActiveClass() {
         return isActive
-            ? "bg-sky-500 hover:bg-sky-700"
+            ? "bg-gray-300 hover:bg-gray-400"
             : "bg-white hover:bg-gray-300";
-    }
-
-    function getIconColorClass() {
-        return isActive ? "stroke-white" : "stroke-gray-500";
     }
 
     function handleMarkButtonClick() {
@@ -86,7 +82,7 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
             onClick={handleMarkButtonClick}
             type="button"
             className={clsx(
-                "border-none outline-none p-1 rounded-md",
+                "border-none outline-none p-1.5 rounded-md hover:cursor-pointer",
                 getActiveClass()
             )}
         >
@@ -106,7 +102,7 @@ function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
                 offset: 8,
             }}
         >
-            <div className="flex flex-row p-1 bg-white shadow-md rounded-md">
+            <div className="flex flex-row p-1 gap-1 bg-white shadow-md rounded-md">
                 <MarkButton
                     editor={editor}
                     markName="bold"
