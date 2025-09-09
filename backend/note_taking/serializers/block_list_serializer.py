@@ -10,7 +10,6 @@ class BlockListSerializer(ListSerializer):
     def create(self, validated_data):
         blocks = []
         with transaction.atomic():
-            greatest_position = Block.objects.aggregate(max_position=Max("position")).get("max_position")
             temp_id_mapping = {}
 
             for item in validated_data:
@@ -18,6 +17,7 @@ class BlockListSerializer(ListSerializer):
                 temp_block_id = item.pop("temp_block_id", None)
 
                 if not item.get("id"):
+                    greatest_position = Block.objects.filter(note=item["note"]).aggregate(max_position=Max("position")).get("max_position") or 0
                     item["position"] = greatest_position + 1
                     try:
                         created_block = Block.objects.create(**item)
