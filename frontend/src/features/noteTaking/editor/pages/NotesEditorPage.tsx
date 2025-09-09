@@ -13,6 +13,7 @@ import useWindowUnloadSave from "../hooks/editor/useWindowUnloadSave.hooks";
 import useSaveOnNavigate from "../hooks/editor/useSaveOnNavigate.hooks";
 import useEditorAttributeUpdate from "../hooks/editor/useEditorAttributeUpdate.hooks";
 import { useEditorStateStore } from "../stores/editorState.stores";
+import EditorBubbleMenu from "../components/EditorBubbleMenu";
 
 function NotesEditorPage() {
     const { noteId } = useParams();
@@ -86,6 +87,7 @@ function NotesEditorPage() {
         <DashboardLayout className="gap-16 pr-16">
             <div className="flex flex-col grow-1">
                 <EditorContent className="notes-editor mt-16" editor={editor} />
+                <EditorBubbleMenu editor={editor} />
             </div>
         </DashboardLayout>
     );
