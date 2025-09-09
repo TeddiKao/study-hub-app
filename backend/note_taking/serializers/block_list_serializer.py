@@ -51,10 +51,10 @@ class BlockListSerializer(ListSerializer):
                         block.position = item.get("position")
 
                     if "content" in item:
-                        item_type = item.get("type")
+                        item_type = item.get("type", block.type)
 
                         if item_type == "title":
-                            item_content = item.get("content")
+                            item_content = item.get("content", [])
                             if item_content:
                                 if not is_empty_string(item_content[0]["text"]):
                                     block.content = item_content
