@@ -29,6 +29,9 @@ def normalize_ids(ids: Iterable[Hashable]) -> list[int]:
 
     return normalized_ids
 
+def is_empty_string(text: str) -> bool:
+    return normalize_whitespace(text) == ""
+
 def normalize_whitespace(text: str) -> str:
     if not text:
         return ""
