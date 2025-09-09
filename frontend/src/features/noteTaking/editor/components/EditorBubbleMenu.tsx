@@ -24,6 +24,12 @@ interface MarkButtonProps {
     isActive: boolean;
 }
 
+interface HeadingButtonProps {
+    editor: Editor | null;
+    level: number;
+    isActive: boolean;
+}
+
 type HeadingButtonsProps = EditorBubbleMenuProps;
 
 function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
@@ -85,37 +91,69 @@ function MarkButtons({ editor }: EditorBubbleMenuProps) {
     );
 }
 
+function HeadingButton({ editor, isActive, level }: HeadingButtonProps) {
+    if (!editor) return null;
+
+    const IconHeadingMapping: Record<
+        string,
+        ComponentType<{
+            size?: number;
+            strokeWidth?: number;
+            className?: string;
+        }>
+    > = {
+        1: Heading1,
+        2: Heading2,
+        3: Heading3,
+    };
+
+    const activeClasses = isActive
+        ? "bg-gray-300 hover:bg-gray-400"
+        : "bg-white hover:bg-gray-300";
+
+    function getHeadingIcon() {
+        const Icon = IconHeadingMapping[level];
+
+        return <Icon size={20} strokeWidth={isActive ? 2 : 1.5} />;
+    }
+
+    return (
+        <button
+            onClick={() => {
+                toggleHeading(editor, level);
+                console.log(editor.getJSON());
+            }}
+            className={clsx(
+                "p-1.5 rounded-md hover:cursor-pointer",
+                activeClasses
+            )}
+            type="button"
+        >
+            {getHeadingIcon()}
+        </button>
+    );
+}
+
 function HeadingButtons({ editor }: HeadingButtonsProps) {
     if (!editor) return null;
 
     return (
         <div className="flex flex-row gap-1">
-            <button
-                onClick={() => {
-                    toggleHeading(editor, 1);
-                    console.log(editor.getJSON());
-                }}
-                className="p-1.5 rounded-md hover:cursor-pointer hover:bg-gray-300"
-                type="button"
-            >
-                <Heading1 size={20} strokeWidth={1.5} />
-            </button>
-
-            <button
-                onClick={() => toggleHeading(editor, 2)}
-                className="p-1.5 rounded-md hover:cursor-pointer hover:bg-gray-300"
-                type="button"
-            >
-                <Heading2 size={20} strokeWidth={1.5} />
-            </button>
-
-            <button
-                onClick={() => toggleHeading(editor, 3)}
-                className="p-1.5 rounded-md hover:cursor-pointer hover:bg-gray-300"
-                type="button"
-            >
-                <Heading3 size={20} strokeWidth={1.5} />
-            </button>
+            <HeadingButton
+                editor={editor}
+                isActive={editor.isActive("heading", { level: 1 })}
+                level={1}
+            />
+            <HeadingButton
+                editor={editor}
+                isActive={editor.isActive("heading", { level: 2 })}
+                level={2}
+            />
+            <HeadingButton
+                editor={editor}
+                isActive={editor.isActive("heading", { level: 3 })}
+                level={3}
+            />
         </div>
     );
 }
