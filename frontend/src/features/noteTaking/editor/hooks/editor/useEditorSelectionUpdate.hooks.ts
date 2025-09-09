@@ -22,7 +22,7 @@ function useEditorSelectionUpdate(editor: Editor) {
         updateSelectedBlockPosition,
         selectedBlockOriginalContent,
         updateSelectedBlockContent,
-        updateSelectedBlockOriginalContent
+        updateSelectedBlockOriginalContent,
     } = useEditorStateStore();
     const { handleBlockUpdate } = useBlockMutations();
 
@@ -36,36 +36,37 @@ function useEditorSelectionUpdate(editor: Editor) {
         const currentlySelectedNode = getSelectedNode(editor);
         if (!currentlySelectedNode) return;
 
-        if (selectedBlockType === Title.name) {
-            console.log("Title node selected");
-
-            if (isNullOrUndefined(selectedBlockOriginalContent)) return;
-
-            if (currentlySelectedNode.content.size === 0) {
-                const { id } = currentlySelectedNode.attrs ?? {};
-                if (isNullOrUndefined(id)) return;
-
-                const nodePos = getNodePositionById(editor, id);
-                if (isNullOrUndefined(nodePos)) return;
-
-                const node = getNodeFromDocPosition(editor, nodePos!);
-                if (isNullOrUndefined(node)) return;
-
-                updateNodeContent(
-                    editor,
-                    node!,
-                    selectedBlockOriginalContent!
-                );
-
-                updateSelectedBlockContent(selectedBlockOriginalContent!);
-            }
-        }
-
         const { id, position } = currentlySelectedNode.attrs ?? {};
         if (isNullOrUndefined(id)) return;
         if (isNullOrUndefined(position)) return;
 
         const hasFocusMoved = id !== selectedBlockId;
+
+        console.log("hasFocusMoved", hasFocusMoved);
+
+        if (selectedBlockType === Title.name && hasFocusMoved) {
+            console.log("Title node selected");
+            if (isNullOrUndefined(selectedBlockOriginalContent)) return;
+
+            console.log(
+                "selectedBlockOriginalContent",
+                selectedBlockOriginalContent
+            );
+
+            if ((selectedBlockContent?.length ?? 0) === 0) {
+                if (isNullOrUndefined(selectedBlockId)) return;
+
+                const nodePos = getNodePositionById(editor, selectedBlockId!);
+                if (isNullOrUndefined(nodePos)) return;
+
+                const node = getNodeFromDocPosition(editor, nodePos!);
+                if (isNullOrUndefined(node)) return;
+
+                updateNodeContent(editor, node!, selectedBlockOriginalContent!);
+
+                updateSelectedBlockContent(selectedBlockOriginalContent!);
+            }
+        }
 
         if (shouldUpdatetoDB && hasFocusMoved) {
             const prevSelectedNodeId = selectedBlockId;
@@ -85,7 +86,12 @@ function useEditorSelectionUpdate(editor: Editor) {
         updateSelectedBlockId(id);
         updateSelectedBlockType(currentlySelectedNode.type.name);
         updateSelectedBlockPosition(position);
-        updateSelectedBlockOriginalContent(currentlySelectedNode.content.toJSON() ?? []);
+        
+        if (hasFocusMoved) {
+            updateSelectedBlockOriginalContent(
+                currentlySelectedNode.content.toJSON() ?? []
+            );
+        }
     };
 
     useEditorEventListener(editor, "selectionUpdate", handler);
