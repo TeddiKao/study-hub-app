@@ -1,4 +1,5 @@
 import Heading from "@tiptap/extension-heading";
+import { Node as ProseMirrorNode } from "prosemirror-model";
 
 const NoteEditorHeading = Heading.extend({
     name: "note_editor_heading",
@@ -42,19 +43,19 @@ const NoteEditorHeading = Heading.extend({
     parseHTML() {
         return [1, 2, 3, 4, 5, 6].map((level) => ({
             tag: `h${level}`,
-            getAttrs: () => ({ level })
+            getAttrs: () => ({ level }),
         }))
     },
 
-    renderHTML({ HTMLAttributes }: { HTMLAttributes: Record<string, unknown> }) {
-        const attrs = {
-            ...this.options.HTMLAttributes,
-            ...HTMLAttributes,
+    renderHTML({ node, HTMLAttributes }: { node: ProseMirrorNode; HTMLAttributes: Record<string, unknown> }) {
+        const domAttrs = {
+            class: HTMLAttributes.class,
+            style: HTMLAttributes.style
         };
 
-        const tag = `h${this.options.HTMLAttributes.level}`;
+        const tag = `h${node.attrs.level}`;
 
-        return [tag, attrs, 0];
+        return [tag, domAttrs, 0];
     },
 })
 
