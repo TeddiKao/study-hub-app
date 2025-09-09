@@ -23,6 +23,8 @@ function useEditorSelectionUpdate(editor: Editor) {
         selectedBlockOriginalContent,
         updateSelectedBlockContent,
         updateSelectedBlockOriginalContent,
+        selectedBlockAdditionalAttributes,
+        updateSelectedBlockAdditionalAttributes,
     } = useEditorStateStore();
     const { handleBlockUpdate } = useBlockMutations();
 
@@ -31,7 +33,8 @@ function useEditorSelectionUpdate(editor: Editor) {
             !isNullOrUndefined(selectedBlockId) &&
             !isNullOrUndefined(selectedBlockContent) &&
             !isNullOrUndefined(selectedBlockType) &&
-            !isNullOrUndefined(selectedBlockPosition);
+            !isNullOrUndefined(selectedBlockPosition) &&
+            !isNullOrUndefined(selectedBlockAdditionalAttributes);
 
         const currentlySelectedNode = getSelectedNode(editor);
         if (!currentlySelectedNode) return;
@@ -70,12 +73,15 @@ function useEditorSelectionUpdate(editor: Editor) {
             const prevSelectedBlockContent = selectedBlockContent;
             const prevSelectedBlockType = selectedBlockType;
             const prevSelectedBlockPosition = selectedBlockPosition;
+            const prevSelectedBlockAdditionalAttributes =
+                selectedBlockAdditionalAttributes;
 
             if ((prevSelectedBlockContent?.length ?? 0) > 0) {
                 await handleBlockUpdate(prevSelectedNodeId!, {
                     type: prevSelectedBlockType!,
                     content: prevSelectedBlockContent!,
                     position: prevSelectedBlockPosition!,
+                    additionalAttributes: prevSelectedBlockAdditionalAttributes!,
                 });
             }
         }
