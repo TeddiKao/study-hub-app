@@ -21,6 +21,12 @@ interface EditorStateStore {
     selectedBlockPosition: number | null;
     updateSelectedBlockPosition: (position: number) => void;
     clearSelectedBlockPosition: () => void;
+
+    selectedBlockAdditionalAttributes: Record<string, unknown> | null;
+    updateSelectedBlockAdditionalAttributes: (
+        attributes: Record<string, unknown>
+    ) => void;
+    clearSelectedBlockAdditionalAttributes: () => void;
 }
 
 const useEditorStateStore = create<EditorStateStore>((set) => ({
@@ -48,10 +54,11 @@ const useEditorStateStore = create<EditorStateStore>((set) => ({
     selectedBlockOriginalContent: null,
     updateSelectedBlockOriginalContent: (content) => {
         if (!Array.isArray(content)) return;
-        
+
         set({ selectedBlockOriginalContent: content });
     },
-    clearSelectedBlockOriginalContent: () => set({ selectedBlockOriginalContent: null }),
+    clearSelectedBlockOriginalContent: () =>
+        set({ selectedBlockOriginalContent: null }),
 
     selectedBlockPosition: null,
     updateSelectedBlockPosition: (position) => {
@@ -61,7 +68,16 @@ const useEditorStateStore = create<EditorStateStore>((set) => ({
         set({ selectedBlockPosition: position });
     },
     clearSelectedBlockPosition: () => set({ selectedBlockPosition: null }),
+
+    selectedBlockAdditionalAttributes: null,
+    updateSelectedBlockAdditionalAttributes: (
+        attributes: Record<string, unknown>
+    ) => {
+        set({ selectedBlockAdditionalAttributes: attributes });
+    },
+    clearSelectedBlockAdditionalAttributes: () => {
+        set({ selectedBlockAdditionalAttributes: null });
+    },
 }));
 
 export { useEditorStateStore };
-    
