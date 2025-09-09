@@ -17,6 +17,7 @@ interface BlockUpdateRequest {
     content: JSONContent[];
     position: number;
     noteId: number;
+    additionalAttributes?: Record<string, unknown>;
 }
 
 interface FetchBlocksSuccess extends ApiSuccessResponse {
