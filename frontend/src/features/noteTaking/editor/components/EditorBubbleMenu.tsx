@@ -27,7 +27,7 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
                 return (
                     <Bold
                         size={20}
-                        strokeWidth={1.5}
+                        strokeWidth={isActive ? 2 : 1.5}
                         className={getIconColorClass()}
                     />
                 );
@@ -36,7 +36,7 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
                 return (
                     <Italic
                         size={20}
-                        strokeWidth={1.5}
+                        strokeWidth={isActive ? 2 : 1.5}
                         className={getIconColorClass()}
                     />
                 );
@@ -45,7 +45,7 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
                 return (
                     <Underline
                         size={20}
-                        strokeWidth={1.5}
+                        strokeWidth={isActive ? 2 : 1.5}
                         className={getIconColorClass()}
                     />
                 );
