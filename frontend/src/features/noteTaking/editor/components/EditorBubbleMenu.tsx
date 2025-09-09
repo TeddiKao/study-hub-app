@@ -12,6 +12,7 @@ import { toggleMark } from "../utils/marks.utils";
 import clsx from "clsx";
 import type { MarkName } from "../types/editor.types";
 import type { ComponentType } from "react";
+import { toggleHeading } from "../utils/blocks.utils";
 
 interface EditorBubbleMenuProps {
     editor: Editor | null;
@@ -97,6 +98,7 @@ function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
                 <MarkButtons editor={editor} />
                 <div className="flex flex-row gap-1">
                     <button
+                        onClick={() => toggleHeading(editor, 1)}
                         className="p-1.5 rounded-md hover:cursor-pointer hover:bg-gray-300"
                         type="button"
                     >
@@ -104,6 +106,7 @@ function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
                     </button>
 
                     <button
+                        onClick={() => toggleHeading(editor, 2)}
                         className="p-1.5 rounded-md hover:cursor-pointer hover:bg-gray-300"
                         type="button"
                     >
@@ -111,6 +114,7 @@ function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
                     </button>
 
                     <button
+                        onClick={() => toggleHeading(editor, 3)}
                         className="p-1.5 rounded-md hover:cursor-pointer hover:bg-gray-300"
                         type="button"
                     >
