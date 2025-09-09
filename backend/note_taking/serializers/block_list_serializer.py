@@ -46,6 +46,10 @@ class BlockListSerializer(ListSerializer):
                     block.content = item.get("content", [])
                     block.position = item.get("position")
 
+                    item_type = item.get("type")
+                    if item_type == "title":
+                        block.content = item.get("content", block.content)
+
                     note_id = item.get("note_id")
                     if note_id:
                         if hasattr(note_id, "id"):
