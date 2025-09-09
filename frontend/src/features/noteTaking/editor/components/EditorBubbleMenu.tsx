@@ -18,7 +18,7 @@ function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
                 offset: 8,
             }}
         >
-            <div className="flex flex-row px-2 py-1 gap-1 bg-white shadow-md rounded-md">
+            <div className="flex flex-row p-1 bg-white shadow-md rounded-md">
                 <button
                     onClick={() => toggleBold(editor)}
                     type="button"
