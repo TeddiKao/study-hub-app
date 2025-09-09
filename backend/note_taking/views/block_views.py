@@ -64,10 +64,10 @@ class EditBlockEndpoint(UpdateAPIView):
             raise PermissionDenied("You do not have permission to edit blocks in this note")
 
         if block.type == "title":
-            item_content = serializer.validated_data.get("content")
-            if item_content:
-                if item_content["text"].strip() != "":
-                    block.content = item_content
+            title_content = block.content
+            if title_content:
+                if title_content[0]["text"].strip() != "":
+                    block.content = title_content
                 else:
                     return Response({ "message": "Title cannot be empty" }, status=status.HTTP_400_BAD_REQUEST)
 
