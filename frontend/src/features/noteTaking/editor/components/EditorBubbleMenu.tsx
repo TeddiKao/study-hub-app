@@ -55,11 +55,9 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
         }
     }
 
-    function getActiveClass() {
-        return isActive
-            ? "bg-gray-300 hover:bg-gray-400"
-            : "bg-white hover:bg-gray-300";
-    }
+    const activeClasses = isActive
+        ? "bg-gray-300 hover:bg-gray-400"
+        : "bg-white hover:bg-gray-300";
 
     function handleMarkButtonClick() {
         switch (markName) {
@@ -85,7 +83,7 @@ function MarkButton({ editor, markName, isActive }: MarkButtonProps) {
             aria-pressed={isActive}
             className={clsx(
                 "border-none outline-none p-1.5 rounded-md hover:cursor-pointer",
-                getActiveClass()
+                activeClasses
             )}
         >
             {getMarkIcon()}
