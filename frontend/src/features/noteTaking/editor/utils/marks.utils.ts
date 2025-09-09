@@ -1,15 +1,21 @@
 import type { Editor } from "@tiptap/react";
 
-function toggleBold(editor: Editor) {
-    editor.chain().focus().toggleBold().run();
+type MarkNames = "bold" | "italic" | "underline";
+
+function toggleMark(editor: Editor, markName: MarkNames) {
+    switch (markName) {
+        case "bold":
+            editor.chain().focus().toggleBold().run();
+            break;
+
+        case "italic":
+            editor.chain().focus().toggleItalic().run();
+            break;
+
+        case "underline":
+            editor.chain().focus().toggleUnderline().run();
+            break;
+    }
 }
 
-function toggleItalic(editor: Editor) {
-    editor.chain().focus().toggleItalic().run();
-}
-
-function toggleUnderline(editor: Editor) {
-    editor.chain().focus().toggleUnderline().run();
-}
-
-export { toggleBold, toggleItalic, toggleUnderline };
+export { toggleMark };
