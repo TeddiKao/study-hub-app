@@ -82,8 +82,12 @@ function useEditorSelectionUpdate(editor: Editor) {
                     type: prevSelectedBlockType!,
                     content: prevSelectedBlockContent!,
                     position: prevSelectedBlockPosition!,
-                    additionalAttributes:
-                        prevSelectedBlockAdditionalAttributes!,
+                    ...(prevSelectedBlockAdditionalAttributes
+                        ? {
+                              additionalAttributes:
+                                  prevSelectedBlockAdditionalAttributes!,
+                          }
+                        : {}),
                 });
             }
         }
