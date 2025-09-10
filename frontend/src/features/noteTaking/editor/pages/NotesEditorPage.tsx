@@ -25,6 +25,7 @@ function NotesEditorPage() {
         clearSelectedBlockType,
         clearSelectedBlockPosition,
         clearSelectedBlockOriginalContent,
+        clearSelectedBlockAdditionalAttributes,
     } = useEditorStateStore();
     const noteIdRef = useLatest(noteId);
 
@@ -47,6 +48,7 @@ function NotesEditorPage() {
             clearSelectedBlockType();
             clearSelectedBlockPosition();
             clearSelectedBlockOriginalContent();
+            clearSelectedBlockAdditionalAttributes();
         };
     }, [
         clearSelectedBlockId,
@@ -54,6 +56,7 @@ function NotesEditorPage() {
         clearSelectedBlockType,
         clearSelectedBlockPosition,
         clearSelectedBlockOriginalContent,
+        clearSelectedBlockAdditionalAttributes,
     ]);
 
     useEffect(() => {
