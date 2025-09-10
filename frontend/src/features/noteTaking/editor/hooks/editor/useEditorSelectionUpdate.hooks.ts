@@ -33,8 +33,7 @@ function useEditorSelectionUpdate(editor: Editor) {
             !isNullOrUndefined(selectedBlockId) &&
             !isNullOrUndefined(selectedBlockContent) &&
             !isNullOrUndefined(selectedBlockType) &&
-            !isNullOrUndefined(selectedBlockPosition) &&
-            !isNullOrUndefined(selectedBlockAdditionalAttributes);
+            !isNullOrUndefined(selectedBlockPosition)
 
         const currentlySelectedNode = getSelectedNode(editor);
         if (!currentlySelectedNode) return;
