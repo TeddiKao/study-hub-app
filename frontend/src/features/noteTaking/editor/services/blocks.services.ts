@@ -148,7 +148,9 @@ async function editBlock(
                 content: blockData.content,
                 position: blockData.position,
                 noteId: noteId,
-                additionalAttributes: blockData.additionalAttributes ?? {},
+                ...(blockData.additionalAttributes !== undefined ? {
+                    additionalAttributes: blockData.additionalAttributes
+                } : {}),
             }
         );
 
