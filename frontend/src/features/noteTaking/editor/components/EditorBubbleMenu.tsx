@@ -13,6 +13,7 @@ import clsx from "clsx";
 import type { MarkName } from "../types/editor.types";
 import type { ComponentType } from "react";
 import { toggleHeading } from "../utils/blocks.utils";
+import { useEditorStateStore } from "../stores/editorState.stores";
 
 interface EditorBubbleMenuProps {
     editor: Editor | null;
@@ -92,6 +93,8 @@ function MarkButtons({ editor }: EditorBubbleMenuProps) {
 }
 
 function HeadingButton({ editor, isActive, level }: HeadingButtonProps) {
+    const { updateSelectedBlockAdditionalAttributes } = useEditorStateStore();
+
     if (!editor) return null;
 
     const IconHeadingMapping: Record<
@@ -121,7 +124,9 @@ function HeadingButton({ editor, isActive, level }: HeadingButtonProps) {
         <button
             onClick={() => {
                 toggleHeading(editor, level);
-                console.log(editor.getJSON());
+                updateSelectedBlockAdditionalAttributes({
+                    level: level,
+                });
             }}
             className={clsx(
                 "p-1.5 rounded-md hover:cursor-pointer",
