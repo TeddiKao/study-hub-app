@@ -132,11 +132,11 @@ function HeadingButton({ editor, isActive, level }: HeadingButtonProps) {
                     level,
                 });
                 if (isNowActive) {
-                    clearSelectedBlockAdditionalAttributes();
-                } else {
                     updateSelectedBlockAdditionalAttributes({
                         level,
                     });
+                } else {
+                    clearSelectedBlockAdditionalAttributes();
                 }
             }}
             className={clsx(
