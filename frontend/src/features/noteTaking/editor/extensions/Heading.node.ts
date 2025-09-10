@@ -50,10 +50,7 @@ const NoteEditorHeading = Heading.extend({
     },
 
     renderHTML({ node, HTMLAttributes }: { node: ProseMirrorNode; HTMLAttributes: Record<string, unknown> }) {
-        const domAttrs = {
-            class: HTMLAttributes.class,
-            style: HTMLAttributes.style
-        };
+        const domAttrs = { ...HTMLAttributes }
 
         const tag = `h${node.attrs.level}`;
 
