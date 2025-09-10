@@ -1,5 +1,6 @@
 import type { JSONContent } from "@tiptap/react";
 import { create } from "zustand";
+import { sanitiseAttributes } from "../utils/attributes.utils";
 
 interface EditorStateStore {
     selectedBlockId: number | null;
@@ -73,7 +74,7 @@ const useEditorStateStore = create<EditorStateStore>((set) => ({
     updateSelectedBlockAdditionalAttributes: (
         attributes: Record<string, unknown>
     ) => {
-        set({ selectedBlockAdditionalAttributes: attributes });
+        set({ selectedBlockAdditionalAttributes: sanitiseAttributes(attributes) });
     },
     clearSelectedBlockAdditionalAttributes: () => {
         set({ selectedBlockAdditionalAttributes: null });
