@@ -6,10 +6,10 @@ const NoteEditorParagraph = Paragraph.extend({
     addAttributes() {
         // @ts-ignore
         const baseAttrs = this.parent?.();
-        
+
         return {
             ...baseAttrs,
-            
+
             id: {
                 default: null,
                 keepOnSplit: false,
@@ -31,6 +31,27 @@ const NoteEditorParagraph = Paragraph.extend({
                 parseHTML: () => null,
             },
         };
+    },
+
+    parseHTML() {
+        return [
+            {
+                tag: "p",
+            },
+        ];
+    },
+
+    renderHTML({
+        HTMLAttributes,
+    }: {
+        HTMLAttributes: Record<string, unknown>;
+    }) {
+        const domAttrs = {
+            class: HTMLAttributes.class,
+            style: HTMLAttributes.style,
+        };
+
+        return ["p", domAttrs, 0];
     },
 });
 
