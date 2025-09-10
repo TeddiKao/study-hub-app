@@ -101,7 +101,7 @@ function HeadingButton({ editor, isActive, level }: HeadingButtonProps) {
     if (!editor) return null;
 
     const IconHeadingMapping: Record<
-        string,
+        1 | 2 | 3,
         ComponentType<{
             size?: number;
             strokeWidth?: number;
@@ -118,6 +118,8 @@ function HeadingButton({ editor, isActive, level }: HeadingButtonProps) {
         : "bg-white hover:bg-gray-300";
 
     function getHeadingIcon() {
+        if (level !== 1 && level !== 2 && level !== 3) return;
+
         const Icon = IconHeadingMapping[level];
 
         return <Icon size={20} strokeWidth={isActive ? 2 : 1.5} />;
