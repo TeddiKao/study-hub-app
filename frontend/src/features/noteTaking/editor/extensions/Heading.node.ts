@@ -41,7 +41,9 @@ const NoteEditorHeading = Heading.extend({
     },
 
     parseHTML() {
-        return [1, 2, 3, 4, 5, 6].map((level) => ({
+        const { levels } = this.options;
+
+        return levels.map((level) => ({
             tag: `h${level}`,
             getAttrs: () => ({ level }),
         }))
