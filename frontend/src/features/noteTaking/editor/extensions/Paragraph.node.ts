@@ -46,10 +46,7 @@ const NoteEditorParagraph = Paragraph.extend({
     }: {
         HTMLAttributes: Record<string, unknown>;
     }) {
-        const domAttrs = {
-            class: HTMLAttributes.class,
-            style: HTMLAttributes.style,
-        };
+        const domAttrs = { ...HTMLAttributes }
 
         return ["p", domAttrs, 0];
     },
