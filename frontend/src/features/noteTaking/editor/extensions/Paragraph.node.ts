@@ -13,16 +13,22 @@ const NoteEditorParagraph = Paragraph.extend({
             id: {
                 default: null,
                 keepOnSplit: false,
+                renderHTML: () => ({}),
+                parseHTML: () => null,
             },
 
             position: {
                 default: null,
                 keepOnSplit: false,
+                renderHTML: () => ({}),
+                parseHTML: () => null,
             },
 
             note: {
                 default: null,
                 keepOnSplit: true,
+                renderHTML: () => ({}),
+                parseHTML: () => null,
             },
         };
     },
