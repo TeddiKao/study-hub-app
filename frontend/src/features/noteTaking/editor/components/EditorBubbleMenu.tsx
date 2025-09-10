@@ -133,6 +133,8 @@ function HeadingButton({ editor, isActive, level }: HeadingButtonProps) {
                 activeClasses
             )}
             type="button"
+            aria-label={`Toggle heading ${level}`}
+            aria-pressed={isActive}
         >
             {getHeadingIcon()}
         </button>
