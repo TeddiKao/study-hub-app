@@ -15,10 +15,14 @@ import { getDeletedNodeIds } from "../../utils/editor.utils";
 import { NoteEditorHeading } from "../../extensions/Heading.node";
 
 function useNotesEditor() {
-    const { handleBlockBulkCreate, handleBlocksBulkDelete } = useBlockMutations();
+    const { handleBlockBulkCreate, handleBlocksBulkDelete } =
+        useBlockMutations();
     const processedNodesRef = useRef(new Set<number>());
 
-    async function handleBlockDeletion({ editor, transaction }: EditorEvents["update"]) {
+    async function handleBlockDeletion({
+        editor,
+        transaction,
+    }: EditorEvents["update"]) {
         if (!editor) return;
 
         const oldDoc = transaction.before;
@@ -35,14 +39,17 @@ function useNotesEditor() {
         if (!editor) return;
         if (editor.isEmpty) return;
 
-        const createdParagraphs: BulkBlockCreateRequest[] = [];
+        const createdBlocks: BulkBlockCreateRequest[] = [];
 
         editor.state.doc.descendants((node, pos) => {
             if (!node.type.isBlock) {
                 return;
             }
 
-            if (node.type.name === NoteEditorParagraph.name) {
+            if (
+                node.type.name === NoteEditorParagraph.name ||
+                node.type.name === NoteEditorHeading.name
+            ) {
                 const id = node.attrs.id;
 
                 if (isNullOrUndefined(id)) {
@@ -54,7 +61,7 @@ function useNotesEditor() {
 
                     const tempBlockId = crypto.randomUUID();
 
-                    createdParagraphs.push({
+                    createdBlocks.push({
                         type: NoteEditorParagraph.name,
                         content: node.content.toJSON() ?? [],
                         noteId: node.attrs?.note?.id,
@@ -73,8 +80,8 @@ function useNotesEditor() {
             }
         });
 
-        if (createdParagraphs.length > 0) {
-            await handleBlockBulkCreate(createdParagraphs);
+        if (createdBlocks.length > 0) {
+            await handleBlockBulkCreate(createdBlocks);
             processedNodesRef.current.clear();
         }
     }
