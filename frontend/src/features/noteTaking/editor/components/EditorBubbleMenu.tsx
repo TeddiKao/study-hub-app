@@ -93,7 +93,10 @@ function MarkButtons({ editor }: EditorBubbleMenuProps) {
 }
 
 function HeadingButton({ editor, isActive, level }: HeadingButtonProps) {
-    const { updateSelectedBlockAdditionalAttributes } = useEditorStateStore();
+    const {
+        updateSelectedBlockAdditionalAttributes,
+        clearSelectedBlockAdditionalAttributes,
+    } = useEditorStateStore();
 
     if (!editor) return null;
 
@@ -124,9 +127,17 @@ function HeadingButton({ editor, isActive, level }: HeadingButtonProps) {
         <button
             onClick={() => {
                 toggleHeading(editor, level);
-                updateSelectedBlockAdditionalAttributes({
-                    level: level,
+
+                const isNowActive = editor.isActive("note_editor_heading", {
+                    level,
                 });
+                if (isNowActive) {
+                    clearSelectedBlockAdditionalAttributes();
+                } else {
+                    updateSelectedBlockAdditionalAttributes({
+                        level,
+                    });
+                }
             }}
             className={clsx(
                 "p-1.5 rounded-md hover:cursor-pointer",
