@@ -62,10 +62,17 @@ function useNotesEditor() {
                     const tempBlockId = crypto.randomUUID();
 
                     createdBlocks.push({
-                        type: NoteEditorParagraph.name,
+                        type: node.type.name,
                         content: node.content.toJSON() ?? [],
                         noteId: node.attrs?.note?.id,
                         tempBlockId: tempBlockId,
+                        ...(node.type.name === NoteEditorHeading.name
+                            ? {
+                                  additionalAttributes: {
+                                      level: node.attrs.level,
+                                  },
+                              }
+                            : {}),
                     });
 
                     editor.commands.command(({ tr: transaction }) => {
