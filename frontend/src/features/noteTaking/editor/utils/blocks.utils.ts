@@ -39,7 +39,7 @@ function parseSerializedBlock(
     const {
         type,
         content,
-        attrs: { id, position, note },
+        attrs: { id, position, note, ...additionalAttributes },
     } = block;
 
     return {
@@ -49,6 +49,7 @@ function parseSerializedBlock(
         content: content,
         position: position,
         noteId: note.id,
+        additionalAttributes: additionalAttributes,
     };
 }
 
