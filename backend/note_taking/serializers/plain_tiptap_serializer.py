@@ -12,6 +12,7 @@ class PlainTiptapSerializer(Serializer):
         queryset=Note.objects.none(),
         write_only=True,
     )
+    additional_attributes = serializers.DictField(required=False, allow_null=True, default=dict)
     temp_block_id = serializers.UUIDField()
 
     def to_representation(self, instance):
@@ -24,7 +25,8 @@ class PlainTiptapSerializer(Serializer):
             "id": instance.get("id"),
             "position": instance.get("position"),
             "note": instance.get("note"),
-            "temp_block_id": instance.get("temp_block_id")
+            "temp_block_id": instance.get("temp_block_id"),
+            **instance.get("additional_attributes", {})
         }
 
         return serialized_data

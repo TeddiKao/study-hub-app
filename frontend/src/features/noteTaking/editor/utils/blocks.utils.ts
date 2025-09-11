@@ -4,12 +4,15 @@ import type {
     TiptapSerializedBlock,
     TiptapSerializedBlocks,
 } from "../types/blockSchema.types";
+import type { Editor } from "@tiptap/react";
 
-function parseSerializedBlock(block: TiptapSerializedBlock): BlockUpdateRequest {
+function parseSerializedBlock(
+    block: TiptapSerializedBlock
+): BlockUpdateRequest {
     if (!block.attrs) {
         throw new Error("Block attrs is missing");
     }
-    
+
     if (isNullOrUndefined(block.attrs.id)) {
         throw new Error("Block ID is missing");
     }
@@ -22,18 +25,21 @@ function parseSerializedBlock(block: TiptapSerializedBlock): BlockUpdateRequest 
         throw new Error("Block position is missing");
     }
 
-    if (Number.isNaN(block.attrs.position) || !Number.isFinite(block.attrs.position)) {
+    if (
+        Number.isNaN(block.attrs.position) ||
+        !Number.isFinite(block.attrs.position)
+    ) {
         throw new Error("Block position is not a number");
     }
 
     if (isNullOrUndefined(block.attrs.note?.id)) {
         throw new Error("Block note is missing");
     }
-    
+
     const {
         type,
         content,
-        attrs: { id, position, note },
+        attrs: { id, position, note, ...additionalAttributes },
     } = block;
 
     return {
@@ -43,13 +49,20 @@ function parseSerializedBlock(block: TiptapSerializedBlock): BlockUpdateRequest 
         content: content,
         position: position,
         noteId: note.id,
-    }
+        additionalAttributes: additionalAttributes,
+    };
 }
 
-function parseSerializedBlocks(
-    tiptapSerializedBlocks: TiptapSerializedBlocks
-) {
+function parseSerializedBlocks(tiptapSerializedBlocks: TiptapSerializedBlocks) {
     return tiptapSerializedBlocks.map((block) => parseSerializedBlock(block));
 }
 
-export { parseSerializedBlocks }
+function toggleHeading(editor: Editor, level: number) {
+    editor
+        .chain()
+        .focus()
+        .toggleNode("note_editor_heading", "note_editor_paragraph", { level })
+        .run();
+}
+
+export { parseSerializedBlocks, toggleHeading };

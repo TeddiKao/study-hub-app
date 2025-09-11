@@ -23,6 +23,8 @@ function useEditorSelectionUpdate(editor: Editor) {
         selectedBlockOriginalContent,
         updateSelectedBlockContent,
         updateSelectedBlockOriginalContent,
+        selectedBlockAdditionalAttributes,
+        updateSelectedBlockAdditionalAttributes,
     } = useEditorStateStore();
     const { handleBlockUpdate } = useBlockMutations();
 
@@ -31,12 +33,14 @@ function useEditorSelectionUpdate(editor: Editor) {
             !isNullOrUndefined(selectedBlockId) &&
             !isNullOrUndefined(selectedBlockContent) &&
             !isNullOrUndefined(selectedBlockType) &&
-            !isNullOrUndefined(selectedBlockPosition);
+            !isNullOrUndefined(selectedBlockPosition) &&
+            !isNullOrUndefined(selectedBlockAdditionalAttributes);
 
         const currentlySelectedNode = getSelectedNode(editor);
         if (!currentlySelectedNode) return;
 
-        const { id, position } = currentlySelectedNode.attrs ?? {};
+        const { id, position, note, ...additionalAttributes } =
+            currentlySelectedNode.attrs ?? {};
         if (isNullOrUndefined(id)) return;
         if (isNullOrUndefined(position)) return;
 
@@ -70,12 +74,20 @@ function useEditorSelectionUpdate(editor: Editor) {
             const prevSelectedBlockContent = selectedBlockContent;
             const prevSelectedBlockType = selectedBlockType;
             const prevSelectedBlockPosition = selectedBlockPosition;
+            const prevSelectedBlockAdditionalAttributes =
+                selectedBlockAdditionalAttributes;
 
             if ((prevSelectedBlockContent?.length ?? 0) > 0) {
                 await handleBlockUpdate(prevSelectedNodeId!, {
                     type: prevSelectedBlockType!,
                     content: prevSelectedBlockContent!,
                     position: prevSelectedBlockPosition!,
+                    ...(prevSelectedBlockAdditionalAttributes
+                        ? {
+                              additionalAttributes:
+                                  prevSelectedBlockAdditionalAttributes!,
+                          }
+                        : {}),
                 });
             }
         }
@@ -83,6 +95,7 @@ function useEditorSelectionUpdate(editor: Editor) {
         updateSelectedBlockId(id);
         updateSelectedBlockType(currentlySelectedNode.type.name);
         updateSelectedBlockPosition(position);
+        updateSelectedBlockAdditionalAttributes(additionalAttributes);
 
         if (hasFocusMoved) {
             updateSelectedBlockOriginalContent(

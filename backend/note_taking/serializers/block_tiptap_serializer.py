@@ -23,7 +23,8 @@ class BlockTiptapSerializer(serializers.ModelSerializer):
         serialized_data["attrs"] = {
             "id": instance.id,
             "position": instance.position,
-            "note": note_data
+            "note": note_data,
+            **(instance.additional_attributes or {})
         }
 
         camelized_data = camelize(serialized_data)
@@ -39,4 +40,4 @@ class BlockTiptapSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Block
-        fields = ["id", "type", "content", "note", "position", "note_id"]
+        fields = ["id", "type", "content", "note", "position", "note_id", "additional_attributes"]

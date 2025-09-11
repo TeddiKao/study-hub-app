@@ -78,6 +78,9 @@ class BlockListSerializer(ListSerializer):
                     else:
                         block.content = []
 
+                    if "additional_attributes" in item:
+                        block.additional_attributes = item.get("additional_attributes", {})
+
                     note_id = item.get("note_id")
                     if note_id:
                         if hasattr(note_id, "id"):
