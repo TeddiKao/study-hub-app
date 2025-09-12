@@ -39,7 +39,7 @@ function useNotesEditor() {
         if (!editor) return;
         if (editor.isEmpty) return;
 
-        const createdBlocks: BulkBlockCreateRequest[] = [];
+        const createdBlocks: BulkBlockCreateRequest = [];
 
         editor.state.doc.descendants((node, pos) => {
             if (!node.type.isBlock) {

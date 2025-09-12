@@ -79,7 +79,7 @@ function useBlockMutations() {
         });
     }
 
-    async function handleBlockBulkCreate(blocks: BulkBlockCreateRequest[]) {
+    async function handleBlockBulkCreate(blocks: BulkBlockCreateRequest) {
         if (isNullOrUndefined(currentNoteId)) {
             return;
         }
