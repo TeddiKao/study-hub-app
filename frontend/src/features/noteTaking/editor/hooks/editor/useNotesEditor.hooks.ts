@@ -11,8 +11,9 @@ import type { BulkBlockCreateRequest } from "../../types/blocksApi.types";
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
 import useBlockMutations from "../blocks/useBlockMutations.hooks";
 import { useRef } from "react";
-import { getDeletedNodeIds } from "../../utils/editor.utils";
+import { getDeletedNodeIds, getPreviousNode } from "../../utils/editor.utils";
 import { NoteEditorHeading } from "../../extensions/Heading.node";
+import type { Node as ProseMirrorNode } from "prosemirror-model";
 
 function useNotesEditor() {
     const { handleBlockBulkCreate, handleBlocksBulkDelete } =
@@ -60,6 +61,9 @@ function useNotesEditor() {
                     processedNodesRef.current.add(pos);
 
                     const tempBlockId = crypto.randomUUID();
+                    const previousNode: ProseMirrorNode | null =
+                        getPreviousNode(editor, node);
+                    const previousNodeId = previousNode?.attrs.id
 
                     createdBlocks.push({
                         type: node.type.name,
@@ -73,6 +77,10 @@ function useNotesEditor() {
                                   },
                               }
                             : {}),
+                        relativePosition: {
+                            relativeToId: previousNodeId,
+                            placement: "after"
+                        }
                     });
 
                     editor.commands.command(({ tr: transaction }) => {
