@@ -32,10 +32,10 @@ function getDeletedNodeIds(oldDoc: ProseMirrorNode, newDoc: ProseMirrorNode) {
     return deletedNodeIds;
 }
 
-function getPreviousNode(editor: Editor, node: ProseMirrorNode) {
+function getPreviousNode(editor: Editor, node: ProseMirrorNode): ProseMirrorNode | null {
     let previousNode = null;
 
-    editor.state.doc.descendants((descendantNode) => {
+    editor.state.doc.descendants((descendantNode: ProseMirrorNode) => {
         if (descendantNode === node) {
             return false;
         }
