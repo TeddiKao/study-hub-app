@@ -65,7 +65,7 @@ interface AnchorBlockCreateRequest extends BlockPayload {
 }
 
 type BulkBlockDeleteRequest = number[];
-type BulkBlockCreateRequests = BlockPayload[];
+type BulkBlockCreateRequest = (AnchorBlockCreateRequest | BlockPayload)[];
 
 export type {
     RawBlockData,
@@ -77,9 +77,9 @@ export type {
     BulkUpdateBlocksSuccess,
     BlockUpdateRequest,
     BulkBlockUpdateRequest,
-    AnchorBlockCreateRequest as BulkBlockCreateRequest,
+    AnchorBlockCreateRequest,
     BulkBlockDeleteRequest,
     BulkCreateBlocksSuccess,
     BulkDeleteBlocksSuccess,
-    BulkBlockCreateRequests,
+    BulkBlockCreateRequest,
 };
