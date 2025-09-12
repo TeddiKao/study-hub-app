@@ -11,6 +11,8 @@ import useBlockMutations from "../blocks/useBlockMutations.hooks";
 import useEditorEventListener from "./useEditorEventListener.hooks";
 import { Title } from "../../extensions/Title.node";
 
+import { omit } from "lodash";
+
 function useEditorSelectionUpdate(editor: Editor) {
     const {
         selectedBlockId,
@@ -33,13 +35,18 @@ function useEditorSelectionUpdate(editor: Editor) {
             !isNullOrUndefined(selectedBlockId) &&
             !isNullOrUndefined(selectedBlockContent) &&
             !isNullOrUndefined(selectedBlockType) &&
-            !isNullOrUndefined(selectedBlockPosition)
+            !isNullOrUndefined(selectedBlockPosition);
 
         const currentlySelectedNode = getSelectedNode(editor);
         if (!currentlySelectedNode) return;
 
-        const { id, position, note, ...additionalAttributes } =
-            currentlySelectedNode.attrs ?? {};
+        const { id, position } = currentlySelectedNode.attrs ?? {};
+        const additionalAttributes = omit(currentlySelectedNode.attrs ?? {}, [
+            "id",
+            "position",
+            "note"
+        ]);
+
         if (isNullOrUndefined(id)) return;
         if (isNullOrUndefined(position)) return;
 
