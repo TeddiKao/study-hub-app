@@ -44,6 +44,7 @@ function useEditorSelectionUpdate(editor: Editor) {
         const additionalAttributes = omit(currentlySelectedNode.attrs, [
             "id",
             "position",
+            "note"
         ]);
 
         if (isNullOrUndefined(id)) return;
