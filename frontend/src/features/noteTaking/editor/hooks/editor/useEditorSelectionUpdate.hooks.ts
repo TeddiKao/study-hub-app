@@ -41,7 +41,7 @@ function useEditorSelectionUpdate(editor: Editor) {
         if (!currentlySelectedNode) return;
 
         const { id, position } = currentlySelectedNode.attrs ?? {};
-        const additionalAttributes = omit(currentlySelectedNode.attrs, [
+        const additionalAttributes = omit(currentlySelectedNode.attrs ?? {}, [
             "id",
             "position",
             "note"
