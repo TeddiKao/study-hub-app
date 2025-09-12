@@ -49,23 +49,23 @@ type BulkDeleteBlocksSuccess = ApiSuccessResponse;
 
 type BulkBlockUpdateRequest = BlockUpdateRequest[];
 
-interface BaseBulkBlockCreateRequest {
+interface BlockPayload {
     type: RawBlockData["type"];
     content: RawBlockData["content"];
     noteId: RawBlockData["noteId"];
     tempBlockId: string;
 }
 
-interface BulkBlockCreateRequest extends BaseBulkBlockCreateRequest {
+interface AnchorBlockCreateRequest extends BlockPayload {
     relativePosition: {
         relativeToId: number;
         placement: "before" | "after";
     };
-    followingBlocks?: BaseBulkBlockCreateRequest[];
+    followingBlocks?: BlockPayload[];
 }
 
 type BulkBlockDeleteRequest = number[];
-type BulkBlockCreateRequests = BaseBulkBlockCreateRequest[];
+type BulkBlockCreateRequests = BlockPayload[];
 
 export type {
     RawBlockData,
@@ -77,7 +77,7 @@ export type {
     BulkUpdateBlocksSuccess,
     BlockUpdateRequest,
     BulkBlockUpdateRequest,
-    BulkBlockCreateRequest,
+    AnchorBlockCreateRequest as BulkBlockCreateRequest,
     BulkBlockDeleteRequest,
     BulkCreateBlocksSuccess,
     BulkDeleteBlocksSuccess,
