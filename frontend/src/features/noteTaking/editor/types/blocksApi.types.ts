@@ -54,6 +54,10 @@ interface BulkBlockCreateRequest {
     content: RawBlockData["content"];
     noteId: RawBlockData["noteId"];
     tempBlockId: string;
+    relativePosition: {
+        relativeToId: number;
+        placement: "before" | "after";
+    }
 }
 
 type BulkBlockDeleteRequest = number[];
