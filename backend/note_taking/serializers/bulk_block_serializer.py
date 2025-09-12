@@ -17,6 +17,7 @@ class BulkBlockSerializer(ModelSerializer):
         write_only=True,
     )
     position = serializers.IntegerField(required=False, read_only=False)
+    relative_position = serializers.DictField(required=False, read_only=False)
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -37,7 +38,7 @@ class BulkBlockSerializer(ModelSerializer):
 
     class Meta:
         model = Block
-        fields = ["id", "block_id", "type", "content", "note", "note_id", "position", "temp_block_id", "additional_attributes"]
+        fields = ["id", "block_id", "type", "content", "note", "note_id", "position", "temp_block_id", "additional_attributes", "relative_position"]
         read_only_fields = ["id"]
         list_serializer_class = BlockListSerializer
         extra_kwargs = {
