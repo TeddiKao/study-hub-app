@@ -54,13 +54,13 @@ interface BaseBulkBlockCreateRequest {
     content: RawBlockData["content"];
     noteId: RawBlockData["noteId"];
     tempBlockId: string;
-    relativePosition: {
-        relativeToId: number;
-        placement: "before" | "after";
-    }
 }
 
 interface BulkBlockCreateRequest extends BaseBulkBlockCreateRequest {
+    relativePosition: {
+        relativeToId: number;
+        placement: "before" | "after";
+    };
     followingBlocks?: BaseBulkBlockCreateRequest[];
 }
 
