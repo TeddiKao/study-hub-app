@@ -91,6 +91,7 @@ async function bulkCreateBlocks(
             success: true,
             message: "Successfully created blocks",
             createdBlocks: response.data.createdBlocks,
+            updatedBlocks: response.data.updatedBlocks
         };
     } catch (error) {
         console.error(error);
