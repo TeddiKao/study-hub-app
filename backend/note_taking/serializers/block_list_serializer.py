@@ -38,6 +38,9 @@ class BlockListSerializer(ListSerializer):
                             for block in blocks_after:
                                 block.position += 1
                                 block.save()
+                    else:
+                        max_position = Block.objects.filter(note=item.get("note")).aggregate(max_position=Max("position"))
+                        item["position"] = max_position.get("max_position") + 1
 
                     try:
                         created_block = Block.objects.create(**item)
