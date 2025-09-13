@@ -58,11 +58,9 @@ class BlockListSerializer(ListSerializer):
                         raise ValidationError(f"Failed to create block: {str(e)}")
 
             self.child.context["temp_id_mapping"] = temp_id_mapping
+            self.child.context["updated_blocks"] = updated_blocks
 
-            return {
-                "created_blocks": blocks,
-                "updated_blocks": updated_blocks
-            }
+            return blocks
 
     def update(self, instance, validated_data):
         with transaction.atomic():
