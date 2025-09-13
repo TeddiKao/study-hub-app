@@ -42,7 +42,7 @@ interface BulkUpdateBlocksSuccess extends ApiSuccessResponse {
 
 interface BulkCreateBlocksSuccess extends ApiSuccessResponse {
     createdBlocks: TiptapSerializedBlocks;
-    updatedBlocks: Record<number, number>
+    updatedBlocks: (Record<number, number>)[]
 }
 
 type DeleteBlockSuccess = ApiSuccessResponse;
