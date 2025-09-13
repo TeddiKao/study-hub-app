@@ -18,6 +18,9 @@ class BlockListSerializer(ListSerializer):
             for item in validated_data:
                 item["note"] = item.pop("note_id", None)
                 temp_block_id = item.pop("temp_block_id", None)
+                relative_position = item.pop("relative_position", None)
+
+                print(relative_position)
 
                 if not item.get("id"):
                     note_obj = item.get("note")
