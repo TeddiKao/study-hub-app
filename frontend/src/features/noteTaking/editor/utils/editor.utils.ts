@@ -34,11 +34,18 @@ function getDeletedNodeIds(oldDoc: ProseMirrorNode, newDoc: ProseMirrorNode) {
 
 function getPreviousNode(editor: Editor, node: ProseMirrorNode): ProseMirrorNode | null {
     let previousNode: ProseMirrorNode | null = null;
+    let foundNode = false;
 
     editor.state.doc.forEach((childNode) => {
+        if (foundNode) {
+            return false;
+        }
+
         console.log(previousNode);
 
         if (childNode === node) {
+            console.log("Found node!")
+            foundNode = true;
             return false;
         }
 
