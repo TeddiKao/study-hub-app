@@ -41,10 +41,7 @@ function getPreviousNode(editor: Editor, node: ProseMirrorNode): ProseMirrorNode
             return false;
         }
 
-        console.log(previousNode);
-
         if (childNode === node) {
-            console.log("Found node!")
             foundNode = true;
             return false;
         }
