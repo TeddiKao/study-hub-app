@@ -11,6 +11,8 @@ from ..models import Block
 class BlockListSerializer(ListSerializer):
     def create(self, validated_data):
         blocks = []
+        updated_blocks = []
+
         with transaction.atomic():
             temp_id_mapping = {}
 
@@ -36,11 +38,13 @@ class BlockListSerializer(ListSerializer):
                             item["position"] = relative_block_position + 1
                             blocks_after = Block.objects.filter(note=item.get("note"), position__gt=relative_block_position)
                             for block in blocks_after:
-                                print(block.id, block.content, block.position)
                                 block.position += 1
                                 block.save()
 
-                                print(block.id, block.content, block.position)
+                                updated_blocks.append({
+                                    "id": block.id,
+                                    "position": block.position
+                                })
                     else:
                         max_position = Block.objects.filter(note=item.get("note")).aggregate(max_position=Max("position"))
                         item["position"] = max_position.get("max_position") + 1
@@ -55,7 +59,10 @@ class BlockListSerializer(ListSerializer):
 
             self.child.context["temp_id_mapping"] = temp_id_mapping
 
-            return blocks
+            return {
+                "created_blocks": blocks,
+                "updated_blocks": updated_blocks
+            }
 
     def update(self, instance, validated_data):
         with transaction.atomic():
