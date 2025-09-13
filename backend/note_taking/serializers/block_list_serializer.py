@@ -27,17 +27,20 @@ class BlockListSerializer(ListSerializer):
                         relative_block_position = Block.objects.get(id=relative_to_id).position
                         if placement == "before":
                             item["position"] = relative_block_position - 1
-                            blocks_after = Block.objects.filter(position__gte=relative_block_position)
+                            blocks_after = Block.objects.filter(note=item.get("note"), position__gte=relative_block_position)
                             for block in blocks_after:
                                 block.position += 1
                                 block.save()
 
                         else:
                             item["position"] = relative_block_position + 1
-                            blocks_after = Block.objects.filter(position__gt=relative_block_position)
+                            blocks_after = Block.objects.filter(note=item.get("note"), position__gt=relative_block_position)
                             for block in blocks_after:
+                                print(block.id, block.content, block.position)
                                 block.position += 1
                                 block.save()
+
+                                print(block.id, block.content, block.position)
                     else:
                         max_position = Block.objects.filter(note=item.get("note")).aggregate(max_position=Max("position"))
                         item["position"] = max_position.get("max_position") + 1
@@ -51,6 +54,7 @@ class BlockListSerializer(ListSerializer):
                         raise ValidationError(f"Failed to create block: {str(e)}")
 
             self.child.context["temp_id_mapping"] = temp_id_mapping
+
             return blocks
 
     def update(self, instance, validated_data):
@@ -70,6 +74,7 @@ class BlockListSerializer(ListSerializer):
 
                     if "position" in item:
                         block.position = item.get("position")
+                        print("Successfully updated block position", item.get("position"))
 
                     if "content" in item:
                         item_type = item.get("type", block.type)
