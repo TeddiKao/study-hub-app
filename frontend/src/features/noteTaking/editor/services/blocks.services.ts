@@ -80,7 +80,7 @@ async function createBlock(
 }
 
 async function bulkCreateBlocks(
-    blocks: BulkBlockCreateRequest[]
+    blocks: BulkBlockCreateRequest
 ): Promise<BulkCreateBlocksSuccess | ApiErrorResponse> {
     try {
         const response = await api.post(`${BLOCKS_BASE}/bulk-create/`, {
@@ -91,6 +91,7 @@ async function bulkCreateBlocks(
             success: true,
             message: "Successfully created blocks",
             createdBlocks: response.data.createdBlocks,
+            updatedBlocks: response.data.updatedBlocks
         };
     } catch (error) {
         console.error(error);

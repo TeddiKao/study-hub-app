@@ -42,6 +42,7 @@ interface BulkUpdateBlocksSuccess extends ApiSuccessResponse {
 
 interface BulkCreateBlocksSuccess extends ApiSuccessResponse {
     createdBlocks: TiptapSerializedBlocks;
+    updatedBlocks: { id: number, position: number }[]
 }
 
 type DeleteBlockSuccess = ApiSuccessResponse;
@@ -49,14 +50,23 @@ type BulkDeleteBlocksSuccess = ApiSuccessResponse;
 
 type BulkBlockUpdateRequest = BlockUpdateRequest[];
 
-interface BulkBlockCreateRequest {
+interface BlockPayload {
     type: RawBlockData["type"];
     content: RawBlockData["content"];
     noteId: RawBlockData["noteId"];
     tempBlockId: string;
 }
 
+interface AnchorBlockCreateRequest extends BlockPayload {
+    relativePosition: {
+        relativeToId: number;
+        placement: "before" | "after";
+    };
+    followingBlocks?: BlockPayload[];
+}
+
 type BulkBlockDeleteRequest = number[];
+type BulkBlockCreateRequest = (AnchorBlockCreateRequest | BlockPayload)[];
 
 export type {
     RawBlockData,
@@ -68,8 +78,9 @@ export type {
     BulkUpdateBlocksSuccess,
     BlockUpdateRequest,
     BulkBlockUpdateRequest,
-    BulkBlockCreateRequest,
+    AnchorBlockCreateRequest,
     BulkBlockDeleteRequest,
     BulkCreateBlocksSuccess,
     BulkDeleteBlocksSuccess,
+    BulkBlockCreateRequest,
 };

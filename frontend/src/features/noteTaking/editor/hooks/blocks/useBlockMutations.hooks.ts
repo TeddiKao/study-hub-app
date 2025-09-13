@@ -79,21 +79,49 @@ function useBlockMutations() {
         });
     }
 
-    async function handleBlockBulkCreate(blocks: BulkBlockCreateRequest[]) {
+    async function handleBlockBulkCreate(blocks: BulkBlockCreateRequest) {
         if (isNullOrUndefined(currentNoteId)) {
             return;
         }
 
         const bulkCreateBlocksResponse = await bulkCreateBlocks(blocks);
+
         if (!bulkCreateBlocksResponse.success) {
             throw new Error(bulkCreateBlocksResponse.error);
         }
+
+        const updatedBlocks = bulkCreateBlocksResponse.updatedBlocks;
 
         queryClient.setQueryData(
             ["blocks", currentNoteId],
             (oldBlocks: TiptapSerializedBlocks) =>
                 oldBlocks
-                    ? [...oldBlocks, ...bulkCreateBlocksResponse.createdBlocks]
+                    ? [
+                          ...oldBlocks,
+                          ...bulkCreateBlocksResponse.createdBlocks,
+                          ...(updatedBlocks.length > 0
+                              ? updatedBlocks.map(
+                                    (block: { id: number, position: number }) => {
+                                        const id = block.id
+                                        const originalBlock = oldBlocks.find(
+                                            (oldBlock) => oldBlock.attrs.id === id
+                                        );
+
+                                        if (!originalBlock) {
+                                            return block;
+                                        }
+
+                                        return {
+                                            ...originalBlock,
+                                            attrs: {
+                                                ...originalBlock.attrs,
+                                                position: block.position
+                                            },
+                                        };
+                                    }
+                                )
+                              : []),
+                      ]
                     : bulkCreateBlocksResponse.createdBlocks
         );
     }
@@ -176,7 +204,9 @@ function useBlockMutations() {
             ["blocks", currentNoteId],
             (oldBlocks: TiptapSerializedBlocks) => {
                 return oldBlocks
-                    ? oldBlocks.filter((block) => !blockIds.includes(block.attrs.id))
+                    ? oldBlocks.filter(
+                          (block) => !blockIds.includes(block.attrs.id)
+                      )
                     : oldBlocks ?? [];
             }
         );

@@ -107,9 +107,13 @@ class BulkCreateBlocksEndpoint(APIView):
             context={"request": request}
         ).data
 
+
+        updated_blocks = created_blocks.child.context["updated_blocks"]
+
         return Response({
             "message": "Blocks created successfully",
-            "created_blocks": tiptap_serialized_blocks
+            "created_blocks": tiptap_serialized_blocks,
+            "updated_blocks": updated_blocks
         }, status=status.HTTP_201_CREATED)
 
 class BulkUpdateBlocksEndpoint(APIView):

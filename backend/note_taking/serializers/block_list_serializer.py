@@ -11,25 +11,43 @@ from ..models import Block
 class BlockListSerializer(ListSerializer):
     def create(self, validated_data):
         blocks = []
+        updated_blocks = []
+
         with transaction.atomic():
             temp_id_mapping = {}
-            next_position_by_note = {}
 
             for item in validated_data:
                 item["note"] = item.pop("note_id", None)
                 temp_block_id = item.pop("temp_block_id", None)
 
+                relative_position = item.pop("relative_position", None)
+                relative_to_id = relative_position.get("relative_to_id", None)
+                placement = relative_position.get("placement", None)
+
                 if not item.get("id"):
-                    note_obj = item.get("note")
-                    if note_obj not in next_position_by_note:
-                        max_position = Block.objects.filter(note=item["note"]).aggregate(max_position=Max("position")).get("max_position")
-                        if max_position is None:
-                            max_position = -1
-                        
-                        next_position_by_note[note_obj] = max_position + 1
-                    
-                    item["position"] = next_position_by_note[note_obj]
-                    next_position_by_note[note_obj] += 1
+                    if relative_position and relative_to_id and placement:
+                        relative_block_position = Block.objects.get(id=relative_to_id).position
+                        if placement == "before":
+                            item["position"] = relative_block_position - 1
+                            blocks_after = Block.objects.filter(note=item.get("note"), position__gte=relative_block_position)
+                            for block in blocks_after:
+                                block.position += 1
+                                block.save()
+
+                        else:
+                            item["position"] = relative_block_position + 1
+                            blocks_after = Block.objects.filter(note=item.get("note"), position__gt=relative_block_position)
+                            for block in blocks_after:
+                                block.position += 1
+                                block.save()
+
+                                updated_blocks.append({
+                                    "id": block.id,
+                                    "position": block.position
+                                })
+                    else:
+                        max_position = Block.objects.filter(note=item.get("note")).aggregate(max_position=Max("position"))
+                        item["position"] = max_position.get("max_position") + 1
 
                     try:
                         created_block = Block.objects.create(**item)
@@ -40,6 +58,8 @@ class BlockListSerializer(ListSerializer):
                         raise ValidationError(f"Failed to create block: {str(e)}")
 
             self.child.context["temp_id_mapping"] = temp_id_mapping
+            self.child.context["updated_blocks"] = updated_blocks
+
             return blocks
 
     def update(self, instance, validated_data):
@@ -59,6 +79,7 @@ class BlockListSerializer(ListSerializer):
 
                     if "position" in item:
                         block.position = item.get("position")
+                        print("Successfully updated block position", item.get("position"))
 
                     if "content" in item:
                         item_type = item.get("type", block.type)

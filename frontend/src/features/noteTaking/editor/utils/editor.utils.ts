@@ -1,5 +1,5 @@
 import { isNullOrUndefined } from "@/shared/utils/types.utils";
-import type { JSONContent } from "@tiptap/react";
+import type { Editor, JSONContent } from "@tiptap/react";
 import { Node as ProseMirrorNode } from "prosemirror-model";
 
 function getDeletedNodeIds(oldDoc: ProseMirrorNode, newDoc: ProseMirrorNode) {
@@ -32,4 +32,26 @@ function getDeletedNodeIds(oldDoc: ProseMirrorNode, newDoc: ProseMirrorNode) {
     return deletedNodeIds;
 }
 
-export { getDeletedNodeIds };
+function getPreviousNode(editor: Editor, node: ProseMirrorNode): ProseMirrorNode | null {
+    let previousNode: ProseMirrorNode | null = null;
+    let foundNode = false;
+
+    editor.state.doc.forEach((childNode) => {
+        if (foundNode) {
+            return false;
+        }
+
+        if (childNode === node) {
+            foundNode = true;
+            return false;
+        }
+
+        previousNode = childNode;
+
+        return true;
+    });
+
+    return previousNode;
+}
+
+export { getDeletedNodeIds, getPreviousNode };
